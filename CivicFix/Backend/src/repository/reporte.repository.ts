@@ -1,7 +1,10 @@
 import { pool } from '../config/db';
+import { Reporte } from '../models/reporte.model';
 import { Ubicacion } from '../models/ubicacion.model';
+import { UbicacionRepository } from './ubicacion.repository';
 
-export interface GuardarReporteParams extends Omit<Ubicacion, 'id_ubicacion'> {
+export interface GuardarReporteCompletoParams {
+    ubicacion: Omit<Ubicacion, 'id_ubicacion'>;
     titulo: string;
     descripcion: string;
     idUsuario: number;
@@ -10,46 +13,53 @@ export interface GuardarReporteParams extends Omit<Ubicacion, 'id_ubicacion'> {
 }
 
 export class ReporteRepository {
-    async guardarReporteConUbicacion(datos: GuardarReporteParams) {
+    private ubicacionRepo = new UbicacionRepository();
+
+    async crearReporteConTransaccion(params: GuardarReporteCompletoParams): Promise<{ id_reporte: number; fecha_reporte: Date }> {
         const client = await pool.connect();
+
         try {
             await client.query('BEGIN');
 
-            const resUbicacion = await client.query(
-                `INSERT INTO Ubicacion (direccion, zona, referencia, latitud, longitud)
-                 VALUES ($1, $2, $3, $4, $5)
-                 RETURNING id_ubicacion`,
-                [datos.direccion, datos.zona || null, datos.referencia || null, datos.latitud, datos.longitud]
-            );
-            const idUbicacion = resUbicacion.rows[0].id_ubicacion;
+            const idUbicacion = await this.ubicacionRepo.crear(params.ubicacion, client);
 
-            const resReporte = await client.query(
-                `INSERT INTO Reporte (
-                    titulo, descripcion, id_usuario, id_tipo_incidencia, id_ubicacion, id_estado, id_prioridad
-                 )
-                 VALUES (
+            const queryReporte = `
+                INSERT INTO Reporte (
+                    titulo,
+                    descripcion,
+                    id_usuario,
+                    id_tipo_incidencia,
+                    id_ubicacion,
+                    id_estado,
+                    id_prioridad
+                )
+                VALUES (
                     $1, $2, $3,
                     (SELECT id_tipo_incidencia FROM TipoIncidencia WHERE codigo_ia = $4),
                     $5,
                     (SELECT id_estado FROM Estado WHERE nombre = 'PENDIENTE'),
                     (SELECT id_prioridad FROM Prioridad WHERE codigo_ia = $6)
-                 )
-                 RETURNING id_reporte, fecha_reporte`,
-                [
-                    datos.titulo,
-                    datos.descripcion,
-                    datos.idUsuario,
-                    datos.codigoTipo,
-                    idUbicacion,
-                    datos.codigoPrioridad
-                ]
-            );
+                )
+                RETURNING id_reporte, fecha_reporte;
+            `;
 
+            const values = [
+                params.titulo,
+                params.descripcion,
+                params.idUsuario,
+                params.codigoTipo,
+                idUbicacion,
+                params.codigoPrioridad
+            ];
+
+            const { rows } = await client.query(queryReporte, values);
             await client.query('COMMIT');
+
             return {
-                id_reporte: resReporte.rows[0].id_reporte,
-                fecha_reporte: resReporte.rows[0].fecha_reporte
+                id_reporte: rows[0].id_reporte,
+                fecha_reporte: rows[0].fecha_reporte
             };
+
         } catch (error) {
             await client.query('ROLLBACK');
             throw error;
@@ -58,7 +68,7 @@ export class ReporteRepository {
         }
     }
 
-    async obtenerPuntosMapa() {
+    async obtenerReportesParaMapa() {
         const query = `
             SELECT 
                 r.id_reporte,
