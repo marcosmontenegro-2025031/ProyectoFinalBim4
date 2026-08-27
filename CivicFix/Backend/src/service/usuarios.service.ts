@@ -29,15 +29,15 @@ export class UsuariosService {
             throw new Error("Correo electrónico inválido");
         }
 
-        if (!/^\d{10}$/.test(usuario.telefono)) {
-            throw new Error("El número de teléfono debe tener 10 dígitos");
+        if (!/^\d{8}$/.test(usuario.telefono)) {
+            throw new Error("El número de teléfono debe tener 8 dígitos");
         }
 
         if (usuario.password.length < 8) {
             throw new Error("La contraseña debe tener al menos 8 caracteres");
         }
 
-        if(!usuario.correo.endsWith("@gmail.com") || !usuario.correo.endsWith("@hotmail.com") || !usuario.correo.endsWith("@outlook.com") || !usuario.correo.endsWith("@yahoo.com") || !usuario.correo.endsWith("@icloud.com")) {
+        if(!usuario.correo.endsWith("@gmail.com") && !usuario.correo.endsWith("@hotmail.com") && !usuario.correo.endsWith("@outlook.com") && !usuario.correo.endsWith("@yahoo.com") && !usuario.correo.endsWith("@icloud.com")) {
             throw new Error("El correo electrónico no pertenece a un dominio válido");
         }
 
@@ -61,15 +61,15 @@ export class UsuariosService {
             throw new Error("Correo electrónico inválido");
         }
 
-        if (!/^\d{10}$/.test(usuario.telefono)) {
-            throw new Error("El número de teléfono debe tener 10 dígitos");
+        if (!/^\d{8}$/.test(usuario.telefono)) {
+            throw new Error("El número de teléfono debe tener 8 dígitos");
         }
 
         if (usuario.password.length < 8) {
             throw new Error("La contraseña debe tener al menos 8 caracteres");
         }
 
-        if(!usuario.correo.endsWith("@gmail.com") || !usuario.correo.endsWith("@hotmail.com") || !usuario.correo.endsWith("@outlook.com") || !usuario.correo.endsWith("@yahoo.com") || !usuario.correo.endsWith("@icloud.com")) {
+        if(!usuario.correo.endsWith("@gmail.com") && !usuario.correo.endsWith("@hotmail.com") && !usuario.correo.endsWith("@outlook.com") && !usuario.correo.endsWith("@yahoo.com") && !usuario.correo.endsWith("@icloud.com")) {
             throw new Error("El correo electrónico no pertenece a un dominio válido");
         }
 
