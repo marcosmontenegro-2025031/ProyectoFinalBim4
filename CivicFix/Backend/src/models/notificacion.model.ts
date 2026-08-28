@@ -5,4 +5,8 @@ export interface Notificacion {
     titulo: string;
     mensaje: string;
     fecha_notificacion: Date;
+    leida: boolean;
 };
+
+export type CrearNotificacionDTO = Omit<Notificacion, "id_notificacion" | "leida">;
+export type ActualizarNotificacionDTO = Partial<Omit<Notificacion, "id_notificacion">>;
