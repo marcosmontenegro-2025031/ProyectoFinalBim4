@@ -5,7 +5,7 @@ CREATE TABLE Municipalidad (
     telefono VARCHAR(20),
     correo VARCHAR(150)
 );
-
+ 
 CREATE TABLE DepartamentoMunicipal (
     id_departamento INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE DepartamentoMunicipal (
     fk_id_municipalidad INT NOT NULL,
     FOREIGN KEY (fk_id_municipalidad) REFERENCES Municipalidad(id_municipalidad)
 );
-
+ 
 CREATE TABLE Usuario (
     id_usuario INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -24,14 +24,14 @@ CREATE TABLE Usuario (
     telefono VARCHAR(20),
     fecha_registro TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
-
+ 
 CREATE TABLE TipoIncidencia (
     id_tipo_incidencia INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     codigo_ia VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     descripcion VARCHAR(255)
 );
-
+ 
 CREATE TABLE Ubicacion (
     id_ubicacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     direccion VARCHAR(255) NOT NULL,
@@ -40,20 +40,20 @@ CREATE TABLE Ubicacion (
     latitud DECIMAL(10,8),
     longitud DECIMAL(11,8)
 );
-
+ 
 CREATE TABLE Estado (
     id_estado INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255)
 );
-
+ 
 CREATE TABLE Prioridad (
     id_prioridad INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     codigo_ia VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255)
 );
-
+ 
 CREATE TABLE ServicioMunicipal (
     id_servicio INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE ServicioMunicipal (
     fk_id_departamento INT NOT NULL,
     FOREIGN KEY (fk_id_departamento) REFERENCES DepartamentoMunicipal(id_departamento)
 );
-
+ 
 CREATE TABLE EmpleadoMunicipal (
     id_empleado INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE EmpleadoMunicipal (
     fk_id_departamento INT NOT NULL,
     FOREIGN KEY (fk_id_departamento) REFERENCES DepartamentoMunicipal(id_departamento)
 );
-
+ 
 CREATE TABLE Reporte (
     id_reporte INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE Reporte (
     FOREIGN KEY (fk_id_prioridad) REFERENCES Prioridad(id_prioridad),
     FOREIGN KEY (fk_id_servicio) REFERENCES ServicioMunicipal(id_servicio)
 );
-
+ 
 CREATE TABLE FotografiaProblema (
     id_fotografia INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fk_id_reporte INT NOT NULL,
@@ -103,7 +103,7 @@ CREATE TABLE FotografiaProblema (
     fecha_subida TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (fk_id_reporte) REFERENCES Reporte(id_reporte)
 );
-
+ 
 CREATE TABLE EvidenciaSolucion (
     id_evidencia INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fk_id_reporte INT NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE EvidenciaSolucion (
     fecha_subida TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (fk_id_reporte) REFERENCES Reporte(id_reporte)
 );
-
+ 
 CREATE TABLE Asignacion (
     id_asignacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fk_id_reporte INT NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE Asignacion (
     FOREIGN KEY (fk_id_reporte) REFERENCES Reporte(id_reporte),
     FOREIGN KEY (fk_id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
-
+ 
 CREATE TABLE Notificacion (
     id_notificacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fk_id_usuario INT NOT NULL,
@@ -134,7 +134,7 @@ CREATE TABLE Notificacion (
     FOREIGN KEY (fk_id_usuario) REFERENCES Usuario(id_usuario),
     FOREIGN KEY (fk_id_reporte) REFERENCES Reporte(id_reporte)
 );
-
+ 
 CREATE TABLE BitacoraCambioEstado (
     id_bitacora INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     fk_id_reporte INT NOT NULL,
