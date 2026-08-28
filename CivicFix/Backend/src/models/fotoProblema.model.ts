@@ -5,3 +5,6 @@ export interface FotografiaProblema {
     descripcion: string;
     fecha_subida: Date;
 };
+
+export type CrearFotografiaDTO = Omit<FotografiaProblema, "id_fotografia">;
+export type ActualizarFotografiaDTO = Partial<CrearFotografiaDTO>;
