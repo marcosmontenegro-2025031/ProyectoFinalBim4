@@ -5,3 +5,6 @@ export interface EvidenciaSolucion {
     descripcion: string;
     fecha_subida: Date;
 };
+
+export type CrearEvidenciaDTO = Omit<EvidenciaSolucion, "id_evidencia">;
+export type ActualizarEvidenciaDTO = Partial<CrearEvidenciaDTO>;
