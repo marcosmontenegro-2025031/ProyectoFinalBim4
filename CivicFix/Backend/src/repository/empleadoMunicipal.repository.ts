@@ -59,4 +59,11 @@ export class EmpleadoMunicipalRepository{
         );
         return (resultado.rowCount ?? 0) > 0;
     }
+
+    async obtenerEmpleadoPorUsuario(usuario: string): Promise<EmpleadoMunicipal | undefined> {
+        const resultado = await pool.query("SELECT * FROM EmpleadoMunicipal WHERE usuario = $1",
+            [usuario]
+        );
+        return resultado.rows[0] as EmpleadoMunicipal | undefined;
+    }
 }
