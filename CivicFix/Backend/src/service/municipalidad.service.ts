@@ -4,7 +4,7 @@ import { Municipalidad } from "../models/municipalidad.model";
 export class MunicipalidadService {
     private municipalidadRepository = new MunicipalidadRepository();
 
-    async obtenerMunixipalidades(): Promise<Municipalidad[]> {
+    async obtenerMunicipalidades(): Promise<Municipalidad[]> {
         return this.municipalidadRepository.obtenerMunicipalidades();
     }
 
