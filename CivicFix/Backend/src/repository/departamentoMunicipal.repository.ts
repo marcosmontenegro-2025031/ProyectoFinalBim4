@@ -28,7 +28,7 @@ export class DepartamentoMunicipalRepository{
         return (resusltado.rowCount ?? 0) > 0 ? departamento : undefined;
     }
 
-    async deleteMunicipalidad(id: number): Promise<boolean>{
+    async eliminarDepartamento(id: number): Promise<boolean>{
         const resultado = await pool.query("DELETE FROM DepartamentoMunicipal WHERE id_departamento = $1",
             [id]
         );
