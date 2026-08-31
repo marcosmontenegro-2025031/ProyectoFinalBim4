@@ -76,7 +76,7 @@ export class DepartamentoMunicipalController {
             }
         }
     
-        async deleteUsuario(req: Request, res: Response){
+        async eliminarDepartamento(req: Request, res: Response){
             try {
                 const idParam = req.params.id;
                 const id = parseInt(typeof idParam === "string" ? idParam : String(idParam));
