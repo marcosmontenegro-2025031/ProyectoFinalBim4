@@ -2,7 +2,7 @@ import { Request,Response } from "express";
 import { MunicipalidadService } from "../service/municipalidad.service";
 import { Municipalidad } from "../models/municipalidad.model";
 
-export class MunicipalidadCOntroller{
+export class MunicipalidadController{
     private service = new MunicipalidadService();
 
     async obtenerMunicipalidades(req: Request, res: Response){
