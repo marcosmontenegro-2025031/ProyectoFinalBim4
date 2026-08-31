@@ -1,5 +1,5 @@
 export interface EmpleadoMunicipal{
-    id_empleado: number;
+    id_empleado?: number;
     nombre: string;
     apellido: string;
     usuario: string;
