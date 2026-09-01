@@ -128,3 +128,4 @@ export class ReporteRepository {
         return rows;
     }
 }
+
