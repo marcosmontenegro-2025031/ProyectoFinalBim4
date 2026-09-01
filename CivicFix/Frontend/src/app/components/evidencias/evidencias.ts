@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { EvidenciaSolucionService } from '../../core/services/evidencia-solucion';
-import { EvidenciaSolucion } from '../../core/models/evidencia-solucion.model';
+import { EvidenciaSolucionService } from '../../core/services/evidenciaSolucion';
+import { EvidenciaSolucion } from '../../core/models/evidenciaSolucion.model';
 
 @Component({
     selector: 'app-evidencias',
