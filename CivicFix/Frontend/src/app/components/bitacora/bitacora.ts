@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { BitacoraCambioEstadoService } from '../../core/services/bitacora-cambio-estado';
+import { BitacoraCambioEstadoService } from '../../core/services/bitacoraCambioEstado';
 import { BitacoraCambioEstado } from '../../core/models/bitacoraCambioEstado.model';
 
 @Component({
