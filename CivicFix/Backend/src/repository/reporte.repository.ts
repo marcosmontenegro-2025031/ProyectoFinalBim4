@@ -15,7 +15,34 @@ export interface GuardarReporteCompletoParams {
 export class ReporteRepository {
     private ubicacionRepo = new UbicacionRepository();
 
-    async crearReporteConTransaccion(params: GuardarReporteCompletoParams): Promise<{ id_reporte: number; fecha_reporte: Date }> {
+    async obtenerTodosLosReportes() {
+        const query = `
+            SELECT 
+                r.id_reporte,
+                r.titulo,
+                r.descripcion,
+                r.fecha_reporte,
+                usr.nombre AS usuario,
+                ti.nombre AS tipo_incidencia,
+                u.direccion,
+                u.zona,
+                u.latitud,
+                u.longitud,
+                e.nombre AS estado,
+                p.nombre AS prioridad
+            FROM Reporte r
+            INNER JOIN Usuario usr ON r.id_usuario = usr.id_usuario
+            INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
+            INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
+            INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
+            INNER JOIN Estado e ON r.id_estado = e.id_estado
+            ORDER BY r.fecha_reporte DESC;
+        `;
+        const { rows } = await pool.query(query);
+        return rows;
+    }
+
+    async crearReporteConTransaccion(params: GuardarReporteCompletoParams): Promise<any> {
         const client = await pool.connect();
 
         try {
@@ -35,10 +62,10 @@ export class ReporteRepository {
                 )
                 VALUES (
                     $1, $2, $3,
-                    (SELECT id_tipo_incidencia FROM TipoIncidencia WHERE codigo_ia = $4),
+                    (SELECT id_tipo_incidencia FROM TipoIncidencia WHERE LOWER(codigo_ia) = LOWER($4) LIMIT 1),
                     $5,
-                    (SELECT id_estado FROM Estado WHERE nombre = 'PENDIENTE'),
-                    (SELECT id_prioridad FROM Prioridad WHERE codigo_ia = $6)
+                    (SELECT id_estado FROM Estado WHERE nombre = 'Pendiente' LIMIT 1),
+                    (SELECT id_prioridad FROM Prioridad WHERE LOWER(codigo_ia) = LOWER($6) LIMIT 1)
                 )
                 RETURNING id_reporte, fecha_reporte;
             `;
@@ -56,6 +83,13 @@ export class ReporteRepository {
             await client.query('COMMIT');
 
             return {
+                data: {
+                    analisis: {
+                        titulo_corto: params.titulo,
+                        codigo_tipo: params.codigoTipo,
+                        nivel_prioridad: params.codigoPrioridad
+                    }
+                },
                 id_reporte: rows[0].id_reporte,
                 fecha_reporte: rows[0].fecha_reporte
             };

@@ -7,6 +7,7 @@ import prioridadRoutes from '../routes/prioridad.routes';
 import estadoRoutes from '../routes/estado.routes';
 import ubicacionRoutes from '../routes/ubicacion.routes';
 import reporteRoutes from '../routes/reporte.routes';
+import fotoProblemaRoutes from '../routes/fotoProblema.routes';
 
 dotenv.config();
 
@@ -29,6 +30,8 @@ export class Server {
         }));
         
         this.app.use(express.json());
+        
+        this.app.use('/uploads', express.static('uploads'));
     }
 
     private routes(): void {
@@ -37,11 +40,22 @@ export class Server {
         this.app.use('/api', estadoRoutes);
         this.app.use('/api', ubicacionRoutes);
         this.app.use('/api', reporteRoutes);
+        this.app.use('/api/fotos', fotoProblemaRoutes); 
     }
 
     public listen(): void {
-        this.app.listen(this.port, () => {
-            console.log(`Servidor ejecutándose en el puerto ${this.port}`);
+        const httpServer = this.app.listen(Number(this.port), '0.0.0.0', () => {
+            console.log(`🚀 Servidor ejecutándose en el puerto ${this.port}`);
+        });
+
+        // Manejo explícito por si el puerto ya está en uso u ocurre un fallo al iniciar
+        httpServer.on('error', (error: any) => {
+            if (error.code === 'EADDRINUSE') {
+                console.error(`❌ Error crítico: El puerto ${this.port} ya está en uso por otra aplicación.`);
+            } else {
+                console.error('❌ Error en el servidor HTTP:', error);
+            }
+            process.exit(1);
         });
     }
-}
+ }

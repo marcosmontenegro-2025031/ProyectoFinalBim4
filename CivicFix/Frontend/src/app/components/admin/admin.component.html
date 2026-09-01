@@ -1,0 +1,52 @@
+<div class="container my-4">
+  <h3 class="fw-bold text-primary mb-3">Panel de Administración Municipal</h3>
+  <p class="text-muted small">Gestiona y actualiza el estado de las incidencias reportadas en la ciudad.</p>
+
+  <div *ngIf="cargando" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="!cargando && reportes.length === 0" class="alert alert-light border text-center py-4">
+    No hay reportes registrados en el sistema.
+  </div>
+
+  <div class="card shadow-sm border-0 p-3" *ngIf="!cargando && reportes.length > 0">
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Incidencia</th>
+            <th>Dirección</th>
+            <th>Prioridad</th>
+            <th>Estado Actual</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reportes">
+            <td class="fw-bold">#{{ r.id_reporte }}</td>
+            <td>
+              <div class="fw-bold text-dark">{{ r.titulo }}</div>
+              <small class="text-muted">{{ r.descripcion }}</small>
+            </td>
+            <td>{{ r.direccion }} ({{ r.zona }})</td>
+            <td>
+              <span class="badge" [ngStyle]="{
+                'background-color': 
+                  r.prioridad === 'Crítica' ? '#C62828' :
+                  r.prioridad === 'Alta' ? '#EF6C00' :
+                  r.prioridad === 'Media' ? '#F9A825' : '#2E7D32'
+              }">{{ r.prioridad }}</span>
+            </td>
+            <td><span class="badge bg-secondary">{{ r.estado }}</span></td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-warning me-1" (click)="cambiarEstado(r.id_reporte, 2)">En Proceso</button>
+              <button class="btn btn-sm btn-outline-success" (click)="cambiarEstado(r.id_reporte, 3)">Resuelto</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

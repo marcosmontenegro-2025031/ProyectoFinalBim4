@@ -1,0 +1,66 @@
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-0 p-4">
+        <h3 class="fw-bold text-primary mb-3">Reportar Incidencia</h3>
+        <p class="text-muted small">Describe el problema urbano. Nuestra IA lo clasificará y podrás adjuntar evidencia fotográfica.</p>
+        
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="form-label fw-bold">Descripción del Problema</label>
+            <textarea formControlName="textoCiudadano" class="form-control" rows="4" placeholder="Ej: Hay un bache enorme en la calle..."></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Dirección Aproximada</label>
+            <input type="text" formControlName="direccion" class="form-control" placeholder="Selecciona en el mapa o escribe aquí">
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Zona</label>
+              <input type="text" formControlName="zona" class="form-control" placeholder="Ej: Zona 1">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-bold">Referencia</label>
+              <input type="text" formControlName="referencia" class="form-control" placeholder="Ej: Cerca de la esquina">
+            </div>
+          </div>
+
+          <!-- Campo para adjuntar la fotografía -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Fotografía de Evidencia (Opcional)</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" [disabled]="form.invalid || cargando">
+            <span *ngIf="cargando" class="spinner-border spinner-border-sm me-2"></span>
+            {{ cargando ? 'Procesando con IA y Subiendo...' : 'Enviar Reporte' }}
+          </button>
+        </form>
+
+        <!-- Alerta de Error / Reporte Rechazado -->
+        <div *ngIf="mensajeError || (resultado && !verificarValidez())" class="alert alert-danger mt-4 shadow-sm">
+          <h5 class="fw-bold">Aviso del Sistema</h5>
+          <p class="mb-0">{{ mensajeError || 'El texto proporcionado no describe una incidencia o problema urbano válido según el análisis de la IA.' }}</p>
+        </div>
+
+        <!-- Alerta de Éxito -->
+        <div *ngIf="resultado && verificarValidez() && !mensajeError" class="alert alert-success mt-4 shadow-sm">
+          <h5 class="fw-bold">¡Reporte Registrado con Éxito!</h5>
+          <p class="mb-1"><strong>Título:</strong> {{ resultado.data?.analisis?.titulo_corto || resultado.analisis?.titulo_corto }}</p>
+          <p class="mb-1"><strong>Tipo:</strong> {{ resultado.data?.analisis?.codigo_tipo || resultado.analisis?.codigo_tipo }}</p>
+          <p class="mb-0"><strong>Prioridad:</strong> <span class="badge" [ngStyle]="{ 'background-color': obtenerColorPrioridad() }">{{ obtenerPrioridad() }}</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-0 p-3 h-100">
+        <h5 class="fw-bold mb-2">Selecciona la Ubicación</h5>
+        <p class="text-muted small">Haz clic en el mapa o arrastra el marcador para fijar las coordenadas exactas.</p>
+        <div #mapContainer class="map-frame rounded flex-grow-1" style="min-height: 400px;"></div>
+      </div>
+    </div>
+  </div>
+</div>

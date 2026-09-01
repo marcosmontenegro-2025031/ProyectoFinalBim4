@@ -1,0 +1,6 @@
+@import '../../shared/styles/panel.css';
+
+.acciones {
+  display: flex;
+  gap: 0.75rem;
+}

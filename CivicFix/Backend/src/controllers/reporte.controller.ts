@@ -3,6 +3,18 @@ import { ReporteService } from '../services/reporte.service';
 
 const reporteService = new ReporteService();
 
+export const obtenerReportesHandler = async (_req: Request, res: Response): Promise<Response> => {
+    try {
+        const reportes = await reporteService.obtenerTodosLosReportes();
+        return res.status(200).json(reportes);
+    } catch (error: any) {
+        return res.status(500).json({
+            error: 'Error al obtener la lista de reportes',
+            detalle: error.message
+        });
+    }
+};
+
 export const crearReporteHandler = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { textoCiudadano, direccion, zona, referencia, latitud, longitud, idUsuario } = req.body;
