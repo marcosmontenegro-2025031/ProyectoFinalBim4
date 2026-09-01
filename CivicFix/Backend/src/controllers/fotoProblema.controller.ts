@@ -10,14 +10,12 @@ export const registrarFotoProblema = async (req: Request, res: Response): Promis
         }
 
         const { reporteId, id_reporte } = req.body;
-        // Soporta tanto 'reporteId' como 'id_reporte' dependiendo de cómo lo envíe el frontend
         const targetReporteId = id_reporte || reporteId;
 
         if (!targetReporteId) {
             return res.status(400).json({ error: 'El id_reporte es obligatorio para asociar la fotografía.' });
         }
 
-        // Ruta en la que se guardó localmente mediante Multer
         const rutaFotografia = `/uploads/${req.file.filename}`;
 
         const nuevaFoto = await repositorio.crear({
@@ -35,3 +33,4 @@ export const registrarFotoProblema = async (req: Request, res: Response): Promis
         return res.status(500).json({ error: 'Error interno al procesar e insertar la imagen en la base de datos.' });
     }
 };
+
