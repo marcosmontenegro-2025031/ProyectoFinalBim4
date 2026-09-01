@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Colores institucionales */
+  --color-primario: #1565c0;
+  --color-secundario: #0d47a1;
+
+  /* Estados / prioridades */
+  --color-exito: #2e7d32;
+  --color-prioridad-media: #f9a825;
+  --color-prioridad-alta: #ef6c00;
+  --color-prioridad-critica: #c62828;
+
+  /* Base */
+  --color-fondo: #f5f7fa;
+  --color-texto: #263238;
+  --color-blanco: #ffffff;
+  --color-borde: #e0e4e9;
+
+  /* Tipografia */
+  --font-familia: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Espaciado y bordes */
+  --radio-borde: 8px;
+  --sombra-tarjeta: 0 1px 3px rgba(13, 71, 161, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-familia);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+/* Utilidades de prioridad, reutilizables en badges, marcadores de mapa, etc. */
+.prioridad-baja { color: var(--color-exito); }
+.prioridad-media { color: var(--color-prioridad-media); }
+.prioridad-alta { color: var(--color-prioridad-alta); }
+.prioridad-critica { color: var(--color-prioridad-critica); }
+
+.bg-prioridad-baja { background-color: var(--color-exito); }
+.bg-prioridad-media { background-color: var(--color-prioridad-media); }
+.bg-prioridad-alta { background-color: var(--color-prioridad-alta); }
+.bg-prioridad-critica { background-color: var(--color-prioridad-critica); }
