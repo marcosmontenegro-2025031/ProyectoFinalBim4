@@ -110,8 +110,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
           return;
         }
 
-        // Si el reporte es válido y tenemos un archivo seleccionado, subimos la foto usando el ID del reporte
-        const reporteId = res?.data?.id || res?.id; // Ajusta según la estructura de respuesta de tu BD
+        const reporteId = res?.data?.id || res?.id;
         
         if (this.archivoSeleccionado && reporteId) {
           this.fotoService.subirFoto(reporteId, this.archivoSeleccionado).subscribe({
