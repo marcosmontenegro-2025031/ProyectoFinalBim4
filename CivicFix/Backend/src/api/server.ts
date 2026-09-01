@@ -45,15 +45,14 @@ export class Server {
 
     public listen(): void {
         const httpServer = this.app.listen(Number(this.port), '0.0.0.0', () => {
-            console.log(`🚀 Servidor ejecutándose en el puerto ${this.port}`);
+            console.log(`Servidor ejecutándose en el puerto ${this.port}`);
         });
 
-        // Manejo explícito por si el puerto ya está en uso u ocurre un fallo al iniciar
         httpServer.on('error', (error: any) => {
             if (error.code === 'EADDRINUSE') {
-                console.error(`❌ Error crítico: El puerto ${this.port} ya está en uso por otra aplicación.`);
+                console.error(`Error crítico: El puerto ${this.port} ya está en uso por otra aplicación.`);
             } else {
-                console.error('❌ Error en el servidor HTTP:', error);
+                console.error('Error en el servidor HTTP:', error);
             }
             process.exit(1);
         });
