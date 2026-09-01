@@ -3,3 +3,4 @@ export interface Prioridad {
   nivel: string;
   descripcion?: string;
 }
+
