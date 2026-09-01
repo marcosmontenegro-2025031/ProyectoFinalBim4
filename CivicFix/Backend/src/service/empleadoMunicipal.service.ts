@@ -1,5 +1,5 @@
 import { EmpleadoMunicipalRepository } from "../repository/empleadoMunicipal.repository";
-import { EmpleadoMunicipal, EmpleadoRegister } from "../models/empleadoMunicipal.mode";
+import { EmpleadoMunicipal, EmpleadoRegister } from "../models/empleadoMunicipal.model";
 
 export class EmpleadoMunicipalService {
     private empleadoRepository = new EmpleadoMunicipalRepository();

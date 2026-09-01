@@ -15,7 +15,7 @@ export type EmpleadoRegister = Omit<EmpleadoMunicipal,'id_empleado'>
 
 export type EmpleadoLogin = Pick<EmpleadoMunicipal,'usuario' | 'password'>
 
-export interface JwPayloadEmpleado{
+export interface JwtPayloadEmpleado{
     id_empleado: number;
     usuario: string;
     correo: string;

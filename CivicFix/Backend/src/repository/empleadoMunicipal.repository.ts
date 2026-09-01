@@ -1,5 +1,5 @@
 import { pool } from "../config/db";
-import { EmpleadoMunicipal, EmpleadoRegister } from "../models/empleadoMunicipal.mode";
+import { EmpleadoMunicipal, EmpleadoRegister } from "../models/empleadoMunicipal.model";
 import { encriptarContrasena } from "../utils/bcrypt.util";
 
 export class EmpleadoMunicipalRepository{
