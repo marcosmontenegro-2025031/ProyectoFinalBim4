@@ -1,18 +1,21 @@
 import { UserLogin } from "../models/usuarios.model";
 import { UsuariosRepository } from "../repository/usuarios.repository";
+import { EmpleadoLogin } from "../models/empleadoMunicipal.model";
+import { EmpleadoMunicipalRepository } from "../repository/empleadoMunicipal.repository";
 import { verificarContrasena } from "../utils/bcrypt.util";
-import { generarToken } from "../utils/jwt.util";
+import { generarTokenUsuario, generarTokenEmpleado } from "../utils/jwt.util";
 
 export class AuthService {
 
     private usuariosRepository: UsuariosRepository;
+    private empleadoRepository: EmpleadoMunicipalRepository;
 
     constructor() {
         this.usuariosRepository = new UsuariosRepository();
+        this.empleadoRepository = new EmpleadoMunicipalRepository();
     }
 
-    async login(datos: UserLogin) {
-        
+    async loginUsuario(datos: UserLogin) {
         const usuario = await this.usuariosRepository.obtenerUsuarioPorUsuario(
             datos.usuario
         );
@@ -36,7 +39,7 @@ export class AuthService {
             correo: usuario.correo
         };
 
-        const token = generarToken(payload);
+        const token = generarTokenUsuario(payload);
         
         return {
             token,
@@ -47,6 +50,45 @@ export class AuthService {
                 usuario: usuario.usuario,
                 correo: usuario.correo,
                 telefono: usuario.telefono
+            }
+        };
+    }
+
+    async loginEmpleado(datos: EmpleadoLogin) {
+        const empleado = await this.empleadoRepository.obtenerEmpleadoPorUsuario(
+            datos.usuario
+        );
+
+        if (!empleado) {
+            throw new Error("Usuario o contraseña incorrectos");
+        }
+
+        const passwordCorrecto = await verificarContrasena(
+            datos.password,
+            empleado.password
+        );
+
+        if (!passwordCorrecto) {
+            throw new Error("Usuario o contraseña incorrectos");
+        }
+
+        const payload = {
+            id_empleado: empleado.id_empleado!,
+            usuario: empleado.usuario,
+            correo: empleado.correo
+        };
+
+        const token = generarTokenEmpleado(payload);
+        
+        return {
+            token,
+            usuario: {
+                id_empleado: empleado.id_empleado,
+                nombre: empleado.nombre,
+                apellido: empleado.apellido,
+                usuario: empleado.usuario,
+                correo: empleado.correo,
+                telefono: empleado.telefono
             }
         };
     }
