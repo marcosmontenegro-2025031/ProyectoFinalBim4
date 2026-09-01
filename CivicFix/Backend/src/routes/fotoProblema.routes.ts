@@ -7,3 +7,4 @@ const router = Router();
 router.post('/', upload.single('imagen'), registrarFotoProblema);
 
 export default router;
+
