@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { FotoProblemaService } from '../../core/services/foto-problema';
-import { FotografiaProblema } from '../../core/models/foto-problema.model';
+import { FotografiaProblema } from '../../core/models/fotoProblema.model';
 
 @Component({
     selector: 'app-fotografias',
