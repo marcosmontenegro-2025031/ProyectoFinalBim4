@@ -1,4 +1,4 @@
-import { pool } from '../config/db'; // Ajusta la ruta a tu archivo de conexión pg
+import { pool } from '../config/db';
 import { FotoProblema } from '../models/fotoProblema.model';
 
 export class FotoProblemaRepository {
@@ -16,3 +16,4 @@ export class FotoProblemaRepository {
         return result.rows[0]; 
     }
 }
+
