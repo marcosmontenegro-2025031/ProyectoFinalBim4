@@ -1,0 +1,157 @@
+.pantalla {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.pantalla-header h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.75rem;
+  color: var(--color-secundario);
+}
+
+.pantalla-header p {
+  margin: 0 0 1.75rem;
+  color: #55636b;
+}
+
+.aviso-error {
+  background: #fdecea;
+  border: 1px solid var(--color-prioridad-critica);
+  color: var(--color-prioridad-critica);
+  border-radius: var(--radio-borde);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.formulario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1 1 160px;
+}
+
+.campo-ancho {
+  flex: 2 1 260px;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  color: var(--color-texto);
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  border: 1px solid var(--color-borde);
+  border-radius: 6px;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--color-texto);
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: 2px solid var(--color-primario);
+  outline-offset: 1px;
+}
+
+.boton-primario {
+  background: var(--color-primario);
+  color: var(--color-blanco);
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.boton-primario:hover:not(:disabled) {
+  background: var(--color-secundario);
+}
+
+.boton-primario:disabled {
+  background: #b9c6d6;
+  cursor: not-allowed;
+}
+
+.boton-texto {
+  background: none;
+  border: none;
+  color: var(--color-prioridad-critica);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.boton-texto:hover {
+  text-decoration: underline;
+}
+
+.tabla-contenedor {
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tabla th {
+  text-align: left;
+  background: var(--color-fondo);
+  color: var(--color-secundario);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-borde);
+  font-weight: 600;
+}
+
+.tabla td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla tbody tr:hover {
+  background: var(--color-fondo);
+}
+
+.estado-vacio {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #7a8894;
+  margin: 0;
+}
+
+.insignia {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: var(--color-blanco);
+}
