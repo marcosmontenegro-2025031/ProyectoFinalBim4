@@ -8,3 +8,4 @@ export class FotoProblemaService {
         return await this.repository.crear(foto);
     }
 }
+
