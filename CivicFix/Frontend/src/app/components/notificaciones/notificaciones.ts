@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { NotificacionService } from '../../core/services/notificacion';
+import { NotificacionService } from '../../core/services/notificacion.service';
 import { Notificacion } from '../../core/models/notificacion.model';
 
 @Component({
