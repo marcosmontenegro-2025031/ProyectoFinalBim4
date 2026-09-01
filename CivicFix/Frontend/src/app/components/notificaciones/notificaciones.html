@@ -1,0 +1,86 @@
+<section class="pantalla">
+  <header class="pantalla-header">
+    <h1>Notificaciones</h1>
+    <p>Avisos enviados a un ciudadano sobre el avance de sus reportes.</p>
+  </header>
+
+  @if (error()) {
+    <div class="aviso-error">{{ error() }}</div>
+  }
+
+  <form class="formulario" [formGroup]="buscarForm" (ngSubmit)="buscar()">
+    <div class="campo">
+      <label for="buscar_id_usuario">Ver notificaciones del usuario</label>
+      <input id="buscar_id_usuario" type="number" formControlName="fk_id_usuario" placeholder="ID de usuario" />
+    </div>
+    <button type="submit" class="boton-primario" [disabled]="buscarForm.invalid">Buscar</button>
+  </form>
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="fk_id_usuario">ID del usuario</label>
+      <input id="fk_id_usuario" type="number" formControlName="fk_id_usuario" placeholder="Ej. 8" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_reporte">ID del reporte</label>
+      <input id="fk_id_reporte" type="number" formControlName="fk_id_reporte" placeholder="Ej. 12" />
+    </div>
+    <div class="campo campo-ancho">
+      <label for="titulo">Título</label>
+      <input id="titulo" type="text" formControlName="titulo" placeholder="Ej. Tu reporte fue asignado" />
+    </div>
+    <div class="campo campo-ancho">
+      <label for="mensaje">Mensaje</label>
+      <input id="mensaje" type="text" formControlName="mensaje" placeholder="Detalle del aviso" />
+    </div>
+    <button type="submit" class="boton-primario" [disabled]="form.invalid">Enviar notificación</button>
+  </form>
+
+  <div class="tabla-contenedor">
+    @if (cargando()) {
+      <p class="estado-vacio">Cargando notificaciones…</p>
+    } @else if (notificaciones().length === 0) {
+      <p class="estado-vacio">Busca por ID de usuario para ver sus notificaciones.</p>
+    } @else {
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Reporte</th>
+            <th>Título</th>
+            <th>Mensaje</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of notificaciones(); track item.id_notificacion) {
+            <tr>
+              <td>{{ item.id_notificacion }}</td>
+              <td>{{ item.fk_id_reporte }}</td>
+              <td>{{ item.titulo }}</td>
+              <td>{{ item.mensaje }}</td>
+              <td>{{ item.fecha_notificacion | date: 'short' }}</td>
+              <td>
+                @if (item.leida) {
+                  <span class="insignia bg-prioridad-baja">Leída</span>
+                } @else {
+                  <span class="insignia bg-prioridad-media">Sin leer</span>
+                }
+              </td>
+              <td>
+                <div class="acciones">
+                  @if (!item.leida) {
+                    <button type="button" class="boton-texto" (click)="marcarLeida(item.id_notificacion!)">Marcar leída</button>
+                  }
+                  <button type="button" class="boton-texto" (click)="eliminar(item.id_notificacion!)">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>
