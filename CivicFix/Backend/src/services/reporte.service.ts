@@ -80,3 +80,4 @@ export class ReporteService {
         return await this.reporteRepo.obtenerReportesParaMapa();
     }
 }
+
