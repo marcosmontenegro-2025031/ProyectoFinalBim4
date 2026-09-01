@@ -8,7 +8,8 @@ import {
 const router = Router();
 
 router.post('/reportes', crearReporteHandler);
-router.get('/reportes', obtenerReportesHandler);      // <--- 2. Añade esta línea para responder al GET /api/reportes
+router.get('/reportes', obtenerReportesHandler);    
 router.get('/reportes/mapa', obtenerPuntosMapaHandler);
 
 export default router;
+
