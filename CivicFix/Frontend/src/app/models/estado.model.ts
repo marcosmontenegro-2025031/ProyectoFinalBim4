@@ -3,3 +3,4 @@ export interface Estado {
   nombre: string;
   descripcion?: string;
 }
+
