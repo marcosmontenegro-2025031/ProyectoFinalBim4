@@ -1,0 +1,14 @@
+:host {
+  --color-principal: #1565C0;
+  --color-fondo: #F5F7FA;
+  --color-texto: #263238;
+}
+
+.card {
+  background-color: #ffffff;
+  border-color: #e0e0e0;
+}
+
+.text-primary {
+  color: var(--color-principal) !important;
+}

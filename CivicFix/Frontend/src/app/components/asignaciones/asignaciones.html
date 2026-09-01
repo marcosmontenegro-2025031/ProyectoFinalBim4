@@ -1,0 +1,61 @@
+<section class="pantalla">
+  <header class="pantalla-header">
+    <h1>Asignaciones</h1>
+    <p>Asigna reportes ciudadanos a un empleado responsable y da seguimiento a los comentarios.</p>
+  </header>
+
+  @if (error()) {
+    <div class="aviso-error">{{ error() }}</div>
+  }
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="fk_id_reporte">ID del reporte</label>
+      <input id="fk_id_reporte" type="number" formControlName="fk_id_reporte" placeholder="Ej. 12" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_empleado">ID del empleado</label>
+      <input id="fk_id_empleado" type="number" formControlName="fk_id_empleado" placeholder="Ej. 4" />
+    </div>
+    <div class="campo campo-ancho">
+      <label for="observacion">Observación</label>
+      <input id="observacion" type="text" formControlName="observacion" placeholder="Detalle de la asignación" />
+    </div>
+    <button type="submit" class="boton-primario" [disabled]="form.invalid">Asignar reporte</button>
+  </form>
+
+  <div class="tabla-contenedor">
+    @if (cargando()) {
+      <p class="estado-vacio">Cargando asignaciones…</p>
+    } @else if (asignaciones().length === 0) {
+      <p class="estado-vacio">Todavía no hay asignaciones registradas.</p>
+    } @else {
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Reporte</th>
+            <th>Empleado</th>
+            <th>Fecha</th>
+            <th>Observación</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of asignaciones(); track item.id_asignacion) {
+            <tr>
+              <td>{{ item.id_asignacion }}</td>
+              <td>{{ item.fk_id_reporte }}</td>
+              <td>{{ item.fk_id_empleado }}</td>
+              <td>{{ item.fecha_asignacion | date: 'short' }}</td>
+              <td>{{ item.observacion || '—' }}</td>
+              <td>
+                <button type="button" class="boton-texto" (click)="eliminar(item.id_asignacion!)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>

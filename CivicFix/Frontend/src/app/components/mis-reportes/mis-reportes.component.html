@@ -1,0 +1,31 @@
+<div class="container my-4">
+  <h3 class="fw-bold text-primary mb-3">Mis Reportes</h3>
+  <p class="text-muted small">Consulta el estado actual de los incidentes que has reportado a la municipalidad.</p>
+
+  <div *ngIf="cargando" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="!cargando && reportes.length === 0" class="alert alert-light border text-center py-4">
+    No tienes reportes registrados todavía.
+  </div>
+
+  <div class="row" *ngIf="!cargando && reportes.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let r of reportes">
+      <div class="card shadow-sm border-0 h-100 p-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="badge" [ngStyle]="{
+            'background-color': 
+              r.prioridad === 'Crítica' ? '#C62828' :
+              r.prioridad === 'Alta' ? '#EF6C00' :
+              r.prioridad === 'Media' ? '#F9A825' : '#2E7D32'
+          }">{{ r.prioridad }}</span>
+          <span class="badge bg-secondary">{{ r.estado }}</span>
+        </div>
+        <h5 class="fw-bold text-dark mb-1">{{ r.titulo }}</h5>
+        <p class="text-muted small mb-2">{{ r.direccion }} ({{ r.zona }})</p>
+        <p class="small flex-grow-1 text-secondary">{{ r.descripcion }}</p>
+      </div>
+    </div>
+  </div>
+</div>

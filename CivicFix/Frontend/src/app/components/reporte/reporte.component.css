@@ -1,0 +1,23 @@
+:host {
+  --color-principal: #1565C0;
+  --color-secundario: #0D47A1;
+}
+
+::ng-deep .card {
+  background-color: #ffffff !important;
+  border-color: #e0e0e0 !important;
+}
+
+::ng-deep .btn-primary {
+  background-color: var(--color-principal) !important;
+  border-color: var(--color-principal) !important;
+}
+
+::ng-deep .btn-primary:hover {
+  background-color: var(--color-secundario) !important;
+  border-color: var(--color-secundario) !important;
+}
+
+::ng-deep .text-primary {
+  color: var(--color-principal) !important;
+}

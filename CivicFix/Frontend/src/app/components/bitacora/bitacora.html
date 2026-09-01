@@ -1,0 +1,69 @@
+<section class="pantalla">
+  <header class="pantalla-header">
+    <h1>Bitácora de cambios de estado</h1>
+    <p>Historial de cada cambio de estado de un reporte, con quién lo hizo y por qué.</p>
+  </header>
+
+  @if (error()) {
+    <div class="aviso-error">{{ error() }}</div>
+  }
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="fk_id_reporte">ID del reporte</label>
+      <input id="fk_id_reporte" type="number" formControlName="fk_id_reporte" placeholder="Ej. 12" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_estado_anterior">Estado anterior</label>
+      <input id="fk_id_estado_anterior" type="number" formControlName="fk_id_estado_anterior" placeholder="ID estado" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_estado_nuevo">Estado nuevo</label>
+      <input id="fk_id_estado_nuevo" type="number" formControlName="fk_id_estado_nuevo" placeholder="ID estado" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_empleado">ID del empleado</label>
+      <input id="fk_id_empleado" type="number" formControlName="fk_id_empleado" placeholder="Ej. 4" />
+    </div>
+    <div class="campo campo-ancho">
+      <label for="comentario">Comentario</label>
+      <input id="comentario" type="text" formControlName="comentario" placeholder="Motivo del cambio" />
+    </div>
+    <button type="submit" class="boton-primario" [disabled]="form.invalid">Registrar cambio</button>
+  </form>
+
+  <div class="tabla-contenedor">
+    @if (cargando()) {
+      <p class="estado-vacio">Cargando bitácora…</p>
+    } @else if (registros().length === 0) {
+      <p class="estado-vacio">Todavía no hay cambios de estado registrados.</p>
+    } @else {
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Reporte</th>
+            <th>Estado anterior</th>
+            <th>Estado nuevo</th>
+            <th>Empleado</th>
+            <th>Fecha</th>
+            <th>Comentario</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of registros(); track item.id_bitacora) {
+            <tr>
+              <td>{{ item.id_bitacora }}</td>
+              <td>{{ item.fk_id_reporte }}</td>
+              <td>{{ item.fk_id_estado_anterior ?? '—' }}</td>
+              <td>{{ item.fk_id_estado_nuevo }}</td>
+              <td>{{ item.fk_id_empleado ?? '—' }}</td>
+              <td>{{ item.fecha_cambio | date: 'short' }}</td>
+              <td>{{ item.comentario || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>

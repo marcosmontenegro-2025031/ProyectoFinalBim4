@@ -1,0 +1,15 @@
+:host {
+  --color-principal: #1565C0;
+  --color-fondo: #F5F7FA;
+  --color-texto: #263238;
+}
+
+.map-frame {
+  height: 550px;
+  width: 100%;
+  z-index: 1;
+}
+
+.text-primary {
+  color: var(--color-principal) !important;
+}

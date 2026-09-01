@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import { crearReporteHandler, obtenerPuntosMapaHandler } from '../controllers/reporte.controller';
+import { 
+  crearReporteHandler, 
+  obtenerPuntosMapaHandler, 
+  obtenerReportesHandler // <--- 1. Importa el controlador para listar reportes
+} from '../controllers/reporte.controller';
 
 const router = Router();
 
 router.post('/reportes', crearReporteHandler);
+router.get('/reportes', obtenerReportesHandler);      // <--- 2. Añade esta línea para responder al GET /api/reportes
 router.get('/reportes/mapa', obtenerPuntosMapaHandler);
 
 export default router;

@@ -1,3 +1,7 @@
+-- 1. Eliminar todas las tablas existentes en orden inverso de dependencia (con CASCADE)
+DROP TABLE IF EXISTS BitacoraCambioEstado, Notificacion, Asignacion, EvidenciaSolucion, FotografiaProblema, Reporte, EmpleadoMunicipal, ServicioMunicipal, Prioridad, Estado, Ubicacion, TipoIncidencia, Usuario, DepartamentoMunicipal, Municipalidad CASCADE;
+
+-- 2. Crear la estructura completa desde cero
 CREATE TABLE Municipalidad (
     id_municipalidad INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -43,7 +47,7 @@ CREATE TABLE Ubicacion (
 
 CREATE TABLE Estado (
     id_estado INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
     descripcion VARCHAR(255)
 );
 
@@ -148,4 +152,29 @@ CREATE TABLE BitacoraCambioEstado (
     FOREIGN KEY (id_estado_nuevo) REFERENCES Estado(id_estado),
     FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
- 
+
+-- 3. Insertar datos iniciales limpios
+INSERT INTO Estado (nombre, descripcion) VALUES 
+('Pendiente', 'Reporte recibido y pendiente de revisión'),
+('En Proceso', 'El reporte ha sido asignado y se está atendiendo'),
+('Resuelto', 'La incidencia ha sido solucionada')
+ON CONFLICT (nombre) DO NOTHING;
+
+INSERT INTO TipoIncidencia (codigo_ia, nombre) VALUES 
+('BACHE', 'Bache'), 
+('AGUA', 'Fuga de Agua'), 
+('LUMINARIA', 'Luminaria Dañada')
+ON CONFLICT (codigo_ia) DO NOTHING;
+
+INSERT INTO Usuario (nombre, apellido, usuario, correo, password) VALUES 
+('Estuardo', 'Pérez', 'eperez', 'estuardo@correo.com', '123456'),
+('María', 'Gómez', 'mgomez', 'maria.gomez@correo.com', 'abcdef'),
+('Carlos', 'López', 'clopez', 'carlos.lopez@correo.com', 'qwerty')
+ON CONFLICT (usuario) DO NOTHING;
+
+INSERT INTO Prioridad (codigo_ia, nombre, descripcion) VALUES 
+('BAJA', 'Baja', 'Incidencia menor que no representa riesgo inmediato'),
+('MEDIA', 'Media', 'Incidencia que requiere atención en un plazo prudente'),
+('ALTA', 'Alta', 'Incidencia grave que afecta la movilidad o seguridad'),
+('CRITICA', 'Crítica', 'Emergencia que requiere atención inmediata')
+ON CONFLICT (codigo_ia) DO NOTHING;
