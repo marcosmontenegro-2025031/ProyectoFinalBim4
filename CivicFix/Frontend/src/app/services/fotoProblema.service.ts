@@ -11,8 +11,8 @@ export class FotoProblemaService {
 
   subirFoto(reporteId: number, archivo: File): Observable<any> {
     const formData = new FormData();
-    formData.append('reporteId', reporteId.toString());
-    formData.append('imagen', archivo);
+formData.append('id_reporte', reporteId.toString());
+formData.append('imagen', archivo);
 
     return this.http.post<any>(this.apiUrl, formData);
   }
