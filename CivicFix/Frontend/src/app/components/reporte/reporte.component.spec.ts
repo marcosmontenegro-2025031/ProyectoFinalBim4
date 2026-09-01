@@ -19,3 +19,4 @@ describe('Reporte', () => {
     expect(component).toBeTruthy();
   });
 });
+
