@@ -37,3 +37,19 @@ export interface RespuestaReporte {
     };
   };
 }
+
+export interface ReporteAdmin {
+  id_reporte: number;
+  titulo: string;
+  descripcion: string;
+  fecha_reporte: string | Date;
+  usuario: string;
+  tipo_incidencia: string;
+  direccion: string;
+  zona: string;
+  latitud: number;
+  longitud: number;
+  estado: string;
+  prioridad: string;
+  ruta_fotografia?: string; 
+}
