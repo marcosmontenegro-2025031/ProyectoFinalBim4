@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th>ID</th>
+            <th>Evidencia</th>
             <th>Incidencia</th>
             <th>Dirección</th>
             <th>Prioridad</th>
@@ -26,6 +27,24 @@
         <tbody>
           <tr *ngFor="let r of reportes">
             <td class="fw-bold">#{{ r.id_reporte }}</td>
+            
+            <td>
+              <button *ngIf="r.ruta_fotografia" 
+                      type="button" 
+                      class="btn p-0 border-0 bg-transparent" 
+                      (click)="abrirImagen('http://localhost:3000' + r.ruta_fotografia)"
+                      title="Haz clic para ver el detalle">
+                <img [src]="'http://localhost:3000' + r.ruta_fotografia" 
+                     alt="Evidencia fotográfica" 
+                     class="img-thumbnail shadow-sm"
+                     style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px; cursor: pointer;">
+              </button>
+              
+              <span *ngIf="!r.ruta_fotografia" class="text-muted small fst-italic">
+                Sin foto
+              </span>
+            </td>
+
             <td>
               <div class="fw-bold text-dark">{{ r.titulo }}</div>
               <small class="text-muted">{{ r.descripcion }}</small>
@@ -47,6 +66,20 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.6);" *ngIf="imagenSeleccionada">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title fw-bold text-primary">Evidencia Fotográfica</h5>
+          <button type="button" class="btn-close" (click)="cerrarModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center bg-dark p-2">
+          <img [src]="imagenSeleccionada" alt="Evidencia Ampliada" class="img-fluid rounded" style="max-height: 80vh; object-fit: contain;">
+        </div>
+      </div>
     </div>
   </div>
 </div>
