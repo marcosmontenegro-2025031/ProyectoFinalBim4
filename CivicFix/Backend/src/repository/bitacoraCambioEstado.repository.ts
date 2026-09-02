@@ -3,7 +3,7 @@ import { BitacoraCambioEstado } from "../models/bitacoraCambioEstado.model.js";
 
 export class BitacoraCambioEstadoRepository {
 
-    static async obtenerTodos(): Promise<BitacoraCambioEstado[]> {
+    async obtenerTodos(): Promise<BitacoraCambioEstado[]> {
         const resultado = await pool.query<BitacoraCambioEstado>(`
             SELECT * FROM BitacoraCambioEstado
             ORDER BY id_bitacora
@@ -12,7 +12,7 @@ export class BitacoraCambioEstadoRepository {
     }
 
 
-    static async obtenerPorId(id: number): Promise<BitacoraCambioEstado | null> {
+    async obtenerPorId(id: number): Promise<BitacoraCambioEstado | null> {
         const resultado = await pool.query<BitacoraCambioEstado>(
             `SELECT * FROM BitacoraCambioEstado WHERE id_bitacora = $1`,
             [id]
@@ -26,7 +26,7 @@ export class BitacoraCambioEstadoRepository {
     }
 
 
-    static async obtenerPorReporte(idReporte: number): Promise<BitacoraCambioEstado[]> {
+    async obtenerPorReporte(idReporte: number): Promise<BitacoraCambioEstado[]> {
         const resultado = await pool.query<BitacoraCambioEstado>(
             `SELECT * FROM BitacoraCambioEstado
             WHERE fk_id_reporte = $1
@@ -37,7 +37,7 @@ export class BitacoraCambioEstadoRepository {
     }
 
 
-    static async crear(bitacora: BitacoraCambioEstado): Promise<BitacoraCambioEstado> {
+    async crear(bitacora: BitacoraCambioEstado): Promise<BitacoraCambioEstado> {
         const resultado = await pool.query<BitacoraCambioEstado>(
             `INSERT INTO BitacoraCambioEstado
                 (fk_id_reporte, fk_id_estado_anterior, fk_id_estado_nuevo, fk_id_empleado, comentario, fecha_cambio)
@@ -57,7 +57,7 @@ export class BitacoraCambioEstadoRepository {
     }
 
 
-    static async actualizar(id: number, bitacora: BitacoraCambioEstado): Promise<BitacoraCambioEstado | null> {
+    async actualizar(id: number, bitacora: BitacoraCambioEstado): Promise<BitacoraCambioEstado | null> {
         const resultado = await pool.query<BitacoraCambioEstado>(
             `UPDATE BitacoraCambioEstado
             SET
@@ -88,7 +88,7 @@ export class BitacoraCambioEstadoRepository {
     }
 
 
-    static async eliminar(id: number): Promise<BitacoraCambioEstado | null> {
+    async eliminar(id: number): Promise<BitacoraCambioEstado | null> {
         const resultado = await pool.query<BitacoraCambioEstado>(
             `DELETE FROM BitacoraCambioEstado
             WHERE id_bitacora = $1
