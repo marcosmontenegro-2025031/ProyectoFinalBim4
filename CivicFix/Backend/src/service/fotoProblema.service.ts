@@ -3,13 +3,15 @@ import { FotografiaProblema, CrearFotografiaDTO, ActualizarFotografiaDTO } from 
 
 export class FotoProblemaService {
 
-    static async listar(): Promise<FotografiaProblema[]> {
-        return await FotoProblemaRepository.obtenerTodos();
+    private repository = new FotoProblemaRepository();
+
+    async listar(): Promise<FotografiaProblema[]> {
+        return await this.repository.obtenerTodos();
     }
 
 
-    static async obtenerPorId(id: number): Promise<FotografiaProblema> {
-        const foto = await FotoProblemaRepository.obtenerPorId(id);
+    async obtenerPorId(id: number): Promise<FotografiaProblema> {
+        const foto = await this.repository.obtenerPorId(id);
 
         if (!foto) {
             throw new Error(`No se encontró la fotografía con id ${id}`);
@@ -19,12 +21,12 @@ export class FotoProblemaService {
     }
 
 
-    static async obtenerPorReporte(idReporte: number): Promise<FotografiaProblema[]> {
-        return await FotoProblemaRepository.obtenerPorReporte(idReporte);
+    async obtenerPorReporte(idReporte: number): Promise<FotografiaProblema[]> {
+        return await this.repository.obtenerPorReporte(idReporte);
     }
 
 
-    static async crear(datos: CrearFotografiaDTO): Promise<FotografiaProblema> {
+    async crear(datos: CrearFotografiaDTO): Promise<FotografiaProblema> {
 
         if (!datos.fk_id_reporte || !datos.ruta_fotografia) {
             throw new Error("fk_id_reporte y ruta_fotografia son obligatorios");
@@ -38,13 +40,13 @@ export class FotoProblemaService {
             fecha_subida: datos.fecha_subida ?? new Date()
         };
 
-        return await FotoProblemaRepository.crear(nuevaFoto);
+        return await this.repository.crear(nuevaFoto);
     }
 
 
-    static async actualizar(id: number, datos: ActualizarFotografiaDTO): Promise<FotografiaProblema> {
+    async actualizar(id: number, datos: ActualizarFotografiaDTO): Promise<FotografiaProblema> {
 
-        const fotoExistente = await FotoProblemaRepository.obtenerPorId(id);
+        const fotoExistente = await this.repository.obtenerPorId(id);
 
         if (!fotoExistente) {
             throw new Error(`No se encontró la fotografía con id ${id}`);
@@ -55,7 +57,7 @@ export class FotoProblemaService {
             ...datos
         };
 
-        const resultado = await FotoProblemaRepository.actualizar(id, fotoActualizada);
+        const resultado = await this.repository.actualizar(id, fotoActualizada);
 
         if (!resultado) {
             throw new Error(`No se pudo actualizar la fotografía con id ${id}`);
@@ -65,9 +67,9 @@ export class FotoProblemaService {
     }
 
 
-    static async eliminar(id: number): Promise<FotografiaProblema> {
+    async eliminar(id: number): Promise<FotografiaProblema> {
 
-        const fotoEliminada = await FotoProblemaRepository.eliminar(id);
+        const fotoEliminada = await this.repository.eliminar(id);
 
         if (!fotoEliminada) {
             throw new Error(`No se encontró la fotografía con id ${id}`);
