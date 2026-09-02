@@ -3,7 +3,7 @@ import { FotografiaProblema } from "../models/fotoProblema.model.js";
 
 export class FotoProblemaRepository {
 
-    static async obtenerTodos(): Promise<FotografiaProblema[]> {
+    async obtenerTodos(): Promise<FotografiaProblema[]> {
         const resultado = await pool.query<FotografiaProblema>(`
             SELECT * FROM FotografiaProblema
             ORDER BY id_fotografia
@@ -12,7 +12,7 @@ export class FotoProblemaRepository {
     }
 
 
-    static async obtenerPorId(id: number): Promise<FotografiaProblema | null> {
+    async obtenerPorId(id: number): Promise<FotografiaProblema | null> {
         const resultado = await pool.query<FotografiaProblema>(
             `SELECT * FROM FotografiaProblema WHERE id_fotografia = $1`,
             [id]
@@ -26,7 +26,7 @@ export class FotoProblemaRepository {
     }
 
 
-    static async obtenerPorReporte(idReporte: number): Promise<FotografiaProblema[]> {
+    async obtenerPorReporte(idReporte: number): Promise<FotografiaProblema[]> {
         const resultado = await pool.query<FotografiaProblema>(
             `SELECT * FROM FotografiaProblema WHERE fk_id_reporte = $1 ORDER BY fecha_subida`,
             [idReporte]
@@ -35,7 +35,7 @@ export class FotoProblemaRepository {
     }
 
 
-    static async crear(foto: FotografiaProblema): Promise<FotografiaProblema> {
+    async crear(foto: FotografiaProblema): Promise<FotografiaProblema> {
         const resultado = await pool.query<FotografiaProblema>(
             `INSERT INTO FotografiaProblema (fk_id_reporte, ruta_fotografia, descripcion, fecha_subida)
             VALUES ($1, $2, $3, $4)
@@ -47,7 +47,7 @@ export class FotoProblemaRepository {
     }
 
 
-    static async actualizar(id: number, foto: FotografiaProblema): Promise<FotografiaProblema | null> {
+    async actualizar(id: number, foto: FotografiaProblema): Promise<FotografiaProblema | null> {
         const resultado = await pool.query<FotografiaProblema>(
             `UPDATE FotografiaProblema
             SET fk_id_reporte = $1, ruta_fotografia = $2, descripcion = $3, fecha_subida = $4
@@ -64,7 +64,7 @@ export class FotoProblemaRepository {
     }
 
 
-    static async eliminar(id: number): Promise<FotografiaProblema | null> {
+    async eliminar(id: number): Promise<FotografiaProblema | null> {
         const resultado = await pool.query<FotografiaProblema>(
             `DELETE FROM FotografiaProblema WHERE id_fotografia = $1 RETURNING *`,
             [id]
