@@ -99,8 +99,12 @@ export class ReporteComponent implements OnInit, OnDestroy {
     this.resultado = null;
     this.mensajeError = undefined;
 
+    console.log('[ANGULAR] Enviando formulario de reporte...');
+
     this.reporteService.registrarReporte(this.form.getRawValue() as any).subscribe({
       next: (res: any) => { 
+        console.log('[ANGULAR] Respuesta completa recibida:', res);
+
         const obj = res?.data?.analisis || res?.analisis || res;
         
         if (obj && obj.es_reporte_valido === false) {
@@ -110,18 +114,25 @@ export class ReporteComponent implements OnInit, OnDestroy {
           return;
         }
 
-        const reporteId = res?.data?.id || res?.id;
-        
+        const dataReporte = Array.isArray(res) ? res[0] : (res?.data || res);
+        const reporteId = dataReporte?.id_reporte || dataReporte?.id;
+
+        console.log('[ANGULAR] ID detectado:', reporteId);
+        console.log('[ANGULAR] ¿Hay archivo seleccionado?:', !!this.archivoSeleccionado);
+
         if (this.archivoSeleccionado && reporteId) {
+          console.log('[ANGULAR] Enviando fotografía asociada al reporte ID:', reporteId);
+          
           this.fotoService.subirFoto(reporteId, this.archivoSeleccionado).subscribe({
-            next: () => {
+            next: (fotoRes) => {
+              console.log('[ANGULAR] ¡Foto guardada en la BD con éxito!', fotoRes);
               this.resultado = res;
               this.cargando = false;
               this.form.reset({ idUsuario: 1, latitud: 14.6349, longitud: -90.5069 });
               this.archivoSeleccionado = null;
             },
             error: (err) => {
-              console.error('Error al subir la foto:', err);
+              console.error('🔥 [ANGULAR] Error al subir la foto:', err);
               this.cargando = false;
               this.mensajeError = 'El reporte se creó, pero hubo un error al subir la fotografía.';
             }
@@ -135,7 +146,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.cargando = false;
         this.mensajeError = "Ocurrió un error al procesar el reporte con el servidor.";
-        console.error(err);
+        console.error('[ANGULAR] Error al registrar el reporte base:', err);
       }
     });
   }
@@ -145,4 +156,5 @@ export class ReporteComponent implements OnInit, OnDestroy {
       this.map.remove(); 
     }
   }
+
 }
