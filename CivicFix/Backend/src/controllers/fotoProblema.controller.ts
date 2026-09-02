@@ -3,9 +3,11 @@ import { FotoProblemaService } from "../service/fotoProblema.service.js";
 
 export class FotoProblemaController {
 
-    static async listar(req: Request, res: Response): Promise<void> {
+    private service = new FotoProblemaService();
+
+    async listar(req: Request, res: Response): Promise<void> {
         try {
-            const fotos = await FotoProblemaService.listar();
+            const fotos = await this.service.listar();
             res.status(200).json(fotos);
         } catch (error) {
             res.status(500).json({ mensaje: "Error al obtener las fotografías", error: (error as Error).message });
@@ -13,7 +15,7 @@ export class FotoProblemaController {
     }
 
 
-    static async obtenerPorId(req: Request, res: Response): Promise<void> {
+    async obtenerPorId(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -22,7 +24,7 @@ export class FotoProblemaController {
                 return;
             }
 
-            const foto = await FotoProblemaService.obtenerPorId(id);
+            const foto = await this.service.obtenerPorId(id);
             res.status(200).json(foto);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
@@ -30,7 +32,7 @@ export class FotoProblemaController {
     }
 
 
-    static async obtenerPorReporte(req: Request, res: Response): Promise<void> {
+    async obtenerPorReporte(req: Request, res: Response): Promise<void> {
         try {
             const idReporte = Number(req.params.idReporte);
 
@@ -39,7 +41,7 @@ export class FotoProblemaController {
                 return;
             }
 
-            const fotos = await FotoProblemaService.obtenerPorReporte(idReporte);
+            const fotos = await this.service.obtenerPorReporte(idReporte);
             res.status(200).json(fotos);
         } catch (error) {
             res.status(500).json({ mensaje: (error as Error).message });
@@ -47,9 +49,9 @@ export class FotoProblemaController {
     }
 
 
-    static async crear(req: Request, res: Response): Promise<void> {
+    async crear(req: Request, res: Response): Promise<void> {
         try {
-            const nuevaFoto = await FotoProblemaService.crear(req.body);
+            const nuevaFoto = await this.service.crear(req.body);
             res.status(201).json(nuevaFoto);
         } catch (error) {
             res.status(400).json({ mensaje: (error as Error).message });
@@ -57,7 +59,7 @@ export class FotoProblemaController {
     }
 
 
-    static async actualizar(req: Request, res: Response): Promise<void> {
+    async actualizar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -66,7 +68,7 @@ export class FotoProblemaController {
                 return;
             }
 
-            const fotoActualizada = await FotoProblemaService.actualizar(id, req.body);
+            const fotoActualizada = await this.service.actualizar(id, req.body);
             res.status(200).json(fotoActualizada);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
@@ -74,7 +76,7 @@ export class FotoProblemaController {
     }
 
 
-    static async eliminar(req: Request, res: Response): Promise<void> {
+    async eliminar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -83,7 +85,7 @@ export class FotoProblemaController {
                 return;
             }
 
-            const fotoEliminada = await FotoProblemaService.eliminar(id);
+            const fotoEliminada = await this.service.eliminar(id);
             res.status(200).json({ mensaje: "Fotografía eliminada correctamente", fotografia: fotoEliminada });
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
