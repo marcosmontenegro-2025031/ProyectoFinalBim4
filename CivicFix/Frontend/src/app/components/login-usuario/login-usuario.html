@@ -6,7 +6,6 @@
 
             <div class="information-content">
 
-
                 <div class="municipality-logo">
 
                     <svg
@@ -93,8 +92,6 @@
 
                 </div>
 
-
-
                 <div class="hero-copy">
 
                     <h1>
@@ -109,10 +106,7 @@
 
                 </div>
 
-
-
                 <div class="categories">
-
 
                     <div class="category">
 
@@ -154,8 +148,6 @@
 
                     </div>
 
-
-
                     <div class="category">
 
                         <div class="category-icon blue-icon">
@@ -168,7 +160,6 @@
                                     d="M20 5C20 5 10 17 10 24C10 30 14.5 34 20 34C25.5 34 30 30 30 24C30 17 20 5 20 5Z"
                                     fill="currentColor"
                                 />
-
                             </svg>
 
                         </div>
@@ -176,8 +167,6 @@
                         <span>Agua</span>
 
                     </div>
-
-
 
                     <div class="category">
 
@@ -223,7 +212,6 @@
                                     stroke="currentColor"
                                     stroke-width="2.5"
                                 />
-
                             </svg>
 
                         </div>
@@ -231,8 +219,6 @@
                         <span>Luminarias</span>
 
                     </div>
-
-
 
                     <div class="category">
 
@@ -274,7 +260,6 @@
                                     stroke="currentColor"
                                     stroke-width="3"
                                 />
-
                             </svg>
 
                         </div>
@@ -287,13 +272,11 @@
 
             </div>
 
-
             <div class="city-scene">
 
                 <div class="city-hill hill-back"></div>
 
                 <div class="city-hill hill-front"></div>
-
 
                 <!-- EDIFICIOS -->
 
@@ -338,7 +321,6 @@
 
                 </div>
 
-
                 <div class="tree tree-one">
                     <div class="tree-crown"></div>
                     <div class="tree-trunk"></div>
@@ -359,8 +341,6 @@
                     <div class="tree-trunk"></div>
                 </div>
 
-
-
                 <div class="street-lamp">
 
                     <div class="lamp-head"></div>
@@ -370,7 +350,6 @@
                     <div class="lamp-base"></div>
 
                 </div>
-
 
                 <div class="bench">
 
@@ -384,11 +363,9 @@
 
                 </div>
 
-
                 <div class="ground"></div>
 
             </div>
-
 
             <div class="information-footer">
 
@@ -473,12 +450,9 @@
                             stroke="currentColor"
                             stroke-width="2"
                         />
-
                     </svg>
 
                 </div>
-
-
 
                 <h2>
                     Iniciar sesión
@@ -488,61 +462,63 @@
                     Ingresa tus credenciales para continuar
                 </p>
 
-
                 <!-- FORMULARIO -->
 
                 <form
                     class="login-form"
-                    action="#"
-                    method="post"
+                    [formGroup]="loginForm"
+                    (ngSubmit)="onSubmit()"
                 >
 
+                    <!-- USUARIO -->
 
                     <div class="form-group">
 
-                        <label for="email">
-                            Correo electrónico
+                        <label for="usuario">
+                            Usuario
                         </label>
 
                         <div class="input-wrapper">
 
                             <svg
                                 class="input-icon"
-                                viewBox="0 0 24 24"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                                 aria-hidden="true"
                             >
-                                <rect
-                                    x="3"
-                                    y="5"
-                                    width="18"
-                                    height="14"
-                                    rx="2"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
+                                <path
+                                    d="M8 7C9.65685 7 11 5.65685 11 4C11 2.34315 9.65685 1 8 1C6.34315 1 5 2.34315 5 4C5 5.65685 6.34315 7 8 7Z"
+                                    fill="currentColor"
                                 />
 
                                 <path
-                                    d="M4 7L12 13L20 7"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
+                                    d="M14 12C14 10.3431 12.6569 9 11 9H5C3.34315 9 2 10.3431 2 12V15H14V12Z"
+                                    fill="currentColor"
                                 />
                             </svg>
 
                             <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                placeholder="ejemplo@correo.com"
-                                autocomplete="email"
+                                id="usuario"
+                                type="text"
+                                placeholder="Ej. juan.perez"
+                                formControlName="usuario"
                             >
+
+                            @if (
+                                loginForm.get('usuario')?.touched &&
+                                loginForm.get('usuario')?.hasError('required')
+                            ) {
+                                <small class="error-text">
+                                    El usuario es requerido.
+                                </small>
+                            }
 
                         </div>
 
                     </div>
 
-
+                    <!-- CONTRASEÑA -->
 
                     <div class="form-group">
 
@@ -552,41 +528,75 @@
 
                         <div class="input-wrapper">
 
+                            <!-- ICONO DE CONTRASEÑA -->
                             <svg
-                                class="input-icon"
-                                viewBox="0 0 24 24"
+                                class="input-icon password-icon"
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
                                 aria-hidden="true"
                             >
                                 <rect
-                                    x="5"
-                                    y="10"
-                                    width="14"
-                                    height="10"
-                                    rx="2"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1.8"
+                                    x="3"
+                                    y="7"
+                                    width="10"
+                                    height="8"
+                                    rx="1.5"
+                                    fill="currentColor"
                                 />
 
                                 <path
-                                    d="M8 10V7C8 4.8 9.8 3 12 3C14.2 3 16 4.8 16 7V10"
+                                    d="M5 7V5C5 3.34315 6.34315 2 8 2C9.65685 2 11 3.34315 11 5V7"
                                     fill="none"
                                     stroke="currentColor"
-                                    stroke-width="1.8"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                />
+
+                                <circle
+                                    cx="8"
+                                    cy="10.5"
+                                    r="1"
+                                    fill="white"
+                                />
+
+                                <path
+                                    d="M8 11.5V13"
+                                    stroke="white"
+                                    stroke-width="1"
+                                    stroke-linecap="round"
                                 />
                             </svg>
 
                             <input
                                 id="password"
-                                name="password"
                                 type="password"
                                 placeholder="Ingresa tu contraseña"
-                                autocomplete="current-password"
+                                formControlName="password"
                             >
+
+                            @if (
+                                loginForm.get('password')?.touched &&
+                                loginForm.get('password')?.hasError('required')
+                            ) {
+                                <small class="error-text">
+                                    La contraseña es requerida.
+                                </small>
+                            }
+
+                            @if (
+                                loginForm.get('password')?.touched &&
+                                loginForm.get('password')?.hasError('minlength')
+                            ) {
+                                <small class="error-text">
+                                    La contraseña debe tener al menos 8 caracteres.
+                                </small>
+                            }
 
                             <button
                                 type="button"
                                 class="password-button"
+                                (click)="togglePassword()"
                                 aria-label="Mostrar contraseña"
                             >
                                 <svg
@@ -615,8 +625,6 @@
 
                     </div>
 
-
-
                     <div class="login-options">
 
                         <label class="remember">
@@ -642,10 +650,10 @@
 
                     </div>
 
-
                     <button
                         type="submit"
                         class="login-button"
+                        [disabled]="loginForm.invalid"
                     >
 
                         <svg
@@ -682,8 +690,6 @@
 
                 </form>
 
-
-
                 <div class="divider">
 
                     <span></span>
@@ -695,7 +701,6 @@
                     <span></span>
 
                 </div>
-
 
                 <button
                     type="button"
@@ -717,7 +722,7 @@
                         />
 
                         <path
-                            d="M6.4 13.8C6.2 13.2 6.1 12.6 6.1 12C6.1 11.4 6.2 10.8 6.4 10.2V7.6H3.1C2.4 8.9 2 10.4 2 12C2 13.6 2.4 15.1 3.1 16.4L6.4 13.8Z"
+                            d="M6.4 13.8C6.2 13.2 6.1 12.6 6.4 10.2V7.6H3.1C2.4 8.9 2 10.4 2 12C2 13.6 2.4 15.1 3.1 16.4L6.4 13.8Z"
                             fill="#FBBC05"
                         />
 
@@ -732,7 +737,6 @@
                     </span>
 
                 </button>
-
 
                 <div class="register">
 
