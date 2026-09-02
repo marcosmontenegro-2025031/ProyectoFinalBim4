@@ -1,542 +1,742 @@
 :root {
     --blue-primary: #1565C0;
     --blue-dark: #0D47A1;
- 
     --blue-light: #EAF3FF;
     --blue-pale: #F2F7FC;
- 
-    --green: #2E7D32;
+
+    --green: #33a339;
     --yellow: #F9A825;
     --orange: #EF6C00;
     --red: #C62828;
- 
-    --background: #F5F7FA;
- 
-    --text: #263238;
+
+    --background: #EAF2FB;
+
+    --text: #172B3A;
     --text-secondary: #607D8B;
     --text-muted: #90A4AE;
- 
-    --border: #DFE5EB;
- 
+
+    --border: #D7E1EA;
+
     --white: #FFFFFF;
 }
- 
- 
- 
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
- 
- 
+
 html {
     min-height: 100%;
 }
- 
- 
+
 body {
     min-height: 100vh;
- 
+
     font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
         "Segoe UI",
         Arial,
         Helvetica,
         sans-serif;
- 
-    background: var(--background);
- 
+
     color: var(--text);
- 
+
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(33, 150, 243, .22),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(21, 101, 192, .20),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #EAF3FF 0%,
+            #F5F9FD 45%,
+            #DCEBFA 100%
+        );
+
+    background-size: 140% 140%;
+    animation: backgroundMove 12s ease-in-out infinite alternate;
 }
- 
- 
+
+
 button,
 input {
     font: inherit;
 }
- 
- 
- 
+
+/* =========================================
+   FONDO DECORATIVO
+========================================= */
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+
+    width: 280px;
+    height: 280px;
+
+    border-radius: 50%;
+
+    filter: blur(10px);
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+body::before {
+    top: -100px;
+    left: -80px;
+
+    background: rgba(33, 150, 243, .16);
+
+    animation: floatingBlob 9s ease-in-out infinite;
+}
+
+body::after {
+    right: -100px;
+    bottom: -100px;
+
+    background: rgba(13, 71, 161, .14);
+
+    animation: floatingBlob 11s ease-in-out infinite reverse;
+}
+
+/* =========================================
+   PAGE
+========================================= */
+
 .page {
     min-height: 100vh;
- 
+
     display: flex;
- 
     align-items: center;
     justify-content: center;
- 
-    padding: 28px;
+
+    padding: 40px 28px;
+
+    position: relative;
 }
- 
- 
- 
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
 .login-container {
-    width: min(100%, 1030px);
- 
-    min-height: 625px;
- 
+    width: min(100%, 1120px);
+
+    min-height: 680px;
+
     display: grid;
- 
-    grid-template-columns: 1.03fr 0.97fr;
- 
+
+    grid-template-columns: 1.05fr .95fr;
+
     overflow: hidden;
- 
-    background: var(--white);
- 
-    border-radius: 12px;
- 
+
+    background: rgba(255, 255, 255, .90);
+
+    border: 1px solid rgba(255, 255, 255, .8);
+
+    border-radius: 24px;
+
     box-shadow:
-        0 12px 40px rgba(13, 71, 161, 0.10);
+        0 30px 80px rgba(13, 71, 161, .18),
+        0 10px 30px rgba(13, 71, 161, .08);
+
+    backdrop-filter: blur(14px);
+
+    animation: cardAppear .8s cubic-bezier(.22, 1, .36, 1);
 }
- 
- 
- 
+
+/* =========================================
+   PANEL INFORMACIÓN
+========================================= */
+
 .information-panel {
     position: relative;
- 
+
     min-width: 0;
- 
+
     overflow: hidden;
- 
+
     background:
+        radial-gradient(
+            circle at 20% 15%,
+            rgba(255,255,255,.95),
+            transparent 32%
+        ),
         linear-gradient(
             180deg,
             #FFFFFF 0%,
-            #FCFDFF 35%,
-            #EDF6FF 100%
+            #F5FAFF 42%,
+            #DCEFFF 100%
         );
 }
- 
- 
- 
+
+/* =========================================
+   CONTENIDO INFORMACIÓN
+========================================= */
+
 .information-content {
     position: relative;
- 
+
     z-index: 20;
- 
-    padding: 43px 46px;
+
+    padding: 50px 55px;
 }
- 
- 
- 
+
+/* =========================================
+   LOGO
+========================================= */
+
 .municipality-logo {
     display: flex;
- 
     align-items: center;
- 
-    gap: 10px;
+    color:#0D47A1;
+    gap: 13px;
+
+    animation: slideFromLeft .8s ease both;
 }
- 
- 
+
 .logo-svg {
-    width: 43px;
-    height: 43px;
- 
+    width: 52px;
+    height: 52px;
+
     flex: 0 0 auto;
- 
+
     color: var(--blue-dark);
+
+    filter:
+        drop-shadow(
+            0 5px 8px rgba(13, 71, 161, .16)
+        );
+
+    transition:
+        transform .3s ease,
+        filter .3s ease;
 }
- 
- 
+
+.municipality-logo:hover .logo-svg {
+    transform: translateY(-4px) rotate(-3deg);
+
+    filter:
+        drop-shadow(
+            0 9px 15px rgba(13, 71, 161, .24)
+        );
+}
+
 .municipality-name {
     display: flex;
- 
+
     flex-direction: column;
- 
-    line-height: 1.15;
+
+    line-height: 1.2;
 }
- 
- 
+
 .municipality-name strong {
     color: var(--blue-dark);
- 
-    font-size: 15px;
- 
-    letter-spacing: 0.3px;
+
+    font-size: 20px;
+
+    letter-spacing: .5px;
 }
- 
- 
+
 .municipality-name span {
     color: var(--text-secondary);
- 
-    font-size: 7px;
- 
+
+    font-size: 11px;
+
     line-height: 1.35;
 }
- 
- 
- 
+
+/* =========================================
+   HERO
+========================================= */
+
 .hero-copy {
-    margin-top: 70px;
- 
-    max-width: 365px;
+    margin-top: 72px;
+
+    max-width: 440px;
+
+    animation:
+        slideFromLeft .9s .12s ease both;
 }
- 
- 
+
 .hero-copy h1 {
-    margin: 0 0 17px;
- 
+    margin: 0 0 18px;
+
     color: var(--text);
- 
-    font-size: 29px;
- 
-    font-weight: 700;
- 
-    line-height: 1.12;
- 
-    letter-spacing: -0.6px;
+
+    font-size: 39px;
+
+    font-weight: 750;
+
+    line-height: 1.1;
+
+    letter-spacing: -1px;
 }
- 
- 
+
 .hero-copy h1 span {
     display: block;
- 
+
     color: var(--blue-dark);
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue-dark),
+            #1976D2
+        );
+
+    background-clip: text;
+    -webkit-background-clip: text;
 }
- 
- 
+
 .hero-copy p {
-    max-width: 315px;
- 
-    color: var(--text-secondary);
- 
-    font-size: 11px;
- 
-    line-height: 1.65;
+    max-width: 380px;
+
+    color: var(--text);
+
+    font-size: 16px;
+
+    line-height: 1.7;
 }
- 
- 
+
+/* =========================================
+   CATEGORÍAS
+========================================= */
+
 .categories {
     display: flex;
- 
+
     align-items: flex-start;
- 
-    gap: 22px;
- 
-    margin-top: 31px;
+
+    gap: 24px;
+
+    margin-top: 34px;
+
+    animation:
+        slideFromLeft .9s .25s ease both;
 }
- 
- 
+
 .category {
-    width: 47px;
- 
+    width: 72px;
+
     display: flex;
- 
+
     flex-direction: column;
- 
+
     align-items: center;
- 
-    gap: 6px;
- 
+
+    gap: 9px;
+
     color: #607D8B;
- 
-    font-size: 7px;
- 
+
+    font-size: 11px;
+
+    font-weight: 600;
+
     white-space: nowrap;
+
+    transition:
+        transform .3s ease,
+        color .3s ease;
 }
- 
- 
+
+.category:hover {
+    transform: translateY(-7px);
+
+    color: var(--blue-dark);
+}
+
 .category-icon {
-    width: 39px;
-    height: 39px;
- 
+    width: 53px;
+    height: 53px;
+
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
+
     border-radius: 50%;
- 
-    background: rgba(255, 255, 255, 0.92);
- 
+
+    background:
+        linear-gradient(
+            145deg,
+            #FFFFFF,
+            #EDF5FC
+        );
+
     color: #455A64;
- 
+
+    border: 1px solid rgba(255,255,255,.8);
+
     box-shadow:
-        0 4px 12px rgba(13, 71, 161, 0.07);
+        0 8px 22px rgba(13, 71, 161, .12);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
 }
- 
- 
+
+.category:hover .category-icon {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 12px 28px rgba(21, 101, 192, .22);
+
+    background: #FFFFFF;
+}
+
 .category-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 29px;
+    height: 29px;
 }
- 
- 
+
 .category-icon.blue-icon {
     color: #1976D2;
 }
- 
- 
+
 .category-icon.green-icon {
-    color: var(--green);
+    color: #33A339 !important;
 }
- 
- 
- 
+
+.category-icon.green-icon svg {
+    color: #33A339 !important;
+}
+
+.category-icon.green-icon svg path,
+.category-icon.green-icon svg circle {
+    stroke: currentColor;
+    fill: currentColor;
+}
+
+
+/* =========================================
+   ESCENA CIUDAD
+========================================= */
+
 .city-scene {
     position: absolute;
- 
+
     z-index: 2;
- 
+
     left: 0;
     right: 0;
- 
-    bottom: 52px;
- 
-    height: 230px;
- 
+
+    bottom: 62px;
+
+    height: 250px;
+
     overflow: hidden;
 }
- 
- 
+
+/* Movimiento suave del paisaje */
+
+.city-hill,
+.buildings,
+.tree,
+.street-lamp,
+.bench {
+    will-change: transform;
+}
+
+.hill-back {
+    animation:
+        hillMove 7s ease-in-out infinite alternate;
+}
+
+.hill-front {
+    animation:
+        hillMove 9s ease-in-out infinite alternate-reverse;
+}
+
+.buildings {
+    animation:
+        cityFloat 6s ease-in-out infinite alternate;
+}
+
+/* =========================================
+   COLINAS
+========================================= */
+
 .city-hill {
     position: absolute;
- 
+
     left: -10%;
- 
+
     width: 120%;
- 
+
     border-radius: 50% 50% 0 0;
 }
- 
- 
+
 .hill-back {
     bottom: 22px;
- 
-    height: 125px;
- 
+
+    height: 135px;
+
     background: #CDE5F8;
- 
+
     transform: rotate(-2deg);
 }
- 
- 
+
 .hill-front {
     bottom: -45px;
- 
-    height: 125px;
- 
+
+    height: 135px;
+
     background: #A8D1ED;
- 
+
     transform: rotate(2deg);
 }
- 
- 
- 
+
+/* =========================================
+   EDIFICIOS
+========================================= */
+
 .buildings {
     position: absolute;
- 
+
     z-index: 4;
- 
+
     left: 95px;
     right: 54px;
- 
+
     bottom: 57px;
- 
-    height: 125px;
- 
+
+    height: 135px;
+
     display: flex;
- 
+
     align-items: flex-end;
- 
+
     justify-content: center;
- 
-    gap: 6px;
+
+    gap: 8px;
 }
- 
- 
+
 .building {
     position: relative;
- 
+
     flex: 0 0 auto;
- 
-    background: #4386C2;
- 
-    opacity: 0.78;
- 
-    border-radius: 2px 2px 0 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #4B91CF,
+            #347AB7
+        );
+
+    opacity: .82;
+
+    border-radius: 4px 4px 0 0;
+
+    box-shadow:
+        inset 0 0 15px rgba(255,255,255,.08);
 }
- 
- 
+
 .building-a {
-    width: 28px;
-    height: 73px;
-}
- 
- 
-.building-b {
-    width: 38px;
-    height: 104px;
-}
- 
- 
-.building-c {
     width: 31px;
-    height: 83px;
+    height: 77px;
 }
- 
- 
+
+.building-b {
+    width: 42px;
+    height: 110px;
+}
+
+.building-c {
+    width: 35px;
+    height: 88px;
+}
+
 .building-d {
-    width: 43px;
-    height: 126px;
+    width: 47px;
+    height: 130px;
 }
- 
- 
+
 .building-e {
-    width: 32px;
-    height: 67px;
+    width: 36px;
+    height: 72px;
 }
- 
- 
+
 .building-f {
-    width: 25px;
-    height: 54px;
+    width: 28px;
+    height: 58px;
 }
- 
- 
-/* WINDOWS */
- 
+
+/* Ventanas */
+
 .building span {
     position: relative;
- 
+
     display: block;
- 
-    width: 5px;
-    height: 5px;
- 
-    margin: 8px auto 0;
- 
-    background: rgba(255, 255, 255, 0.55);
- 
-    border-radius: 1px;
+
+    width: 6px;
+    height: 6px;
+
+    margin: 9px auto 0;
+
+    background: rgba(255,255,255,.72);
+
+    border-radius: 2px;
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.25);
+
+    animation:
+        windowBlink 4s ease-in-out infinite;
 }
- 
- 
- 
+
+/* =========================================
+   ÁRBOLES
+========================================= */
+
 .tree {
     position: absolute;
- 
+
     z-index: 8;
- 
+
     bottom: 35px;
- 
+
     display: flex;
- 
+
     flex-direction: column;
- 
+
     align-items: center;
+
+    animation:
+        treeFloat 4s ease-in-out infinite alternate;
 }
- 
- 
+
 .tree-crown {
-    width: 43px;
-    height: 55px;
- 
+    width: 48px;
+    height: 60px;
+
     border-radius: 50%;
- 
+
     background: #2174B5;
- 
+
     box-shadow:
-        -13px 10px 0 #2174B5,
-        13px 10px 0 #2174B5;
+        -14px 10px 0 #2174B5,
+        14px 10px 0 #2174B5;
+
+    filter:
+        drop-shadow(
+            0 5px 5px rgba(13,71,161,.12)
+        );
 }
- 
- 
+
 .tree-trunk {
-    width: 8px;
-    height: 27px;
- 
+    width: 9px;
+    height: 29px;
+
     background: #52788E;
 }
- 
- 
+
 .tree-one {
     left: 24px;
- 
+
     transform: scale(1.05);
 }
- 
- 
+
 .tree-two {
     left: 76px;
- 
+
     transform: scale(.75);
+
+    animation-delay: -.8s;
 }
- 
- 
+
 .tree-three {
     right: 33px;
- 
+
     transform: scale(.95);
+
+    animation-delay: -1.5s;
 }
- 
- 
+
 .tree-four {
     right: 83px;
- 
+
     transform: scale(.72);
+
+    animation-delay: -2s;
 }
- 
- 
- 
+
+/* =========================================
+   LÁMPARA
+========================================= */
+
 .street-lamp {
     position: absolute;
- 
+
     z-index: 10;
- 
+
     left: 11px;
- 
+
     bottom: 48px;
- 
+
     width: 22px;
- 
+
     height: 150px;
+
+    animation:
+        lampFloat 5s ease-in-out infinite alternate;
 }
- 
- 
+
 .lamp-pole {
     position: absolute;
- 
+
     left: 9px;
     top: 18px;
- 
+
     width: 3px;
     height: 123px;
- 
+
     background: #506D80;
- 
+
     border-radius: 2px;
 }
- 
- 
+
 .lamp-base {
     position: absolute;
- 
+
     left: 4px;
     bottom: 0;
- 
+
     width: 13px;
     height: 5px;
- 
+
     background: #506D80;
- 
+
     border-radius: 3px;
 }
- 
- 
+
 .lamp-head {
     position: absolute;
- 
+
     left: 2px;
     top: 3px;
- 
+
     width: 16px;
     height: 16px;
- 
+
     background: #506D80;
- 
+
     clip-path:
         polygon(
             50% 0,
@@ -545,907 +745,1211 @@ input {
             18% 100%,
             0 35%
         );
+
+    box-shadow:
+        0 0 20px rgba(249,168,37,.35);
 }
- 
- 
- 
+
+/* =========================================
+   BANCA
+========================================= */
+
 .bench {
     position: absolute;
- 
+
     z-index: 11;
- 
+
     left: 53%;
- 
+
     bottom: 44px;
- 
+
     width: 45px;
- 
+
     height: 31px;
+
+    animation:
+        benchFloat 5s ease-in-out infinite alternate;
 }
- 
- 
+
+.bench-seat,
+.bench-back {
+    background: #506D80;
+
+    border-radius: 3px;
+}
+
 .bench-seat {
     position: absolute;
- 
+
     left: 0;
     bottom: 11px;
- 
+
     width: 45px;
     height: 5px;
- 
-    background: #506D80;
- 
-    border-radius: 2px;
 }
- 
- 
+
 .bench-back {
     position: absolute;
- 
+
     left: 2px;
     bottom: 18px;
- 
+
     width: 41px;
     height: 5px;
- 
-    background: #58788A;
- 
-    border-radius: 2px;
 }
- 
- 
+
 .bench-leg {
     position: absolute;
- 
+
     bottom: 0;
- 
+
     width: 3px;
     height: 13px;
- 
+
     background: #506D80;
 }
- 
- 
+
 .leg-left {
     left: 6px;
 }
- 
- 
+
 .leg-right {
     right: 6px;
 }
- 
- 
- 
+
+/* =========================================
+   TERRENO
+========================================= */
+
 .ground {
     position: absolute;
- 
+
     z-index: 7;
- 
+
     left: -5%;
- 
+
     bottom: -30px;
- 
+
     width: 110%;
- 
+
     height: 90px;
- 
-    background: #73AAD2;
- 
+
+    background:
+        linear-gradient(
+            180deg,
+            #73AAD2,
+            #609AC5
+        );
+
     border-radius: 50% 50% 0 0;
- 
+
     transform: rotate(-2deg);
 }
- 
- 
+
+/* =========================================
+   FOOTER
+========================================= */
+
 .information-footer {
     position: absolute;
- 
+
     z-index: 30;
- 
+
     left: 0;
     right: 0;
     bottom: 0;
- 
-    height: 52px;
- 
+
+    height: 62px;
+
     display: flex;
- 
+
     align-items: center;
- 
-    gap: 9px;
- 
-    padding: 0 28px;
- 
+
+    gap: 11px;
+
+    padding: 0 32px;
+
     color: white;
- 
-    background: var(--blue-dark);
+
+    background:
+        linear-gradient(
+            90deg,
+            #0D47A1,
+            #1565C0
+        );
+
+    box-shadow:
+        0 -5px 20px rgba(13,71,161,.12);
 }
- 
- 
+
 .footer-shield {
-    width: 25px;
-    height: 25px;
- 
+    width: 32px;
+    height: 32px;
+
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
+
     flex: 0 0 auto;
 }
- 
- 
+
 .footer-shield svg {
-    width: 22px;
-    height: 22px;
+    width: 27px;
+    height: 27px;
 }
- 
- 
+
 .footer-text {
     display: flex;
- 
+
     flex-direction: column;
- 
-    gap: 2px;
+
+    gap: 3px;
 }
- 
- 
+
 .footer-text strong {
-    font-size: 8px;
- 
+    font-size: 11px;
+
     font-weight: 600;
 }
- 
- 
+
 .footer-text span {
-    font-size: 7px;
- 
-    opacity: .78;
+    font-size: 10px;
+
+    opacity: .82;
 }
- 
- 
- 
+
+/* =========================================
+   LOGIN PANEL
+========================================= */
+
 .login-panel {
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
-    padding: 40px 55px;
- 
-    background: var(--white);
+
+    padding: 50px 65px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.98),
+            rgba(250,252,255,.98)
+        );
 }
- 
- 
- 
+
 .login-card {
     width: 100%;
- 
-    max-width: 325px;
+
+    max-width: 390px;
+
+    animation:
+        slideFromRight .8s cubic-bezier(.22,1,.36,1);
 }
- 
- 
- 
+
+/* =========================================
+   ICONO SEGURIDAD
+========================================= */
+
 .security-icon {
-    width: 55px;
-    height: 55px;
- 
+    width: 70px;
+    height: 70px;
+
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
-    margin: 0 auto 14px;
- 
+
+    margin: 0 auto 18px;
+
     border-radius: 50%;
- 
+
     color: var(--blue-dark);
- 
-    background: #EDF5FE;
+
+    background:
+        linear-gradient(
+            145deg,
+            #EDF6FF,
+            #DCEEFF
+        );
+
+    box-shadow:
+        0 10px 25px rgba(21,101,192,.12);
+
+    animation:
+        iconPulse 3s ease-in-out infinite;
 }
- 
- 
+
 .security-icon svg {
-    width: 29px;
-    height: 29px;
+    width: 38px;
+    height: 38px;
 }
- 
- 
- 
+
+/* =========================================
+   TITULO LOGIN
+========================================= */
+
 .login-card h2 {
     color: var(--text);
- 
+
     text-align: center;
- 
-    font-size: 19px;
- 
+
+    font-size: 28px;
+
     line-height: 1.2;
- 
-    font-weight: 700;
+
+    font-weight: 750;
+
+    letter-spacing: -.4px;
 }
- 
- 
+
 .login-subtitle {
-    margin-top: 5px;
- 
-    margin-bottom: 27px;
- 
+    margin-top: 8px;
+
+    margin-bottom: 32px;
+
     color: #78909C;
- 
+
     text-align: center;
- 
-    font-size: 9px;
- 
-    line-height: 1.4;
+
+    font-size: 14px;
+
+    line-height: 1.5;
 }
- 
- 
- 
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
 .login-form {
     width: 100%;
 }
- 
- 
+
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 21px;
 }
- 
- 
+
 .form-group label {
     display: block;
- 
-    margin-bottom: 6px;
- 
+
+    margin-bottom: 8px;
+
     color: var(--text);
- 
-    font-size: 8px;
- 
-    font-weight: 600;
+
+    font-size: 13px;
+
+    font-weight: 650;
 }
- 
- 
+
 .input-wrapper {
     position: relative;
- 
+
     width: 100%;
-    height: 39px;
- 
+
+    min-height: 50px;
+
     display: flex;
- 
+
     align-items: center;
- 
+
     border: 1px solid var(--border);
- 
-    border-radius: 4px;
- 
+
+    border-radius: 9px;
+
     background: #FFFFFF;
- 
+
     transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
 }
- 
- 
+
+.input-wrapper:hover {
+    border-color: #B9CAD9;
+}
+
 .input-wrapper:focus-within {
     border-color: var(--blue-primary);
- 
+
     box-shadow:
-        0 0 0 3px rgba(21, 101, 192, .07);
+        0 0 0 4px rgba(21,101,192,.09),
+        0 8px 20px rgba(21,101,192,.07);
+
+    transform: translateY(-1px);
 }
- 
- 
+
 .input-icon {
-    width: 15px;
-    height: 15px;
- 
-    margin-left: 11px;
- 
+    width: 20px;
+    height: 20px;
+
+    margin-left: 15px;
+
     flex: 0 0 auto;
- 
+
     color: #90A4AE;
 }
- 
- 
+
+.input-wrapper:focus-within .input-icon {
+    color: var(--blue-primary);
+}
+
 .input-wrapper input {
     width: 100%;
-    height: 100%;
- 
+    height: 48px;
+
     min-width: 0;
- 
-    padding: 0 11px;
- 
+
+    padding: 0 14px;
+
     border: 0;
     outline: 0;
- 
+
     color: var(--text);
- 
+
     background: transparent;
- 
-    font-size: 9px;
+
+    font-size: 14px;
 }
- 
- 
+
 .input-wrapper input::placeholder {
-    color: #B0BEC5;
- 
+    color: #AAB8C2;
+
     opacity: 1;
 }
- 
- 
- 
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error-text {
+    position: absolute;
+
+    left: 0;
+    top: calc(100% + 5px);
+
+    color: #C62828;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    animation:
+        errorAppear .25s ease;
+}
+
+/* =========================================
+   PASSWORD
+========================================= */
+
 .password-button {
-    width: 35px;
+    width: 44px;
     height: 100%;
- 
+
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
+
     flex: 0 0 auto;
- 
+
     border: 0;
- 
+
     background: transparent;
- 
+
     color: #78909C;
- 
+
     cursor: pointer;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
 }
- 
- 
+
+.password-button:hover {
+    color: var(--blue-primary);
+
+    transform: scale(1.1);
+}
+
 .password-button svg {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
 }
- 
- 
- 
- 
+
+/* =========================================
+   OPCIONES
+========================================= */
+
 .login-options {
     display: flex;
- 
+
     align-items: center;
- 
+
     justify-content: space-between;
- 
+
     gap: 10px;
- 
-    margin-top: 4px;
- 
-    margin-bottom: 20px;
+
+    margin-top: 6px;
+
+    margin-bottom: 24px;
 }
- 
- 
+
 .remember {
     display: flex;
- 
+
     align-items: center;
- 
-    gap: 5px;
- 
+
+    gap: 7px;
+
     color: #607D8B;
- 
-    font-size: 8px;
- 
+
+    font-size: 12px;
+
     cursor: pointer;
 }
- 
- 
+
 .remember input {
-    width: 11px;
-    height: 11px;
- 
+    width: 15px;
+    height: 15px;
+
     margin: 0;
- 
+
     accent-color: var(--blue-primary);
- 
+
     cursor: pointer;
 }
- 
- 
+
 .forgot-password {
     color: var(--blue-primary);
- 
-    font-size: 8px;
- 
-    font-weight: 600;
- 
+
+    font-size: 12px;
+
+    font-weight: 650;
+
     text-decoration: none;
+
+    transition: color .2s ease;
 }
- 
- 
+
 .forgot-password:hover {
+    color: var(--blue-dark);
+
     text-decoration: underline;
 }
- 
- 
+
+/* =========================================
+   BOTON LOGIN
+========================================= */
+
 .login-button {
     width: 100%;
-    height: 40px;
- 
+
+    height: 51px;
+
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
-    gap: 7px;
- 
+
+    gap: 9px;
+
     border: 0;
- 
-    border-radius: 4px;
- 
+
+    border-radius: 9px;
+
     color: white;
- 
-    background: var(--blue-primary);
- 
-    font-size: 9px;
- 
-    font-weight: 600;
- 
+
+    background:
+        linear-gradient(
+            135deg,
+            #1976D2,
+            #0D47A1
+        );
+
+    font-size: 14px;
+
+    font-weight: 650;
+
     cursor: pointer;
- 
-    transition:
-        background .2s ease,
-        transform .2s ease,
-        box-shadow .2s ease;
-}
- 
- 
-.login-button svg {
-    width: 15px;
-    height: 15px;
-}
- 
- 
-.login-button:hover {
-    background: var(--blue-dark);
- 
-    transform: translateY(-1px);
- 
+
     box-shadow:
-        0 5px 14px rgba(21, 101, 192, .20);
+        0 8px 20px rgba(21,101,192,.20);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        filter .25s ease;
 }
- 
- 
+
+.login-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.login-button:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 14px 28px rgba(21,101,192,.28);
+
+    filter: brightness(1.06);
+}
+
 .login-button:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 15px rgba(21,101,192,.20);
 }
- 
- 
- 
+
+/* =========================================
+   DIVISOR
+========================================= */
+
 .divider {
     display: flex;
- 
+
     align-items: center;
- 
-    gap: 9px;
- 
-    margin: 23px 0 17px;
+
+    gap: 12px;
+
+    margin: 28px 0 20px;
 }
- 
- 
+
 .divider span {
     flex: 1;
- 
+
     height: 1px;
- 
-    background: #E8EDF1;
+
+    background: #E3EAF0;
 }
- 
- 
+
 .divider small {
     flex: 0 0 auto;
- 
+
     color: #90A4AE;
- 
-    font-size: 8px;
+
+    font-size: 11px;
 }
- 
- 
- 
+
+/* =========================================
+   GOOGLE
+========================================= */
+
 .google-button {
     width: 100%;
-    height: 39px;
- 
+
+    height: 50px;
+
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
-    gap: 8px;
- 
+
+    gap: 10px;
+
     border: 1px solid var(--border);
- 
-    border-radius: 4px;
- 
+
+    border-radius: 9px;
+
     color: #455A64;
- 
+
     background: white;
- 
-    font-size: 9px;
- 
+
+    font-size: 13px;
+
+    font-weight: 550;
+
     cursor: pointer;
- 
+
     transition:
-        background .2s ease,
-        border-color .2s ease;
+        background .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
 }
- 
- 
+
 .google-button svg {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
 }
- 
- 
+
 .google-button:hover {
-    background: #FAFBFC;
- 
-    border-color: #CBD5DD;
+    background: #FAFCFE;
+
+    border-color: #BFCEDB;
+
+    box-shadow:
+        0 7px 18px rgba(13,71,161,.08);
+
+    transform: translateY(-2px);
 }
- 
- 
- 
+
+/* =========================================
+   REGISTRO
+========================================= */
+
 .register {
     display: flex;
- 
+
     align-items: center;
     justify-content: center;
- 
+
     flex-wrap: wrap;
- 
-    gap: 4px;
- 
-    margin-top: 28px;
- 
+
+    gap: 5px;
+
+    margin-top: 31px;
+
     text-align: center;
- 
-    font-size: 8px;
- 
+
+    font-size: 12px;
+
     color: #78909C;
 }
- 
- 
+
 .register a {
     color: var(--blue-primary);
- 
-    font-weight: 600;
- 
+
+    font-weight: 650;
+
     text-decoration: none;
+
+    transition: color .2s ease;
 }
- 
- 
+
 .register a:hover {
+    color: var(--blue-dark);
+
     text-decoration: underline;
 }
- 
- 
- 
-@media (max-width: 900px) {
- 
-    .page {
-        padding: 20px;
+
+/* =========================================
+   ANIMACIONES
+========================================= */
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(.97);
     }
- 
- 
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@keyframes slideFromLeft {
+    from {
+        opacity: 0;
+
+        transform: translateX(-25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideFromRight {
+    from {
+        opacity: 0;
+
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateX(0);
+    }
+}
+
+@keyframes backgroundMove {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes floatingBlob {
+    0% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(25px, 20px)
+            scale(1.08);
+    }
+
+    100% {
+        transform:
+            translate(-15px, 35px)
+            scale(.95);
+    }
+}
+
+@keyframes hillMove {
+    from {
+        transform:
+            translateX(-8px)
+            rotate(-2deg);
+    }
+
+    to {
+        transform:
+            translateX(8px)
+            rotate(-1deg);
+    }
+}
+
+@keyframes cityFloat {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes treeFloat {
+    from {
+        transform:
+            translateY(0)
+            rotate(-1deg);
+    }
+
+    to {
+        transform:
+            translateY(-5px)
+            rotate(1deg);
+    }
+}
+
+@keyframes lampFloat {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes benchFloat {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes windowBlink {
+    0%,
+    80%,
+    100% {
+        opacity: .72;
+    }
+
+    85% {
+        opacity: .95;
+    }
+}
+
+@keyframes iconPulse {
+    0%,
+    100% {
+        box-shadow:
+            0 10px 25px rgba(21,101,192,.12);
+    }
+
+    50% {
+        box-shadow:
+            0 12px 32px rgba(21,101,192,.22);
+    }
+}
+
+@keyframes errorAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .page {
+        padding: 25px;
+    }
+
     .login-container {
         grid-template-columns: 1fr 1fr;
- 
-        min-height: 580px;
+
+        min-height: 620px;
     }
- 
- 
+
     .information-content {
-        padding: 36px 35px;
+        padding: 40px 35px;
     }
- 
- 
+
     .hero-copy {
         margin-top: 55px;
     }
- 
- 
+
     .hero-copy h1 {
-        font-size: 25px;
+        font-size: 31px;
     }
- 
- 
+
+    .hero-copy p {
+        font-size: 14px;
+    }
+
     .categories {
         gap: 15px;
     }
- 
- 
-    .login-panel {
-        padding: 35px;
+
+    .category-icon {
+        width: 48px;
+        height: 48px;
     }
- 
+
+    .login-panel {
+        padding: 40px 35px;
+    }
 }
- 
- 
- 
+
+/* =========================================
+   MÓVIL
+========================================= */
+
 @media (max-width: 700px) {
- 
+
     .page {
         padding: 0;
     }
- 
- 
+
     .login-container {
         width: 100%;
- 
+
         min-height: 100vh;
- 
+
         grid-template-columns: 1fr;
- 
+
         border-radius: 0;
- 
+
         box-shadow: none;
+
+        border: 0;
     }
- 
- 
+
     .information-panel {
-        min-height: 355px;
- 
-        height: 355px;
+        min-height: 390px;
+
+        height: 390px;
     }
- 
- 
+
     .information-content {
-        padding: 28px 28px 20px;
+        padding: 30px 28px 20px;
     }
- 
- 
-    .municipality-logo {
-        gap: 8px;
-    }
- 
- 
+
     .logo-svg {
-        width: 39px;
-        height: 39px;
+        width: 44px;
+        height: 44px;
     }
- 
- 
+
     .municipality-name strong {
-        font-size: 14px;
+        font-size: 17px;
     }
- 
- 
-    .hero-copy {
-        margin-top: 38px;
-    }
- 
- 
-    .hero-copy h1 {
-        font-size: 24px;
- 
-        margin-bottom: 11px;
-    }
- 
- 
-    .hero-copy p {
+
+    .municipality-name span {
         font-size: 10px;
- 
-        max-width: 290px;
     }
- 
- 
+
+    .hero-copy {
+        margin-top: 40px;
+    }
+
+    .hero-copy h1 {
+        font-size: 28px;
+
+        margin-bottom: 12px;
+    }
+
+    .hero-copy p {
+        font-size: 13px;
+
+        max-width: 300px;
+    }
+
     .categories {
-        margin-top: 21px;
- 
-        gap: 15px;
+        margin-top: 22px;
+
+        gap: 13px;
     }
- 
- 
-    .category-icon {
-        width: 35px;
-        height: 35px;
-    }
- 
- 
-    .category-icon svg {
-        width: 20px;
-        height: 20px;
-    }
- 
- 
+
     .category {
-        font-size: 7px;
+        width: 65px;
+
+        font-size: 10px;
     }
- 
- 
+
+    .category-icon {
+        width: 43px;
+        height: 43px;
+    }
+
+    .category-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
     .city-scene {
         bottom: 49px;
- 
-        height: 135px;
+
+        height: 145px;
     }
- 
- 
+
     .buildings {
         left: 65px;
         right: 30px;
- 
+
         bottom: 35px;
- 
-        height: 85px;
+
+        height: 90px;
     }
- 
- 
+
     .building-a {
         width: 19px;
         height: 48px;
     }
- 
- 
+
     .building-b {
         width: 27px;
         height: 70px;
     }
- 
- 
+
     .building-c {
         width: 22px;
         height: 55px;
     }
- 
- 
+
     .building-d {
         width: 30px;
         height: 82px;
     }
- 
- 
+
     .building-e {
         width: 22px;
         height: 45px;
     }
- 
- 
+
     .building-f {
         width: 18px;
         height: 37px;
     }
- 
- 
+
     .tree {
         bottom: 22px;
     }
- 
- 
+
     .tree-one {
         left: 18px;
         transform: scale(.72);
     }
- 
- 
+
     .tree-two {
         left: 55px;
         transform: scale(.55);
     }
- 
- 
+
     .tree-three {
         right: 18px;
         transform: scale(.68);
     }
- 
- 
+
     .tree-four {
         right: 55px;
         transform: scale(.52);
     }
- 
- 
+
     .street-lamp {
         left: 7px;
- 
+
         bottom: 28px;
- 
+
         transform: scale(.7);
- 
+
         transform-origin: bottom left;
     }
- 
- 
+
     .bench {
         bottom: 27px;
- 
+
         transform: scale(.75);
- 
+
         transform-origin: bottom center;
     }
- 
- 
+
     .information-footer {
         height: 49px;
- 
+
         padding: 0 22px;
     }
- 
- 
+
     .footer-text strong {
-        font-size: 7px;
+        font-size: 9px;
     }
- 
- 
+
     .footer-text span {
-        font-size: 6px;
+        font-size: 8px;
     }
- 
- 
+
     .login-panel {
-        min-height: 520px;
- 
-        padding: 42px 28px;
+        min-height: 570px;
+
+        padding: 48px 28px;
     }
- 
- 
+
     .login-card {
-        max-width: 380px;
+        max-width: 400px;
     }
- 
+
+    .security-icon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .login-card h2 {
+        font-size: 25px;
+    }
+
+    .login-subtitle {
+        font-size: 13px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .input-wrapper input {
+        font-size: 14px;
+    }
+
+    .login-button {
+        height: 51px;
+
+        font-size: 14px;
+    }
+
+    .google-button {
+        height: 50px;
+
+        font-size: 13px;
+    }
 }
- 
- 
+
+/* =========================================
+   MÓVILES PEQUEÑOS
+========================================= */
+
 @media (max-width: 400px) {
- 
+
     .information-panel {
-        min-height: 330px;
- 
-        height: 330px;
+        min-height: 365px;
+        height: 365px;
     }
- 
- 
+
     .information-content {
-        padding: 23px 22px;
+        padding: 24px 22px;
     }
- 
- 
+
     .hero-copy {
         margin-top: 30px;
     }
- 
- 
+
     .hero-copy h1 {
-        font-size: 22px;
+        font-size: 25px;
     }
- 
- 
+
+    .hero-copy p {
+        font-size: 12px;
+    }
+
     .categories {
-        gap: 10px;
+        gap: 8px;
     }
- 
- 
+
     .category {
-        width: 43px;
+        width: 57px;
     }
- 
- 
+
     .category-icon {
-        width: 33px;
-        height: 33px;
+        width: 40px;
+        height: 40px;
     }
- 
- 
+
+    .category-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
     .login-panel {
-        padding: 35px 22px;
+        padding: 40px 22px;
     }
- 
- 
+
     .login-options {
         align-items: flex-start;
- 
+
         flex-direction: column;
- 
-        gap: 9px;
+
+        gap: 10px;
     }
- 
- 
+
     .forgot-password {
         align-self: flex-end;
     }
- 
 }
- 
+
+/* =========================================
+   REDUCIR ANIMACIONES SI EL USUARIO
+   LO PREFIERE
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
