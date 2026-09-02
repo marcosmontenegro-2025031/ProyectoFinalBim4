@@ -3,7 +3,7 @@ import { Notificacion } from "../models/notificacion.model.js";
 
 export class NotificacionRepository {
 
-    static async obtenerTodos(): Promise<Notificacion[]> {
+    async obtenerTodos(): Promise<Notificacion[]> {
         const resultado = await pool.query<Notificacion>(`
             SELECT * FROM Notificacion
             ORDER BY fecha_notificacion DESC
@@ -12,7 +12,7 @@ export class NotificacionRepository {
     }
 
 
-    static async obtenerPorId(id: number): Promise<Notificacion | null> {
+    async obtenerPorId(id: number): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
             `SELECT * FROM Notificacion WHERE id_notificacion = $1`,
             [id]
@@ -26,7 +26,7 @@ export class NotificacionRepository {
     }
 
 
-    static async obtenerPorUsuario(idUsuario: number): Promise<Notificacion[]> {
+    async obtenerPorUsuario(idUsuario: number): Promise<Notificacion[]> {
         const resultado = await pool.query<Notificacion>(
             `SELECT * FROM Notificacion WHERE fk_id_usuario = $1 ORDER BY fecha_notificacion DESC`,
             [idUsuario]
@@ -35,7 +35,7 @@ export class NotificacionRepository {
     }
 
 
-    static async crear(notificacion: Notificacion): Promise<Notificacion> {
+    async crear(notificacion: Notificacion): Promise<Notificacion> {
         const resultado = await pool.query<Notificacion>(
             `INSERT INTO Notificacion (fk_id_usuario, fk_id_reporte, titulo, mensaje, fecha_notificacion, leida)
             VALUES ($1, $2, $3, $4, $5, $6)
@@ -54,7 +54,7 @@ export class NotificacionRepository {
     }
 
 
-    static async actualizar(id: number, notificacion: Notificacion): Promise<Notificacion | null> {
+    async actualizar(id: number, notificacion: Notificacion): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
             `UPDATE Notificacion
             SET fk_id_usuario = $1, fk_id_reporte = $2, titulo = $3, mensaje = $4,
@@ -80,7 +80,7 @@ export class NotificacionRepository {
     }
 
 
-    static async marcarComoLeida(id: number): Promise<Notificacion | null> {
+    async marcarComoLeida(id: number): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
             `UPDATE Notificacion SET leida = TRUE WHERE id_notificacion = $1 RETURNING *`,
             [id]
@@ -94,7 +94,7 @@ export class NotificacionRepository {
     }
 
 
-    static async eliminar(id: number): Promise<Notificacion | null> {
+    async eliminar(id: number): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
             `DELETE FROM Notificacion WHERE id_notificacion = $1 RETURNING *`,
             [id]
