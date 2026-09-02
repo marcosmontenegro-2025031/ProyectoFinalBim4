@@ -18,6 +18,10 @@ export class ReporteService {
     return this.http.get<PuntoMapa[]>(`${this.apiUrl}/mapa`);
   }
 
+  obtenerTodosLosReportes(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
   actualizarEstado(idReporte: number, idEstado: number): Observable<{ mensaje: string }> {
     return this.http.patch<{ mensaje: string }>(`${this.apiUrl}/${idReporte}/estado`, { idEstado });
   }
