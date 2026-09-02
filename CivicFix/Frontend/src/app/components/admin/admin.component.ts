@@ -14,18 +14,21 @@ export class AdminComponent implements OnInit {
   reportes: any[] = [];
   cargando = true;
 
+  imagenSeleccionada: string | null = null;
+
   ngOnInit(): void {
     this.cargarReportes();
   }
 
   cargarReportes(): void {
     this.cargando = true;
-    this.reporteService.obtenerPuntosMapa().subscribe({
+    this.reporteService.obtenerTodosLosReportes().subscribe({
       next: (data) => {
         this.reportes = data;
         this.cargando = false;
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error al cargar reportes:', err);
         this.cargando = false;
       }
     });
@@ -37,5 +40,18 @@ export class AdminComponent implements OnInit {
         this.cargarReportes();
       }
     });
+  }
+
+  abrirImagen(url: string): void {
+    this.imagenSeleccionada = url;
+  }
+
+  cerrarModal(): void {
+    this.imagenSeleccionada = null; 
+  }
+
+  probarClick(url: string): void {
+    console.log('Clic recibido en la imagen con URL:', url);
+    this.abrirImagen(url);
   }
 }
