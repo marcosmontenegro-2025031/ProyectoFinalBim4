@@ -1,77 +1,229 @@
-// controllers/asignacion.controller.ts
 import { Request, Response } from "express";
 import { AsignacionService } from "../service/asignacion.service.js";
+import { Asignacion } from "../models/asignacion.model.js";
 
 export class AsignacionController {
 
-    static async listar(req: Request, res: Response): Promise<void> {
+    private service = new AsignacionService();
+
+    async listar(req: Request, res: Response) {
         try {
-            const asignaciones = await AsignacionService.listar();
+            const asignaciones = await this.service.listar();
+
+            console.log("GET /api/asignaciones");
+            console.log("Asignaciones:", asignaciones);
+
             res.status(200).json(asignaciones);
-        } catch (error) {
-            res.status(500).json({ mensaje: "Error al obtener las asignaciones", error: (error as Error).message });
+
+        } catch (error: any) {
+            console.error("Error al obtener las asignaciones:", error);
+
+            res.status(500).json({
+                mensaje: "Error al obtener las asignaciones"
+            });
         }
     }
 
 
-    static async obtenerPorId(req: Request, res: Response): Promise<void> {
+    async obtenerPorId(req: Request, res: Response) {
         try {
-            const id = Number(req.params.id);
+            const idParam = req.params.id;
+
+            const id = parseInt(
+                typeof idParam === "string"
+                    ? idParam
+                    : String(idParam)
+            );
 
             if (isNaN(id)) {
-                res.status(400).json({ mensaje: "El id debe ser un número" });
+                res.status(400).json({
+                    mensaje: "El id debe ser un número"
+                });
+
                 return;
             }
 
-            const asignacion = await AsignacionService.obtenerPorId(id);
-            res.status(200).json(asignacion);
-        } catch (error) {
-            res.status(404).json({ mensaje: (error as Error).message });
+            const asignacion = await this.service.obtenerPorId(id);
+
+            if (asignacion) {
+
+                console.log("GET /api/asignaciones/:id");
+                console.log("Asignación ID:", id);
+                console.log("Asignación:", asignacion);
+
+                res.status(200).json(asignacion);
+
+            } else {
+
+                res.status(404).json({
+                    mensaje: "Asignación no encontrada"
+                });
+            }
+
+        } catch (error: any) {
+
+            console.error("Error:", error.message);
+
+            res.status(400).json({
+                mensaje: error.message
+            });
         }
     }
 
 
-    static async crear(req: Request, res: Response): Promise<void> {
+    async crear(req: Request, res: Response) {
         try {
-            const nuevaAsignacion = await AsignacionService.crear(req.body);
-            res.status(201).json(nuevaAsignacion);
-        } catch (error) {
-            res.status(400).json({ mensaje: (error as Error).message });
+
+            const nuevaAsignacion: Asignacion = req.body;
+
+            const asignacionCreada =
+                await this.service.crear(nuevaAsignacion);
+
+            console.log("POST /api/asignaciones");
+            console.log(
+                "Asignación creada:",
+                asignacionCreada
+            );
+
+            res.status(201).json(asignacionCreada);
+
+        } catch (error: any) {
+
+            console.error(
+                "Error al crear asignación:",
+                error.message
+            );
+
+            res.status(400).json({
+                mensaje: error.message
+            });
         }
     }
 
 
-    static async actualizar(req: Request, res: Response): Promise<void> {
+    async actualizar(req: Request, res: Response) {
         try {
-            const id = Number(req.params.id);
+
+            const idParam = req.params.id;
+
+            const id = parseInt(
+                typeof idParam === "string"
+                    ? idParam
+                    : String(idParam)
+            );
 
             if (isNaN(id)) {
-                res.status(400).json({ mensaje: "El id debe ser un número" });
+
+                res.status(400).json({
+                    mensaje: "El id debe ser un número"
+                });
+
                 return;
             }
 
-            const asignacionActualizada = await AsignacionService.actualizar(id, req.body);
-            res.status(200).json(asignacionActualizada);
-        } catch (error) {
-            res.status(404).json({ mensaje: (error as Error).message });
+            const asignacionActualizada =
+                await this.service.actualizar(
+                    id,
+                    req.body
+                );
+
+            if (asignacionActualizada) {
+
+                console.log(
+                    "PUT /api/asignaciones/:id"
+                );
+
+                console.log(
+                    "Asignación actualizada:",
+                    asignacionActualizada
+                );
+
+                res.status(200).json(
+                    asignacionActualizada
+                );
+
+            } else {
+
+                console.log(
+                    "Asignación no encontrada ID:",
+                    id
+                );
+
+                res.status(404).json({
+                    mensaje: "Asignación no encontrada"
+                });
+            }
+
+        } catch (error: any) {
+
+            console.error(
+                "Error al actualizar:",
+                error.message
+            );
+
+            res.status(400).json({
+                mensaje: error.message
+            });
         }
     }
 
 
-    static async eliminar(req: Request, res: Response): Promise<void> {
+    async eliminar(req: Request, res: Response) {
         try {
-            const id = Number(req.params.id);
+
+            const idParam = req.params.id;
+
+            const id = parseInt(
+                typeof idParam === "string"
+                    ? idParam
+                    : String(idParam)
+            );
 
             if (isNaN(id)) {
-                res.status(400).json({ mensaje: "El id debe ser un número" });
+
+                res.status(400).json({
+                    mensaje: "El id debe ser un número"
+                });
+
                 return;
             }
 
-            const asignacionEliminada = await AsignacionService.eliminar(id);
-            res.status(200).json({ mensaje: "Asignación eliminada correctamente", asignacion: asignacionEliminada });
-        } catch (error) {
-            res.status(404).json({ mensaje: (error as Error).message });
+            const asignacionEliminada =
+                await this.service.eliminar(id);
+
+            if (asignacionEliminada) {
+
+                console.log(
+                    "DELETE /api/asignaciones/:id"
+                );
+
+                console.log(
+                    "Asignación eliminada ID:",
+                    id
+                );
+
+                res.status(200).json({
+                    mensaje:
+                        "Asignación eliminada correctamente"
+                });
+
+            } else {
+
+                res.status(404).json({
+                    mensaje: "Asignación no encontrada"
+                });
+            }
+
+        } catch (error: any) {
+
+            console.error(
+                "Error:",
+                error.message
+            );
+
+            res.status(400).json({
+                mensaje: error.message
+            });
         }
     }
-
 }
