@@ -3,7 +3,7 @@ import { EvidenciaSolucion } from "../models/evidenciaSolucion.model.js";
 
 export class EvidenciaSolucionRepository {
 
-    static async obtenerTodos(): Promise<EvidenciaSolucion[]> {
+    async obtenerTodos(): Promise<EvidenciaSolucion[]> {
         const resultado = await pool.query<EvidenciaSolucion>(`
             SELECT * FROM EvidenciaSolucion
             ORDER BY id_evidencia
@@ -12,7 +12,7 @@ export class EvidenciaSolucionRepository {
     }
 
 
-    static async obtenerPorId(id: number): Promise<EvidenciaSolucion | null> {
+    async obtenerPorId(id: number): Promise<EvidenciaSolucion | null> {
         const resultado = await pool.query<EvidenciaSolucion>(
             `SELECT * FROM EvidenciaSolucion WHERE id_evidencia = $1`,
             [id]
@@ -26,7 +26,7 @@ export class EvidenciaSolucionRepository {
     }
 
 
-    static async obtenerPorReporte(idReporte: number): Promise<EvidenciaSolucion[]> {
+    async obtenerPorReporte(idReporte: number): Promise<EvidenciaSolucion[]> {
         const resultado = await pool.query<EvidenciaSolucion>(
             `SELECT * FROM EvidenciaSolucion WHERE fk_id_reporte = $1 ORDER BY fecha_subida`,
             [idReporte]
@@ -35,7 +35,7 @@ export class EvidenciaSolucionRepository {
     }
 
 
-    static async crear(evidencia: EvidenciaSolucion): Promise<EvidenciaSolucion> {
+    async crear(evidencia: EvidenciaSolucion): Promise<EvidenciaSolucion> {
         const resultado = await pool.query<EvidenciaSolucion>(
             `INSERT INTO EvidenciaSolucion (fk_id_reporte, ruta_fotografia, descripcion, fecha_subida)
             VALUES ($1, $2, $3, $4)
@@ -47,7 +47,7 @@ export class EvidenciaSolucionRepository {
     }
 
 
-    static async actualizar(id: number, evidencia: EvidenciaSolucion): Promise<EvidenciaSolucion | null> {
+    async actualizar(id: number, evidencia: EvidenciaSolucion): Promise<EvidenciaSolucion | null> {
         const resultado = await pool.query<EvidenciaSolucion>(
             `UPDATE EvidenciaSolucion
             SET fk_id_reporte = $1, ruta_fotografia = $2, descripcion = $3, fecha_subida = $4
@@ -64,7 +64,7 @@ export class EvidenciaSolucionRepository {
     }
 
 
-    static async eliminar(id: number): Promise<EvidenciaSolucion | null> {
+    async eliminar(id: number): Promise<EvidenciaSolucion | null> {
         const resultado = await pool.query<EvidenciaSolucion>(
             `DELETE FROM EvidenciaSolucion WHERE id_evidencia = $1 RETURNING *`,
             [id]
