@@ -3,9 +3,11 @@ import { BitacoraCambioEstadoService } from "../service/bitacoraCambioEstado.ser
 
 export class BitacoraCambioEstadoController {
 
-    static async listar(req: Request, res: Response): Promise<void> {
+    private service = new BitacoraCambioEstadoService();
+
+    async listar(req: Request, res: Response): Promise<void> {
         try {
-            const bitacoras = await BitacoraCambioEstadoService.listar();
+            const bitacoras = await this.service.listar();
             res.status(200).json(bitacoras);
         } catch (error) {
             res.status(500).json({ mensaje: "Error al obtener la bitácora", error: (error as Error).message });
@@ -13,7 +15,7 @@ export class BitacoraCambioEstadoController {
     }
 
 
-    static async obtenerPorId(req: Request, res: Response): Promise<void> {
+    async obtenerPorId(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -22,7 +24,7 @@ export class BitacoraCambioEstadoController {
                 return;
             }
 
-            const bitacora = await BitacoraCambioEstadoService.obtenerPorId(id);
+            const bitacora = await this.service.obtenerPorId(id);
             res.status(200).json(bitacora);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
@@ -30,7 +32,7 @@ export class BitacoraCambioEstadoController {
     }
 
 
-    static async obtenerPorReporte(req: Request, res: Response): Promise<void> {
+    async obtenerPorReporte(req: Request, res: Response): Promise<void> {
         try {
             const idReporte = Number(req.params.idReporte);
 
@@ -39,7 +41,7 @@ export class BitacoraCambioEstadoController {
                 return;
             }
 
-            const bitacoras = await BitacoraCambioEstadoService.obtenerPorReporte(idReporte);
+            const bitacoras = await this.service.obtenerPorReporte(idReporte);
             res.status(200).json(bitacoras);
         } catch (error) {
             res.status(500).json({ mensaje: (error as Error).message });
@@ -47,9 +49,9 @@ export class BitacoraCambioEstadoController {
     }
 
 
-    static async crear(req: Request, res: Response): Promise<void> {
+    async crear(req: Request, res: Response): Promise<void> {
         try {
-            const nuevaBitacora = await BitacoraCambioEstadoService.crear(req.body);
+            const nuevaBitacora = await this.service.crear(req.body);
             res.status(201).json(nuevaBitacora);
         } catch (error) {
             res.status(400).json({ mensaje: (error as Error).message });
@@ -57,7 +59,7 @@ export class BitacoraCambioEstadoController {
     }
 
 
-    static async actualizar(req: Request, res: Response): Promise<void> {
+    async actualizar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -66,7 +68,7 @@ export class BitacoraCambioEstadoController {
                 return;
             }
 
-            const bitacoraActualizada = await BitacoraCambioEstadoService.actualizar(id, req.body);
+            const bitacoraActualizada = await this.service.actualizar(id, req.body);
             res.status(200).json(bitacoraActualizada);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
@@ -74,7 +76,7 @@ export class BitacoraCambioEstadoController {
     }
 
 
-    static async eliminar(req: Request, res: Response): Promise<void> {
+    async eliminar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -83,7 +85,7 @@ export class BitacoraCambioEstadoController {
                 return;
             }
 
-            const bitacoraEliminada = await BitacoraCambioEstadoService.eliminar(id);
+            const bitacoraEliminada = await this.service.eliminar(id);
             res.status(200).json({ mensaje: "Registro de bitácora eliminado correctamente", bitacora: bitacoraEliminada });
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
