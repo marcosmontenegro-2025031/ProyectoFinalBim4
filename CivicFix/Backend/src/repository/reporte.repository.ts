@@ -15,7 +15,7 @@ export interface GuardarReporteCompletoParams {
 export class ReporteRepository {
     private ubicacionRepo = new UbicacionRepository();
 
-    async obtenerTodosLosReportes() {
+   async obtenerTodosLosReportes() {
         const query = `
             SELECT 
                 r.id_reporte,
@@ -29,13 +29,15 @@ export class ReporteRepository {
                 u.latitud,
                 u.longitud,
                 e.nombre AS estado,
-                p.nombre AS prioridad
+                p.nombre AS prioridad,
+                f.ruta_fotografia
             FROM Reporte r
             INNER JOIN Usuario usr ON r.id_usuario = usr.id_usuario
             INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
             INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
             INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
             INNER JOIN Estado e ON r.id_estado = e.id_estado
+            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
             ORDER BY r.fecha_reporte DESC;
         `;
         const { rows } = await pool.query(query);
