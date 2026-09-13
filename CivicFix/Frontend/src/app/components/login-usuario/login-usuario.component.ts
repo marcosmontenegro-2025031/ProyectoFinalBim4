@@ -37,11 +37,14 @@ export class LoginUsuario {
         next: (response) => {
           console.log('Login exitoso. El token ya se guardó.');
 
-          this.router.navigate(['/dashboard']); 
+          this.router.navigate(['/prueba']); 
         },
         error: (err) => {
-          console.error('Error en el login:', err);
-          alert('Credenciales incorrectas. Inténtalo de nuevo.');
+          console.error('STATUS:', err.status);
+          console.error('ERROR:', err.error);
+          console.error('MENSAJE:', err.message);
+
+          alert(JSON.stringify(err.error));
         }
       });
     } else {
