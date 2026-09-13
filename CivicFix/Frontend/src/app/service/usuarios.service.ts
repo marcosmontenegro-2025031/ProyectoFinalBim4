@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Usuario } from '../models/usuarios.model';
 
 @Injectable({
-    providedIn: "root",
+    providedIn: 'root',
 })
 export class UsuariosService {
+
     private apiUrl = "http://localhost:3000/api/usuarios";
     private apiUrlLogin = "http://localhost:3000/api/login/usuario";
     private readonly TOKEN_KEY = 'auth_token';
@@ -17,8 +18,25 @@ export class UsuariosService {
         return this.http.post<Usuario>(this.apiUrl, usuario);
     }
 
+    obternerUsuarios(): Observable<Usuario[]> {
+
+        const token = this.obtenerToken();
+
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`
+        });
+
+        return this.http.get<Usuario[]>(
+            this.apiUrl,
+            { headers }
+        );
+    }
+
     login(credentials: { usuario: string; password: string }): Observable<any> {
-        return this.http.post<any>(this.apiUrlLogin, credentials).pipe(
+        return this.http.post<any>(
+            this.apiUrlLogin,
+            credentials
+        ).pipe(
             tap(response => {
                 if (response && response.token) {
                     this.guardarToken(response.token);
@@ -40,6 +58,6 @@ export class UsuariosService {
     }
 
     estaAutenticado(): boolean {
-        return !!this.obtenerToken(); 
+        return !!this.obtenerToken();
     }
 }
