@@ -1,11 +1,21 @@
 import { pool } from "../config/db.js";
 import { Notificacion } from "../models/notificacion.model.js";
 
+const COLUMNAS = `
+    id_notificacion,
+    id_usuario AS fk_id_usuario,
+    id_reporte AS fk_id_reporte,
+    titulo,
+    mensaje,
+    fecha_notificacion,
+    leida
+`;
+
 export class NotificacionRepository {
 
     async obtenerTodos(): Promise<Notificacion[]> {
         const resultado = await pool.query<Notificacion>(`
-            SELECT * FROM Notificacion
+            SELECT ${COLUMNAS} FROM Notificacion
             ORDER BY fecha_notificacion DESC
         `);
         return resultado.rows;
@@ -14,7 +24,7 @@ export class NotificacionRepository {
 
     async obtenerPorId(id: number): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
-            `SELECT * FROM Notificacion WHERE id_notificacion = $1`,
+            `SELECT ${COLUMNAS} FROM Notificacion WHERE id_notificacion = $1`,
             [id]
         );
 
@@ -28,7 +38,7 @@ export class NotificacionRepository {
 
     async obtenerPorUsuario(idUsuario: number): Promise<Notificacion[]> {
         const resultado = await pool.query<Notificacion>(
-            `SELECT * FROM Notificacion WHERE fk_id_usuario = $1 ORDER BY fecha_notificacion DESC`,
+            `SELECT ${COLUMNAS} FROM Notificacion WHERE id_usuario = $1 ORDER BY fecha_notificacion DESC`,
             [idUsuario]
         );
         return resultado.rows;
@@ -37,9 +47,9 @@ export class NotificacionRepository {
 
     async crear(notificacion: Notificacion): Promise<Notificacion> {
         const resultado = await pool.query<Notificacion>(
-            `INSERT INTO Notificacion (fk_id_usuario, fk_id_reporte, titulo, mensaje, fecha_notificacion, leida)
+            `INSERT INTO Notificacion (id_usuario, id_reporte, titulo, mensaje, fecha_notificacion, leida)
             VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING *`,
+            RETURNING ${COLUMNAS}`,
             [
                 notificacion.fk_id_usuario,
                 notificacion.fk_id_reporte,
@@ -57,10 +67,10 @@ export class NotificacionRepository {
     async actualizar(id: number, notificacion: Notificacion): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
             `UPDATE Notificacion
-            SET fk_id_usuario = $1, fk_id_reporte = $2, titulo = $3, mensaje = $4,
+            SET id_usuario = $1, id_reporte = $2, titulo = $3, mensaje = $4,
                 fecha_notificacion = $5, leida = $6
             WHERE id_notificacion = $7
-            RETURNING *`,
+            RETURNING ${COLUMNAS}`,
             [
                 notificacion.fk_id_usuario,
                 notificacion.fk_id_reporte,
@@ -82,7 +92,7 @@ export class NotificacionRepository {
 
     async marcarComoLeida(id: number): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
-            `UPDATE Notificacion SET leida = TRUE WHERE id_notificacion = $1 RETURNING *`,
+            `UPDATE Notificacion SET leida = TRUE WHERE id_notificacion = $1 RETURNING ${COLUMNAS}`,
             [id]
         );
 
@@ -96,7 +106,7 @@ export class NotificacionRepository {
 
     async eliminar(id: number): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
-            `DELETE FROM Notificacion WHERE id_notificacion = $1 RETURNING *`,
+            `DELETE FROM Notificacion WHERE id_notificacion = $1 RETURNING ${COLUMNAS}`,
             [id]
         );
 
