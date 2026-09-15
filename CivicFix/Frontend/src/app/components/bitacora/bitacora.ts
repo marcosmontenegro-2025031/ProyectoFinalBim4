@@ -1,8 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { BitacoraCambioEstadoService } from '../../core/services/bitacoraCambioEstado';
 import { BitacoraCambioEstado } from '../../core/models/bitacoraCambioEstado.model';
+
+/** Representa una transición única (estado anterior -> estado nuevo) detectada en los datos. */
+interface TransicionEstado {
+    anterior: number | null;
+    nuevo: number;
+    etiqueta: string;
+}
 
 @Component({
     selector: 'app-bitacora',
@@ -19,6 +26,48 @@ export class Bitacora {
     cargando = signal(false);
     error = signal<string | null>(null);
 
+    // --- Filtros de búsqueda/auditoría ---
+    textoBusqueda = signal('');
+    transicionSeleccionada = signal<string>('todas');
+
+    /** Lista de transiciones únicas presentes en los registros, para poblar el filtro. */
+    transicionesDisponibles = computed<TransicionEstado[]>(() => {
+        const mapa = new Map<string, TransicionEstado>();
+        for (const item of this.registros()) {
+            const anterior = item.fk_id_estado_anterior ?? null;
+            const clave = `${anterior ?? 'n'}->${item.fk_id_estado_nuevo}`;
+            if (!mapa.has(clave)) {
+                mapa.set(clave, {
+                    anterior,
+                    nuevo: item.fk_id_estado_nuevo,
+                    etiqueta: `${anterior ?? '—'} → ${item.fk_id_estado_nuevo}`
+                });
+            }
+        }
+        return Array.from(mapa.values());
+    });
+
+    /** Registros filtrados por texto libre y/o por la transición de estado elegida. */
+    registrosFiltrados = computed<BitacoraCambioEstado[]>(() => {
+        const texto = this.textoBusqueda().trim().toLowerCase();
+        const transicion = this.transicionSeleccionada();
+
+        return this.registros().filter((item) => {
+            const coincideTexto =
+                texto === '' ||
+                String(item.id_bitacora ?? '').includes(texto) ||
+                String(item.fk_id_reporte).includes(texto) ||
+                String(item.fk_id_empleado ?? '').includes(texto) ||
+                (item.comentario ?? '').toLowerCase().includes(texto);
+
+            const coincideTransicion =
+                transicion === 'todas' ||
+                transicion === `${item.fk_id_estado_anterior ?? 'n'}->${item.fk_id_estado_nuevo}`;
+
+            return coincideTexto && coincideTransicion;
+        });
+    });
+
     form = this.fb.nonNullable.group({
         fk_id_reporte: [null as number | null, Validators.required],
         fk_id_estado_anterior: [null as number | null],
@@ -29,6 +78,19 @@ export class Bitacora {
 
     constructor() {
         this.cargar();
+    }
+
+    actualizarBusqueda(valor: string): void {
+        this.textoBusqueda.set(valor);
+    }
+
+    actualizarTransicion(valor: string): void {
+        this.transicionSeleccionada.set(valor);
+    }
+
+    limpiarFiltros(): void {
+        this.textoBusqueda.set('');
+        this.transicionSeleccionada.set('todas');
     }
 
     cargar(): void {
@@ -63,4 +125,4 @@ export class Bitacora {
             error: () => this.error.set('No se pudo registrar el cambio de estado.')
         });
     }
-}
+} 
