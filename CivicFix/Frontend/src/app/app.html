@@ -1,12 +1,23 @@
-@if (mostrarNav()) {
-  <nav class="nav-admin">
-    <span class="nav-marca">CivicFix</span>
+<nav class="nav-admin">
+  <a routerLink="/asignaciones" class="nav-marca">
+    <span class="nav-marca-icono">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"></path>
+        <circle cx="12" cy="9.5" r="2.5"></circle>
+      </svg>
+    </span>
+    <span class="nav-marca-texto">
+      <strong>CivicFix</strong>
+      <span>Panel del empleado municipal</span>
+    </span>
+  </a>
+  <div class="nav-links">
     <a routerLink="/asignaciones" routerLinkActive="activo">Asignaciones</a>
     <a routerLink="/bitacora" routerLinkActive="activo">Bitácora</a>
     <a routerLink="/evidencias" routerLinkActive="activo">Evidencias</a>
     <a routerLink="/fotografias" routerLinkActive="activo">Fotografías</a>
     <a routerLink="/notificaciones" routerLinkActive="activo">Notificaciones</a>
-  </nav>
-}
+  </div>
+</nav>
 
 <router-outlet />
