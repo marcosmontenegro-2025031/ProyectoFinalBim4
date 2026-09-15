@@ -32,34 +32,68 @@
     <button type="submit" class="boton-primario" [disabled]="form.invalid">Registrar cambio</button>
   </form>
 
+  <div class="barra-filtros">
+    <div class="campo campo-busqueda">
+      <label for="busqueda">Buscar</label>
+      <input
+        id="busqueda"
+        type="text"
+        placeholder="ID de reporte, empleado u observación…"
+        [value]="textoBusqueda()"
+        (input)="actualizarBusqueda($any($event.target).value)"
+      />
+    </div>
+    <div class="campo">
+      <label for="transicion">Transición de estado</label>
+      <select
+        id="transicion"
+        [value]="transicionSeleccionada()"
+        (change)="actualizarTransicion($any($event.target).value)"
+      >
+        <option value="todas">Todas las transiciones</option>
+        @for (t of transicionesDisponibles(); track t.etiqueta) {
+          <option [value]="(t.anterior ?? 'n') + '->' + t.nuevo">{{ t.etiqueta }}</option>
+        }
+      </select>
+    </div>
+    <button type="button" class="boton-texto" (click)="limpiarFiltros()">Limpiar filtros</button>
+    <span class="contador-resultados">
+      {{ registrosFiltrados().length }} de {{ registros().length }} registro(s)
+    </span>
+  </div>
+
   <div class="tabla-contenedor">
     @if (cargando()) {
       <p class="estado-vacio">Cargando bitácora…</p>
     } @else if (registros().length === 0) {
       <p class="estado-vacio">Todavía no hay cambios de estado registrados.</p>
+    } @else if (registrosFiltrados().length === 0) {
+      <p class="estado-vacio">Ningún registro coincide con los filtros aplicados.</p>
     } @else {
       <table class="tabla">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Reporte</th>
+            <th>ID reporte</th>
             <th>Estado anterior</th>
             <th>Estado nuevo</th>
-            <th>Empleado</th>
+            <th>Observación</th>
             <th>Fecha</th>
-            <th>Comentario</th>
           </tr>
         </thead>
         <tbody>
-          @for (item of registros(); track item.id_bitacora) {
+          @for (item of registrosFiltrados(); track item.id_bitacora) {
             <tr>
-              <td>{{ item.id_bitacora }}</td>
               <td>{{ item.fk_id_reporte }}</td>
-              <td>{{ item.fk_id_estado_anterior ?? '—' }}</td>
-              <td>{{ item.fk_id_estado_nuevo }}</td>
-              <td>{{ item.fk_id_empleado ?? '—' }}</td>
-              <td>{{ item.fecha_cambio | date: 'short' }}</td>
+              <td>
+                @if (item.fk_id_estado_anterior != null) {
+                  <span class="insignia insignia-neutra">{{ item.fk_id_estado_anterior }}</span>
+                } @else {
+                  <span class="estado-vacio-celda">—</span>
+                }
+              </td>
+              <td><span class="insignia insignia-nuevo">{{ item.fk_id_estado_nuevo }}</span></td>
               <td>{{ item.comentario || '—' }}</td>
+              <td>{{ item.fecha_cambio | date: 'short' }}</td>
             </tr>
           }
         </tbody>
