@@ -20,18 +20,6 @@
 .contador-resultados {
   margin-left: auto;
   font-size: 0.85rem;
-  color: #7a8894;
+  color: var(--color-texto-tenue);
   white-space: nowrap;
-}
-
-.estado-vacio-celda {
-  color: #b0bac2;
-}
-
-.insignia-neutra {
-  background: #8a97a3;
-}
-
-.insignia-nuevo {
-  background: var(--color-primario);
 }
