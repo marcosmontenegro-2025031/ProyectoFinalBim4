@@ -122,6 +122,7 @@ export const analizarQueja = async (textoCiudadano: string): Promise<AnalisisGem
     }
 };
 
+
 async function ejecutarAnalisis(textoCiudadano: string, clave: string): Promise<AnalisisGeminiResult> {
     if (Date.now() < geminiBloqueadoHasta) {
         return clasificacionLocal(textoCiudadano);
