@@ -6,7 +6,9 @@ export interface EmpleadoMunicipal{
     password: string;
     dpi: string;
     telefono: string;
+    direccion: string;
     correo: string;
     cargo: string;
     id_departamento: number;
+    id_municipalidad: number;
 }
