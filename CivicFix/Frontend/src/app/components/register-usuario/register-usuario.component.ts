@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuariosService } from '../../service/usuarios.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,RouterLink],
   standalone: true,
   selector: 'app-register-usuario',
   styleUrl: './register-usuario.css',
@@ -23,7 +23,7 @@ export class RegisterUsuario {
       apellido: ['', Validators.required],
       usuario: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required, Validators.minLength(8)],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       telefono: ['', Validators.required]
     })
   }
