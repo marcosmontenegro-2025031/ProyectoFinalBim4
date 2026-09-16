@@ -28,3 +28,8 @@ empleadoRouter.delete("/api/empleados/:id", cors(), (req,res) => {
     const controller = new EmpleadoMunicipalController();
     controller.eliminarEmpleado(req,res);
 });
+
+empleadoRouter.patch("/api/empleados/actualizarPassword", cors(), (req,res) => {
+    const controller = new EmpleadoMunicipalController();
+    controller.actualizarPassword(req,res);
+});
