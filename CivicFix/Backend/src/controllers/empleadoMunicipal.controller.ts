@@ -38,8 +38,8 @@ export class EmpleadoMunicipalController {
 
     async crearEmpleado(req: Request, res: Response) {
         try {
-            const { nombre, apellido,usuario,password,dpi,telefono,correo,cargo, id_departamento } = req.body;
-            const newEmpleado = await this.service.crearEmpleado({ nombre, apellido,usuario,password,dpi,telefono,correo,cargo, id_departamento });
+            const { nombre, apellido,usuario,password,dpi,telefono,direccion,correo,cargo, id_departamento,id_municipalidad } = req.body;
+            const newEmpleado = await this.service.crearEmpleado({ nombre, apellido,usuario,password,dpi,telefono,direccion,correo,cargo, id_departamento,id_municipalidad });
             console.log("POST /api/empleados");
             console.log("Empleado creado:", newEmpleado);
             res.status(201).json(newEmpleado);
@@ -53,8 +53,8 @@ export class EmpleadoMunicipalController {
         try {
             const idParam = req.params.id;
             const id = parseInt(typeof idParam === 'string' ? idParam : String(idParam));
-            const { nombre, apellido,usuario,password,dpi,telefono,correo,cargo, id_departamento } = req.body;
-            const updatedEmpleado = await this.service.actualizarEmpleado(id, { nombre, apellido,usuario,password,dpi,telefono,correo,cargo, id_departamento });
+            const { nombre, apellido,usuario,password,dpi,telefono,direccion,correo,cargo, id_departamento,id_municipalidad } = req.body;
+            const updatedEmpleado = await this.service.actualizarEmpleado(id, { nombre, apellido,usuario,password,dpi,telefono,direccion,correo,cargo, id_departamento,id_municipalidad });
             if (updatedEmpleado) {
                 console.log("PUT /api/empleados/:id");
                 console.log("Empleado actualizado:", updatedEmpleado);
@@ -81,6 +81,24 @@ export class EmpleadoMunicipalController {
             } else {
                 console.log("Empleado no encontrado");
                 res.status(404).json({ message: "Empleado no encontrado" });
+            }
+        } catch (error: any) {
+            console.error("Error:", error.message);
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async actualizarPassword(req: Request, res: Response) {
+        try {
+            const { usuario, password } = req.body;
+            const updatedPassword = await this.service.actualizarPassword(usuario, password);
+            if (updatedPassword) {
+                console.log("PATCH /api/empleados/actualizarPassword");
+                console.log("Contraseña actualizada para el usuario:", usuario);
+                res.status(200).json({ message: "Contraseña actualizada correctamente" });
+            } else {
+                console.log("Usuario no encontrado");
+                res.status(404).json({ message: "Usuario no encontrado" });
             }
         } catch (error: any) {
             console.error("Error:", error.message);
