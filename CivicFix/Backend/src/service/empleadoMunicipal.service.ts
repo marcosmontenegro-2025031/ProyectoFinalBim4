@@ -82,4 +82,11 @@ export class EmpleadoMunicipalService {
 
         return this.empleadoRepository.eliminarEmpleado(id);
     }
+
+    async actualizarPassword(usuario: string, password: string): Promise<boolean> {
+        if (!usuario || !password) {
+            throw new Error("Usuario y contraseña son obligatorios");
+        }
+        return this.empleadoRepository.actualizarPassword(usuario, password);
+    }
 }
