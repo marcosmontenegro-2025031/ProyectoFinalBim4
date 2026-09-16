@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmpleadoService } from '../service/empleado.service';
-import { DepartamentoService } from '../service/departamento.service';
+import { EmpleadoService } from '../../service/empleado.service';
+import { DepartamentoService } from '../../service/departamento.service';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
