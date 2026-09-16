@@ -70,10 +70,13 @@ CREATE TABLE EmpleadoMunicipal (
     password VARCHAR(255) NOT NULL,
     dpi VARCHAR(20) UNIQUE,
     telefono VARCHAR(20),
+	direccion VARCHAR(80),
     correo VARCHAR(150),
     cargo VARCHAR(100),
     id_departamento INT NOT NULL,
-    FOREIGN KEY (id_departamento) REFERENCES DepartamentoMunicipal(id_departamento)
+	id_municipalidad INT NOT NULL,
+    FOREIGN KEY (id_departamento) REFERENCES DepartamentoMunicipal(id_departamento),
+	FOREIGN Key (id_municipalidad) REFERENCES Municipalidad (id_municipalidad )
 );
 
 CREATE TABLE Reporte (
@@ -148,4 +151,5 @@ CREATE TABLE BitacoraCambioEstado (
     FOREIGN KEY (id_estado_nuevo) REFERENCES Estado(id_estado),
     FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
- 
+
+ select * from EmpleadoMunicipal ;
