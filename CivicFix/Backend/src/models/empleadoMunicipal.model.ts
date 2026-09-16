@@ -22,4 +22,5 @@ export interface JwtPayloadEmpleado{
     usuario: string;
     correo: string;
     id_municipalidad: number;
+    cargo: string;
 }
