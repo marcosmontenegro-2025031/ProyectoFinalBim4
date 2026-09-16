@@ -75,7 +75,8 @@ export class AuthService {
         const payload = {
             id_empleado: empleado.id_empleado!,
             usuario: empleado.usuario,
-            correo: empleado.correo
+            correo: empleado.correo,
+            id_municipalidad: empleado.id_municipalidad
         };
 
         const token = generarTokenEmpleado(payload);
