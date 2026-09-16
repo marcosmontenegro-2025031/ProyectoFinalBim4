@@ -21,7 +21,7 @@ export class EmpleadoMunicipalService {
 
     async crearEmpleado(empleado: EmpleadoRegister) : Promise<EmpleadoRegister> {
         if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.password || !empleado.telefono || 
-            empleado.dpi || empleado.cargo || empleado.id_departamento
+            !empleado.dpi || !empleado.cargo || !empleado.id_departamento
         ) {
             throw new Error("Todos los campos son obligatorios");
         }
