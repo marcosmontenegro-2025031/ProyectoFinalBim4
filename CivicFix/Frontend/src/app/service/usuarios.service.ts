@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Usuario } from '../models/usuarios.model';
@@ -12,15 +13,19 @@ export class UsuariosService {
     private apiUrlLogin = "http://localhost:3000/api/login/usuario";
     private readonly TOKEN_KEY = 'auth_token';
 
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        @Inject(PLATFORM_ID) private platformId: Object
+    ) {}
 
     crearUsuario(usuario: Usuario) {
         return this.http.post<Usuario>(this.apiUrl, usuario);
     }
 
-    obternerUsuarios(): Observable<Usuario[]> {
+    obtenerUsuarios(): Observable<Usuario[]> {
 
         const token = this.obtenerToken();
+        console.log('Token obtenido:', token);
 
         const headers = new HttpHeaders({
             Authorization: `Bearer ${token}`
@@ -46,15 +51,23 @@ export class UsuariosService {
     }
 
     private guardarToken(token: string): void {
-        localStorage.setItem(this.TOKEN_KEY, token);
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(this.TOKEN_KEY, token);
+        }
     }
 
     obtenerToken(): string | null {
-        return localStorage.getItem(this.TOKEN_KEY);
+        if (isPlatformBrowser(this.platformId)) {
+            return localStorage.getItem(this.TOKEN_KEY);
+        }
+
+        return null;
     }
 
     eliminarToken(): void {
-        localStorage.removeItem(this.TOKEN_KEY);
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.removeItem(this.TOKEN_KEY);
+        }
     }
 
     estaAutenticado(): boolean {
