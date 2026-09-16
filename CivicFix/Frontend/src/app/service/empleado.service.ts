@@ -35,6 +35,10 @@ export class EmpleadoService {
         );
     }
 
+    crearEmpleado(empleado: EmpleadoMunicipal) {
+        return this.http.post<EmpleadoMunicipal>(this.apiUrl, empleado);
+    }
+
     private guardarToken(token: string): void {
         if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(this.TOKEN_KEY, token);
