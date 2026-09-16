@@ -1,31 +1,700 @@
-<div class="container my-4">
-  <h3 class="fw-bold text-primary mb-3">Mis Reportes</h3>
-  <p class="text-muted small">Consulta el estado actual de los incidentes que has reportado a la municipalidad.</p>
+<div class="app-layout">
 
-  <div *ngIf="cargando" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status"></div>
-  </div>
+  <!-- ===================================================== -->
+  <!-- SIDEBAR -->
+  <!-- ===================================================== -->
 
-  <div *ngIf="!cargando && reportes.length === 0" class="alert alert-light border text-center py-4">
-    No tienes reportes registrados todavía.
-  </div>
+  <aside class="sidebar">
 
-  <div class="row" *ngIf="!cargando && reportes.length > 0">
-    <div class="col-md-4 mb-3" *ngFor="let r of reportes">
-      <div class="card shadow-sm border-0 h-100 p-3">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <span class="badge" [ngStyle]="{
-            'background-color': 
-              r.prioridad === 'Crítica' ? '#C62828' :
-              r.prioridad === 'Alta' ? '#EF6C00' :
-              r.prioridad === 'Media' ? '#F9A825' : '#2E7D32'
-          }">{{ r.prioridad }}</span>
-          <span class="badge bg-secondary">{{ r.estado }}</span>
-        </div>
-        <h5 class="fw-bold text-dark mb-1">{{ r.titulo }}</h5>
-        <p class="text-muted small mb-2">{{ r.direccion }} ({{ r.zona }})</p>
-        <p class="small flex-grow-1 text-secondary">{{ r.descripcion }}</p>
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <img
+          src="assets/CIVICFIX LOGO CLAROICO.png"
+          alt="CIVICFIX"
+        >
       </div>
     </div>
-  </div>
+
+    <nav class="sidebar-nav">
+
+      <!-- Inicio -->
+      <a
+        class="nav-item"
+        routerLink="/inicio"
+      >
+        <i class="bi bi-house-door-fill"></i>
+        <span>Inicio</span>
+      </a>
+
+      <!-- Reportar -->
+      <a
+        class="nav-item"
+        routerLink="/reportar-incidencia"
+      >
+        <i class="bi bi-file-earmark-plus-fill"></i>
+        <span>Reportar Incidencia</span>
+      </a>
+
+      <!-- Mis reportes -->
+      <a
+        class="nav-item active"
+        routerLink="/mis-reportes"
+      >
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Mis Reportes</span>
+      </a>
+
+      <!-- Mapa -->
+      <a
+        class="nav-item"
+        routerLink="/mapa"
+      >
+        <i class="bi bi-geo-alt-fill"></i>
+        <span>Mapa</span>
+      </a>
+
+      <!-- Notificaciones -->
+      <a
+        class="nav-item"
+        routerLink="/notificaciones"
+      >
+        <i class="bi bi-bell-fill"></i>
+        <span>Notificaciones</span>
+
+        <span class="notification-count">
+          3
+        </span>
+      </a>
+
+      <!-- Perfil -->
+      <a
+        class="nav-item"
+        routerLink="/perfil"
+      >
+        <i class="bi bi-person-circle"></i>
+        <span>Perfil</span>
+      </a>
+
+    </nav>
+
+    <!-- Decoración ciudad -->
+    <div class="city-decoration">
+
+      <div class="city-building building-1"></div>
+      <div class="city-building building-2"></div>
+      <div class="city-building building-3"></div>
+      <div class="city-building building-4"></div>
+      <div class="city-building building-5"></div>
+      <div class="city-building building-6"></div>
+
+      <div class="city-tree tree-1"></div>
+      <div class="city-tree tree-2"></div>
+      <div class="city-tree tree-3"></div>
+
+      <div class="city-lamp"></div>
+
+    </div>
+
+    <!-- Footer sidebar -->
+    <div class="sidebar-footer">
+
+      <div class="municipality-icon">
+        <i class="bi bi-shield-fill-check"></i>
+      </div>
+
+      <div>
+        <strong>
+          Municipalidad de Guatemala
+        </strong>
+
+        <span>
+          Juntos mejoramos la ciudad
+        </span>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ===================================================== -->
+  <!-- CONTENIDO PRINCIPAL -->
+  <!-- ===================================================== -->
+
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div class="search-box">
+
+        <i class="bi bi-search"></i>
+
+        <input
+          type="text"
+          placeholder="Buscar reportes, ubicaciones o servicios..."
+        >
+
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <button
+          type="button"
+          class="topbar-button"
+          routerLink="/notificaciones"
+        >
+
+          <i class="bi bi-bell"></i>
+
+          <span class="top-notification">
+            3
+          </span>
+
+        </button>
+
+
+        <div class="topbar-divider"></div>
+
+
+        <div class="user-profile">
+
+          <div class="user-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+          <div class="user-info">
+
+            <strong>
+              Juan Pérez
+            </strong>
+
+            <span>
+              Ciudadano
+            </span>
+
+          </div>
+
+          <i class="bi bi-chevron-down user-arrow"></i>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ================================================= -->
+    <!-- PAGE -->
+    <!-- ================================================= -->
+
+    <section class="page-content">
+
+
+      <!-- HEADER -->
+      <div class="page-header">
+
+        <div class="page-title-icon">
+
+          <i class="bi bi-file-earmark-text-fill"></i>
+
+        </div>
+
+        <div>
+
+          <h1>
+            Mis Reportes
+          </h1>
+
+          <p>
+            Consulta y da seguimiento al estado de tus incidencias.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- RESUMEN -->
+      <!-- ================================================= -->
+
+      <div class="summary-grid">
+
+        <!-- Total -->
+        <div class="summary-card">
+
+          <div class="summary-icon total">
+            <i class="bi bi-files"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Total de reportes
+            </span>
+
+            <strong>
+              {{ reportes.length }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- Pendientes -->
+        <div class="summary-card">
+
+          <div class="summary-icon pendiente">
+            <i class="bi bi-clock"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Pendientes
+            </span>
+
+            <strong>
+              {{ cantidadPorEstado('Pendiente') }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- En proceso -->
+        <div class="summary-card">
+
+          <div class="summary-icon proceso">
+            <i class="bi bi-arrow-repeat"></i>
+          </div>
+
+          <div>
+
+            <span>
+              En proceso
+            </span>
+
+            <strong>
+              {{ cantidadPorEstado('En proceso') }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- Resueltos -->
+        <div class="summary-card">
+
+          <div class="summary-icon resuelto">
+            <i class="bi bi-check-circle"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Resueltos
+            </span>
+
+            <strong>
+              {{ cantidadPorEstado('Resuelto') }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- CONTENEDOR DE REPORTES -->
+      <!-- ================================================= -->
+
+      <section class="reports-card">
+
+
+        <!-- CABECERA -->
+        <div class="reports-card-header">
+
+          <div>
+
+            <h2>
+              Historial de reportes
+            </h2>
+
+            <p>
+              Aquí puedes consultar todas las incidencias que has registrado.
+            </p>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="new-report-button"
+            (click)="nuevoReporte()"
+          >
+
+            <i class="bi bi-plus-lg"></i>
+
+            Nuevo reporte
+
+          </button>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- BUSCADOR -->
+        <!-- ================================================= -->
+
+        <div class="filters-area">
+
+          <div class="report-search">
+
+            <i class="bi bi-search"></i>
+
+            <input
+              type="text"
+              [(ngModel)]="textoBusqueda"
+              placeholder="Buscar por título, tipo, ID o dirección..."
+            >
+
+          </div>
+
+
+          <!-- FILTROS -->
+
+          <div class="filter-tabs">
+
+            <button
+              type="button"
+              [class.active]="filtroActual === 'Todos'"
+              (click)="cambiarFiltro('Todos')"
+            >
+              Todos
+              <span>
+                {{ reportes.length }}
+              </span>
+            </button>
+
+
+            <button
+              type="button"
+              [class.active]="filtroActual === 'Pendiente'"
+              (click)="cambiarFiltro('Pendiente')"
+            >
+              Pendientes
+              <span>
+                {{ cantidadPorEstado('Pendiente') }}
+              </span>
+            </button>
+
+
+            <button
+              type="button"
+              [class.active]="filtroActual === 'En proceso'"
+              (click)="cambiarFiltro('En proceso')"
+            >
+              En proceso
+              <span>
+                {{ cantidadPorEstado('En proceso') }}
+              </span>
+            </button>
+
+
+            <button
+              type="button"
+              [class.active]="filtroActual === 'Resuelto'"
+              (click)="cambiarFiltro('Resuelto')"
+            >
+              Resueltos
+              <span>
+                {{ cantidadPorEstado('Resuelto') }}
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- TABLA -->
+        <!-- ================================================= -->
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  REPORTE
+                </th>
+
+                <th>
+                  UBICACIÓN
+                </th>
+
+                <th>
+                  PRIORIDAD
+                </th>
+
+                <th>
+                  ESTADO
+                </th>
+
+                <th>
+                  FECHA
+                </th>
+
+                <th>
+                  ACCIÓN
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <!-- REPORTES -->
+
+              <tr
+                *ngFor="let reporte of reportesFiltrados"
+              >
+
+                <!-- REPORTE -->
+
+                <td>
+
+                  <div class="report-info">
+
+                    <div class="report-icon">
+
+                      <i
+                        class="bi"
+                        [ngClass]="reporte.icono"
+                      ></i>
+
+                    </div>
+
+
+                    <div>
+
+                      <strong>
+                        {{ reporte.titulo }}
+                      </strong>
+
+                      <span>
+                        #{{ reporte.id }}
+                        ·
+                        {{ reporte.tipo }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+
+                <!-- UBICACIÓN -->
+
+                <td>
+
+                  <div class="location-info">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    <div>
+
+                      <span>
+                        {{ reporte.ubicacion }}
+                      </span>
+
+                      <small>
+                        {{ reporte.zona }}
+                      </small>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+
+                <!-- PRIORIDAD -->
+
+                <td>
+
+                  <span
+                    class="priority-badge"
+                    [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
+                  >
+
+                    <i class="bi bi-flag-fill"></i>
+
+                    {{ reporte.prioridad }}
+
+                  </span>
+
+                </td>
+
+
+                <!-- ESTADO -->
+
+                <td>
+
+                  <span
+                    class="status-badge"
+                    [ngClass]="obtenerClaseEstado(reporte.estado)"
+                  >
+
+                    <span class="status-dot"></span>
+
+                    {{ reporte.estado }}
+
+                  </span>
+
+                </td>
+
+
+                <!-- FECHA -->
+
+                <td>
+
+                  <div class="date-info">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    {{ reporte.fecha }}
+
+                  </div>
+
+                </td>
+
+
+                <!-- ACCIÓN -->
+
+                <td>
+
+                  <button
+                    type="button"
+                    class="detail-button"
+                    (click)="verDetalle(reporte)"
+                  >
+
+                    Ver detalle
+
+                    <i class="bi bi-chevron-right"></i>
+
+                  </button>
+
+                </td>
+
+              </tr>
+
+
+              <!-- SIN RESULTADOS -->
+
+              <tr
+                *ngIf="reportesFiltrados.length === 0"
+              >
+
+                <td
+                  colspan="6"
+                  class="empty-state"
+                >
+
+                  <div class="empty-icon">
+
+                    <i class="bi bi-search"></i>
+
+                  </div>
+
+                  <strong>
+                    No encontramos reportes
+                  </strong>
+
+                  <span>
+                    Intenta cambiar los filtros o realizar otra búsqueda.
+                  </span>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- FOOTER -->
+        <!-- ================================================= -->
+
+        <div class="reports-footer">
+
+          <span>
+
+            Mostrando
+            <strong>
+              {{ reportesFiltrados.length }}
+            </strong>
+            de
+            <strong>
+              {{ reportes.length }}
+            </strong>
+            reportes
+
+          </span>
+
+
+          <div class="pagination">
+
+            <button
+              type="button"
+              disabled
+            >
+              <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <button
+              type="button"
+              class="current"
+            >
+              1
+            </button>
+
+            <button
+              type="button"
+              disabled
+            >
+              <i class="bi bi-chevron-right"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+    </section>
+
+  </main>
+
 </div>

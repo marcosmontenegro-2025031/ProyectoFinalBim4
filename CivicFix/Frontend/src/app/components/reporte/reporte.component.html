@@ -1,66 +1,872 @@
-<div class="container my-4">
-  <div class="row">
-    <div class="col-md-6 mb-4">
-      <div class="card shadow-sm border-0 p-4">
-        <h3 class="fw-bold text-primary mb-3">Reportar Incidencia</h3>
-        <p class="text-muted small">Describe el problema urbano. Nuestra IA lo clasificará y podrás adjuntar evidencia fotográfica.</p>
-        
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <div class="mb-3">
-            <label class="form-label fw-bold">Descripción del Problema</label>
-            <textarea formControlName="textoCiudadano" class="form-control" rows="4" placeholder="Ej: Hay un bache enorme en la calle..."></textarea>
-          </div>
+<div class="civic-layout">
 
-          <div class="mb-3">
-            <label class="form-label fw-bold">Dirección Aproximada</label>
-            <input type="text" formControlName="direccion" class="form-control" placeholder="Selecciona en el mapa o escribe aquí">
-          </div>
+  <aside class="civic-sidebar">
 
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label fw-bold">Zona</label>
-              <input type="text" formControlName="zona" class="form-control" placeholder="Ej: Zona 1">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label fw-bold">Referencia</label>
-              <input type="text" formControlName="referencia" class="form-control" placeholder="Ej: Cerca de la esquina">
-            </div>
-          </div>
-
-          <!-- Campo para adjuntar la fotografía -->
-          <div class="mb-3">
-            <label class="form-label fw-bold">Fotografía de Evidencia (Opcional)</label>
-            <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
-          </div>
-
-          <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" [disabled]="form.invalid || cargando">
-            <span *ngIf="cargando" class="spinner-border spinner-border-sm me-2"></span>
-            {{ cargando ? 'Procesando con IA y Subiendo...' : 'Enviar Reporte' }}
-          </button>
-        </form>
-
-        <!-- Alerta de Error / Reporte Rechazado -->
-        <div *ngIf="mensajeError || (resultado && !verificarValidez())" class="alert alert-danger mt-4 shadow-sm">
-          <h5 class="fw-bold">Aviso del Sistema</h5>
-          <p class="mb-0">{{ mensajeError || 'El texto proporcionado no describe una incidencia o problema urbano válido según el análisis de la IA.' }}</p>
-        </div>
-
-        <!-- Alerta de Éxito -->
-        <div *ngIf="resultado && verificarValidez() && !mensajeError" class="alert alert-success mt-4 shadow-sm">
-          <h5 class="fw-bold">¡Reporte Registrado con Éxito!</h5>
-          <p class="mb-1"><strong>Título:</strong> {{ resultado.data?.analisis?.titulo_corto || resultado.analisis?.titulo_corto }}</p>
-          <p class="mb-1"><strong>Tipo:</strong> {{ resultado.data?.analisis?.codigo_tipo || resultado.analisis?.codigo_tipo }}</p>
-          <p class="mb-0"><strong>Prioridad:</strong> <span class="badge" [ngStyle]="{ 'background-color': obtenerColorPrioridad() }">{{ obtenerPrioridad() }}</span></p>
-        </div>
+    <div class="civic-brand">
+      <div class="civic-logo-wrapper">
+        <img
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+          alt="CIVICFIX"
+          class="civic-logo"
+        >
       </div>
     </div>
 
-    <div class="col-md-6 mb-4">
-      <div class="card shadow-sm border-0 p-3 h-100">
-        <h5 class="fw-bold mb-2">Selecciona la Ubicación</h5>
-        <p class="text-muted small">Haz clic en el mapa o arrastra el marcador para fijar las coordenadas exactas.</p>
-        <div #mapContainer class="map-frame rounded flex-grow-1" style="min-height: 400px;"></div>
+    <nav class="civic-navigation">
+
+      <a class="civic-nav-item">
+        <i class="bi bi-house-door"></i>
+        <span>Inicio</span>
+      </a>
+
+      <a class="civic-nav-item active">
+        <i class="bi bi-file-earmark-plus"></i>
+        <span>Reportar Incidencia</span>
+      </a>
+
+      <a class="civic-nav-item">
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Mis Reportes</span>
+      </a>
+
+      <a class="civic-nav-item">
+        <i class="bi bi-geo-alt-fill"></i>
+        <span>Mapa</span>
+      </a>
+
+      <a class="civic-nav-item">
+        <i class="bi bi-bell"></i>
+        <span>Notificaciones</span>
+        <span class="notification-number">3</span>
+      </a>
+
+      <a class="civic-nav-item">
+        <i class="bi bi-person-circle"></i>
+        <span>Perfil</span>
+      </a>
+
+    </nav>
+
+    <div class="civic-city">
+
+      <div class="city-buildings">
+
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+
+        <span class="lamp"></span>
+
       </div>
+
+      <div class="civic-city-footer">
+
+        <div class="municipality-icon">
+          <i class="bi bi-shield-fill-check"></i>
+        </div>
+
+        <div>
+          <strong>Municipalidad de Guatemala</strong>
+          <small>Juntos mejoramos la ciudad</small>
+        </div>
+
+      </div>
+
     </div>
-  </div>
+
+  </aside>
+
+
+  <main class="civic-main">
+
+    <header class="civic-topbar">
+
+      <div class="civic-search">
+        <i class="bi bi-search"></i>
+
+        <input
+          type="text"
+          placeholder="Buscar reportes, ubicaciones o servicios..."
+        >
+      </div>
+
+      <div class="topbar-actions">
+
+        <div class="topbar-notification">
+          <i class="bi bi-bell"></i>
+          <span>3</span>
+        </div>
+
+        <div class="topbar-divider"></div>
+
+        <div class="topbar-user">
+
+          <div class="user-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+          <div class="user-information">
+            <strong>Juan Pérez</strong>
+            <small>Ciudadano</small>
+          </div>
+
+          <i class="bi bi-chevron-down user-arrow"></i>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <section class="civic-content">
+
+      <div class="page-heading">
+
+        <div class="page-heading-icon">
+          <i class="bi bi-file-earmark-plus"></i>
+        </div>
+
+        <div>
+
+          <h1>Reportar Incidencia</h1>
+
+          <p>
+            Describe el problema urbano. Nuestra IA lo analizará
+            y podrás adjuntar evidencias fotográficas.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="report-grid">
+
+
+        <!-- COLUMNA IZQUIERDA -->
+
+        <section class="information-card">
+
+          <div class="section-title">
+
+            <span class="step-number">1</span>
+
+            <h2>Información del Problema</h2>
+
+          </div>
+
+
+          <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+          >
+
+
+            <div class="field">
+
+              <label>
+                Descripción del Problema
+              </label>
+
+              <textarea
+                formControlName="textoCiudadano"
+                rows="5"
+                maxlength="500"
+                placeholder="Ej: Hay un bache enorme en la calle..."
+              ></textarea>
+
+              <div class="character-counter">
+                {{ form.get('textoCiudadano')?.value?.length || 0 }}/500
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Dirección Aproximada
+              </label>
+
+              <div class="input-icon">
+
+                <i class="bi bi-geo-alt-fill"></i>
+
+                <input
+                  type="text"
+                  formControlName="direccion"
+                  placeholder="Selecciona en el mapa o escribe aquí"
+                >
+
+                <i class="bi bi-crosshair"></i>
+
+              </div>
+
+            </div>
+
+
+            <div class="two-fields">
+
+              <div class="field">
+
+                <label>
+                  Zona
+                </label>
+
+                <input
+                  type="text"
+                  formControlName="zona"
+                  placeholder="Ej: Zona 1"
+                >
+
+              </div>
+
+
+
+              <div class="field">
+
+                <label>
+                  Referencia
+                </label>
+
+                <input
+                  type="text"
+                  formControlName="referencia"
+                  placeholder="Ej: Cerca de la esquina"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="photo-section">
+
+              <label class="photo-title">
+
+                <i class="bi bi-images"></i>
+
+                Fotografía de Evidencia
+
+                <span>
+                  (Opcional)
+                </span>
+
+              </label>
+
+
+              <div
+                class="photo-upload"
+                *ngIf="!archivoSeleccionado"
+              >
+
+                <i class="bi bi-camera"></i>
+
+                <strong>
+                  Agregar fotografía
+                </strong>
+
+                <small>
+                  JPG, PNG o WEBP
+                </small>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                >
+
+              </div>
+
+
+              <div
+                class="photo-preview"
+                *ngIf="archivoSeleccionado"
+              >
+
+                <img
+                  *ngIf="vistaPrevia"
+                  [src]="vistaPrevia"
+                  alt="Vista previa"
+                >
+
+                <div class="photo-info">
+
+                  <strong>
+                    {{ archivoSeleccionado.name }}
+                  </strong>
+
+                  <small>
+
+                    {{
+                      (archivoSeleccionado.size / 1024 / 1024)
+                      | number:'1.1-2'
+                    }}
+
+                    MB
+
+                  </small>
+
+                </div>
+
+                <button
+                  type="button"
+                  class="remove-photo"
+                  (click)="eliminarFoto()"
+                >
+
+                  <i class="bi bi-x"></i>
+
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="submit-report"
+              [disabled]="form.invalid || cargando"
+            >
+
+              <span
+                *ngIf="cargando"
+                class="spinner-border spinner-border-sm"
+              ></span>
+
+              <i
+                *ngIf="!cargando"
+                class="bi bi-robot"
+              ></i>
+
+              <span>
+
+                {{
+                  cargando
+                    ? 'Analizando con IA...'
+                    : 'Analizar con IA y Enviar Reporte'
+                }}
+
+              </span>
+
+              <i
+                *ngIf="!cargando"
+                class="bi bi-chevron-right"
+              ></i>
+
+            </button>
+
+
+            <p class="submit-description">
+
+              <i class="bi bi-stars"></i>
+
+              La IA evaluará la información, identificará el tipo
+              de incidencia, asignará la prioridad y mostrará un
+              resumen del análisis.
+
+            </p>
+
+
+          </form>
+
+
+          <div
+            class="error-message"
+            *ngIf="mensajeError"
+          >
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <div>
+
+              <strong>
+                Aviso del Sistema
+              </strong>
+
+              <p>
+                {{ mensajeError }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- COLUMNA DERECHA -->
+
+        <section class="right-column">
+
+
+          <!-- IA -->
+
+          <div class="ai-card">
+
+            <div class="ai-header">
+
+              <div class="ai-title">
+
+                <div class="ai-icon">
+                  <i class="bi bi-robot"></i>
+                </div>
+
+                <h2>
+                  Análisis de la IA
+                </h2>
+
+              </div>
+
+
+              <span
+                class="analysis-status"
+                [class.pending]="!analisisCompleto"
+              >
+
+                <i
+                  class="bi"
+                  [class.bi-check-circle]="analisisCompleto"
+                  [class.bi-hourglass-split]="!analisisCompleto"
+                ></i>
+
+                {{
+                  analisisCompleto
+                    ? 'Análisis completado'
+                    : 'Esperando reporte'
+                }}
+
+              </span>
+
+            </div>
+
+
+            <div class="analysis-process">
+
+
+              <div class="process-item">
+
+                <span
+                  [class.complete]="analisisCompleto"
+                >
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>
+                  Analizando texto
+                </small>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item">
+
+                <span
+                  [class.complete]="analisisCompleto"
+                >
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>
+                  Identificando tipo
+                </small>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item">
+
+                <span
+                  [class.complete]="analisisCompleto"
+                >
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>
+                  Detectando ubicación
+                </small>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item">
+
+                <span
+                  [class.complete]="analisisCompleto"
+                >
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>
+                  Asignando prioridad
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="ai-result"
+              *ngIf="resultado && verificarValidez()"
+            >
+
+
+              <div class="ai-result-heading">
+
+                <i class="bi bi-stars"></i>
+
+                <span>
+                  La IA ha analizado tu reporte y ha
+                  determinado la siguiente información:
+                </span>
+
+              </div>
+
+
+              <div class="result-cards">
+
+
+                <div class="result-card">
+
+                  <small>
+                    Tipo de Incidencia
+                  </small>
+
+                  <div class="result-main">
+
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    <strong>
+                      {{ obtenerTipo() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    Tipo identificado por IA
+                  </span>
+
+                </div>
+
+
+                <div
+                  class="result-card priority"
+                  [style.--priority-color]="obtenerColorPrioridad()"
+                >
+
+                  <small>
+                    Prioridad
+                  </small>
+
+                  <div class="result-main">
+
+                    <i
+                      class="bi"
+                      [class]="obtenerIconoPrioridad()"
+                    ></i>
+
+                    <strong>
+                      {{ obtenerPrioridad() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    Requiere atención según análisis
+                  </span>
+
+                </div>
+
+
+                <div class="result-card">
+
+                  <small>
+                    Estado Inicial
+                  </small>
+
+                  <div class="result-main">
+
+                    <i class="bi bi-clock"></i>
+
+                    <strong>
+                      {{ obtenerEstado() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    En espera de revisión
+                  </span>
+
+                </div>
+
+
+                <div class="result-card">
+
+                  <small>
+                    Servicio Municipal
+                  </small>
+
+                  <div class="result-main">
+
+                    <i class="bi bi-buildings-fill"></i>
+
+                    <strong>
+                      {{ obtenerServicio() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    Área responsable
+                  </span>
+
+                </div>
+
+
+              </div>
+
+
+              <div class="ai-summary">
+
+                <div class="summary-title">
+
+                  <i class="bi bi-stars"></i>
+
+                  Resumen del análisis
+
+                </div>
+
+                <p>
+                  {{ obtenerResumen() }}
+                </p>
+
+              </div>
+
+
+            </div>
+
+
+            <div
+              class="error-message"
+              *ngIf="resultado && !verificarValidez()"
+            >
+
+              <i class="bi bi-exclamation-triangle-fill"></i>
+
+              <div>
+
+                <strong>
+                  Reporte no válido
+                </strong>
+
+                <p>
+                  {{
+                    mensajeError ||
+                    'La IA determinó que el texto ingresado no corresponde a un problema urbano válido.'
+                  }}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="ai-empty"
+              *ngIf="!resultado"
+            >
+
+              <i class="bi bi-robot"></i>
+
+              <strong>
+                El análisis de la IA aparecerá aquí
+              </strong>
+
+              <span>
+                Completa la información y presiona
+                "Analizar con IA y Enviar Reporte".
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+          <!-- MAPA -->
+
+          <div class="location-card">
+
+            <div class="location-heading">
+
+              <i class="bi bi-geo-alt-fill"></i>
+
+              <h2>
+                Ubicación del Reporte
+              </h2>
+
+            </div>
+
+
+            <div class="location-content">
+
+
+              <div
+                #mapContainer
+                id="mapContainer"
+                class="map-container"
+              ></div>
+
+
+              <div class="location-info">
+
+
+                <div class="location-item">
+
+                  <i class="bi bi-geo-alt-fill"></i>
+
+                  <div>
+
+                    <strong>
+                      Dirección
+                    </strong>
+
+                    <span>
+                      {{
+                        form.get('direccion')?.value ||
+                        'Selecciona una ubicación'
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="location-item">
+
+                  <i class="bi bi-pin-map-fill"></i>
+
+                  <div>
+
+                    <strong>
+                      Zona
+                    </strong>
+
+                    <span>
+                      {{
+                        form.get('zona')?.value ||
+                        'No seleccionada'
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="location-item">
+
+                  <i class="bi bi-signpost-2-fill"></i>
+
+                  <div>
+
+                    <strong>
+                      Referencia
+                    </strong>
+
+                    <span>
+                      {{
+                        form.get('referencia')?.value ||
+                        'Sin referencia'
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="coordinates">
+
+                  <div>
+
+                    <strong>
+                      Latitud:
+                    </strong>
+
+                    {{ form.get('latitud')?.value }}
+
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      Longitud:
+                    </strong>
+
+                    {{ form.get('longitud')?.value }}
+
+                  </div>
+
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
 </div>
