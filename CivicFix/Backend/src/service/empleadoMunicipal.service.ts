@@ -21,7 +21,7 @@ export class EmpleadoMunicipalService {
 
     async crearEmpleado(empleado: EmpleadoRegister) : Promise<EmpleadoRegister> {
         if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.password || !empleado.telefono || 
-            !empleado.dpi || !empleado.cargo || !empleado.id_departamento
+            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || empleado.id_municipalidad
         ) {
             throw new Error("Todos los campos son obligatorios");
         }
@@ -38,8 +38,8 @@ export class EmpleadoMunicipalService {
             throw new Error("La contraseña debe tener al menos 8 caracteres");
         }
 
-        if(!empleado.correo.endsWith("@gmail.com") && !empleado.correo.endsWith("@hotmail.com") && !empleado.correo.endsWith("@outlook.com") && !empleado.correo.endsWith("@yahoo.com") && !empleado.correo.endsWith("@icloud.com")) {
-            throw new Error("El correo electrónico no pertenece a un dominio válido");
+        if(!empleado.correo.endsWith("@civicfix.com")) {
+            throw new Error("El correo electrónico no pertenece a un dominio válido, solo se permiten correos con el dominio @civicfix.com");
         }
 
         return this.empleadoRepository.crearEmpleado(empleado);
@@ -47,7 +47,7 @@ export class EmpleadoMunicipalService {
 
     async actualizarEmpleado(id: number,empleado: EmpleadoRegister) : Promise<EmpleadoRegister | undefined> {
         if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.password || !empleado.telefono || 
-            empleado.dpi || empleado.cargo || empleado.id_departamento
+            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || empleado.id_municipalidad
         ) {
             throw new Error("Todos los campos son obligatorios");
         }
@@ -64,8 +64,8 @@ export class EmpleadoMunicipalService {
             throw new Error("La contraseña debe tener al menos 8 caracteres");
         }
 
-        if(!empleado.correo.endsWith("@gmail.com") && !empleado.correo.endsWith("@hotmail.com") && !empleado.correo.endsWith("@outlook.com") && !empleado.correo.endsWith("@yahoo.com") && !empleado.correo.endsWith("@icloud.com")) {
-            throw new Error("El correo electrónico no pertenece a un dominio válido");
+        if(!empleado.correo.endsWith("@civicfix.com")) {
+            throw new Error("El correo electrónico no pertenece a un dominio válido, solo se permiten correos con el dominio @civicfix.com");
         }
 
         return this.empleadoRepository.actualizarEmpleado(id,empleado);
