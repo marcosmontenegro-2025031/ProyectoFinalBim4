@@ -6,9 +6,11 @@ export interface EmpleadoMunicipal{
     password: string;
     dpi: string;
     telefono: string;
+    direccion: string;
     correo: string;
     cargo: string;
     id_departamento: number;
+    id_municipalidad: number;
 }
 
 export type EmpleadoRegister = Omit<EmpleadoMunicipal,'id_empleado'>
@@ -19,4 +21,5 @@ export interface JwtPayloadEmpleado{
     id_empleado: number;
     usuario: string;
     correo: string;
+    id_municipalidad: number;
 }
