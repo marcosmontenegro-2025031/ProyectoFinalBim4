@@ -1,3 +1,19 @@
+:host {
+    --color-principal: #1565C0;
+    --color-secundario: #0D47A1;
+    --color-fondo: #F5F7FA;
+    --color-texto: #263238;
+    --color-borde: #E0E0E0;
+
+    display: block;
+    width: 100%;
+}
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
 :root {
     --blue-primary: #1565C0;
     --blue-dark: #0D47A1;
@@ -19,6 +35,11 @@
     --white: #FFFFFF;
 }
 
+
+/* =========================================
+   RESET
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -31,6 +52,7 @@ html {
 
 body {
     min-height: 100vh;
+
     font-family:
         "Inter",
         -apple-system,
@@ -64,13 +86,21 @@ body {
         );
 
     background-size: 140% 140%;
-    animation: backgroundMove 12s ease-in-out infinite alternate;
+
+    /*
+     * Más lento para evitar exceso de movimiento.
+     */
+    animation:
+        backgroundMove 25s ease-in-out infinite alternate;
 }
 
 button,
-input {
+input,
+select,
+textarea {
     font: inherit;
 }
+
 
 /* =========================================
    FONDO DECORATIVO
@@ -79,6 +109,7 @@ input {
 body::before,
 body::after {
     content: "";
+
     position: fixed;
 
     width: 280px;
@@ -89,6 +120,7 @@ body::after {
     filter: blur(10px);
 
     pointer-events: none;
+
     z-index: -1;
 }
 
@@ -98,7 +130,8 @@ body::before {
 
     background: rgba(33, 150, 243, .16);
 
-    animation: floatingBlob 9s ease-in-out infinite;
+    animation:
+        floatingBlob 18s ease-in-out infinite;
 }
 
 body::after {
@@ -107,8 +140,10 @@ body::after {
 
     background: rgba(13, 71, 161, .14);
 
-    animation: floatingBlob 11s ease-in-out infinite reverse;
+    animation:
+        floatingBlob 22s ease-in-out infinite reverse;
 }
+
 
 /* =========================================
    PAGE
@@ -125,6 +160,7 @@ body::after {
 
     position: relative;
 }
+
 
 /* =========================================
    CONTENEDOR
@@ -153,8 +189,10 @@ body::after {
 
     backdrop-filter: blur(14px);
 
-    animation: cardAppear .8s cubic-bezier(.22, 1, .36, 1);
+    animation:
+        cardAppear .8s cubic-bezier(.22, 1, .36, 1);
 }
+
 
 /* =========================================
    PANEL INFORMACIÓN
@@ -181,6 +219,7 @@ body::after {
         );
 }
 
+
 /* =========================================
    CONTENIDO INFORMACIÓN
 ========================================= */
@@ -192,6 +231,7 @@ body::after {
 
     padding: 50px 55px;
 }
+
 
 /* =========================================
    LOGO
@@ -205,7 +245,8 @@ body::after {
 
     gap: 13px;
 
-    animation: slideFromLeft .8s ease both;
+    animation:
+        slideFromLeft .8s ease both;
 }
 
 .logo-svg {
@@ -227,7 +268,9 @@ body::after {
 }
 
 .municipality-logo:hover .logo-svg {
-    transform: translateY(-4px) rotate(-3deg);
+    transform:
+        translateY(-4px)
+        rotate(-3deg);
 
     filter:
         drop-shadow(
@@ -258,6 +301,7 @@ body::after {
 
     line-height: 1.35;
 }
+
 
 /* =========================================
    HERO
@@ -299,6 +343,7 @@ body::after {
         );
 
     background-clip: text;
+
     -webkit-background-clip: text;
 
     -webkit-text-fill-color: transparent;
@@ -313,6 +358,7 @@ body::after {
 
     line-height: 1.7;
 }
+
 
 /* =========================================
    BENEFICIOS
@@ -420,6 +466,7 @@ body::after {
     font-size: 11px;
 }
 
+
 /* =========================================
    ESCENA CIUDAD
 ========================================= */
@@ -439,32 +486,35 @@ body::after {
     overflow: hidden;
 }
 
+
+/*
+ * No usamos will-change: transform constantemente.
+ * Evita que el navegador esté renderizando
+ * continuamente elementos que casi no se mueven.
+ */
+
 .city-hill,
 .buildings,
 .tree,
 .street-lamp,
 .bench {
-    will-change: transform;
+    will-change: auto;
 }
 
-.hill-back {
-    animation:
-        hillMove 7s ease-in-out infinite alternate;
-}
-
-.hill-front {
-    animation:
-        hillMove 9s ease-in-out infinite alternate-reverse;
-}
-
-.buildings {
-    animation:
-        cityFloat 6s ease-in-out infinite alternate;
-}
 
 /* =========================================
    COLINAS
 ========================================= */
+
+.hill-back {
+    animation:
+        hillBackMove 14s ease-in-out infinite alternate;
+}
+
+.hill-front {
+    animation:
+        hillFrontMove 18s ease-in-out infinite alternate;
+}
 
 .city-hill {
     position: absolute;
@@ -496,9 +546,43 @@ body::after {
     transform: rotate(2deg);
 }
 
+@keyframes hillBackMove {
+    from {
+        transform:
+            translateX(-2px)
+            rotate(-2deg);
+    }
+
+    to {
+        transform:
+            translateX(2px)
+            rotate(-1.8deg);
+    }
+}
+
+@keyframes hillFrontMove {
+    from {
+        transform:
+            translateX(1px)
+            rotate(2deg);
+    }
+
+    to {
+        transform:
+            translateX(-1px)
+            rotate(2.1deg);
+    }
+}
+
+
 /* =========================================
    EDIFICIOS
 ========================================= */
+
+/*
+ * Los edificios quedan completamente quietos.
+ * Esto elimina el movimiento extraño de la ciudad.
+ */
 
 .buildings {
     position: absolute;
@@ -518,6 +602,11 @@ body::after {
     justify-content: center;
 
     gap: 8px;
+
+    animation: none;
+
+    transform:
+        translate3d(0, 0, 0);
 }
 
 .building {
@@ -570,6 +659,11 @@ body::after {
     height: 58px;
 }
 
+
+/* =========================================
+   VENTANAS
+========================================= */
+
 .building span {
     position: relative;
 
@@ -588,8 +682,41 @@ body::after {
         0 0 8px rgba(255,255,255,.25);
 
     animation:
-        windowBlink 4s ease-in-out infinite;
+        windowBlink 8s ease-in-out infinite;
 }
+
+.building:nth-child(2) span {
+    animation-delay: 1.5s;
+}
+
+.building:nth-child(3) span {
+    animation-delay: 3s;
+}
+
+.building:nth-child(4) span {
+    animation-delay: 4.5s;
+}
+
+.building:nth-child(5) span {
+    animation-delay: 2.2s;
+}
+
+.building:nth-child(6) span {
+    animation-delay: 5.5s;
+}
+
+@keyframes windowBlink {
+    0%,
+    88%,
+    100% {
+        opacity: .72;
+    }
+
+    92% {
+        opacity: .90;
+    }
+}
+
 
 /* =========================================
    ÁRBOLES
@@ -605,10 +732,17 @@ body::after {
     display: flex;
 
     flex-direction: column;
+
     align-items: center;
 
+    /*
+     * Movimiento muy pequeño.
+     *
+     * NO usamos transform aquí porque los
+     * media queries utilizan transform: scale().
+     */
     animation:
-        treeFloat 4s ease-in-out infinite alternate;
+        treeSway 7s ease-in-out infinite alternate;
 }
 
 .tree-crown {
@@ -640,6 +774,8 @@ body::after {
     left: 24px;
 
     transform: scale(1.05);
+
+    animation-delay: 0s;
 }
 
 .tree-two {
@@ -647,7 +783,7 @@ body::after {
 
     transform: scale(.75);
 
-    animation-delay: -.8s;
+    animation-delay: -1.8s;
 }
 
 .tree-three {
@@ -655,7 +791,7 @@ body::after {
 
     transform: scale(.95);
 
-    animation-delay: -1.5s;
+    animation-delay: -3.5s;
 }
 
 .tree-four {
@@ -663,8 +799,19 @@ body::after {
 
     transform: scale(.72);
 
-    animation-delay: -2s;
+    animation-delay: -5s;
 }
+
+@keyframes treeSway {
+    from {
+        translate: 0 0;
+    }
+
+    to {
+        translate: 0 -2px;
+    }
+}
+
 
 /* =========================================
    LÁMPARA
@@ -682,8 +829,10 @@ body::after {
     width: 22px;
     height: 150px;
 
-    animation:
-        lampFloat 5s ease-in-out infinite alternate;
+    /*
+     * La lámpara queda quieta.
+     */
+    animation: none;
 }
 
 .lamp-pole {
@@ -735,8 +884,29 @@ body::after {
         );
 
     box-shadow:
-        0 0 20px rgba(249,168,37,.35);
+        0 0 12px rgba(249,168,37,.20);
+
+    animation:
+        lampGlow 4s ease-in-out infinite;
 }
+
+@keyframes lampGlow {
+    0%,
+    100% {
+        filter: brightness(1);
+
+        box-shadow:
+            0 0 12px rgba(249,168,37,.20);
+    }
+
+    50% {
+        filter: brightness(1.08);
+
+        box-shadow:
+            0 0 18px rgba(249,168,37,.32);
+    }
+}
+
 
 /* =========================================
    BANCA
@@ -748,13 +918,16 @@ body::after {
     z-index: 11;
 
     left: 53%;
+
     bottom: 44px;
 
     width: 45px;
     height: 31px;
 
-    animation:
-        benchFloat 5s ease-in-out infinite alternate;
+    /*
+     * Banca completamente estable.
+     */
+    animation: none;
 }
 
 .bench-seat,
@@ -803,6 +976,7 @@ body::after {
     right: 6px;
 }
 
+
 /* =========================================
    TERRENO
 ========================================= */
@@ -829,6 +1003,7 @@ body::after {
 
     transform: rotate(-2deg);
 }
+
 
 /* =========================================
    FOOTER
@@ -903,6 +1078,7 @@ body::after {
     opacity: .82;
 }
 
+
 /* =========================================
    REGISTER PANEL
 ========================================= */
@@ -931,6 +1107,7 @@ body::after {
     animation:
         slideFromRight .8s cubic-bezier(.22,1,.36,1);
 }
+
 
 /* =========================================
    ICONO REGISTRO
@@ -970,6 +1147,7 @@ body::after {
     height: 36px;
 }
 
+
 /* =========================================
    TITULO
 ========================================= */
@@ -1001,6 +1179,7 @@ body::after {
 
     line-height: 1.5;
 }
+
 
 /* =========================================
    FORMULARIO
@@ -1081,7 +1260,8 @@ body::after {
 
     color: #90A4AE;
 
-    transition: color .25s ease;
+    transition:
+        color .25s ease;
 }
 
 .input-wrapper:focus-within .input-icon {
@@ -1090,6 +1270,7 @@ body::after {
 
 .input-wrapper input {
     width: 100%;
+
     height: 46px;
 
     min-width: 0;
@@ -1097,6 +1278,7 @@ body::after {
     padding: 0 13px;
 
     border: 0;
+
     outline: 0;
 
     color: var(--text);
@@ -1111,6 +1293,68 @@ body::after {
 
     opacity: 1;
 }
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+.input-wrapper select {
+    width: 100%;
+
+    height: 46px;
+
+    min-width: 0;
+
+    padding: 0 13px;
+
+    border: 0;
+
+    outline: 0;
+
+    color: var(--text);
+
+    background: transparent;
+
+    font-size: 13px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    cursor: pointer;
+}
+
+.input-wrapper:has(select) {
+    position: relative;
+}
+
+.input-wrapper:has(select)::after {
+    content: "";
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 50%;
+
+    width: 9px;
+    height: 9px;
+
+    border-right: 2px solid #90A4AE;
+    border-bottom: 2px solid #90A4AE;
+
+    transform:
+        translateY(-70%)
+        rotate(45deg);
+
+    pointer-events: none;
+}
+
+.input-wrapper:has(select):focus-within::after {
+    border-color: var(--blue-primary);
+}
+
 
 /* =========================================
    ERROR
@@ -1132,6 +1376,7 @@ body::after {
     animation:
         errorAppear .25s ease;
 }
+
 
 /* =========================================
    PASSWORD
@@ -1172,6 +1417,7 @@ body::after {
     height: 19px;
 }
 
+
 /* =========================================
    TERMINOS
 ========================================= */
@@ -1210,8 +1456,9 @@ body::after {
     line-height: 1.4;
 }
 
+
 /* =========================================
-   BOTON REGISTRO
+   BOTÓN REGISTRO
 ========================================= */
 
 .register-button {
@@ -1285,6 +1532,7 @@ body::after {
         0 5px 12px rgba(21,101,192,.10);
 }
 
+
 /* =========================================
    LOGIN
 ========================================= */
@@ -1315,7 +1563,8 @@ body::after {
 
     text-decoration: none;
 
-    transition: color .2s ease;
+    transition:
+        color .2s ease;
 }
 
 .login-link a:hover {
@@ -1324,8 +1573,9 @@ body::after {
     text-decoration: underline;
 }
 
+
 /* =========================================
-   ANIMACIONES
+   ANIMACIONES GENERALES
 ========================================= */
 
 @keyframes cardAppear {
@@ -1350,13 +1600,15 @@ body::after {
     from {
         opacity: 0;
 
-        transform: translateX(-25px);
+        transform:
+            translateX(-25px);
     }
 
     to {
         opacity: 1;
 
-        transform: translateX(0);
+        transform:
+            translateX(0);
     }
 }
 
@@ -1364,13 +1616,15 @@ body::after {
     from {
         opacity: 0;
 
-        transform: translateX(25px);
+        transform:
+            translateX(25px);
     }
 
     to {
         opacity: 1;
 
-        transform: translateX(0);
+        transform:
+            translateX(0);
     }
 }
 
@@ -1404,76 +1658,6 @@ body::after {
     }
 }
 
-@keyframes hillMove {
-    from {
-        transform:
-            translateX(-8px)
-            rotate(-2deg);
-    }
-
-    to {
-        transform:
-            translateX(8px)
-            rotate(-1deg);
-    }
-}
-
-@keyframes cityFloat {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-4px);
-    }
-}
-
-@keyframes treeFloat {
-    from {
-        transform:
-            translateY(0)
-            rotate(-1deg);
-    }
-
-    to {
-        transform:
-            translateY(-5px)
-            rotate(1deg);
-    }
-}
-
-@keyframes lampFloat {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-3px);
-    }
-}
-
-@keyframes benchFloat {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-2px);
-    }
-}
-
-@keyframes windowBlink {
-    0%,
-    80%,
-    100% {
-        opacity: .72;
-    }
-
-    85% {
-        opacity: .95;
-    }
-}
-
 @keyframes iconPulse {
     0%,
     100% {
@@ -1491,15 +1675,18 @@ body::after {
     from {
         opacity: 0;
 
-        transform: translateY(-3px);
+        transform:
+            translateY(-3px);
     }
 
     to {
         opacity: 1;
 
-        transform: translateY(0);
+        transform:
+            translateY(0);
     }
 }
+
 
 /* =========================================
    TABLET
@@ -1549,6 +1736,7 @@ body::after {
         gap: 10px;
     }
 }
+
 
 /* =========================================
    MÓVIL
@@ -1637,6 +1825,11 @@ body::after {
         font-size: 9px;
     }
 
+
+    /* -----------------------------
+       CIUDAD EN MÓVIL
+    ----------------------------- */
+
     .city-scene {
         bottom: 49px;
 
@@ -1682,6 +1875,11 @@ body::after {
         height: 37px;
     }
 
+
+    /* -----------------------------
+       ÁRBOLES
+    ----------------------------- */
+
     .tree {
         bottom: 22px;
     }
@@ -1710,15 +1908,29 @@ body::after {
         transform: scale(.52);
     }
 
+
+    /* -----------------------------
+       LÁMPARA
+    ----------------------------- */
+
     .street-lamp {
         left: 7px;
 
         bottom: 28px;
 
+        /*
+         * Solo escala.
+         * No hay animación que interfiera.
+         */
         transform: scale(.7);
 
         transform-origin: bottom left;
     }
+
+
+    /* -----------------------------
+       BANCA
+    ----------------------------- */
 
     .bench {
         bottom: 27px;
@@ -1727,6 +1939,11 @@ body::after {
 
         transform-origin: bottom center;
     }
+
+
+    /* -----------------------------
+       FOOTER
+    ----------------------------- */
 
     .information-footer {
         height: 49px;
@@ -1741,6 +1958,11 @@ body::after {
     .footer-text span {
         font-size: 8px;
     }
+
+
+    /* -----------------------------
+       FORMULARIO
+    ----------------------------- */
 
     .register-panel {
         min-height: 650px;
@@ -1796,6 +2018,7 @@ body::after {
         font-size: 14px;
     }
 }
+
 
 /* =========================================
    MÓVILES PEQUEÑOS
@@ -1861,5 +2084,25 @@ body::after {
 
     .login-link {
         margin-top: 19px;
+    }
+}
+
+
+/* =========================================
+   REDUCIR MOVIMIENTO
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+
+        scroll-behavior: auto !important;
     }
 }
