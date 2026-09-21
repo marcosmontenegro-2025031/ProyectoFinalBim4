@@ -1,23 +1,60 @@
-<nav class="nav-admin">
-  <a routerLink="/asignaciones" class="nav-marca">
-    <span class="nav-marca-icono">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"></path>
-        <circle cx="12" cy="9.5" r="2.5"></circle>
-      </svg>
-    </span>
-    <span class="nav-marca-texto">
-      <strong>CivicFix</strong>
-      <span>Panel del empleado municipal</span>
-    </span>
-  </a>
-  <div class="nav-links">
-    <a routerLink="/asignaciones" routerLinkActive="activo">Asignaciones</a>
-    <a routerLink="/bitacora" routerLinkActive="activo">Bitácora</a>
-    <a routerLink="/evidencias" routerLinkActive="activo">Evidencias</a>
-    <a routerLink="/fotografias" routerLinkActive="activo">Fotografías</a>
-    <a routerLink="/notificaciones" routerLinkActive="activo">Notificaciones</a>
-  </div>
-</nav>
+<div class="layout">
+  <aside class="sidebar">
+    <a routerLink="/asignaciones" class="sidebar-marca">
+      <span class="sidebar-marca-icono">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"></path>
+          <circle cx="12" cy="9.5" r="2.5"></circle>
+        </svg>
+      </span>
+      <span class="sidebar-marca-texto">
+        <strong>CivicFix</strong>
+        <span>Panel del empleado municipal</span>
+      </span>
+    </a>
 
-<router-outlet />
+    <nav class="sidebar-nav">
+      <a routerLink="/asignaciones" routerLinkActive="activo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="8" y="2" width="8" height="4" rx="1"></rect>
+          <path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"></path>
+          <path d="m9 14 2 2 4-4"></path>
+        </svg>
+        <span>Asignaciones</span>
+      </a>
+      <a routerLink="/bitacora" routerLinkActive="activo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v5h5"></path>
+          <path d="M3.05 13a9 9 0 1 0 .5-4.5L3 8"></path>
+          <path d="M12 7v5l4 2"></path>
+        </svg>
+        <span>Bitácora</span>
+      </a>
+      <a routerLink="/evidencias" routerLinkActive="activo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 11 3 3L22 4"></path>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+        <span>Evidencias</span>
+      </a>
+      <a routerLink="/fotografias" routerLinkActive="activo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"></path>
+          <circle cx="12" cy="13" r="4"></circle>
+        </svg>
+        <span>Fotografías</span>
+      </a>
+      <a routerLink="/notificaciones" routerLinkActive="activo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+        </svg>
+        <span>Notificaciones</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="contenido">
+    <router-outlet />
+  </main>
+</div>
