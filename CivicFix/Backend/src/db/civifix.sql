@@ -1,7 +1,5 @@
--- 1. Eliminar todas las tablas existentes en orden inverso de dependencia (con CASCADE)
 DROP TABLE IF EXISTS BitacoraCambioEstado, Notificacion, Asignacion, EvidenciaSolucion, FotografiaProblema, Reporte, EmpleadoMunicipal, ServicioMunicipal, Prioridad, Estado, Ubicacion, TipoIncidencia, Usuario, DepartamentoMunicipal, Municipalidad CASCADE;
 
--- 2. Crear la estructura completa desde cero
 CREATE TABLE Municipalidad (
     id_municipalidad INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -153,28 +151,469 @@ CREATE TABLE BitacoraCambioEstado (
     FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
 
--- 3. Insertar datos iniciales limpios
-INSERT INTO Estado (nombre, descripcion) VALUES 
-('Pendiente', 'Reporte recibido y pendiente de revisión'),
-('En Proceso', 'El reporte ha sido asignado y se está atendiendo'),
-('Resuelto', 'La incidencia ha sido solucionada')
-ON CONFLICT (nombre) DO NOTHING;
+INSERT INTO Municipalidad (
+    nombre,
+    direccion,
+    telefono,
+    correo
+) VALUES (
+    'Municipalidad de Guatemala',
+    'Centro Cívico, Zona 1, Ciudad de Guatemala',
+    '1551',
+    'contacto@muniguate.com'
+);
 
-INSERT INTO TipoIncidencia (codigo_ia, nombre) VALUES 
-('BACHE', 'Bache'), 
-('AGUA', 'Fuga de Agua'), 
-('LUMINARIA', 'Luminaria Dañada')
-ON CONFLICT (codigo_ia) DO NOTHING;
+INSERT INTO DepartamentoMunicipal (
+    nombre,
+    descripcion,
+    id_municipalidad
+) VALUES
+(
+    'Infraestructura',
+    'Atención y mantenimiento de infraestructura vial.',
+    1
+),
+(
+    'Servicios Públicos',
+    'Gestión de servicios públicos municipales.',
+    1
+),
+(
+    'Medio Ambiente',
+    'Mantenimiento de espacios públicos y áreas verdes.',
+    1
+);
 
-INSERT INTO Usuario (nombre, apellido, usuario, correo, password) VALUES 
-('Estuardo', 'Pérez', 'eperez', 'estuardo@correo.com', '123456'),
-('María', 'Gómez', 'mgomez', 'maria.gomez@correo.com', 'abcdef'),
-('Carlos', 'López', 'clopez', 'carlos.lopez@correo.com', 'qwerty')
-ON CONFLICT (usuario) DO NOTHING;
+INSERT INTO Usuario (
+    nombre,
+    apellido,
+    usuario,
+    correo,
+    password,
+    telefono
+) VALUES
+(
+    'Estuardo',
+    'Pérez',
+    'eperez',
+    'estuardo@correo.com',
+    '123456',
+    '55550001'
+),
+(
+    'María',
+    'Gómez',
+    'mgomez',
+    'maria.gomez@correo.com',
+    'abcdef',
+    '55550002'
+),
+(
+    'Carlos',
+    'López',
+    'clopez',
+    'carlos.lopez@correo.com',
+    'qwerty',
+    '55550003'
+);
 
-INSERT INTO Prioridad (codigo_ia, nombre, descripcion) VALUES 
-('BAJA', 'Baja', 'Incidencia menor que no representa riesgo inmediato'),
-('MEDIA', 'Media', 'Incidencia que requiere atención en un plazo prudente'),
-('ALTA', 'Alta', 'Incidencia grave que afecta la movilidad o seguridad'),
-('CRITICA', 'Crítica', 'Emergencia que requiere atención inmediata')
-ON CONFLICT (codigo_ia) DO NOTHING;
+INSERT INTO TipoIncidencia (
+    codigo_ia,
+    nombre,
+    descripcion
+) VALUES
+(
+    'BACHE',
+    'Bache',
+    'Daño o deterioro en la superficie de una calle.'
+),
+(
+    'AGUA',
+    'Fuga de Agua',
+    'Fuga de agua en vía pública o infraestructura municipal.'
+),
+(
+    'LUMINARIA',
+    'Luminaria Dañada',
+    'Luminaria pública que presenta fallas.'
+),
+(
+    'BASURA',
+    'Basura Acumulada',
+    'Acumulación de residuos en espacios públicos.'
+),
+(
+    'SENALIZACION',
+    'Señalización Dañada',
+    'Señal de tránsito dañada o deteriorada.'
+),
+(
+    'ARBOL',
+    'Árbol Caído',
+    'Árbol caído o situación relacionada con áreas verdes.'
+);
+
+INSERT INTO Estado (
+    nombre,
+    descripcion
+) VALUES
+(
+    'Pendiente',
+    'Reporte recibido y pendiente de revisión.'
+),
+(
+    'En Proceso',
+    'El reporte ha sido asignado y se está atendiendo.'
+),
+(
+    'Resuelto',
+    'La incidencia ha sido solucionada.'
+);
+
+INSERT INTO Prioridad (
+    codigo_ia,
+    nombre,
+    descripcion
+) VALUES
+(
+    'BAJA',
+    'Baja',
+    'Incidencia menor que no representa riesgo inmediato.'
+),
+(
+    'MEDIA',
+    'Media',
+    'Incidencia que requiere atención en un plazo prudente.'
+),
+(
+    'ALTA',
+    'Alta',
+    'Incidencia grave que afecta la movilidad o seguridad.'
+),
+(
+    'CRITICA',
+    'Crítica',
+    'Emergencia que requiere atención inmediata.'
+);
+
+INSERT INTO ServicioMunicipal (
+    nombre,
+    descripcion,
+    id_departamento
+) VALUES
+(
+    'Mantenimiento Vial',
+    'Reparación y mantenimiento de calles y avenidas.',
+    1
+),
+(
+    'Alumbrado Público',
+    'Mantenimiento de luminarias públicas.',
+    2
+),
+(
+    'Agua y Drenajes',
+    'Atención de fugas y problemas relacionados con agua.',
+    2
+),
+(
+    'Limpieza Urbana',
+    'Recolección y atención de residuos en espacios públicos.',
+    2
+),
+(
+    'Áreas Verdes',
+    'Mantenimiento de parques, árboles y áreas verdes.',
+    3
+);
+
+INSERT INTO EmpleadoMunicipal (
+    nombre,
+    apellido,
+    usuario,
+    password,
+    dpi,
+    telefono,
+    correo,
+    cargo,
+    id_departamento
+) VALUES
+(
+    'Juan',
+    'Ramírez',
+    'jramirez',
+    '123456',
+    '1234567890101',
+    '55551001',
+    'juan.ramirez@muniguate.com',
+    'Supervisor de Infraestructura',
+    1
+),
+(
+    'Ana',
+    'Morales',
+    'amorales',
+    '123456',
+    '1234567890102',
+    '55551002',
+    'ana.morales@muniguate.com',
+    'Técnico de Servicios Públicos',
+    2
+),
+(
+    'Luis',
+    'Castillo',
+    'lcastillo',
+    '123456',
+    '1234567890103',
+    '55551003',
+    'luis.castillo@muniguate.com',
+    'Encargado de Áreas Verdes',
+    3
+);
+
+INSERT INTO Ubicacion (
+    direccion,
+    zona,
+    referencia,
+    latitud,
+    longitud
+) VALUES
+(
+    'Avenida Reforma',
+    'Zona 10',
+    'Frente a Plaza Obelisco',
+    14.60370000,
+    -90.48950000
+),
+(
+    'Avenida Petapa',
+    'Zona 12',
+    'Cerca de la Universidad de San Carlos',
+    14.58380000,
+    -90.51080000
+),
+(
+    '6a Avenida',
+    'Zona 1',
+    'Cerca del Parque Central',
+    14.63490000,
+    -90.50690000
+),
+(
+    'Calzada Roosevelt',
+    'Zona 7',
+    'Frente al centro comercial',
+    14.60890000,
+    -90.51950000
+),
+(
+    'Avenida Bolívar',
+    'Zona 5',
+    'Cerca del mercado',
+    14.62020000,
+    -90.51400000
+),
+(
+    'Boulevard Vista Hermosa',
+    'Zona 15',
+    'Cerca del ingreso a Vista Hermosa',
+    14.58800000,
+    -90.49600000
+),
+(
+    'Calle Martí',
+    'Zona 6',
+    'Cerca de la estación de transporte',
+    14.64450000,
+    -90.50750000
+),
+(
+    'Calzada San Juan',
+    'Zona 7',
+    'Frente a área comercial',
+    14.62500000,
+    -90.55000000
+);
+
+INSERT INTO Reporte (
+    titulo,
+    descripcion,
+    id_usuario,
+    id_tipo_incidencia,
+    id_ubicacion,
+    id_estado,
+    id_prioridad,
+    id_servicio
+) VALUES
+(
+    'Bache en carretera',
+    'Bache de gran tamaño que dificulta la circulación.',
+    1,
+    1,
+    1,
+    1,
+    3,
+    1
+),
+(
+    'Luminaria dañada',
+    'Lámpara pública que no funciona durante la noche.',
+    2,
+    3,
+    2,
+    2,
+    2,
+    2
+),
+(
+    'Basura acumulada',
+    'Acumulación de residuos en un área pública.',
+    3,
+    4,
+    3,
+    1,
+    2,
+    4
+),
+(
+    'Señal de tránsito dañada',
+    'Señal vial deteriorada que necesita reemplazo.',
+    1,
+    5,
+    4,
+    3,
+    1,
+    1
+),
+(
+    'Fuga de agua',
+    'Fuga de agua en la vía pública.',
+    2,
+    2,
+    5,
+    2,
+    3,
+    3
+),
+(
+    'Árbol caído',
+    'Árbol caído que obstruye parcialmente la vía.',
+    3,
+    6,
+    6,
+    1,
+    3,
+    5
+),
+(
+    'Bache en avenida',
+    'Deterioro de la superficie de la calle que requiere reparación.',
+    1,
+    1,
+    7,
+    1,
+    2,
+    1
+),
+(
+    'Luminaria sin funcionamiento',
+    'Luminaria pública apagada durante la noche.',
+    2,
+    3,
+    8,
+    2,
+    2,
+    2
+);
+
+INSERT INTO Asignacion (
+    id_reporte,
+    id_empleado,
+    observacion
+) VALUES
+(
+    2,
+    2,
+    'Se asigna para revisión y reparación de luminaria.'
+),
+(
+    4,
+    1,
+    'Se asigna para revisión de señalización.'
+),
+(
+    5,
+    2,
+    'Se requiere inspección de fuga de agua.'
+),
+(
+    8,
+    2,
+    'Se asigna revisión de luminaria.'
+);
+
+INSERT INTO Notificacion (
+    id_usuario,
+    id_reporte,
+    titulo,
+    mensaje,
+    leida
+) VALUES
+(
+    1,
+    1,
+    'Reporte recibido',
+    'Tu reporte de bache fue recibido correctamente.',
+    FALSE
+),
+(
+    2,
+    2,
+    'Reporte en proceso',
+    'Tu reporte de luminaria está siendo atendido.',
+    FALSE
+),
+(
+    3,
+    3,
+    'Reporte recibido',
+    'Tu reporte de basura acumulada fue recibido.',
+    TRUE
+);
+
+INSERT INTO BitacoraCambioEstado (
+    id_reporte,
+    id_estado_anterior,
+    id_estado_nuevo,
+    id_empleado,
+    comentario
+) VALUES
+(
+    2,
+    1,
+    2,
+    2,
+    'Reporte asignado al área de alumbrado público.'
+),
+(
+    4,
+    1,
+    3,
+    1,
+    'Se realizó la reparación de la señalización.'
+),
+(
+    5,
+    1,
+    2,
+    2,
+    'Se inició la inspección de la fuga.'
+),
+(
+    8,
+    1,
+    2,
+    2,
+    'Reporte asignado para revisión.'
+);

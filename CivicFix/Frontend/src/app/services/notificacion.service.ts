@@ -1,31 +1,42 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { Notificacion } from '../models/notificacion.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class NotificacionService {
-    private http = inject(HttpClient);
-    private baseUrl = `${environment.apiUrl}/notificaciones`;
 
-    crear(notificacion: Omit<Notificacion, 'id_notificacion' | 'fecha_notificacion' | 'leida'>): Observable<Notificacion> {
-        return this.http.post<Notificacion>(this.baseUrl, notificacion);
-    }
+  private http = inject(HttpClient);
 
-    listarPorUsuario(idUsuario: number): Observable<Notificacion[]> {
-        return this.http.get<Notificacion[]>(`${this.baseUrl}/usuario/${idUsuario}`);
-    }
+  private apiUrl = 'http://localhost:3000/api/notificaciones';
 
-    obtenerPorId(id: number): Observable<Notificacion> {
-        return this.http.get<Notificacion>(`${this.baseUrl}/${id}`);
-    }
+  obtenerNotificaciones(): Observable<Notificacion[]> {
+    return this.http.get<Notificacion[]>(this.apiUrl);
+  }
 
-    marcarComoLeida(id: number): Observable<Notificacion> {
-        return this.http.put<Notificacion>(`${this.baseUrl}/${id}/leida`, {});
-    }
+  marcarComoLeida(
+    idNotificacion: number
+  ): Observable<{ mensaje: string }> {
+    return this.http.patch<{ mensaje: string }>(
+      `${this.apiUrl}/${idNotificacion}/leida`,
+      {}
+    );
+  }
 
-    eliminar(id: number): Observable<{ mensaje: string }> {
-        return this.http.delete<{ mensaje: string }>(`${this.baseUrl}/${id}`);
-    }
+  marcarTodasComoLeidas(): Observable<{ mensaje: string }> {
+    return this.http.patch<{ mensaje: string }>(
+      `${this.apiUrl}/marcar-todas-leidas`,
+      {}
+    );
+  }
+
+  eliminarNotificacion(
+    idNotificacion: number
+  ): Observable<{ mensaje: string }> {
+    return this.http.delete<{ mensaje: string }>(
+      `${this.apiUrl}/${idNotificacion}`
+    );
+  }
 }

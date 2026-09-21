@@ -1,14 +1,25 @@
-import { Router } from "express";
-import { NotificacionController } from "../controllers/notificacion.controller.js";
+import { Router } from 'express';
+import {
+  obtenerNotificacionesHandler,
+  obtenerNotificacionHandler,
+  marcarComoLeidaHandler,
+  marcarTodasComoLeidasHandler,
+  eliminarNotificacionHandler
+} from '../controllers/notificacion.controller';
 
 const router = Router();
 
-router.get("/", NotificacionController.listar);
-router.get("/usuario/:idUsuario", NotificacionController.obtenerPorUsuario);
-router.get("/:id", NotificacionController.obtenerPorId);
-router.post("/", NotificacionController.crear);
-router.put("/:id", NotificacionController.actualizar);
-router.patch("/:id/leida", NotificacionController.marcarComoLeida);
-router.delete("/:id", NotificacionController.eliminar);
+router.get('/notificaciones', obtenerNotificacionesHandler);
+
+router.get('/notificaciones/:id', obtenerNotificacionHandler);
+
+router.patch('/notificaciones/:id/leida', marcarComoLeidaHandler);
+
+router.patch(
+  '/notificaciones/marcar-todas-leidas',
+  marcarTodasComoLeidasHandler
+);
+
+router.delete('/notificaciones/:id', eliminarNotificacionHandler);
 
 export default router;

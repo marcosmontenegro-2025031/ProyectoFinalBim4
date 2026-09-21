@@ -8,6 +8,7 @@ import estadoRoutes from '../routes/estado.routes';
 import ubicacionRoutes from '../routes/ubicacion.routes';
 import reporteRoutes from '../routes/reporte.routes';
 import fotoProblemaRoutes from '../routes/fotoProblema.routes';
+import notificacionRoutes from '../routes/notificacion.routes';
 
 dotenv.config();
 
@@ -28,9 +29,9 @@ export class Server {
             origin: process.env.CLIENT_URL || 'http://localhost:4200',
             credentials: true
         }));
-        
+
         this.app.use(express.json());
-        
+
         this.app.use('/uploads', express.static('uploads'));
     }
 
@@ -40,7 +41,8 @@ export class Server {
         this.app.use('/api', estadoRoutes);
         this.app.use('/api', ubicacionRoutes);
         this.app.use('/api', reporteRoutes);
-        this.app.use('/api/fotos', fotoProblemaRoutes); 
+        this.app.use('/api/fotos', fotoProblemaRoutes);
+        this.app.use('/api', notificacionRoutes);
     }
 
     public listen(): void {
@@ -57,4 +59,5 @@ export class Server {
             process.exit(1);
         });
     }
- }
+}
+
