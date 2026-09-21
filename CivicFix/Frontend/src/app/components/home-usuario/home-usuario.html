@@ -1,0 +1,569 @@
+<div class="civic-layout">
+
+  <aside class="civic-sidebar">
+
+    <div class="civic-brand">
+      <div class="civic-logo-wrapper">
+        <img
+          src="assets/logo.png"
+          alt="CivicFix"
+          class="civic-logo"
+        >
+      </div>
+    </div>
+
+    <nav class="civic-navigation">
+
+      <a
+        class="civic-nav-item active"
+        routerLink="/home"
+      >
+        <i class="fa-solid fa-house"></i>
+        <span>Inicio</span>
+      </a>
+
+      <a
+        class="civic-nav-item"
+        routerLink="/crear-reporte"
+      >
+        <i class="fa-solid fa-file-circle-plus"></i>
+        <span>Crear Reporte</span>
+      </a>
+
+      <a
+        class="civic-nav-item"
+        routerLink="/mis-reportes"
+      >
+        <i class="fa-solid fa-clipboard-list"></i>
+        <span>Mis Reportes</span>
+      </a>
+
+      <a
+        class="civic-nav-item"
+        routerLink="/notificaciones"
+      >
+        <i class="fa-solid fa-bell"></i>
+        <span>Notificaciones</span>
+        <span class="notification-number">3</span>
+      </a>
+
+      <a class="civic-nav-item">
+        <i class="fa-solid fa-user"></i>
+        <span>Mi Perfil</span>
+      </a>
+
+    </nav>
+
+    <div class="civic-city">
+
+      <div class="city-buildings">
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+
+        <span class="lamp"></span>
+      </div>
+
+      <div class="civic-city-footer">
+
+        <div class="municipality-icon">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+
+        <div>
+          <strong>Municipalidad</strong>
+          <small>Ciudad de Guatemala</small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+  <main class="civic-main">
+
+    <header class="civic-topbar">
+
+      <div class="civic-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          placeholder="Buscar en CivicFix..."
+        >
+      </div>
+
+      <div class="topbar-actions">
+
+        <button
+          class="topbar-notification"
+          type="button"
+          (click)="verNotificaciones()"
+        >
+          <i class="fa-regular fa-bell"></i>
+          <span>3</span>
+        </button>
+
+        <div class="topbar-divider"></div>
+
+        <div class="topbar-user">
+
+          <div class="user-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+
+          <div class="user-information">
+            <strong>{{ usuario.nombre }}</strong>
+            <small>{{ usuario.rol }}</small>
+          </div>
+
+          <i class="fa-solid fa-chevron-down user-arrow"></i>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <section class="civic-content">
+
+      <div class="welcome-section">
+
+        <div class="welcome-content">
+
+          <span class="welcome-label">
+            <i class="fa-solid fa-sparkles"></i>
+            CIVICFIX
+          </span>
+
+          <h1>
+            ¡Hola, {{ usuario.nombre }}!
+          </h1>
+
+          <p>
+            Ayuda a mejorar tu ciudad. Reporta problemas,
+            consulta el estado de tus solicitudes y mantente informado.
+          </p>
+
+          <div class="welcome-actions">
+
+            <button
+              class="primary-action"
+              type="button"
+              (click)="crearReporte()"
+            >
+              <i class="fa-solid fa-plus"></i>
+              Crear nuevo reporte
+            </button>
+
+            <button
+              class="secondary-action"
+              type="button"
+              (click)="verMisReportes()"
+            >
+              <i class="fa-solid fa-list-check"></i>
+              Ver mis reportes
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="welcome-illustration">
+
+          <div class="illustration-circle circle-one"></div>
+          <div class="illustration-circle circle-two"></div>
+
+          <div class="city-illustration">
+
+            <div class="illustration-building building-main">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="illustration-building building-small">
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="illustration-tree tree-left"></div>
+            <div class="illustration-tree tree-right"></div>
+
+            <div class="illustration-road"></div>
+
+            <div class="illustration-pin">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="section-heading">
+
+        <div>
+          <h2>Resumen de actividad</h2>
+          <p>Consulta el estado de tus reportes.</p>
+        </div>
+
+        <button
+          class="view-all-button"
+          type="button"
+          (click)="verMisReportes()"
+        >
+          Ver todos
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-icon total">
+            <i class="fa-solid fa-file-lines"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>Total de reportes</span>
+            <strong>{{ estadisticas.total }}</strong>
+            <small>
+              <i class="fa-solid fa-chart-line"></i>
+              Reportes realizados
+            </small>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon pending">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>Pendientes</span>
+            <strong>{{ estadisticas.pendientes }}</strong>
+            <small>
+              <i class="fa-solid fa-hourglass-half"></i>
+              Esperando atención
+            </small>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon process">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>En proceso</span>
+            <strong>{{ estadisticas.proceso }}</strong>
+            <small>
+              <i class="fa-solid fa-gears"></i>
+              Siendo atendidos
+            </small>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon resolved">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>Resueltos</span>
+            <strong>{{ estadisticas.resueltos }}</strong>
+            <small>
+              <i class="fa-solid fa-check"></i>
+              Problemas solucionados
+            </small>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="dashboard-grid">
+
+        <section class="dashboard-card recent-card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+
+              <div class="card-title-icon">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+              </div>
+
+              <div>
+                <h2>Reportes recientes</h2>
+                <p>Últimos reportes realizados</p>
+              </div>
+
+            </div>
+
+            <button
+              class="card-link"
+              type="button"
+              (click)="verMisReportes()"
+            >
+              Ver todos
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+          </div>
+
+          <div class="recent-list">
+
+            <div
+              class="recent-item"
+              *ngFor="let reporte of reportesRecientes"
+              (click)="verReporte(reporte.id)"
+            >
+
+              <div
+                class="recent-icon"
+                [ngClass]="obtenerClaseEstado(reporte.estado)"
+              >
+                <i [class]="reporte.icono"></i>
+              </div>
+
+              <div class="recent-information">
+
+                <div class="recent-top">
+
+                  <h3>{{ reporte.titulo }}</h3>
+
+                  <span
+                    class="priority-badge"
+                    [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
+                  >
+                    {{ reporte.prioridad }}
+                  </span>
+
+                </div>
+
+                <div class="recent-details">
+
+                  <span>
+                    <i class="fa-solid fa-location-dot"></i>
+                    {{ reporte.ubicacion }}
+                  </span>
+
+                  <span>
+                    <i class="fa-regular fa-calendar"></i>
+                    {{ reporte.fecha }}
+                  </span>
+
+                </div>
+
+              </div>
+
+              <div
+                class="status-badge"
+                [ngClass]="obtenerClaseEstado(reporte.estado)"
+              >
+                <span></span>
+                {{ reporte.estado }}
+              </div>
+
+              <i class="fa-solid fa-chevron-right recent-arrow"></i>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <section class="dashboard-card quick-card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+
+              <div class="card-title-icon">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+
+              <div>
+                <h2>Acciones rápidas</h2>
+                <p>Accede rápidamente a CivicFix</p>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="quick-actions">
+
+            <button
+              class="quick-action"
+              type="button"
+              (click)="crearReporte()"
+            >
+
+              <div class="quick-action-icon report">
+                <i class="fa-solid fa-file-circle-plus"></i>
+              </div>
+
+              <div>
+                <strong>Crear reporte</strong>
+                <span>Informa sobre un problema</span>
+              </div>
+
+              <i class="fa-solid fa-chevron-right"></i>
+
+            </button>
+
+            <button
+              class="quick-action"
+              type="button"
+              (click)="verMisReportes()"
+            >
+
+              <div class="quick-action-icon reports">
+                <i class="fa-solid fa-clipboard-list"></i>
+              </div>
+
+              <div>
+                <strong>Mis reportes</strong>
+                <span>Consulta tus solicitudes</span>
+              </div>
+
+              <i class="fa-solid fa-chevron-right"></i>
+
+            </button>
+
+            <button
+              class="quick-action"
+              type="button"
+              (click)="verNotificaciones()"
+            >
+
+              <div class="quick-action-icon notifications">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+
+              <div>
+                <strong>Notificaciones</strong>
+                <span>Revisa tus actualizaciones</span>
+              </div>
+
+              <i class="fa-solid fa-chevron-right"></i>
+
+            </button>
+
+          </div>
+
+        </section>
+
+      </div>
+
+      <section class="map-card">
+
+        <div class="map-header">
+
+          <div class="card-title">
+
+            <div class="card-title-icon">
+              <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+
+            <div>
+              <h2>Actividad en la ciudad</h2>
+              <p>Consulta los reportes registrados en tu comunidad.</p>
+            </div>
+
+          </div>
+
+          <button
+            class="map-button"
+            type="button"
+            (click)="crearReporte()"
+          >
+            <i class="fa-solid fa-location-crosshairs"></i>
+            Crear reporte
+          </button>
+
+        </div>
+
+        <div class="map-preview">
+
+          <div class="map-grid"></div>
+
+          <div class="map-road road-one"></div>
+          <div class="map-road road-two"></div>
+          <div class="map-road road-three"></div>
+          <div class="map-road road-four"></div>
+
+          <div class="map-block block-one"></div>
+          <div class="map-block block-two"></div>
+          <div class="map-block block-three"></div>
+          <div class="map-block block-four"></div>
+          <div class="map-block block-five"></div>
+
+          <div class="map-marker marker-one">
+            <i class="fa-solid fa-road"></i>
+          </div>
+
+          <div class="map-marker marker-two">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+
+          <div class="map-marker marker-three">
+            <i class="fa-solid fa-trash"></i>
+          </div>
+
+          <div class="map-center">
+            <div class="map-center-pulse"></div>
+            <div class="map-center-dot">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+          </div>
+
+          <div class="map-label">
+            <i class="fa-solid fa-location-dot"></i>
+            Ciudad de Guatemala
+          </div>
+
+        </div>
+
+      </section>
+
+      <div class="information-banner">
+
+        <div class="information-icon">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+
+        <div>
+          <strong>Tu participación hace la diferencia</strong>
+          <p>
+            Cada reporte ayuda a la municipalidad a identificar problemas
+            y mejorar los espacios de nuestra ciudad.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
