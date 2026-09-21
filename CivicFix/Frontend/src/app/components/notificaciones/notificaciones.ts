@@ -1,83 +1,167 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { NotificacionService } from '../../services/notificacion.service';
-import { Notificacion } from '../../models/notificacion.model';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
+interface Notificacion {
+  id: number;
+  titulo: string;
+  mensaje: string;
+  tipo: string;
+  fecha: string;
+  hora: string;
+  leida: boolean;
+  idReporte?: number;
+}
 
 @Component({
-    selector: 'app-notificaciones',
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './notificaciones.html',
-    styleUrl: './notificaciones.css'
+  selector: 'app-notificaciones',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ],
+  templateUrl: './notificaciones.component.html',
+  styleUrl: './notificaciones.component.css'
 })
-export class Notificaciones {
-    private service = inject(NotificacionService);
-    private fb = inject(FormBuilder);
+export class NotificacionesComponent {
 
-    notificaciones = signal<Notificacion[]>([]);
-    cargando = signal(false);
-    error = signal<string | null>(null);
+  filtroActual = 'Todas';
 
-    buscarForm = this.fb.nonNullable.group({
-        fk_id_usuario: [null as number | null, Validators.required]
+  notificaciones: Notificacion[] = [
+    {
+      id: 1,
+      titulo: 'Reporte recibido',
+      mensaje: 'Tu reporte de incidencia ha sido recibido correctamente y está siendo revisado.',
+      tipo: 'reporte',
+      fecha: '16 Sep 2026',
+      hora: '10:32 AM',
+      leida: false,
+      idReporte: 1
+    },
+    {
+      id: 2,
+      titulo: 'Reporte en proceso',
+      mensaje: 'Tu reporte ha sido asignado al departamento municipal correspondiente.',
+      tipo: 'proceso',
+      fecha: '15 Sep 2026',
+      hora: '03:45 PM',
+      leida: false,
+      idReporte: 2
+    },
+    {
+      id: 3,
+      titulo: 'Reporte resuelto',
+      mensaje: 'La incidencia que reportaste ha sido marcada como resuelta.',
+      tipo: 'resuelto',
+      fecha: '14 Sep 2026',
+      hora: '11:20 AM',
+      leida: true,
+      idReporte: 3
+    },
+    {
+      id: 4,
+      titulo: 'Actualización de reporte',
+      mensaje: 'Se ha actualizado el estado de uno de tus reportes.',
+      tipo: 'actualizacion',
+      fecha: '13 Sep 2026',
+      hora: '09:15 AM',
+      leida: true,
+      idReporte: 4
+    }
+  ];
+
+  get notificacionesFiltradas(): Notificacion[] {
+    if (this.filtroActual === 'No leídas') {
+      return this.notificaciones.filter(notificacion => !notificacion.leida);
+    }
+
+    if (this.filtroActual === 'Leídas') {
+      return this.notificaciones.filter(notificacion => notificacion.leida);
+    }
+
+    return this.notificaciones;
+  }
+
+  get cantidadNoLeidas(): number {
+    return this.notificaciones.filter(notificacion => !notificacion.leida).length;
+  }
+
+  get cantidadLeidas(): number {
+    return this.notificaciones.filter(notificacion => notificacion.leida).length;
+  }
+
+  cambiarFiltro(filtro: string): void {
+    this.filtroActual = filtro;
+  }
+
+  marcarComoLeida(notificacion: Notificacion): void {
+    notificacion.leida = true;
+  }
+
+  marcarComoNoLeida(notificacion: Notificacion): void {
+    notificacion.leida = false;
+  }
+
+  marcarTodasComoLeidas(): void {
+    this.notificaciones.forEach(notificacion => {
+      notificacion.leida = true;
     });
+  }
 
-    form = this.fb.nonNullable.group({
-        fk_id_usuario: [null as number | null, Validators.required],
-        fk_id_reporte: [null as number | null, Validators.required],
-        titulo: ['', Validators.required],
-        mensaje: ['', Validators.required]
-    });
+  eliminarNotificacion(id: number): void {
+    this.notificaciones = this.notificaciones.filter(
+      notificacion => notificacion.id !== id
+    );
+  }
 
-    buscar(): void {
-        if (this.buscarForm.invalid) return;
-        const idUsuario = this.buscarForm.getRawValue().fk_id_usuario!;
+  obtenerIconoTipo(tipo: string): string {
+    switch (tipo) {
+      case 'reporte':
+        return 'bi bi-file-earmark-check';
 
-        this.cargando.set(true);
-        this.service.listarPorUsuario(idUsuario).subscribe({
-            next: (data) => {
-                this.notificaciones.set(data);
-                this.cargando.set(false);
-            },
-            error: () => {
-                this.error.set('No se pudieron cargar las notificaciones. Verifica que el backend esté corriendo.');
-                this.cargando.set(false);
-            }
-        });
+      case 'proceso':
+        return 'bi bi-arrow-repeat';
+
+      case 'resuelto':
+        return 'bi bi-check-circle';
+
+      case 'actualizacion':
+        return 'bi bi-info-circle';
+
+      default:
+        return 'bi bi-bell';
     }
+  }
 
-    guardar(): void {
-        if (this.form.invalid) return;
+  obtenerClaseTipo(tipo: string): string {
+    switch (tipo) {
+      case 'reporte':
+        return 'notification-report';
 
-        const valores = this.form.getRawValue();
-        this.service.crear({
-            fk_id_usuario: valores.fk_id_usuario!,
-            fk_id_reporte: valores.fk_id_reporte!,
-            titulo: valores.titulo,
-            mensaje: valores.mensaje
-        }).subscribe({
-            next: () => {
-                this.form.reset();
-                if (this.buscarForm.value.fk_id_usuario === valores.fk_id_usuario) {
-                    this.buscar();
-                }
-            },
-            error: () => this.error.set('No se pudo crear la notificación.')
-        });
+      case 'proceso':
+        return 'notification-process';
+
+      case 'resuelto':
+        return 'notification-resolved';
+
+      case 'actualizacion':
+        return 'notification-update';
+
+      default:
+        return 'notification-default';
     }
+  }
 
-    marcarLeida(id: number): void {
-        this.service.marcarComoLeida(id).subscribe({
-            next: () => this.buscar(),
-            error: () => this.error.set('No se pudo marcar como leída.')
-        });
+  verReporte(notificacion: Notificacion): void {
+    if (notificacion.idReporte) {
+      notificacion.leida = true;
+      console.log('Ver reporte:', notificacion.idReporte);
     }
+  }
 
-    eliminar(id: number): void {
-        this.service.eliminar(id).subscribe({
-            next: () => this.buscar(),
-            error: () => this.error.set('No se pudo eliminar la notificación.')
-        });
-    }
+  volverAlInicio(): void {
+    window.location.href = '/reportes';
+  }
 }
