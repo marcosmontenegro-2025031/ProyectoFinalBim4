@@ -1,11 +1,12 @@
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
+  OnInit,
   OnDestroy,
-  PLATFORM_ID,
+  inject,
+  ElementRef,
   ViewChild,
-  inject
+  PLATFORM_ID,
+  ViewEncapsulation
 } from '@angular/core';
 
 import {
@@ -19,6 +20,8 @@ import {
   Validators
 } from '@angular/forms';
 
+import { RouterLink } from '@angular/router';
+
 import { ReporteService } from '../../services/reporte.service';
 import { FotoProblemaService } from '../../services/fotoProblema.service';
 
@@ -27,17 +30,16 @@ import { FotoProblemaService } from '../../services/fotoProblema.service';
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './reporte.component.html',
-  styleUrl: './reporte.component.css'
+  styleUrl: './reporte.component.css',
+  encapsulation: ViewEncapsulation.None
 })
-export class ReporteComponent
-  implements AfterViewInit, OnDestroy {
+export class ReporteComponent implements OnInit, OnDestroy {
 
-  @ViewChild('mapContainer', {
-    static: false
-  })
+  @ViewChild('mapContainer', { static: false })
   mapContainer!: ElementRef<HTMLDivElement>;
 
   private platformId = inject(PLATFORM_ID);
@@ -49,20 +51,15 @@ export class ReporteComponent
   private marker: any;
 
   cargando = false;
-
   resultado: any = null;
-
   mensajeError: string | undefined;
 
   archivoSeleccionado: File | null = null;
-
   vistaPrevia: string | null = null;
 
   analisisCompleto = false;
 
-
   form = this.fb.group({
-
     textoCiudadano: [
       '',
       [
@@ -71,40 +68,32 @@ export class ReporteComponent
         Validators.maxLength(500)
       ]
     ],
-
     direccion: [
       '',
       Validators.required
     ],
-
     zona: [
       '',
       Validators.required
     ],
-
     referencia: [
       ''
     ],
-
     latitud: [
       14.6349,
       Validators.required
     ],
-
     longitud: [
       -90.5069,
       Validators.required
     ],
-
     idUsuario: [
       1,
       Validators.required
     ]
-
   });
 
-
-  async ngAfterViewInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
 
     if (!isPlatformBrowser(this.platformId)) {
       return;
@@ -112,90 +101,123 @@ export class ReporteComponent
 
     setTimeout(async () => {
 
-      if (!this.mapContainer?.nativeElement) {
-        return;
-      }
+      try {
 
-      const L = await import('leaflet');
+        const L = await import('leaflet');
 
-      this.map = L.map(
-        this.mapContainer.nativeElement,
-        {
-          zoomControl: true
-        }
-      ).setView(
-        [
-          14.6349,
-          -90.5069
-        ],
-        16
-      );
-
-
-      L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
-          maxZoom: 19,
-          attribution:
-            '&copy; OpenStreetMap contributors'
-        }
-      ).addTo(this.map);
-
-
-      this.marker = L.marker(
-        [
-          14.6349,
-          -90.5069
-        ],
-        {
-          draggable: true
-        }
-      ).addTo(this.map);
-
-
-      this.map.on(
-        'click',
-        (event: any) => {
-
-          this.actualizarUbicacion(
-            event.latlng.lat,
-            event.latlng.lng
+        if (!this.mapContainer?.nativeElement) {
+          console.error(
+            '[CIVICFIX] No se encontró el contenedor del mapa.'
           );
-
+          return;
         }
-      );
 
+        this.map = L.map(
+          this.mapContainer.nativeElement,
+          {
+            zoomControl: true
+          }
+        ).setView(
+          [14.6349, -90.5069],
+          15
+        );
 
-      this.marker.on(
-        'dragend',
-        () => {
+        L.tileLayer(
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          {
+            maxZoom: 19,
+            attribution:
+              '&copy; OpenStreetMap contributors'
+          }
+        ).addTo(this.map);
 
-          const posicion =
-            this.marker?.getLatLng();
+        const iconoCivicFix = L.divIcon({
+          className: 'civicfix-map-marker-wrapper',
+          html: `
+            <div class="civicfix-map-marker">
+              <div class="civicfix-marker-pulse"></div>
+              <div class="civicfix-marker-pin">
+                <i class="bi bi-geo-alt-fill"></i>
+              </div>
+            </div>
+          `,
+          iconSize: [48, 58],
+          iconAnchor: [24, 58],
+          popupAnchor: [0, -58]
+        });
 
-          if (!posicion) {
-            return;
+        this.marker = L.marker(
+          [14.6349, -90.5069],
+          {
+            draggable: true,
+            icon: iconoCivicFix
+          }
+        ).addTo(this.map);
+
+        this.marker.bindPopup(
+          `
+            <div class="civicfix-popup">
+              <strong>Ubicación del reporte</strong>
+              <span>Arrastra el marcador para cambiar la ubicación</span>
+            </div>
+          `
+        );
+
+        this.marker.on(
+          'dragend',
+          () => {
+
+            const posicion =
+              this.marker?.getLatLng();
+
+            if (posicion) {
+
+              this.actualizarUbicacion(
+                posicion.lat,
+                posicion.lng
+              );
+
+            }
+
+          }
+        );
+
+        this.map.on(
+          'click',
+          (event: any) => {
+
+            this.actualizarUbicacion(
+              event.latlng.lat,
+              event.latlng.lng
+            );
+
+          }
+        );
+
+        setTimeout(() => {
+
+          if (this.map) {
+            this.map.invalidateSize();
           }
 
-          this.actualizarUbicacion(
-            posicion.lat,
-            posicion.lng
-          );
+        }, 500);
 
-        }
-      );
+        console.log(
+          '[CIVICFIX] Mapa y marker cargados correctamente.'
+        );
 
+      } catch (error) {
 
-      setTimeout(() => {
+        console.error(
+          '[CIVICFIX] Error al cargar Leaflet:',
+          error
+        );
 
-        this.map?.invalidateSize();
+      }
 
-      }, 300);
-
-    });
+    }, 300);
 
   }
-
 
   private actualizarUbicacion(
     lat: number,
@@ -203,30 +225,24 @@ export class ReporteComponent
   ): void {
 
     const latCorta =
-      Number(
-        lat.toFixed(6)
-      );
+      Number(lat.toFixed(6));
 
     const lngCorta =
-      Number(
-        lng.toFixed(6)
-      );
-
+      Number(lng.toFixed(6));
 
     this.form.patchValue({
-
       latitud: latCorta,
-
       longitud: lngCorta
-
     });
 
+    if (this.marker) {
 
-    this.marker?.setLatLng([
-      latCorta,
-      lngCorta
-    ]);
+      this.marker.setLatLng([
+        latCorta,
+        lngCorta
+      ]);
 
+    }
 
     fetch(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latCorta}&lon=${lngCorta}&zoom=18&addressdetails=1`,
@@ -239,9 +255,11 @@ export class ReporteComponent
       .then(response => {
 
         if (!response.ok) {
+
           throw new Error(
             'No se pudo obtener la dirección'
           );
+
         }
 
         return response.json();
@@ -249,35 +267,32 @@ export class ReporteComponent
       })
       .then(data => {
 
-        if (!data?.display_name) {
-          return;
+        if (data?.display_name) {
+
+          const direccion =
+            data.display_name
+              .split(',')
+              .slice(0, 4)
+              .join(',');
+
+          this.form.patchValue({
+            direccion
+          });
+
         }
-
-        const direccion =
-          data.display_name
-            .split(',')
-            .slice(0, 4)
-            .join(',');
-
-        this.form.patchValue({
-          direccion
-        });
 
       })
       .catch(() => {
 
         console.warn(
-          'No fue posible obtener la dirección automáticamente.'
+          '[CIVICFIX] No fue posible obtener la dirección automáticamente.'
         );
 
       });
 
   }
 
-
-  onFileSelected(
-    event: Event
-  ): void {
+  onFileSelected(event: Event): void {
 
     const input =
       event.target as HTMLInputElement;
@@ -289,12 +304,7 @@ export class ReporteComponent
       return;
     }
 
-
-    if (
-      !file.type.startsWith(
-        'image/'
-      )
-    ) {
+    if (!file.type.startsWith('image/')) {
 
       this.mensajeError =
         'Selecciona únicamente una imagen.';
@@ -304,10 +314,8 @@ export class ReporteComponent
       return;
     }
 
-
     this.archivoSeleccionado =
       file;
-
 
     if (this.vistaPrevia) {
 
@@ -317,24 +325,18 @@ export class ReporteComponent
 
     }
 
-
     this.vistaPrevia =
-      URL.createObjectURL(
-        file
-      );
-
+      URL.createObjectURL(file);
 
     this.mensajeError =
       undefined;
 
   }
 
-
   eliminarFoto(): void {
 
     this.archivoSeleccionado =
       null;
-
 
     if (this.vistaPrevia) {
 
@@ -344,12 +346,10 @@ export class ReporteComponent
 
     }
 
-
     this.vistaPrevia =
       null;
 
   }
-
 
   obtenerAnalisis(): any {
 
@@ -361,7 +361,6 @@ export class ReporteComponent
     );
 
   }
-
 
   obtenerTitulo(): string {
 
@@ -375,7 +374,6 @@ export class ReporteComponent
     );
 
   }
-
 
   obtenerTipo(): string {
 
@@ -391,7 +389,6 @@ export class ReporteComponent
 
   }
 
-
   obtenerPrioridad(): string {
 
     const obj =
@@ -402,13 +399,11 @@ export class ReporteComponent
       obj?.codigo_prioridad ||
       obj?.prioridad;
 
-
     return prioridad
       ? String(prioridad)
       : 'No especificada';
 
   }
-
 
   obtenerEstado(): string {
 
@@ -422,7 +417,6 @@ export class ReporteComponent
 
   }
 
-
   obtenerServicio(): string {
 
     const obj =
@@ -435,7 +429,6 @@ export class ReporteComponent
     );
 
   }
-
 
   obtenerResumen(): string {
 
@@ -451,13 +444,11 @@ export class ReporteComponent
 
   }
 
-
   obtenerColorPrioridad(): string {
 
     const prioridad =
       this.obtenerPrioridad()
         .toLowerCase();
-
 
     if (
       prioridad.includes('crít') ||
@@ -468,7 +459,6 @@ export class ReporteComponent
 
     }
 
-
     if (
       prioridad.includes('alt')
     ) {
@@ -476,7 +466,6 @@ export class ReporteComponent
       return '#EF6C00';
 
     }
-
 
     if (
       prioridad.includes('med')
@@ -486,18 +475,15 @@ export class ReporteComponent
 
     }
 
-
     return '#2E7D32';
 
   }
-
 
   obtenerIconoPrioridad(): string {
 
     const prioridad =
       this.obtenerPrioridad()
         .toLowerCase();
-
 
     if (
       prioridad.includes('crít') ||
@@ -508,7 +494,6 @@ export class ReporteComponent
 
     }
 
-
     if (
       prioridad.includes('alt')
     ) {
@@ -516,7 +501,6 @@ export class ReporteComponent
       return 'bi-exclamation-circle-fill';
 
     }
-
 
     if (
       prioridad.includes('med')
@@ -526,17 +510,72 @@ export class ReporteComponent
 
     }
 
-
     return 'bi-check-circle-fill';
 
   }
 
+  obtenerIconoTipo(): string {
+
+    const tipo =
+      this.obtenerTipo()
+        .toLowerCase();
+
+    if (
+      tipo.includes('agua')
+    ) {
+
+      return 'bi-droplet-fill';
+
+    }
+
+    if (
+      tipo.includes('luminaria')
+    ) {
+
+      return 'bi-lightbulb-fill';
+
+    }
+
+    if (
+      tipo.includes('bache')
+    ) {
+
+      return 'bi-cone-striped';
+
+    }
+
+    return 'bi-exclamation-triangle-fill';
+
+  }
+
+  obtenerIconoEstado(): string {
+
+    const estado =
+      this.obtenerEstado()
+        .toLowerCase();
+
+    switch (estado) {
+
+      case 'pendiente':
+        return 'bi-clock';
+
+      case 'en proceso':
+        return 'bi-arrow-repeat';
+
+      case 'resuelto':
+        return 'bi-check-circle';
+
+      default:
+        return 'bi-clock';
+
+    }
+
+  }
 
   verificarValidez(): boolean {
 
     const obj =
       this.obtenerAnalisis();
-
 
     if (
       obj &&
@@ -547,24 +586,19 @@ export class ReporteComponent
 
     }
 
-
     return true;
 
   }
 
-
   onSubmit(): void {
 
-    if (
-      this.form.invalid
-    ) {
+    if (this.form.invalid) {
 
       this.form.markAllAsTouched();
 
       return;
 
     }
-
 
     this.cargando =
       true;
@@ -577,7 +611,6 @@ export class ReporteComponent
 
     this.mensajeError =
       undefined;
-
 
     this.reporteService
       .registrarReporte(
@@ -592,12 +625,10 @@ export class ReporteComponent
             res
           );
 
-
           const analisis =
             res?.data?.analisis ||
             res?.analisis ||
             res;
-
 
           if (
             analisis &&
@@ -620,26 +651,22 @@ export class ReporteComponent
 
           }
 
-
           const dataReporte =
             Array.isArray(res)
               ? res[0]
               : (
-                  res?.data ||
-                  res
-                );
-
+                res?.data ||
+                res
+              );
 
           const reporteId =
             dataReporte?.id_reporte ||
             dataReporte?.id;
 
-
           console.log(
             '[CIVICFIX] ID reporte:',
             reporteId
           );
-
 
           if (
             this.archivoSeleccionado &&
@@ -708,7 +735,6 @@ export class ReporteComponent
 
         },
 
-
         error: error => {
 
           console.error(
@@ -728,38 +754,45 @@ export class ReporteComponent
 
   }
 
-
   private resetFormulario(): void {
 
     this.form.reset({
 
       textoCiudadano: '',
-
       direccion: '',
-
       zona: '',
-
       referencia: '',
-
       latitud: 14.6349,
-
       longitud: -90.5069,
-
       idUsuario: 1
 
     });
 
-
     this.eliminarFoto();
+
+    setTimeout(() => {
+
+      if (this.map) {
+
+        this.map.setView(
+          [14.6349, -90.5069],
+          15
+        );
+
+        this.marker?.setLatLng([
+          14.6349,
+          -90.5069
+        ]);
+
+      }
+
+    }, 100);
 
   }
 
-
   ngOnDestroy(): void {
 
-    if (
-      this.vistaPrevia
-    ) {
+    if (this.vistaPrevia) {
 
       URL.revokeObjectURL(
         this.vistaPrevia
@@ -767,10 +800,7 @@ export class ReporteComponent
 
     }
 
-
-    if (
-      this.map
-    ) {
+    if (this.map) {
 
       this.map.remove();
 
