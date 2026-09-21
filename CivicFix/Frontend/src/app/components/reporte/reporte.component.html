@@ -14,23 +14,35 @@
 
     <nav class="civic-navigation">
 
-      <a class="civic-nav-item">
+      <a
+        class="civic-nav-item"
+        routerLink="/reportes"
+      >
         <i class="bi bi-house-door"></i>
         <span>Inicio</span>
       </a>
 
-      <a class="civic-nav-item active">
+      <a
+        class="civic-nav-item active"
+        routerLink="/reportes/nuevo"
+      >
         <i class="bi bi-file-earmark-plus"></i>
         <span>Reportar Incidencia</span>
       </a>
 
-      <a class="civic-nav-item">
+      <a
+        class="civic-nav-item"
+        routerLink="/reportes/mis-reportes"
+      >
         <i class="bi bi-file-earmark-text"></i>
         <span>Mis Reportes</span>
       </a>
 
-      <a class="civic-nav-item">
-        <i class="bi bi-geo-alt-fill"></i>
+      <a
+        class="civic-nav-item"
+        routerLink="/mapa"
+      >
+        <i class="bi bi-geo-alt"></i>
         <span>Mapa</span>
       </a>
 
@@ -87,19 +99,25 @@
     <header class="civic-topbar">
 
       <div class="civic-search">
+
         <i class="bi bi-search"></i>
 
         <input
           type="text"
-          placeholder="Buscar reportes, ubicaciones o servicios..."
+          placeholder="Buscar reportes, incidencias o ubicaciones..."
         >
+
       </div>
+
 
       <div class="topbar-actions">
 
         <div class="topbar-notification">
+
           <i class="bi bi-bell"></i>
+
           <span>3</span>
+
         </div>
 
         <div class="topbar-divider"></div>
@@ -111,8 +129,11 @@
           </div>
 
           <div class="user-information">
-            <strong>Juan Pérez</strong>
-            <small>Ciudadano</small>
+
+            <strong>Ciudadano</strong>
+
+            <small>Usuario registrado</small>
+
           </div>
 
           <i class="bi bi-chevron-down user-arrow"></i>
@@ -149,8 +170,6 @@
       <div class="report-grid">
 
 
-        <!-- COLUMNA IZQUIERDA -->
-
         <section class="information-card">
 
           <div class="section-title">
@@ -167,12 +186,9 @@
             (ngSubmit)="onSubmit()"
           >
 
-
             <div class="field">
 
-              <label>
-                Descripción del Problema
-              </label>
+              <label>Descripción del Problema</label>
 
               <textarea
                 formControlName="textoCiudadano"
@@ -190,9 +206,7 @@
 
             <div class="field">
 
-              <label>
-                Dirección Aproximada
-              </label>
+              <label>Dirección Aproximada</label>
 
               <div class="input-icon">
 
@@ -215,25 +229,34 @@
 
               <div class="field">
 
-                <label>
-                  Zona
-                </label>
+                <label>Zona</label>
 
-                <input
-                  type="text"
-                  formControlName="zona"
-                  placeholder="Ej: Zona 1"
-                >
+                <select formControlName="zona">
+
+                  <option value="">
+                    Selecciona una zona
+                  </option>
+
+                  <option value="Zona 1">Zona 1</option>
+                  <option value="Zona 2">Zona 2</option>
+                  <option value="Zona 3">Zona 3</option>
+                  <option value="Zona 4">Zona 4</option>
+                  <option value="Zona 5">Zona 5</option>
+                  <option value="Zona 6">Zona 6</option>
+                  <option value="Zona 7">Zona 7</option>
+                  <option value="Zona 9">Zona 9</option>
+                  <option value="Zona 10">Zona 10</option>
+                  <option value="Zona 11">Zona 11</option>
+                  <option value="Zona 12">Zona 12</option>
+
+                </select>
 
               </div>
 
 
-
               <div class="field">
 
-                <label>
-                  Referencia
-                </label>
+                <label>Referencia</label>
 
                 <input
                   type="text"
@@ -254,9 +277,7 @@
 
                 Fotografía de Evidencia
 
-                <span>
-                  (Opcional)
-                </span>
+                <span>(Opcional)</span>
 
               </label>
 
@@ -268,13 +289,9 @@
 
                 <i class="bi bi-camera"></i>
 
-                <strong>
-                  Agregar fotografía
-                </strong>
+                <strong>Agregar fotografía</strong>
 
-                <small>
-                  JPG, PNG o WEBP
-                </small>
+                <small>JPG, PNG o WEBP</small>
 
                 <input
                   type="file"
@@ -293,7 +310,7 @@
                 <img
                   *ngIf="vistaPrevia"
                   [src]="vistaPrevia"
-                  alt="Vista previa"
+                  alt="Vista previa de la fotografía"
                 >
 
                 <div class="photo-info">
@@ -303,14 +320,11 @@
                   </strong>
 
                   <small>
-
                     {{
                       (archivoSeleccionado.size / 1024 / 1024)
                       | number:'1.1-2'
                     }}
-
                     MB
-
                   </small>
 
                 </div>
@@ -338,7 +352,7 @@
 
               <span
                 *ngIf="cargando"
-                class="spinner-border spinner-border-sm"
+                class="spinner-border"
               ></span>
 
               <i
@@ -347,13 +361,11 @@
               ></i>
 
               <span>
-
                 {{
                   cargando
                     ? 'Analizando con IA...'
                     : 'Analizar con IA y Enviar Reporte'
                 }}
-
               </span>
 
               <i
@@ -374,7 +386,6 @@
 
             </p>
 
-
           </form>
 
 
@@ -387,13 +398,9 @@
 
             <div>
 
-              <strong>
-                Aviso del Sistema
-              </strong>
+              <strong>Aviso del Sistema</strong>
 
-              <p>
-                {{ mensajeError }}
-              </p>
+              <p>{{ mensajeError }}</p>
 
             </div>
 
@@ -402,12 +409,8 @@
         </section>
 
 
-        <!-- COLUMNA DERECHA -->
-
         <section class="right-column">
 
-
-          <!-- IA -->
 
           <div class="ai-card">
 
@@ -419,9 +422,7 @@
                   <i class="bi bi-robot"></i>
                 </div>
 
-                <h2>
-                  Análisis de la IA
-                </h2>
+                <h2>Análisis de la IA (Gemini)</h2>
 
               </div>
 
@@ -450,7 +451,6 @@
 
             <div class="analysis-process">
 
-
               <div class="process-item">
 
                 <span
@@ -465,9 +465,7 @@
 
                 </span>
 
-                <small>
-                  Analizando texto
-                </small>
+                <small>Analizando texto</small>
 
               </div>
 
@@ -489,9 +487,7 @@
 
                 </span>
 
-                <small>
-                  Identificando tipo
-                </small>
+                <small>Identificando tipo</small>
 
               </div>
 
@@ -513,9 +509,7 @@
 
                 </span>
 
-                <small>
-                  Detectando ubicación
-                </small>
+                <small>Detectando ubicación</small>
 
               </div>
 
@@ -537,9 +531,7 @@
 
                 </span>
 
-                <small>
-                  Asignando prioridad
-                </small>
+                <small>Asignando prioridad</small>
 
               </div>
 
@@ -551,31 +543,28 @@
               *ngIf="resultado && verificarValidez()"
             >
 
-
               <div class="ai-result-heading">
 
                 <i class="bi bi-stars"></i>
 
-                <span>
-                  La IA ha analizado tu reporte y ha
-                  determinado la siguiente información:
-                </span>
+                La IA ha analizado tu reporte y ha determinado
+                la siguiente información:
 
               </div>
 
 
               <div class="result-cards">
 
-
                 <div class="result-card">
 
-                  <small>
-                    Tipo de Incidencia
-                  </small>
+                  <small>Tipo de Incidencia</small>
 
                   <div class="result-main">
 
-                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <i
+                      class="bi"
+                      [class]="obtenerIconoTipo()"
+                    ></i>
 
                     <strong>
                       {{ obtenerTipo() }}
@@ -595,15 +584,14 @@
                   [style.--priority-color]="obtenerColorPrioridad()"
                 >
 
-                  <small>
-                    Prioridad
-                  </small>
+                  <small>Prioridad</small>
 
                   <div class="result-main">
 
                     <i
                       class="bi"
                       [class]="obtenerIconoPrioridad()"
+                      [style.color]="obtenerColorPrioridad()"
                     ></i>
 
                     <strong>
@@ -621,13 +609,14 @@
 
                 <div class="result-card">
 
-                  <small>
-                    Estado Inicial
-                  </small>
+                  <small>Estado Inicial</small>
 
                   <div class="result-main">
 
-                    <i class="bi bi-clock"></i>
+                    <i
+                      class="bi"
+                      [class]="obtenerIconoEstado()"
+                    ></i>
 
                     <strong>
                       {{ obtenerEstado() }}
@@ -644,9 +633,7 @@
 
                 <div class="result-card">
 
-                  <small>
-                    Servicio Municipal
-                  </small>
+                  <small>Servicio Municipal</small>
 
                   <div class="result-main">
 
@@ -663,7 +650,6 @@
                   </span>
 
                 </div>
-
 
               </div>
 
@@ -684,7 +670,6 @@
 
               </div>
 
-
             </div>
 
 
@@ -697,9 +682,7 @@
 
               <div>
 
-                <strong>
-                  Reporte no válido
-                </strong>
+                <strong>Reporte no válido</strong>
 
                 <p>
                   {{
@@ -721,7 +704,7 @@
               <i class="bi bi-robot"></i>
 
               <strong>
-                El análisis de la IA aparecerá aquí
+                El análisis de Gemini aparecerá aquí
               </strong>
 
               <span>
@@ -731,11 +714,8 @@
 
             </div>
 
-
           </div>
 
-
-          <!-- MAPA -->
 
           <div class="location-card">
 
@@ -743,15 +723,12 @@
 
               <i class="bi bi-geo-alt-fill"></i>
 
-              <h2>
-                Ubicación del Reporte
-              </h2>
+              <h2>Ubicación del Reporte</h2>
 
             </div>
 
 
             <div class="location-content">
-
 
               <div
                 #mapContainer
@@ -762,16 +739,13 @@
 
               <div class="location-info">
 
-
                 <div class="location-item">
 
                   <i class="bi bi-geo-alt-fill"></i>
 
                   <div>
 
-                    <strong>
-                      Dirección
-                    </strong>
+                    <strong>Dirección</strong>
 
                     <span>
                       {{
@@ -791,9 +765,7 @@
 
                   <div>
 
-                    <strong>
-                      Zona
-                    </strong>
+                    <strong>Zona</strong>
 
                     <span>
                       {{
@@ -813,9 +785,7 @@
 
                   <div>
 
-                    <strong>
-                      Referencia
-                    </strong>
+                    <strong>Referencia</strong>
 
                     <span>
                       {{
@@ -832,34 +802,22 @@
                 <div class="coordinates">
 
                   <div>
-
-                    <strong>
-                      Latitud:
-                    </strong>
-
+                    <strong>Latitud:</strong>
                     {{ form.get('latitud')?.value }}
-
                   </div>
 
                   <div>
-
-                    <strong>
-                      Longitud:
-                    </strong>
-
+                    <strong>Longitud:</strong>
                     {{ form.get('longitud')?.value }}
-
                   </div>
 
                 </div>
-
 
               </div>
 
             </div>
 
           </div>
-
 
         </section>
 
