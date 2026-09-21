@@ -1,21 +1,19 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
-import { ReporteService } from '../../services/reporte.service';
-
-interface ReporteVista {
+interface Reporte {
   id: number;
   titulo: string;
   descripcion: string;
   tipo: string;
-  zona: string;
-  ubicacion: string;
   prioridad: string;
   estado: string;
   fecha: string;
-  icono: string;
+  direccion: string;
+  zona: string;
+  referencia: string;
 }
 
 @Component({
@@ -23,230 +21,177 @@ interface ReporteVista {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './mis-reportes.component.html',
   styleUrl: './mis-reportes.component.css'
 })
-export class MisReportesComponent implements OnInit {
+export class MisReportesComponent {
 
-  private reporteService = inject(ReporteService);
-  private router = inject(Router);
+  textoBusqueda = '';
 
-  textoBusqueda: string = '';
-  filtroActual: string = 'Todos';
+  filtroActual = 'Todos';
 
-  reportes: ReporteVista[] = [];
+  reportes: Reporte[] = [
+    {
+      id: 1,
+      titulo: 'Bache en calle principal',
+      descripcion: 'Hay un bache grande que afecta la circulación de vehículos.',
+      tipo: 'Bache',
+      prioridad: 'Alta',
+      estado: 'Pendiente',
+      fecha: '16 Sep 2026',
+      direccion: '2da. avenida, Zona 1, Guatemala',
+      zona: 'Zona 1',
+      referencia: 'Cerca de la esquina'
+    },
+    {
+      id: 2,
+      titulo: 'Luminaria dañada',
+      descripcion: 'La lámpara de la calle no funciona durante la noche.',
+      tipo: 'Luminaria Dañada',
+      prioridad: 'Media',
+      estado: 'En Proceso',
+      fecha: '14 Sep 2026',
+      direccion: '6ta. avenida, Zona 4, Guatemala',
+      zona: 'Zona 4',
+      referencia: 'Frente al parque'
+    },
+    {
+      id: 3,
+      titulo: 'Fuga de agua',
+      descripcion: 'Se observa una fuga de agua en la vía pública.',
+      tipo: 'Fuga de Agua',
+      prioridad: 'Crítica',
+      estado: 'Resuelto',
+      fecha: '10 Sep 2026',
+      direccion: '10a. calle, Zona 1, Guatemala',
+      zona: 'Zona 1',
+      referencia: 'Frente al edificio municipal'
+    },
+    {
+      id: 4,
+      titulo: 'Bache en avenida',
+      descripcion: 'Bache ubicado en uno de los carriles de circulación.',
+      tipo: 'Bache',
+      prioridad: 'Baja',
+      estado: 'Pendiente',
+      fecha: '8 Sep 2026',
+      direccion: '3ra. avenida, Zona 3, Guatemala',
+      zona: 'Zona 3',
+      referencia: 'Cerca de la parada de bus'
+    }
+  ];
 
-  cargando: boolean = false;
-  error: string = '';
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    this.cargarReportes();
-  }
+  get reportesFiltrados(): Reporte[] {
+    const texto = this.textoBusqueda.toLowerCase().trim();
 
-  /**
-   * Obtener reportes reales desde la base de datos
-   */
-  cargarReportes(): void {
+    return this.reportes.filter(reporte => {
 
-    this.cargando = true;
-    this.error = '';
+      const coincideTexto =
+        !texto ||
+        reporte.titulo.toLowerCase().includes(texto) ||
+        reporte.descripcion.toLowerCase().includes(texto) ||
+        reporte.tipo.toLowerCase().includes(texto) ||
+        reporte.direccion.toLowerCase().includes(texto);
 
-    this.reporteService.obtenerTodosLosReportes().subscribe({
+      const coincideFiltro =
+        this.filtroActual === 'Todos' ||
+        reporte.estado === this.filtroActual;
 
-      next: (data: any[]) => {
-
-        console.log('Reportes recibidos desde API:', data);
-
-        this.reportes = data.map(
-          reporte => this.convertirReporte(reporte)
-        );
-
-        this.cargando = false;
-      },
-
-      error: (error) => {
-
-        console.error(
-          'Error al obtener los reportes:',
-          error
-        );
-
-        this.error =
-          'No se pudieron cargar los reportes.';
-
-        this.cargando = false;
-      }
-
+      return coincideTexto && coincideFiltro;
     });
   }
 
-  /**
-   * Convertir los datos de PostgreSQL
-   * al formato utilizado por el HTML
-   */
-  private convertirReporte(reporte: any): ReporteVista {
-
-    return {
-
-      id: reporte.id_reporte,
-
-      titulo: reporte.titulo,
-
-      descripcion: reporte.descripcion,
-
-      tipo: reporte.tipo_incidencia,
-
-      zona: reporte.zona,
-
-      ubicacion: reporte.direccion,
-
-      prioridad: reporte.prioridad,
-
-      estado: reporte.estado,
-
-      fecha: this.formatearFecha(
-        reporte.fecha_reporte
-      ),
-
-      icono: this.obtenerIcono(
-        reporte.tipo_incidencia
-      )
-
-    };
-  }
-
-  /**
-   * Formatear fecha
-   */
-  private formatearFecha(
-    fecha: string | Date
-  ): string {
-
-    const fechaObj = new Date(fecha);
-
-    if (isNaN(fechaObj.getTime())) {
-      return String(fecha);
-    }
-
-    return fechaObj.toLocaleDateString(
-      'es-GT',
-      {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      }
-    );
-  }
-
-  /**
-   * Filtrar reportes
-   */
-  get reportesFiltrados(): ReporteVista[] {
-
-    const texto = this.textoBusqueda
-      .toLowerCase()
-      .trim();
-
-    return this.reportes.filter(
-      reporte => {
-
-        const coincideBusqueda =
-          !texto ||
-          reporte.titulo
-            .toLowerCase()
-            .includes(texto) ||
-
-          reporte.descripcion
-            .toLowerCase()
-            .includes(texto) ||
-
-          reporte.tipo
-            .toLowerCase()
-            .includes(texto) ||
-
-          reporte.zona
-            .toLowerCase()
-            .includes(texto) ||
-
-          reporte.ubicacion
-            .toLowerCase()
-            .includes(texto) ||
-
-          reporte.estado
-            .toLowerCase()
-            .includes(texto) ||
-
-          reporte.prioridad
-            .toLowerCase()
-            .includes(texto);
-
-        const coincideFiltro =
-          this.filtroActual === 'Todos' ||
-          reporte.estado === this.filtroActual;
-
-        return coincideBusqueda && coincideFiltro;
-      }
-    );
-  }
-
-  /**
-   * Cambiar filtro
-   */
-  cambiarFiltro(filtro: string): void {
-    this.filtroActual = filtro;
-  }
-
-  /**
-   * Cantidad de reportes por estado
-   */
   cantidadPorEstado(estado: string): number {
-
     return this.reportes.filter(
       reporte => reporte.estado === estado
     ).length;
   }
 
-  /**
-   * Clase CSS para prioridad
-   */
-  obtenerClasePrioridad(
-    prioridad: string
-  ): string {
+  cambiarFiltro(filtro: string): void {
+    this.filtroActual = filtro;
+  }
 
-    switch (prioridad) {
+  nuevoReporte(): void {
+    this.router.navigate(['/reportes/nuevo']);
+  }
 
-      case 'Alta':
+  verDetalle(reporte: Reporte): void {
+    console.log('Reporte seleccionado:', reporte);
+  }
+
+  obtenerClasePrioridad(prioridad: string): string {
+    switch (prioridad.toLowerCase()) {
+      case 'crítica':
+      case 'critica':
+        return 'prioridad-critica';
+
+      case 'alta':
         return 'prioridad-alta';
 
-      case 'Media':
+      case 'media':
         return 'prioridad-media';
 
-      case 'Baja':
-        return 'prioridad-baja';
-
       default:
-        return '';
+        return 'prioridad-baja';
     }
   }
 
-  /**
-   * Clase CSS para estado
-   */
-  obtenerClaseEstado(
-    estado: string
-  ): string {
+  obtenerColorPrioridad(prioridad: string): string {
+    const prioridadNormalizada = prioridad.toLowerCase();
 
-    switch (estado) {
+    if (
+      prioridadNormalizada.includes('crít') ||
+      prioridadNormalizada.includes('crit')
+    ) {
+      return '#C62828';
+    }
 
-      case 'Pendiente':
+    if (prioridadNormalizada.includes('alt')) {
+      return '#EF6C00';
+    }
+
+    if (prioridadNormalizada.includes('med')) {
+      return '#F9A825';
+    }
+
+    return '#2E7D32';
+  }
+
+  obtenerIconoPrioridad(prioridad: string): string {
+    const prioridadNormalizada = prioridad.toLowerCase();
+
+    if (
+      prioridadNormalizada.includes('crít') ||
+      prioridadNormalizada.includes('crit')
+    ) {
+      return 'bi-exclamation-octagon-fill';
+    }
+
+    if (prioridadNormalizada.includes('alt')) {
+      return 'bi-exclamation-circle-fill';
+    }
+
+    if (prioridadNormalizada.includes('med')) {
+      return 'bi-dash-circle-fill';
+    }
+
+    return 'bi-check-circle-fill';
+  }
+
+  obtenerClaseEstado(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'pendiente':
         return 'estado-pendiente';
 
-      case 'En proceso':
+      case 'en proceso':
         return 'estado-proceso';
 
-      case 'Resuelto':
+      case 'resuelto':
         return 'estado-resuelto';
 
       default:
@@ -254,72 +199,37 @@ export class MisReportesComponent implements OnInit {
     }
   }
 
-  /**
-   * Crear nuevo reporte
-   */
-  nuevoReporte(): void {
+  obtenerIconoEstado(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'pendiente':
+        return 'bi-clock';
 
-    this.router.navigate([
-      '/reportes/nuevo'
-    ]);
+      case 'en proceso':
+        return 'bi-arrow-repeat';
+
+      case 'resuelto':
+        return 'bi-check-circle';
+
+      default:
+        return 'bi-clock';
+    }
   }
 
-  /**
-   * Ver detalle del reporte
-   */
-  verDetalle(
-    reporte: ReporteVista
-  ): void {
+  obtenerIconoTipo(tipo: string): string {
+    const tipoNormalizado = tipo.toLowerCase();
 
-    console.log(
-      'Reporte seleccionado:',
-      reporte
-    );
-  }
-
-  /**
-   * Obtener icono según el tipo de incidencia
-   */
-  private obtenerIcono(
-    tipo: string
-  ): string {
-
-    const tipoNormalizado =
-      tipo.toLowerCase();
-
-    if (
-      tipoNormalizado.includes('calle') ||
-      tipoNormalizado.includes('bache')
-    ) {
-      return 'fa-solid fa-road';
+    if (tipoNormalizado.includes('agua')) {
+      return 'bi-droplet-fill';
     }
 
-    if (
-      tipoNormalizado.includes('alumbrado') ||
-      tipoNormalizado.includes('luz')
-    ) {
-      return 'fa-solid fa-lightbulb';
+    if (tipoNormalizado.includes('luminaria')) {
+      return 'bi-lightbulb-fill';
     }
 
-    if (
-      tipoNormalizado.includes('basura') ||
-      tipoNormalizado.includes('limpieza')
-    ) {
-      return 'fa-solid fa-trash';
+    if (tipoNormalizado.includes('bache')) {
+      return 'bi-cone-striped';
     }
 
-    if (
-      tipoNormalizado.includes('agua')
-    ) {
-      return 'fa-solid fa-droplet';
-    }
-
-    if (
-      tipoNormalizado.includes('seguridad')
-    ) {
-      return 'fa-solid fa-shield-halved';
-    }
-
-    return 'fa-solid fa-file-circle-exclamation';
+    return 'bi-exclamation-triangle-fill';
   }
 }
