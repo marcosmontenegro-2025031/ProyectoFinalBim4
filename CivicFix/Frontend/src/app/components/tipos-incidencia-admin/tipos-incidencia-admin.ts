@@ -22,8 +22,8 @@ interface TipoIncidencia {
     FormsModule,
     RouterModule
   ],
-  templateUrl: './tipos-incidencia-admin.component.html',
-  styleUrl: './tipos-incidencia-admin.component.css'
+  templateUrl: './tipos-incidencia-admin.html',
+  styleUrl: './tipos-incidencia-admin.css'
 })
 export class TiposIncidenciaAdminComponent {
 

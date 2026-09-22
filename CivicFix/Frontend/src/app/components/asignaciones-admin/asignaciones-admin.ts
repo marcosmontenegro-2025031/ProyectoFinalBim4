@@ -22,8 +22,8 @@ interface Asignacion {
     FormsModule,
     RouterModule
   ],
-  templateUrl: './asignaciones-admin.component.html',
-  styleUrl: './asignaciones-admin.component.css'
+  templateUrl: './asignaciones-admin.html',
+  styleUrl: './asignaciones-admin.css'
 })
 export class AsignacionesAdminComponent {
 

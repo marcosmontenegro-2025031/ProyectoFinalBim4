@@ -32,25 +32,9 @@ export class ReporteService {
         return await this.reporteRepo.obtenerReportesPorUsuario(idUsuario);
     }
 
-<<<<<<< HEAD
-    async registrarReporteCiudadano(
-        dto: CrearReporteDTO
-    ): Promise<RespuestaProcesamientoReporte> {
-
-        if (
-            !this.ubicacionService.validarCoordenadas(
-                dto.latitud,
-                dto.longitud
-            )
-        ) {
-            throw new Error(
-                'Las coordenadas geográficas (latitud/longitud) ingresadas no son válidas.'
-            );
-=======
     async registrarReporteCiudadano(dto: CrearReporteDTO): Promise<RespuestaProcesamientoReporte> {
         if (!this.ubicacionService.validarCoordenadas(dto.latitud, dto.longitud)) {
             throw new Error('Las coordenadas geográficas (latitud/longitud) ingresadas no son válidas.');
->>>>>>> d415eb1296741435254f3888415e9765aa112a68
         }
 
         const analisis = await analizarQueja(dto.textoCiudadano);
@@ -100,8 +84,8 @@ export class ReporteService {
     async obtenerPuntosParaMapa() {
         return await this.reporteRepo.obtenerReportesParaMapa();
     }
-<<<<<<< HEAD
+
+    async actualizarEstado(idReporte: number, idEstado: number): Promise<boolean> {
+        return await this.reporteRepo.actualizarEstado(idReporte, idEstado);
+    }
 }
-=======
-}
->>>>>>> d415eb1296741435254f3888415e9765aa112a68

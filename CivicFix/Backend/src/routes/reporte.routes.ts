@@ -3,7 +3,8 @@ import {
     crearReporteHandler,
     obtenerMisReportesHandler,
     obtenerPuntosMapaHandler,
-    obtenerReportesHandler
+    obtenerReportesHandler,
+    actualizarEstadoHandler
 } from '../controllers/reporte.controller';
 import {
     verificarTokenUsuario,
@@ -14,6 +15,7 @@ const router = Router();
 
 router.post('/reportes', crearReporteHandler);
 router.get('/reportes', verificarTokenEmpleado, obtenerReportesHandler);
+router.patch('/reportes/:id/estado', verificarTokenEmpleado, actualizarEstadoHandler);
 router.get('/reportes/mapa', obtenerPuntosMapaHandler);
 router.get(
     '/reportes/mis-reportes',

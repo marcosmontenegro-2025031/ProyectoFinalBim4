@@ -13,8 +13,8 @@ import { ReporteAdmin } from '../../models/reporte.model';
     FormsModule,
     RouterModule
   ],
-  templateUrl: './reportes-admin.component.html',
-  styleUrl: './reportes-admin.component.css'
+  templateUrl: './reportes-admin.html',
+  styleUrl: './reportes-admin.css'
 })
 export class ReportesAdminComponent implements OnInit {
 
@@ -59,7 +59,7 @@ export class ReportesAdminComponent implements OnInit {
         reporte.titulo?.toLowerCase().includes(texto) ||
         reporte.descripcion?.toLowerCase().includes(texto) ||
         reporte.usuario?.toLowerCase().includes(texto) ||
-        reporte.tipo?.toLowerCase().includes(texto) ||
+        reporte.tipo_incidencia?.toLowerCase().includes(texto) ||
         reporte.direccion?.toLowerCase().includes(texto);
 
       const coincideEstado =
@@ -170,10 +170,10 @@ export class ReportesAdminComponent implements OnInit {
   }
 
   verDetalle(reporte: ReporteAdmin): void {
-    alert(`Detalle del reporte #${reporte.id}\n\n${reporte.titulo}`);
+    alert(`Detalle del reporte #${reporte.id_reporte}\n\n${reporte.titulo}`);
   }
 
   actualizarEstado(reporte: ReporteAdmin): void {
-    alert(`Actualizar estado del reporte #${reporte.id}`);
+    alert(`Actualizar estado del reporte #${reporte.id_reporte}`);
   }
 }

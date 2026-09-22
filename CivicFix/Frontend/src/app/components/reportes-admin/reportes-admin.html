@@ -273,7 +273,7 @@
                 <td>
 
                   <span class="report-id">
-                    #{{ reporte.id }}
+                    #{{ reporte.id_reporte }}
                   </span>
 
                 </td>
@@ -313,7 +313,7 @@
                 <td>
 
                   <span class="type-badge">
-                    {{ reporte.tipo || 'Sin categoría' }}
+                    {{ reporte.tipo_incidencia || 'Sin categoría' }}
                   </span>
 
                 </td>
@@ -355,7 +355,7 @@
 
                     <i class="bi bi-calendar3"></i>
 
-                    {{ reporte.fecha | date:'dd/MM/yyyy' }}
+                    {{ reporte.fecha_reporte | date:'dd/MM/yyyy' }}
 
                   </span>
 

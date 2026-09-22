@@ -23,8 +23,8 @@ interface Empleado {
     FormsModule,
     RouterModule
   ],
-  templateUrl: './empleados-admin.component.html',
-  styleUrl: './empleados-admin.component.css'
+  templateUrl: './empleados-admin.html',
+  styleUrl: './empleados-admin.css'
 })
 export class EmpleadosAdminComponent {
 

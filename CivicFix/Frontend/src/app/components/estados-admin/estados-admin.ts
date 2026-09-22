@@ -21,8 +21,8 @@ interface Estado {
     FormsModule,
     RouterModule
   ],
-  templateUrl: './estados-admin.component.html',
-  styleUrl: './estados-admin.component.css'
+  templateUrl: './estados-admin.html',
+  styleUrl: './estados-admin.css'
 })
 export class EstadosAdminComponent {
 

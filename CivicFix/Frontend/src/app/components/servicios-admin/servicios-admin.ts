@@ -22,8 +22,8 @@ interface Servicio {
     FormsModule,
     RouterModule
   ],
-  templateUrl: './servicios-admin.component.html',
-  styleUrl: './servicios-admin.component.css'
+  templateUrl: './servicios-admin.html',
+  styleUrl: './servicios-admin.css'
 })
 export class ServiciosAdminComponent {
 

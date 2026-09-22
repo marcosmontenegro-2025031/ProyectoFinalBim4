@@ -114,8 +114,28 @@ export const obtenerMisReportesHandler = async (
             detalle: error.message
         });
     }
-<<<<<<< HEAD
 };
-=======
+
+export const actualizarEstadoHandler = async (
+    req: Request,
+    res: Response
+): Promise<Response> => {
+    const idReporte = Number(req.params.id);
+    const idEstado = Number(req.body.idEstado);
+
+    if (!Number.isInteger(idReporte) || !Number.isInteger(idEstado)) {
+        return res.status(400).json({ error: 'id e idEstado deben ser números enteros.' });
+    }
+
+    try {
+        const actualizado = await reporteService.actualizarEstado(idReporte, idEstado);
+
+        if (!actualizado) {
+            return res.status(404).json({ error: 'Reporte no encontrado.' });
+        }
+
+        return res.status(200).json({ mensaje: 'Estado actualizado correctamente' });
+    } catch (error: any) {
+        return res.status(500).json({ error: 'Error al actualizar el estado', detalle: error.message });
+    }
 };
->>>>>>> d415eb1296741435254f3888415e9765aa112a68

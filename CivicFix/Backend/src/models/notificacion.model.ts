@@ -1,10 +1,16 @@
 
 export interface Notificacion {
   id_notificacion: number;
-  id_usuario: number;
-  id_reporte: number;
+  fk_id_usuario: number;
+  fk_id_reporte: number;
   titulo: string;
   mensaje: string;
   fecha_notificacion: Date;
   leida: boolean;
 }
+
+export type CrearNotificacionDTO = Omit<Notificacion, 'id_notificacion' | 'leida'> & {
+  leida?: boolean;
+};
+
+export type ActualizarNotificacionDTO = Partial<CrearNotificacionDTO>;
