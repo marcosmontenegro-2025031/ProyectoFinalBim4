@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpleadoService } from '../../service/empleado.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
-  imports: [ReactiveFormsModule,RouterLink],
+  imports: [ReactiveFormsModule],
   standalone: true,
   selector: 'app-empleado-login',
   templateUrl: './empleado-login.html',
@@ -35,7 +35,13 @@ export class EmpleadoLogin {
       this.empleadoService.login(this.loginForm.value).subscribe({
         next: (response) => {
           console.log('Login exitoso. El token ya se guardó.');
-          this.router.navigate(['/prueba']); 
+          const rol = response?.usuario?.rol;
+          
+          if (rol === "Adminitrador"){
+            this.router.navigate(["/home-admin"]);
+          }else {
+            this.router.navigate(["/home-empleado"]);
+          }
         },
         error: (err) => {
           console.error('STATUS:', err.status);
