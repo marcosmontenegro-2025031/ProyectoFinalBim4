@@ -22,8 +22,8 @@ interface Prioridad {
     FormsModule,
     RouterModule
   ],
-  templateUrl: './prioridades-admin.component.html',
-  styleUrl: './prioridades-admin.component.css'
+  templateUrl: './prioridades-admin.html',
+  styleUrl: './prioridades-admin.css'
 })
 export class PrioridadesAdminComponent {
 

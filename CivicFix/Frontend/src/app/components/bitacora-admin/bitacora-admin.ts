@@ -20,8 +20,8 @@ interface RegistroBitacora {
   selector: 'app-bitacora-admin',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './bitacora-admin.component.html',
-  styleUrl: './bitacora-admin.component.css'
+  templateUrl: './bitacora-admin.html',
+  styleUrl: './bitacora-admin.css'
 })
 export class BitacoraAdminComponent {
 

@@ -22,14 +22,5 @@ pool.on('error', (err) => {
 });
 
 pool.query('SELECT NOW()')
-<<<<<<< HEAD
-    .then(res => {
-        console.log('Base de datos lista y respondiendo en:', res.rows[0].now);
-    })
-    .catch(err => {
-        console.error('Error crítico al conectar con la BD:', err);
-    });
-=======
     .then(res => console.log('Base de datos lista y respondiendo en:', res.rows[0].now))
     .catch(err => console.error('Error crítico al conectar con la BD:', err));
->>>>>>> d415eb1296741435254f3888415e9765aa112a68

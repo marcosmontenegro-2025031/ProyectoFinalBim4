@@ -1,128 +1,85 @@
 import { Request, Response } from 'express';
-import { FotoProblemaRepository } from '../repository/fotoProblema.repository';
+import { FotoProblemaService } from '../services/fotoProblema.service.js';
 
-const repositorio = new FotoProblemaRepository();
-
-<<<<<<< HEAD
-export const registrarFotoProblema = async (req: Request, res: Response): Promise<Response> => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No se ha proporcionado ninguna imagen.' });
-=======
+export class FotoProblemaController {
     private service = new FotoProblemaService();
 
-    async listar(req: Request, res: Response): Promise<void> {
+    async listar(_req: Request, res: Response): Promise<void> {
         try {
-            const fotos = await this.service.listar();
-            res.status(200).json(fotos);
+            res.status(200).json(await this.service.listar());
         } catch (error) {
-            res.status(500).json({ mensaje: "Error al obtener las fotografías", error: (error as Error).message });
->>>>>>> Develop
+            res.status(500).json({ mensaje: 'Error al obtener las fotografías', error: (error as Error).message });
         }
+    }
 
-        const { reporteId, id_reporte } = req.body;
-        const targetReporteId = id_reporte || reporteId;
-
-<<<<<<< HEAD
-        if (!targetReporteId) {
-            return res.status(400).json({ error: 'El id_reporte es obligatorio para asociar la fotografía.' });
-=======
     async obtenerPorId(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
-
-            if (isNaN(id)) {
-                res.status(400).json({ mensaje: "El id debe ser un número" });
+            if (!Number.isInteger(id)) {
+                res.status(400).json({ mensaje: 'El id debe ser un número' });
                 return;
             }
-
-            const foto = await this.service.obtenerPorId(id);
-            res.status(200).json(foto);
+            res.status(200).json(await this.service.obtenerPorId(id));
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
->>>>>>> Develop
         }
-
-        const rutaFotografia = `/uploads/${req.file.filename}`;
-
-        const nuevaFoto = await repositorio.crear({
-            id_reporte: Number(targetReporteId),
-            ruta_fotografia: rutaFotografia,
-            descripcion: req.body.descripcion || 'Foto inicial del reporte'
-        });
-
-        return res.status(201).json({
-            message: 'Fotografía registrada con éxito en la base de datos',
-            data: nuevaFoto
-        });
-    } catch (error: any) {
-        console.error('Error al guardar foto:', error);
-        return res.status(500).json({ error: 'Error interno al procesar e insertar la imagen en la base de datos.' });
     }
-};
-
-<<<<<<< HEAD
-=======
 
     async obtenerPorReporte(req: Request, res: Response): Promise<void> {
         try {
             const idReporte = Number(req.params.idReporte);
-
-            if (isNaN(idReporte)) {
-                res.status(400).json({ mensaje: "El idReporte debe ser un número" });
+            if (!Number.isInteger(idReporte)) {
+                res.status(400).json({ mensaje: 'El idReporte debe ser un número' });
                 return;
             }
-
-            const fotos = await this.service.obtenerPorReporte(idReporte);
-            res.status(200).json(fotos);
+            res.status(200).json(await this.service.obtenerPorReporte(idReporte));
         } catch (error) {
             res.status(500).json({ mensaje: (error as Error).message });
         }
     }
 
-
     async crear(req: Request, res: Response): Promise<void> {
         try {
-            const nuevaFoto = await this.service.crear(req.body);
-            res.status(201).json(nuevaFoto);
+            const idReporte = Number(req.body.id_reporte);
+            if (!req.file || !Number.isInteger(idReporte)) {
+                res.status(400).json({ mensaje: 'id_reporte e imagen son obligatorios' });
+                return;
+            }
+            const foto = await this.service.crear({
+                fk_id_reporte: idReporte,
+                ruta_fotografia: `/uploads/${req.file.filename}`,
+                descripcion: req.body.descripcion
+            });
+            res.status(201).json(foto);
         } catch (error) {
             res.status(400).json({ mensaje: (error as Error).message });
         }
     }
 
-
     async actualizar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
-
-            if (isNaN(id)) {
-                res.status(400).json({ mensaje: "El id debe ser un número" });
+            if (!Number.isInteger(id)) {
+                res.status(400).json({ mensaje: 'El id debe ser un número' });
                 return;
             }
-
-            const fotoActualizada = await this.service.actualizar(id, req.body);
-            res.status(200).json(fotoActualizada);
+            res.status(200).json(await this.service.actualizar(id, req.body));
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
         }
     }
-
 
     async eliminar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
-
-            if (isNaN(id)) {
-                res.status(400).json({ mensaje: "El id debe ser un número" });
+            if (!Number.isInteger(id)) {
+                res.status(400).json({ mensaje: 'El id debe ser un número' });
                 return;
             }
-
-            const fotoEliminada = await this.service.eliminar(id);
-            res.status(200).json({ mensaje: "Fotografía eliminada correctamente", fotografia: fotoEliminada });
+            const fotografia = await this.service.eliminar(id);
+            res.status(200).json({ mensaje: 'Fotografía eliminada correctamente', fotografia });
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
         }
     }
-
 }
->>>>>>> Develop

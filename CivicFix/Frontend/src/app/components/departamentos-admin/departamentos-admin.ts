@@ -22,8 +22,8 @@ interface Departamento {
     FormsModule,
     RouterModule
   ],
-  templateUrl: './departamentos-admin.component.html',
-  styleUrl: './departamentos-admin.component.css'
+  templateUrl: './departamentos-admin.html',
+  styleUrl: './departamentos-admin.css'
 })
 export class DepartamentosAdminComponent {
 

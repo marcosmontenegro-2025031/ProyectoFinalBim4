@@ -14,6 +14,14 @@ export interface GuardarReporteCompletoParams {
 export class ReporteRepository {
     private ubicacionRepo = new UbicacionRepository();
 
+    async actualizarEstado(idReporte: number, idEstado: number): Promise<boolean> {
+        const resultado = await pool.query(
+            'UPDATE Reporte SET fk_id_estado = $1 WHERE id_reporte = $2',
+            [idEstado, idReporte]
+        );
+        return resultado.rowCount === 1;
+    }
+
     async obtenerTodosLosReportes() {
         const query = `
             SELECT
@@ -31,12 +39,12 @@ export class ReporteRepository {
                 p.nombre AS prioridad,
                 f.ruta_fotografia
             FROM Reporte r
-            INNER JOIN Usuario usr ON r.id_usuario = usr.id_usuario
-            INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
-            INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
-            INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
-            INNER JOIN Estado e ON r.id_estado = e.id_estado
-            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
+            INNER JOIN Usuario usr ON r.fk_id_usuario = usr.id_usuario
+            INNER JOIN Ubicacion u ON r.fk_id_ubicacion = u.id_ubicacion
+            INNER JOIN TipoIncidencia ti ON r.fk_id_tipo_incidencia = ti.id_tipo_incidencia
+            INNER JOIN Prioridad p ON r.fk_id_prioridad = p.id_prioridad
+            INNER JOIN Estado e ON r.fk_id_estado = e.id_estado
+            LEFT JOIN FotografiaProblema f ON r.id_reporte = f.fk_id_reporte
             ORDER BY r.fecha_reporte DESC;
         `;
 
@@ -62,11 +70,11 @@ export class ReporteRepository {
                 INSERT INTO Reporte (
                     titulo,
                     descripcion,
-                    id_usuario,
-                    id_tipo_incidencia,
-                    id_ubicacion,
-                    id_estado,
-                    id_prioridad
+                    fk_id_usuario,
+                    fk_id_tipo_incidencia,
+                    fk_id_ubicacion,
+                    fk_id_estado,
+                    fk_id_prioridad
                 )
                 VALUES (
                     $1,
@@ -146,10 +154,10 @@ export class ReporteRepository {
                 p.nombre AS prioridad,
                 e.nombre AS estado
             FROM Reporte r
-            INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
-            INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
-            INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
-            INNER JOIN Estado e ON r.id_estado = e.id_estado
+            INNER JOIN Ubicacion u ON r.fk_id_ubicacion = u.id_ubicacion
+            INNER JOIN TipoIncidencia ti ON r.fk_id_tipo_incidencia = ti.id_tipo_incidencia
+            INNER JOIN Prioridad p ON r.fk_id_prioridad = p.id_prioridad
+            INNER JOIN Estado e ON r.fk_id_estado = e.id_estado
             ORDER BY r.fecha_reporte DESC;
         `;
 
@@ -175,43 +183,16 @@ export class ReporteRepository {
                 p.nombre AS prioridad,
                 f.ruta_fotografia
             FROM Reporte r
-<<<<<<< HEAD
-            INNER JOIN Usuario usr
-                ON r.id_usuario = usr.id_usuario
-            INNER JOIN Ubicacion u
-                ON r.id_ubicacion = u.id_ubicacion
-            INNER JOIN TipoIncidencia ti
-                ON r.id_tipo_incidencia = ti.id_tipo_incidencia
-            INNER JOIN Prioridad p
-                ON r.id_prioridad = p.id_prioridad
-            INNER JOIN Estado e
-                ON r.id_estado = e.id_estado
-            LEFT JOIN fotografiaproblema f
-                ON r.id_reporte = f.id_reporte
-            WHERE r.id_usuario = $1
-            ORDER BY r.fecha_reporte DESC;
-        `;
-
-        const { rows } = await pool.query(
-            query,
-            [idUsuario]
-        );
-
-        return rows;
-    }
-}
-=======
-            INNER JOIN Usuario usr ON r.id_usuario = usr.id_usuario
-            INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
-            INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
-            INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
-            INNER JOIN Estado e ON r.id_estado = e.id_estado
-            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
-            WHERE r.id_usuario = $1
+            INNER JOIN Usuario usr ON r.fk_id_usuario = usr.id_usuario
+            INNER JOIN Ubicacion u ON r.fk_id_ubicacion = u.id_ubicacion
+            INNER JOIN TipoIncidencia ti ON r.fk_id_tipo_incidencia = ti.id_tipo_incidencia
+            INNER JOIN Prioridad p ON r.fk_id_prioridad = p.id_prioridad
+            INNER JOIN Estado e ON r.fk_id_estado = e.id_estado
+            LEFT JOIN FotografiaProblema f ON r.id_reporte = f.fk_id_reporte
+            WHERE r.fk_id_usuario = $1
             ORDER BY r.fecha_reporte DESC;
         `;
         const { rows } = await pool.query(query, [idUsuario]);
         return rows;
     }
 }
->>>>>>> d415eb1296741435254f3888415e9765aa112a68
