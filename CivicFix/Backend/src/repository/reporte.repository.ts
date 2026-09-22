@@ -129,6 +129,8 @@ export class ReporteRepository {
         const { rows } = await pool.query(query);
         return rows;
     }
+<<<<<<< HEAD
+=======
 
     async obtenerReportesPorUsuario(idUsuario: number) {
 
@@ -168,5 +170,6 @@ export class ReporteRepository {
 
         return rows;
     }
+>>>>>>> Develop
 }
 

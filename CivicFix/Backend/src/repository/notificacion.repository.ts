@@ -1,6 +1,24 @@
-import { pool } from "../config/db.js";
-import { Notificacion } from "../models/notificacion.model.js";
+import { pool } from '../config/db';
+import { Notificacion } from '../models/notificacion.model';
 
+<<<<<<< HEAD
+export const obtenerTodasLasNotificaciones = async (): Promise<Notificacion[]> => {
+  const resultado = await pool.query(
+    `SELECT
+      id_notificacion,
+      id_usuario,
+      id_reporte,
+      titulo,
+      mensaje,
+      fecha_notificacion,
+      leida
+    FROM Notificacion
+    ORDER BY fecha_notificacion DESC`
+  );
+
+  return resultado.rows;
+};
+=======
 const COLUMNAS = `
     id_notificacion,
     id_usuario AS fk_id_usuario,
@@ -20,22 +38,68 @@ export class NotificacionRepository {
         `);
         return resultado.rows;
     }
+>>>>>>> Develop
 
+export const obtenerNotificacionPorId = async (
+  idNotificacion: number
+): Promise<Notificacion | null> => {
+  const resultado = await pool.query(
+    `SELECT
+      id_notificacion,
+      id_usuario,
+      id_reporte,
+      titulo,
+      mensaje,
+      fecha_notificacion,
+      leida
+    FROM Notificacion
+    WHERE id_notificacion = $1`,
+    [idNotificacion]
+  );
 
+<<<<<<< HEAD
+  return resultado.rows[0] || null;
+};
+=======
     async obtenerPorId(id: number): Promise<Notificacion | null> {
         const resultado = await pool.query<Notificacion>(
             `SELECT ${COLUMNAS} FROM Notificacion WHERE id_notificacion = $1`,
             [id]
         );
+>>>>>>> Develop
 
-        if (resultado.rows.length === 0) {
-            return null;
-        }
+export const marcarComoLeida = async (
+  idNotificacion: number
+): Promise<Notificacion | null> => {
+  const resultado = await pool.query(
+    `UPDATE Notificacion
+     SET leida = TRUE
+     WHERE id_notificacion = $1
+     RETURNING
+       id_notificacion,
+       id_usuario,
+       id_reporte,
+       titulo,
+       mensaje,
+       fecha_notificacion,
+       leida`,
+    [idNotificacion]
+  );
 
-        return resultado.rows[0];
-    }
+  return resultado.rows[0] || null;
+};
 
+export const marcarTodasComoLeidas = async (): Promise<number> => {
+  const resultado = await pool.query(
+    `UPDATE Notificacion
+     SET leida = TRUE
+     WHERE leida = FALSE`
+  );
 
+<<<<<<< HEAD
+  return resultado.rowCount ?? 0;
+};
+=======
     async obtenerPorUsuario(idUsuario: number): Promise<Notificacion[]> {
         const resultado = await pool.query<Notificacion>(
             `SELECT ${COLUMNAS} FROM Notificacion WHERE id_usuario = $1 ORDER BY fecha_notificacion DESC`,
@@ -43,8 +107,22 @@ export class NotificacionRepository {
         );
         return resultado.rows;
     }
+>>>>>>> Develop
 
+export const eliminarNotificacion = async (
+  idNotificacion: number
+): Promise<boolean> => {
+  const resultado = await pool.query(
+    `DELETE FROM Notificacion
+     WHERE id_notificacion = $1`,
+    [idNotificacion]
+  );
 
+<<<<<<< HEAD
+  return (resultado.rowCount ?? 0) > 0;
+};
+
+=======
     async crear(notificacion: Notificacion): Promise<Notificacion> {
         const resultado = await pool.query<Notificacion>(
             `INSERT INTO Notificacion (id_usuario, id_reporte, titulo, mensaje, fecha_notificacion, leida)
@@ -118,3 +196,4 @@ export class NotificacionRepository {
     }
 
 }
+>>>>>>> Develop

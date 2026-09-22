@@ -67,6 +67,8 @@ export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Pr
     }
 };
 
+<<<<<<< HEAD
+=======
 export const obtenerMisReportesHandler = async (
     req: Request,
     res: Response
@@ -96,3 +98,4 @@ export const obtenerMisReportesHandler = async (
         });
     }
 };
+>>>>>>> Develop
