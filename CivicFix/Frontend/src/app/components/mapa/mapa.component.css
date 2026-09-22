@@ -1590,7 +1590,6 @@
 }
 
 @media (max-width: 1700px) {
-
   .civic-content {
     padding-right: 30px;
     padding-left: 30px;
@@ -1608,11 +1607,9 @@
         minmax(0, 1fr)
       );
   }
-
 }
 
 @media (max-width: 1250px) {
-
   .civic-sidebar {
     width: 245px;
   }
@@ -1661,11 +1658,9 @@
         minmax(0, 1fr)
       );
   }
-
 }
 
 @media (max-width: 950px) {
-
   .civic-sidebar {
     width: 82px;
   }
@@ -1739,11 +1734,9 @@
   .map-wrapper {
     height: 450px;
   }
-
 }
 
 @media (max-width: 700px) {
-
   .civic-sidebar {
     position: fixed;
     width: 65px;
@@ -1855,11 +1848,9 @@
   .reports-grid {
     grid-template-columns: 1fr;
   }
-
 }
 
 @media (max-width: 450px) {
-
   .civic-sidebar {
     width: 58px;
   }
@@ -1980,5 +1971,4 @@
   .civicfix-popup {
     width: 270px;
   }
-
 }
