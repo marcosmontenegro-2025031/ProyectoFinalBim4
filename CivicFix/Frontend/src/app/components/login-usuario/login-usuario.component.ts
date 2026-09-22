@@ -37,7 +37,7 @@ export class LoginUsuario {
         next: (response) => {
           console.log('Login exitoso. El token ya se guardó.');
 
-          this.router.navigate(['/prueba']); 
+          this.router.navigate(['/home-usuario']); 
         },
         error: (err) => {
           console.error('STATUS:', err.status);
