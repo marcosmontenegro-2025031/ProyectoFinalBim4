@@ -20,7 +20,7 @@ import {
   Validators
 } from '@angular/forms';
 
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { ReporteService } from '../../services/reporte.service';
 import { FotoProblemaService } from '../../services/fotoProblema.service';
@@ -31,7 +31,7 @@ import { FotoProblemaService } from '../../services/fotoProblema.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterModule
   ],
   templateUrl: './reporte.component.html',
   styleUrl: './reporte.component.css',
@@ -51,15 +51,19 @@ export class ReporteComponent implements OnInit, OnDestroy {
   private marker: any;
 
   cargando = false;
+
   resultado: any = null;
+
   mensajeError: string | undefined;
 
   archivoSeleccionado: File | null = null;
+
   vistaPrevia: string | null = null;
 
   analisisCompleto = false;
 
   form = this.fb.group({
+
     textoCiudadano: [
       '',
       [
@@ -68,30 +72,38 @@ export class ReporteComponent implements OnInit, OnDestroy {
         Validators.maxLength(500)
       ]
     ],
+
     direccion: [
       '',
       Validators.required
     ],
+
     zona: [
       '',
       Validators.required
     ],
+
     referencia: [
       ''
     ],
+
     latitud: [
       14.6349,
       Validators.required
     ],
+
     longitud: [
       -90.5069,
       Validators.required
     ],
+
     idUsuario: [
       1,
       Validators.required
     ]
+
   });
+
 
   async ngOnInit(): Promise<void> {
 
@@ -106,9 +118,11 @@ export class ReporteComponent implements OnInit, OnDestroy {
         const L = await import('leaflet');
 
         if (!this.mapContainer?.nativeElement) {
+
           console.error(
             '[CIVICFIX] No se encontró el contenedor del mapa.'
           );
+
           return;
         }
 
@@ -132,36 +146,63 @@ export class ReporteComponent implements OnInit, OnDestroy {
         ).addTo(this.map);
 
         const iconoCivicFix = L.divIcon({
-          className: 'civicfix-map-marker-wrapper',
+
+          className:
+            'civicfix-map-marker-wrapper',
+
           html: `
             <div class="civicfix-map-marker">
+
               <div class="civicfix-marker-pulse"></div>
+
               <div class="civicfix-marker-pin">
                 <i class="bi bi-geo-alt-fill"></i>
               </div>
+
             </div>
           `,
-          iconSize: [48, 58],
-          iconAnchor: [24, 58],
-          popupAnchor: [0, -58]
+
+          iconSize: [
+            48,
+            58
+          ],
+
+          iconAnchor: [
+            24,
+            58
+          ],
+
+          popupAnchor: [
+            0,
+            -58
+          ]
+
         });
 
         this.marker = L.marker(
-          [14.6349, -90.5069],
+          [
+            14.6349,
+            -90.5069
+          ],
           {
             draggable: true,
             icon: iconoCivicFix
           }
         ).addTo(this.map);
 
-        this.marker.bindPopup(
-          `
-            <div class="civicfix-popup">
-              <strong>Ubicación del reporte</strong>
-              <span>Arrastra el marcador para cambiar la ubicación</span>
-            </div>
-          `
-        );
+        this.marker.bindPopup(`
+          <div class="civicfix-popup">
+
+            <strong>
+              Ubicación del reporte
+            </strong>
+
+            <span>
+              Arrastra el marcador para cambiar la ubicación
+            </span>
+
+          </div>
+        `);
 
         this.marker.on(
           'dragend',
@@ -197,7 +238,9 @@ export class ReporteComponent implements OnInit, OnDestroy {
         setTimeout(() => {
 
           if (this.map) {
+
             this.map.invalidateSize();
+
           }
 
         }, 500);
@@ -219,20 +262,30 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   private actualizarUbicacion(
     lat: number,
     lng: number
   ): void {
 
     const latCorta =
-      Number(lat.toFixed(6));
+      Number(
+        lat.toFixed(6)
+      );
 
     const lngCorta =
-      Number(lng.toFixed(6));
+      Number(
+        lng.toFixed(6)
+      );
 
     this.form.patchValue({
-      latitud: latCorta,
-      longitud: lngCorta
+
+      latitud:
+        latCorta,
+
+      longitud:
+        lngCorta
+
     });
 
     if (this.marker) {
@@ -292,6 +345,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   onFileSelected(event: Event): void {
 
     const input =
@@ -333,6 +387,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   eliminarFoto(): void {
 
     this.archivoSeleccionado =
@@ -351,6 +406,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   obtenerAnalisis(): any {
 
     return (
@@ -361,6 +417,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
     );
 
   }
+
 
   obtenerTitulo(): string {
 
@@ -375,6 +432,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   obtenerTipo(): string {
 
     const obj =
@@ -388,6 +446,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
     );
 
   }
+
 
   obtenerPrioridad(): string {
 
@@ -405,6 +464,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   obtenerEstado(): string {
 
     const obj =
@@ -416,6 +476,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
     );
 
   }
+
 
   obtenerServicio(): string {
 
@@ -430,6 +491,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   obtenerResumen(): string {
 
     const obj =
@@ -443,6 +505,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
     );
 
   }
+
 
   obtenerColorPrioridad(): string {
 
@@ -479,6 +542,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   obtenerIconoPrioridad(): string {
 
     const prioridad =
@@ -514,6 +578,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   obtenerIconoTipo(): string {
 
     const tipo =
@@ -548,6 +613,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   obtenerIconoEstado(): string {
 
     const estado =
@@ -572,6 +638,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   verificarValidez(): boolean {
 
     const obj =
@@ -589,6 +656,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
     return true;
 
   }
+
 
   onSubmit(): void {
 
@@ -754,6 +822,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
   }
 
+
   private resetFormulario(): void {
 
     this.form.reset({
@@ -789,6 +858,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
     }, 100);
 
   }
+
 
   ngOnDestroy(): void {
 
