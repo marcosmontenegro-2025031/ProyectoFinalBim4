@@ -1,47 +1,44 @@
 import { Routes } from '@angular/router';
+
 import { ReporteComponent } from './components/reporte/reporte.component';
 import { MisReportesComponent } from './components/mis-reportes/mis-reportes.component';
+import { DetalleReporteComponent } from './components/detalle-reporte/detalle-reporte';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { NotificacionesComponent } from './components/notificaciones/notificaciones';
-import { HomeComponent } from './components/home-usuario/home-usuario';
+import { PerfilComponent } from './components/perfil-usuario/perfil-usuario';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'reportes/nuevo',
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    loadComponent: () =>
-      import('./components/home-usuario/home-usuario').then(
-        m => m.HomeComponent
-      )
-  },
-  {
-    path: 'crear-reporte',
-    loadComponent: () =>
-      import('./components/reporte/reporte.component').then(
-        m => m.ReporteComponent
-      )
+    path: 'reportes/nuevo',
+    component: ReporteComponent
   },
   {
     path: 'mis-reportes',
-    loadComponent: () =>
-      import('./components/mis-reportes/mis-reportes.component').then(
-        m => m.MisReportesComponent
-      )
+    component: MisReportesComponent
+  },
+  {
+    path: 'detalle-reporte/:id',
+    component: DetalleReporteComponent
+  },
+  {
+    path: 'mapa',
+    component: MapaComponent
   },
   {
     path: 'notificaciones',
-    loadComponent: () =>
-      import('./components/notificaciones/notificaciones').then(
-        m => m.NotificacionesComponent
-      )
+    component: NotificacionesComponent
+  },
+  {
+    path: 'perfil',
+    component: PerfilComponent
   },
   {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: 'reportes/nuevo'
   }
 ];
-
