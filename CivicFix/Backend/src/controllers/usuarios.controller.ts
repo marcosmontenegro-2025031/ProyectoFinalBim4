@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UsuariosService } from  "../service/usuarios.service";
+import { UsuariosService } from  "../services/usuarios.service";
 import { UserRegister } from '../models/usuarios.model';
 
 

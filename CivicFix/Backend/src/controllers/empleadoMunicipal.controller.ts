@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EmpleadoMunicipalService } from '../service/empleadoMunicipal.service';
+import { EmpleadoMunicipalService } from '../services/empleadoMunicipal.service';
 
 export class EmpleadoMunicipalController {
     private service = new EmpleadoMunicipalService();
