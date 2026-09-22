@@ -90,7 +90,8 @@ export class AuthService {
                 apellido: empleado.apellido,
                 usuario: empleado.usuario,
                 correo: empleado.correo,
-                telefono: empleado.telefono
+                telefono: empleado.telefono,
+                rol: empleado.cargo
             }
         };
     }
