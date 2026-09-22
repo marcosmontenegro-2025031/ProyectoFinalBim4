@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 interface Reporte {
   id: number;
@@ -21,15 +20,13 @@ interface Reporte {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './mis-reportes.component.html',
   styleUrl: './mis-reportes.component.css'
 })
 export class MisReportesComponent {
-
-  textoBusqueda = '';
 
   filtroActual = 'Todos';
 
@@ -87,22 +84,11 @@ export class MisReportesComponent {
   constructor(private router: Router) {}
 
   get reportesFiltrados(): Reporte[] {
-    const texto = this.textoBusqueda.toLowerCase().trim();
-
     return this.reportes.filter(reporte => {
-
-      const coincideTexto =
-        !texto ||
-        reporte.titulo.toLowerCase().includes(texto) ||
-        reporte.descripcion.toLowerCase().includes(texto) ||
-        reporte.tipo.toLowerCase().includes(texto) ||
-        reporte.direccion.toLowerCase().includes(texto);
-
-      const coincideFiltro =
+      return (
         this.filtroActual === 'Todos' ||
-        reporte.estado === this.filtroActual;
-
-      return coincideTexto && coincideFiltro;
+        reporte.estado === this.filtroActual
+      );
     });
   }
 
@@ -121,7 +107,7 @@ export class MisReportesComponent {
   }
 
   verDetalle(reporte: Reporte): void {
-    console.log('Reporte seleccionado:', reporte);
+    this.router.navigate(['/reportes/mis-reportes', reporte.id]);
   }
 
   obtenerClasePrioridad(prioridad: string): string {
