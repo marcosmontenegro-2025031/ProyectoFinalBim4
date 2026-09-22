@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { MunicipalidadService } from "../service/municipalidad.service";
+import { MunicipalidadService } from "../services/municipalidad.service";
 import { Municipalidad } from "../models/municipalidad.model";
 
 export class MunicipalidadController{

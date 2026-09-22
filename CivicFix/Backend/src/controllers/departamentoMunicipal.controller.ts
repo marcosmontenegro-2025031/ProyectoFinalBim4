@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DepartamentoMunicipalService } from "../service/departamentoMunicipal.service";
+import { DepartamentoMunicipalService } from "../services/departamentoMunicipal.service";
 import { DepartamentoMunicipal } from "../models/departamentoMunicipal.model";
 
 export class DepartamentoMunicipalController {
