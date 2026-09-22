@@ -53,8 +53,7 @@ interface ReporteMapa {
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.css'
 })
-export class MapaComponent
-  implements AfterViewInit, OnDestroy {
+export class MapaComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('mapContainer')
   mapContainer!: ElementRef<HTMLDivElement>;
@@ -78,29 +77,61 @@ export class MapaComponent
   constructor(
     @Inject(PLATFORM_ID)
     private platformId: object,
+
     private reporteService: ReporteService
   ) {}
 
   async ngAfterViewInit(): Promise<void> {
+
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
 
-    await this.inicializarMapa();
+    setTimeout(async () => {
+      await this.inicializarMapa();
+    }, 100);
   }
 
   async inicializarMapa(): Promise<void> {
-    if (!this.mapContainer) {
+
+    if (!this.mapContainer?.nativeElement) {
+
+      console.error(
+        'No se encontró el contenedor del mapa'
+      );
+
       return;
     }
 
     try {
+
       const L = await import('leaflet');
 
       this.leaflet = L;
 
+      const container =
+        this.mapContainer.nativeElement;
+
+      if (
+        container.offsetWidth === 0 ||
+        container.offsetHeight === 0
+      ) {
+
+        console.error(
+          'El contenedor del mapa no tiene dimensiones:',
+          container.offsetWidth,
+          container.offsetHeight
+        );
+
+        setTimeout(() => {
+          this.inicializarMapa();
+        }, 500);
+
+        return;
+      }
+
       this.map = L.map(
-        this.mapContainer.nativeElement,
+        container,
         {
           center: [
             14.6349,
@@ -115,21 +146,47 @@ export class MapaComponent
       L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         {
+          maxZoom: 19,
           attribution:
-            '&copy; OpenStreetMap contributors',
-          maxZoom: 19
+            '&copy; OpenStreetMap contributors'
         }
       ).addTo(this.map);
+
+      L.control.zoom({
+        position: 'bottomright'
+      }).addTo(this.map);
+
+      setTimeout(() => {
+
+        if (this.map) {
+
+          this.map.invalidateSize(true);
+
+        }
+
+      }, 300);
 
       await this.cargarReportes();
 
       this.actualizarMarcadores();
 
       setTimeout(() => {
+
         if (this.map) {
-          this.map.invalidateSize();
+
+          this.map.invalidateSize(true);
+
+          this.map.setView(
+            [
+              14.6349,
+              -90.5069
+            ],
+            13
+          );
+
         }
-      }, 300);
+
+      }, 500);
 
       window.addEventListener(
         'verReporteCivicFix',
@@ -137,14 +194,20 @@ export class MapaComponent
       );
 
     } catch (error) {
+
       console.error(
         'Error al cargar Leaflet:',
         error
       );
+
+      this.errorReportes =
+        'No se pudo cargar el mapa.';
+
     }
   }
 
   cargarReportes(): Promise<void> {
+
     return new Promise((resolve) => {
 
       this.cargandoReportes = true;
@@ -170,6 +233,7 @@ export class MapaComponent
                   punto.longitud !== undefined
                 )
                 .map(punto => ({
+
                   id: Number(
                     punto.id_reporte
                   ),
@@ -209,6 +273,7 @@ export class MapaComponent
                     Number(
                       punto.longitud
                     )
+
                 }))
                 .filter(punto =>
                   Number.isFinite(
@@ -231,6 +296,7 @@ export class MapaComponent
             );
 
             resolve();
+
           },
 
           error: (error) => {
@@ -246,9 +312,11 @@ export class MapaComponent
               'No se pudieron cargar las incidencias.';
 
             this.reportes = [];
+
             this.reportesFiltrados = [];
 
             resolve();
+
           }
 
         });
@@ -272,7 +340,9 @@ export class MapaComponent
         fechaObjeto.getTime()
       )
     ) {
+
       return String(fecha);
+
     }
 
     return fechaObjeto.toLocaleDateString(
@@ -304,21 +374,32 @@ export class MapaComponent
       );
 
     if (reporte) {
-      this.verDetalle(reporte);
+
+      this.verDetalle(
+        reporte
+      );
+
     }
   };
 
   buscarReportes(): void {
+
     this.aplicarFiltros();
+
   }
 
   limpiarBusqueda(): void {
+
     this.textoBusqueda = '';
+
     this.aplicarFiltros();
+
   }
 
   cambiarFiltro(): void {
+
     this.aplicarFiltros();
+
   }
 
   private aplicarFiltros(): void {
@@ -376,10 +457,12 @@ export class MapaComponent
             coincidePrioridad &&
             coincideBusqueda
           );
+
         }
       );
 
     this.actualizarMarcadores();
+
   }
 
   actualizarMarcadores(): void {
@@ -388,14 +471,18 @@ export class MapaComponent
       !this.map ||
       !this.leaflet
     ) {
+
       return;
+
     }
 
     this.markers.forEach(
       marker => {
+
         this.map.removeLayer(
           marker
         );
+
       }
     );
 
@@ -410,6 +497,7 @@ export class MapaComponent
           );
 
         if (marker) {
+
           marker.addTo(
             this.map
           );
@@ -417,6 +505,7 @@ export class MapaComponent
           this.markers.push(
             marker
           );
+
         }
 
       }
@@ -428,7 +517,9 @@ export class MapaComponent
   ): any {
 
     if (!this.leaflet) {
+
       return null;
+
     }
 
     const color =
@@ -519,11 +610,13 @@ export class MapaComponent
         <div class="popup-header">
 
           <div class="popup-category">
+
             <i class="${this.obtenerIconoCategoria(
               reporte.categoria
             )}"></i>
 
             ${reporte.categoria}
+
           </div>
 
           <span class="popup-id">
@@ -543,11 +636,13 @@ export class MapaComponent
         </p>
 
         <div class="popup-location">
+
           <i class="bi bi-geo-alt-fill"></i>
 
           <span>
             ${reporte.ubicacion}
           </span>
+
         </div>
 
         <div class="popup-info">
@@ -565,8 +660,11 @@ export class MapaComponent
         <div class="popup-footer">
 
           <span>
+
             <i class="bi bi-calendar3"></i>
+
             ${reporte.fecha}
+
           </span>
 
           <button
@@ -582,9 +680,11 @@ export class MapaComponent
               )
             "
           >
+
             Ver reporte
 
             <i class="bi bi-arrow-right"></i>
+
           </button>
 
         </div>
@@ -598,7 +698,9 @@ export class MapaComponent
   ): void {
 
     if (!this.map) {
+
       return;
+
     }
 
     this.map.flyTo(
@@ -630,6 +732,7 @@ export class MapaComponent
               reporte.longitud
             ) < 0.00001
           );
+
         }
       );
 
@@ -647,7 +750,9 @@ export class MapaComponent
   centrarMapa(): void {
 
     if (!this.map) {
+
       return;
+
     }
 
     this.map.flyTo(
@@ -661,12 +766,24 @@ export class MapaComponent
         duration: 0.8
       }
     );
+
+    setTimeout(() => {
+
+      if (this.map) {
+
+        this.map.invalidateSize(true);
+
+      }
+
+    }, 300);
   }
 
   zoomIn(): void {
 
     if (this.map) {
+
       this.map.zoomIn();
+
     }
 
   }
@@ -674,7 +791,9 @@ export class MapaComponent
   zoomOut(): void {
 
     if (this.map) {
+
       this.map.zoomOut();
+
     }
 
   }
@@ -737,7 +856,6 @@ export class MapaComponent
         return 'marker-medium';
 
     }
-
   }
 
   obtenerClasePrioridad(
@@ -772,7 +890,6 @@ export class MapaComponent
         return 'priority-medium';
 
     }
-
   }
 
   obtenerClaseEstado(
@@ -798,7 +915,6 @@ export class MapaComponent
         return 'state-pending';
 
     }
-
   }
 
   obtenerIconoCategoria(
@@ -815,7 +931,9 @@ export class MapaComponent
         'bache'
       )
     ) {
+
       return 'bi bi-cone-striped';
+
     }
 
     if (
@@ -823,7 +941,9 @@ export class MapaComponent
         'luminaria'
       )
     ) {
+
       return 'bi bi-lightbulb';
+
     }
 
     if (
@@ -831,7 +951,9 @@ export class MapaComponent
         'basura'
       )
     ) {
+
       return 'bi bi-trash3';
+
     }
 
     if (
@@ -842,7 +964,9 @@ export class MapaComponent
         'senal'
       )
     ) {
+
       return 'bi bi-sign-stop';
+
     }
 
     if (
@@ -850,7 +974,9 @@ export class MapaComponent
         'agua'
       )
     ) {
+
       return 'bi bi-droplet';
+
     }
 
     if (
@@ -861,7 +987,9 @@ export class MapaComponent
         'arbol'
       )
     ) {
+
       return 'bi bi-tree';
+
     }
 
     return 'bi bi-geo-alt';
