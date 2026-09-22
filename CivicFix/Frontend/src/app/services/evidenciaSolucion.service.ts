@@ -7,7 +7,7 @@ import { EvidenciaSolucion } from '../../app/models/evidenciaSolucion.model';
 @Injectable({ providedIn: 'root' })
 export class EvidenciaSolucionService {
     private http = inject(HttpClient);
-    private baseUrl = `${environment.apiUrl}/evidencias`;
+    private baseUrl = `${environment.apiUrl}/evidencia`;
 
     crear(evidencia: Omit<EvidenciaSolucion, 'id_evidencia' | 'fecha_subida'>): Observable<EvidenciaSolucion> {
         return this.http.post<EvidenciaSolucion>(this.baseUrl, evidencia);

@@ -3,20 +3,35 @@
 .env.local
 .env.development
 .env.production
+<<<<<<< HEAD
 
 # Módulos y dependencias
 node_modules/
 
+=======
+ 
+# Módulos y dependencias
+node_modules/
+ 
+>>>>>>> Develop
 # Archivos de compilación / build
 dist/
 build/
 *.js.map
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> Develop
 # Registros y logs de la aplicación
 logs/
 *.log
 npm-debug.log*
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> Develop
 # Archivos del sistema operativo y editores
 .DS_Store
 Thumbs.db
