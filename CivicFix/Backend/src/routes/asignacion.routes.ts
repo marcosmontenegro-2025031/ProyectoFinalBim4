@@ -1,30 +1,28 @@
-import { Router } from "express";
-import cors from "cors";
-import { AsignacionController } from "../controllers/asignacion.controller.js";
+import { Router } from 'express';
+import { AsignacionController } from '../controllers/asignacion.controller.js';
 
-export const asignacionRouter = Router();
+const router = Router();
 
-asignacionRouter.get("/api/asignaciones", cors(), (req, res) => {
-    const controller = new AsignacionController();
+const controller = new AsignacionController();
+
+router.get('/', (req, res) => {
     controller.listar(req, res);
 });
 
-asignacionRouter.get("/api/asignaciones/:id", cors(), (req, res) => {
-    const controller = new AsignacionController();
+router.get('/:id', (req, res) => {
     controller.obtenerPorId(req, res);
 });
 
-asignacionRouter.post("/api/asignaciones", cors(), (req, res) => {
-    const controller = new AsignacionController();
+router.post('/', (req, res) => {
     controller.crear(req, res);
 });
 
-asignacionRouter.put("/api/asignaciones/:id", cors(), (req, res) => {
-    const controller = new AsignacionController();
+router.put('/:id', (req, res) => {
     controller.actualizar(req, res);
 });
 
-asignacionRouter.delete("/api/asignaciones/:id", cors(), (req, res) => {
-    const controller = new AsignacionController();
+router.delete('/:id', (req, res) => {
     controller.eliminar(req, res);
 });
+
+export default router;

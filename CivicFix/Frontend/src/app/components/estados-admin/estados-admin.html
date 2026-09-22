@@ -1,0 +1,357 @@
+<div class="admin-layout">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <a routerLink="/home-admin" class="nav-item">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/admin/usuarios" class="nav-item">
+        <i class="bi bi-people-fill"></i>
+        <span>Usuarios</span>
+      </a>
+
+      <a routerLink="/admin/empleados" class="nav-item">
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Empleados</span>
+      </a>
+
+      <a routerLink="/admin/departamentos" class="nav-item">
+        <i class="bi bi-building"></i>
+        <span>Departamentos</span>
+      </a>
+
+      <a routerLink="/admin/servicios" class="nav-item">
+        <i class="bi bi-briefcase-fill"></i>
+        <span>Servicios</span>
+      </a>
+
+      <a routerLink="/admin/tipos-incidencia" class="nav-item">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Incidencias</span>
+      </a>
+
+      <a routerLink="/admin/prioridades" class="nav-item">
+        <i class="bi bi-bar-chart-fill"></i>
+        <span>Prioridades</span>
+      </a>
+
+      <a routerLink="/admin/estados" class="nav-item active">
+        <i class="bi bi-list-check"></i>
+        <span>Estados</span>
+      </a>
+
+      <a routerLink="/admin/reportes" class="nav-item">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Reportes</span>
+      </a>
+
+      <a routerLink="/admin/asignaciones" class="nav-item">
+        <i class="bi bi-person-check-fill"></i>
+        <span>Asignaciones</span>
+      </a>
+
+      <a routerLink="/admin/bitacora" class="nav-item">
+        <i class="bi bi-clock-history"></i>
+        <span>Bitácora</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="city-illustration">
+        <i class="bi bi-buildings"></i>
+      </div>
+    </div>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div class="topbar-title">
+        <span>Administración</span>
+        <strong>Estados</strong>
+      </div>
+
+      <div class="admin-profile">
+
+        <div class="profile-icon">
+          <i class="bi bi-person-fill"></i>
+        </div>
+
+        <div class="profile-info">
+          <strong>Administrador</strong>
+          <span>Administrador del sistema</span>
+        </div>
+
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="page-header">
+
+        <div>
+          <h1>Estados</h1>
+          <p>Administra los estados utilizados para el seguimiento de los reportes.</p>
+        </div>
+
+        <button
+          class="btn-primary"
+          (click)="nuevoEstado()">
+
+          <i class="bi bi-plus-lg"></i>
+
+          Nuevo estado
+
+        </button>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-icon blue">
+            <i class="bi bi-list-check"></i>
+          </div>
+
+          <div>
+            <span>Total estados</span>
+            <strong>{{ estados.length }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon green">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Activos</span>
+            <strong>{{ estadosActivos }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon red">
+            <i class="bi bi-x-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Inactivos</span>
+            <strong>{{ estadosInactivos }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon orange">
+            <i class="bi bi-file-earmark-text-fill"></i>
+          </div>
+
+          <div>
+            <span>Reportes registrados</span>
+            <strong>{{ totalReportes }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="table-card">
+
+        <div class="table-header">
+
+          <div>
+            <h2>Listado de estados</h2>
+            <p>Configura los estados disponibles para los reportes.</p>
+          </div>
+
+          <div class="filters">
+
+            <div class="search-box">
+
+              <i class="bi bi-search"></i>
+
+              <input
+                type="text"
+                [(ngModel)]="textoBusqueda"
+                placeholder="Buscar estado..."
+              >
+
+            </div>
+
+            <select [(ngModel)]="filtroEstado">
+
+              <option value="Todos">Todos</option>
+              <option value="Activo">Activos</option>
+              <option value="Inactivo">Inactivos</option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Estado</th>
+                <th>Descripción</th>
+                <th>Reportes</th>
+                <th>Estado del registro</th>
+                <th>Acciones</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let item of estadosFiltrados">
+
+                <td>
+
+                  <div class="estado-name">
+
+                    <div
+                      class="estado-icon"
+                      [style.background]="item.color">
+
+                      <i class="bi" [ngClass]="item.icono"></i>
+
+                    </div>
+
+                    <div>
+
+                      <strong>{{ item.nombre }}</strong>
+
+                      <small>Estado #{{ item.id }}</small>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <span class="description">
+                    {{ item.descripcion }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <span class="report-count">
+                    {{ item.reportes }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <span
+                    class="status-badge"
+                    [ngClass]="obtenerClaseEstado(item.estado)">
+
+                    <i
+                      class="bi"
+                      [class.bi-check-circle-fill]="item.estado === 'Activo'"
+                      [class.bi-x-circle-fill]="item.estado === 'Inactivo'">
+                    </i>
+
+                    {{ item.estado }}
+
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      class="action-btn edit"
+                      title="Editar"
+                      (click)="editarEstado(item)">
+
+                      <i class="bi bi-pencil-fill"></i>
+
+                    </button>
+
+                    <button
+                      class="action-btn status"
+                      title="Cambiar estado"
+                      (click)="cambiarEstado(item)">
+
+                      <i class="bi bi-arrow-repeat"></i>
+
+                    </button>
+
+                    <button
+                      class="action-btn delete"
+                      title="Eliminar"
+                      (click)="eliminarEstado(item)">
+
+                      <i class="bi bi-trash-fill"></i>
+
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr *ngIf="estadosFiltrados.length === 0">
+
+                <td colspan="5">
+
+                  <div class="empty-state">
+
+                    <i class="bi bi-search"></i>
+
+                    <h3>No se encontraron estados</h3>
+
+                    <p>Prueba con otro término de búsqueda.</p>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

@@ -1,0 +1,422 @@
+<div class="admin-layout">
+
+  <aside class="sidebar">
+
+    <div class="logo-container">
+      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
+    </div>
+
+    <nav class="menu">
+
+      <a routerLink="/home-admin" class="menu-item">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/admin/usuarios" class="menu-item">
+        <i class="bi bi-people-fill"></i>
+        <span>Usuarios</span>
+      </a>
+
+      <a routerLink="/admin/empleados" class="menu-item">
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Empleados</span>
+      </a>
+
+      <a routerLink="/admin/departamentos" class="menu-item">
+        <i class="bi bi-building-fill"></i>
+        <span>Departamentos</span>
+      </a>
+
+      <a routerLink="/admin/servicios" class="menu-item active">
+        <i class="bi bi-tools"></i>
+        <span>Servicios</span>
+      </a>
+
+      <a routerLink="/admin/tipos-incidencia" class="menu-item">
+        <i class="bi bi-list-check"></i>
+        <span>Incidencias</span>
+      </a>
+
+      <a routerLink="/admin/prioridades" class="menu-item">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Prioridades</span>
+      </a>
+
+      <a routerLink="/admin/estados" class="menu-item">
+        <i class="bi bi-circle-half"></i>
+        <span>Estados</span>
+      </a>
+
+      <a routerLink="/admin/reportes" class="menu-item">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Reportes</span>
+      </a>
+
+      <a routerLink="/admin/asignaciones" class="menu-item">
+        <i class="bi bi-diagram-3-fill"></i>
+        <span>Asignaciones</span>
+      </a>
+
+      <a routerLink="/admin/bitacora" class="menu-item">
+        <i class="bi bi-clock-history"></i>
+        <span>Bitácora</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="city-icon">
+        <i class="bi bi-buildings-fill"></i>
+      </div>
+      <span>Gestión Municipal</span>
+    </div>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+        <h1>Servicios Municipales</h1>
+        <p>Administración de los servicios de la municipalidad</p>
+      </div>
+
+      <div class="topbar-actions">
+
+        <button class="notification-button">
+          <i class="bi bi-bell-fill"></i>
+          <span class="notification-dot"></span>
+        </button>
+
+        <div class="admin-profile">
+
+          <div class="profile-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+          <div class="profile-info">
+            <strong>Administrador</strong>
+            <span>Administrador del sistema</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="page-header">
+
+        <div>
+          <h2>Servicios municipales</h2>
+          <p>
+            Administra los servicios disponibles para los ciudadanos.
+          </p>
+        </div>
+
+        <button
+          class="primary-button"
+          (click)="nuevoServicio()"
+        >
+          <i class="bi bi-plus-circle-fill"></i>
+          Nuevo servicio
+        </button>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-icon blue">
+            <i class="bi bi-tools"></i>
+          </div>
+
+          <div>
+            <span>Total servicios</span>
+            <strong>{{ servicios.length }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon green">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Servicios activos</span>
+            <strong>{{ serviciosActivos }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon red">
+            <i class="bi bi-x-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Servicios inactivos</span>
+            <strong>{{ serviciosInactivos }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon orange">
+            <i class="bi bi-file-earmark-text-fill"></i>
+          </div>
+
+          <div>
+            <span>Reportes asociados</span>
+            <strong>{{ totalReportes }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <section class="table-card">
+
+        <div class="table-header">
+
+          <div>
+            <h3>Catálogo de servicios</h3>
+
+            <p>
+              {{ serviciosFiltrados.length }}
+              servicios encontrados
+            </p>
+          </div>
+
+          <div class="filters">
+
+            <div class="search-box">
+
+              <i class="bi bi-search"></i>
+
+              <input
+                type="text"
+                [(ngModel)]="textoBusqueda"
+                placeholder="Buscar servicio..."
+              >
+
+            </div>
+
+            <select
+              class="status-select"
+              [(ngModel)]="filtroDepartamento"
+            >
+              <option value="Todos">Todos los departamentos</option>
+
+              <option
+                *ngFor="let departamento of departamentos"
+                [value]="departamento"
+              >
+                {{ departamento }}
+              </option>
+
+            </select>
+
+            <select
+              class="status-select"
+              [(ngModel)]="filtroEstado"
+            >
+              <option value="Todos">Todos</option>
+              <option value="Activo">Activos</option>
+              <option value="Inactivo">Inactivos</option>
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Servicio</th>
+                <th>Departamento</th>
+                <th>Responsable</th>
+                <th>Reportes</th>
+                <th>Fecha creación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr
+                *ngFor="let servicio of serviciosFiltrados"
+              >
+
+                <td>
+
+                  <div class="service-cell">
+
+                    <div class="service-icon">
+                      <i
+                        class="bi"
+                        [ngClass]="obtenerIconoServicio(servicio.nombre)"
+                      ></i>
+                    </div>
+
+                    <div class="service-info">
+
+                      <strong>
+                        {{ servicio.nombre }}
+                      </strong>
+
+                      <span>
+                        {{ servicio.descripcion }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <span class="department-badge">
+
+                    <i class="bi bi-building"></i>
+
+                    {{ servicio.departamento }}
+
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="responsible">
+
+                    <div class="responsible-icon">
+                      <i class="bi bi-person-fill"></i>
+                    </div>
+
+                    <span>
+                      {{ servicio.responsable }}
+                    </span>
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <div class="reports-count">
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                    <strong>
+                      {{ servicio.reportes }}
+                    </strong>
+
+                  </div>
+
+                </td>
+
+                <td>
+                  {{ servicio.fechaCreacion | date:'dd/MM/yyyy' }}
+                </td>
+
+                <td>
+
+                  <span
+                    class="status-badge"
+                    [ngClass]="obtenerClaseEstado(servicio.estado)"
+                  >
+
+                    <span class="status-dot"></span>
+
+                    {{ servicio.estado }}
+
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      class="action-button edit"
+                      title="Editar"
+                      (click)="editarServicio(servicio)"
+                    >
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+
+                    <button
+                      class="action-button status"
+                      title="Cambiar estado"
+                      (click)="cambiarEstado(servicio)"
+                    >
+                      <i class="bi bi-arrow-repeat"></i>
+                    </button>
+
+                    <button
+                      class="action-button delete"
+                      title="Eliminar"
+                      (click)="eliminarServicio(servicio)"
+                    >
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr
+                *ngIf="serviciosFiltrados.length === 0"
+              >
+
+                <td colspan="7">
+
+                  <div class="empty-state">
+
+                    <i class="bi bi-tools"></i>
+
+                    <h3>No se encontraron servicios</h3>
+
+                    <p>
+                      Intenta cambiar los filtros o realizar otra búsqueda.
+                    </p>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+</div>

@@ -1,0 +1,433 @@
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+
+    <div class="admin-brand">
+
+      <img
+        src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+        alt="CIVICFIX"
+        class="admin-logo"
+      >
+
+    </div>
+
+    <nav class="admin-navigation">
+
+      <a
+        routerLink="/home-admin"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a
+        routerLink="/admin/usuarios"
+        class="admin-nav-item active"
+      >
+        <i class="bi bi-people-fill"></i>
+        <span>Usuarios</span>
+      </a>
+
+      <a
+        routerLink="/admin/empleados"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Empleados</span>
+      </a>
+
+      <a
+        routerLink="/admin/departamentos"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-building"></i>
+        <span>Departamentos</span>
+      </a>
+
+      <a
+        routerLink="/admin/servicios"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-gear-fill"></i>
+        <span>Servicios</span>
+      </a>
+
+      <a
+        routerLink="/admin/tipos-incidencia"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-list-check"></i>
+        <span>Tipos de incidencia</span>
+      </a>
+
+      <a
+        routerLink="/admin/prioridades"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Prioridades</span>
+      </a>
+
+      <a
+        routerLink="/admin/estados"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-circle-half"></i>
+        <span>Estados</span>
+      </a>
+
+      <a
+        routerLink="/empleado/reportes"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Reportes</span>
+      </a>
+
+      <a
+        routerLink="/admin/asignaciones"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-diagram-3-fill"></i>
+        <span>Asignaciones</span>
+      </a>
+
+      <a
+        routerLink="/admin/bitacora"
+        class="admin-nav-item"
+      >
+        <i class="bi bi-clock-history"></i>
+        <span>Bitácora</span>
+      </a>
+
+    </nav>
+
+    <div class="admin-sidebar-footer">
+
+      <i class="bi bi-shield-check"></i>
+
+      <div>
+        <strong>Panel Administrativo</strong>
+        <span>CIVICFIX</span>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <main class="admin-main">
+
+    <header class="admin-header">
+
+      <div>
+
+        <span class="admin-label">
+          ADMINISTRACIÓN
+        </span>
+
+        <h1>
+          Usuarios
+        </h1>
+
+        <p>
+          Gestión de usuarios registrados en CIVICFIX
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        class="primary-button"
+        (click)="nuevoUsuario()"
+      >
+        <i class="bi bi-person-plus-fill"></i>
+        Nuevo usuario
+      </button>
+
+    </header>
+
+
+    <section class="statistics">
+
+      <div class="stat-card">
+
+        <div class="stat-icon blue">
+          <i class="bi bi-people-fill"></i>
+        </div>
+
+        <div>
+
+          <span>Total usuarios</span>
+
+          <strong>
+            {{ totalUsuarios }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon green">
+          <i class="bi bi-person-check-fill"></i>
+        </div>
+
+        <div>
+
+          <span>Usuarios activos</span>
+
+          <strong>
+            {{ usuariosActivos }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon red">
+          <i class="bi bi-person-x-fill"></i>
+        </div>
+
+        <div>
+
+          <span>Usuarios inactivos</span>
+
+          <strong>
+            {{ usuariosInactivos }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="users-card">
+
+      <div class="users-toolbar">
+
+        <div class="search-box">
+
+          <i class="bi bi-search"></i>
+
+          <input
+            type="text"
+            [(ngModel)]="textoBusqueda"
+            placeholder="Buscar por nombre, usuario o correo..."
+          >
+
+        </div>
+
+
+        <div class="filter-buttons">
+
+          <button
+            type="button"
+            [class.active]="filtroEstado === 'Todos'"
+            (click)="cambiarFiltro('Todos')"
+          >
+            Todos
+          </button>
+
+          <button
+            type="button"
+            [class.active]="filtroEstado === 'Activo'"
+            (click)="cambiarFiltro('Activo')"
+          >
+            Activos
+          </button>
+
+          <button
+            type="button"
+            [class.active]="filtroEstado === 'Inactivo'"
+            (click)="cambiarFiltro('Inactivo')"
+          >
+            Inactivos
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="table-container">
+
+        <table class="users-table">
+
+          <thead>
+
+            <tr>
+
+              <th>Usuario</th>
+              <th>Usuario de acceso</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th>Registro</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (usuario of usuariosFiltrados; track usuario.id) {
+
+              <tr>
+
+                <td>
+
+                  <div class="user-info">
+
+                    <div class="avatar">
+                      {{ obtenerIniciales(usuario) }}
+                    </div>
+
+                    <div>
+
+                      <strong>
+                        {{ usuario.nombre }}
+                        {{ usuario.apellido }}
+                      </strong>
+
+                      <span>
+                        ID #{{ usuario.id }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+
+                <td>
+
+                  <span class="username">
+                    @{{ usuario.usuario }}
+                  </span>
+
+                </td>
+
+
+                <td>
+                  {{ usuario.correo }}
+                </td>
+
+
+                <td>
+                  {{ usuario.telefono }}
+                </td>
+
+
+                <td>
+                  {{ usuario.fechaRegistro | date:'dd/MM/yyyy' }}
+                </td>
+
+
+                <td>
+
+                  <span
+                    class="status-badge"
+                    [ngClass]="obtenerClaseEstado(usuario.estado)"
+                  >
+
+                    <span class="status-dot"></span>
+
+                    {{ usuario.estado }}
+
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      type="button"
+                      class="action-button edit"
+                      title="Editar"
+                      (click)="editarUsuario(usuario)"
+                    >
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="action-button status"
+                      title="Cambiar estado"
+                      (click)="cambiarEstado(usuario)"
+                    >
+                      <i
+                        class="bi"
+                        [ngClass]="
+                          usuario.estado === 'Activo'
+                            ? 'bi-person-dash-fill'
+                            : 'bi-person-check-fill'
+                        "
+                      ></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="action-button delete"
+                      title="Eliminar"
+                      (click)="eliminarUsuario(usuario)"
+                    >
+                      <i class="bi bi-trash-fill"></i>
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            } @empty {
+
+              <tr>
+
+                <td
+                  colspan="7"
+                  class="empty-row"
+                >
+
+                  <i class="bi bi-search"></i>
+
+                  <strong>
+                    No se encontraron usuarios
+                  </strong>
+
+                  <span>
+                    Intenta cambiar los filtros de búsqueda.
+                  </span>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

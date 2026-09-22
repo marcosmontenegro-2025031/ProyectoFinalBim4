@@ -1,0 +1,390 @@
+<div class="admin-layout">
+
+  <aside class="sidebar">
+
+    <div class="logo-container">
+      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
+    </div>
+
+    <nav class="menu">
+
+      <a routerLink="/home-admin" class="menu-item">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/admin/usuarios" class="menu-item">
+        <i class="bi bi-people-fill"></i>
+        <span>Usuarios</span>
+      </a>
+
+      <a routerLink="/admin/empleados" class="menu-item">
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Empleados</span>
+      </a>
+
+      <a routerLink="/admin/departamentos" class="menu-item">
+        <i class="bi bi-building-fill"></i>
+        <span>Departamentos</span>
+      </a>
+
+      <a routerLink="/admin/servicios" class="menu-item">
+        <i class="bi bi-tools"></i>
+        <span>Servicios</span>
+      </a>
+
+      <a routerLink="/admin/tipos-incidencia" class="menu-item active">
+        <i class="bi bi-list-check"></i>
+        <span>Incidencias</span>
+      </a>
+
+      <a routerLink="/admin/prioridades" class="menu-item">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Prioridades</span>
+      </a>
+
+      <a routerLink="/admin/estados" class="menu-item">
+        <i class="bi bi-circle-half"></i>
+        <span>Estados</span>
+      </a>
+
+      <a routerLink="/admin/reportes" class="menu-item">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Reportes</span>
+      </a>
+
+      <a routerLink="/admin/asignaciones" class="menu-item">
+        <i class="bi bi-diagram-3-fill"></i>
+        <span>Asignaciones</span>
+      </a>
+
+      <a routerLink="/admin/bitacora" class="menu-item">
+        <i class="bi bi-clock-history"></i>
+        <span>Bitácora</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="city-icon">
+        <i class="bi bi-buildings-fill"></i>
+      </div>
+      <span>Gestión Municipal</span>
+    </div>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+        <h1>Tipos de Incidencia</h1>
+        <p>Administración de categorías de reportes</p>
+      </div>
+
+      <div class="topbar-actions">
+
+        <button class="notification-button">
+          <i class="bi bi-bell-fill"></i>
+          <span class="notification-dot"></span>
+        </button>
+
+        <div class="admin-profile">
+
+          <div class="profile-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+          <div class="profile-info">
+            <strong>Administrador</strong>
+            <span>Administrador del sistema</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="page-header">
+
+        <div>
+          <h2>Tipos de incidencia</h2>
+          <p>
+            Administra las categorías que los ciudadanos pueden reportar.
+          </p>
+        </div>
+
+        <button
+          class="primary-button"
+          (click)="nuevoTipo()"
+        >
+          <i class="bi bi-plus-circle-fill"></i>
+          Nueva incidencia
+        </button>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-icon blue">
+            <i class="bi bi-list-check"></i>
+          </div>
+
+          <div>
+            <span>Total categorías</span>
+            <strong>{{ tipos.length }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon green">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Categorías activas</span>
+            <strong>{{ tiposActivos }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon red">
+            <i class="bi bi-x-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Categorías inactivas</span>
+            <strong>{{ tiposInactivos }}</strong>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon orange">
+            <i class="bi bi-file-earmark-text-fill"></i>
+          </div>
+
+          <div>
+            <span>Reportes registrados</span>
+            <strong>{{ totalReportes }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <section class="table-card">
+
+        <div class="table-header">
+
+          <div>
+            <h3>Catálogo de incidencias</h3>
+
+            <p>
+              {{ tiposFiltrados.length }}
+              categorías encontradas
+            </p>
+          </div>
+
+          <div class="filters">
+
+            <div class="search-box">
+
+              <i class="bi bi-search"></i>
+
+              <input
+                type="text"
+                [(ngModel)]="textoBusqueda"
+                placeholder="Buscar incidencia..."
+              >
+
+            </div>
+
+            <select
+              class="status-select"
+              [(ngModel)]="filtroEstado"
+            >
+              <option value="Todos">Todos</option>
+              <option value="Activo">Activos</option>
+              <option value="Inactivo">Inactivos</option>
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Incidencia</th>
+                <th>Descripción</th>
+                <th>Reportes</th>
+                <th>Fecha creación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr
+                *ngFor="let tipo of tiposFiltrados"
+              >
+
+                <td>
+
+                  <div class="type-cell">
+
+                    <div
+                      class="type-icon"
+                      [style.color]="tipo.color"
+                      [style.background]="tipo.color + '18'"
+                    >
+                      <i
+                        class="bi"
+                        [ngClass]="tipo.icono"
+                      ></i>
+                    </div>
+
+                    <div class="type-info">
+
+                      <strong>
+                        {{ tipo.nombre }}
+                      </strong>
+
+                      <span>
+                        ID #{{ tipo.id }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <div class="description">
+                    {{ tipo.descripcion }}
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <div class="reports-count">
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                    <strong>
+                      {{ tipo.reportes }}
+                    </strong>
+
+                  </div>
+
+                </td>
+
+                <td>
+                  {{ tipo.fechaCreacion | date:'dd/MM/yyyy' }}
+                </td>
+
+                <td>
+
+                  <span
+                    class="status-badge"
+                    [ngClass]="obtenerClaseEstado(tipo.estado)"
+                  >
+
+                    <span class="status-dot"></span>
+
+                    {{ tipo.estado }}
+
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      class="action-button edit"
+                      title="Editar"
+                      (click)="editarTipo(tipo)"
+                    >
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+
+                    <button
+                      class="action-button status"
+                      title="Cambiar estado"
+                      (click)="cambiarEstado(tipo)"
+                    >
+                      <i class="bi bi-arrow-repeat"></i>
+                    </button>
+
+                    <button
+                      class="action-button delete"
+                      title="Eliminar"
+                      (click)="eliminarTipo(tipo)"
+                    >
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr
+                *ngIf="tiposFiltrados.length === 0"
+              >
+
+                <td colspan="6">
+
+                  <div class="empty-state">
+
+                    <i class="bi bi-list-check"></i>
+
+                    <h3>No se encontraron incidencias</h3>
+
+                    <p>
+                      Intenta cambiar los filtros o realizar otra búsqueda.
+                    </p>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+</div>

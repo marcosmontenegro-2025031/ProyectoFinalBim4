@@ -1,46 +1,34 @@
-
 <div class="civic-layout">
-
-  <!-- ==========================================
-       SIDEBAR
-  =========================================== -->
 
   <aside class="civic-sidebar">
 
     <div class="civic-brand">
-
       <div class="civic-logo-wrapper">
-
         <img
           src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
           alt="CIVICFIX"
           class="civic-logo"
         >
-
       </div>
-
     </div>
-
 
     <nav class="civic-navigation">
 
       <a
         class="civic-nav-item active"
-        routerLink="/dashboard"
+        routerLink="/home-admin"
       >
         <i class="bi bi-speedometer2"></i>
         <span>Dashboard</span>
       </a>
 
-
       <a
         class="civic-nav-item"
-        routerLink="/reportes"
+        routerLink="/empleado/reportes"
       >
         <i class="bi bi-file-earmark-text"></i>
         <span>Reportes</span>
       </a>
-
 
       <a
         class="civic-nav-item"
@@ -50,7 +38,6 @@
         <span>Reportar Incidencia</span>
       </a>
 
-
       <a
         class="civic-nav-item"
         routerLink="/mapa"
@@ -59,32 +46,27 @@
         <span>Mapa</span>
       </a>
 
-
-      <a class="civic-nav-item">
-
+      <a
+        class="civic-nav-item"
+        routerLink="/notificaciones"
+      >
         <i class="bi bi-bell"></i>
-
         <span>Notificaciones</span>
 
         <span class="notification-number">
           3
         </span>
-
       </a>
 
-
-      <a class="civic-nav-item">
-
+      <a
+        class="civic-nav-item"
+        routerLink="/perfil"
+      >
         <i class="bi bi-person-circle"></i>
-
         <span>Perfil</span>
-
       </a>
 
     </nav>
-
-
-    <!-- CIUDAD -->
 
     <div class="civic-city">
 
@@ -103,15 +85,11 @@
 
       </div>
 
-
       <div class="civic-city-footer">
 
         <div class="municipality-icon">
-
           <i class="bi bi-shield-fill-check"></i>
-
         </div>
-
 
         <div>
 
@@ -132,14 +110,7 @@
   </aside>
 
 
-
-  <!-- ==========================================
-       CONTENIDO PRINCIPAL
-  =========================================== -->
-
   <main class="civic-main">
-
-    <!-- ENCABEZADO -->
 
     <section class="dashboard-header">
 
@@ -159,7 +130,6 @@
 
       </div>
 
-
       <button
         class="reload-button"
         type="button"
@@ -175,24 +145,14 @@
     </section>
 
 
-
-    <!-- ==========================================
-         TARJETAS
-    =========================================== -->
-
     <section class="statistics">
-
-
-      <!-- TOTAL -->
 
       <div class="stat-card">
 
         <div class="stat-header">
 
           <div class="stat-icon blue">
-
             <i class="bi bi-file-earmark-text"></i>
-
           </div>
 
           <span>
@@ -212,17 +172,12 @@
       </div>
 
 
-
-      <!-- PENDIENTES -->
-
       <div class="stat-card">
 
         <div class="stat-header">
 
           <div class="stat-icon yellow">
-
             <i class="bi bi-clock"></i>
-
           </div>
 
           <span>
@@ -242,17 +197,12 @@
       </div>
 
 
-
-      <!-- EN PROCESO -->
-
       <div class="stat-card">
 
         <div class="stat-header">
 
           <div class="stat-icon orange">
-
             <i class="bi bi-arrow-repeat"></i>
-
           </div>
 
           <span>
@@ -272,17 +222,12 @@
       </div>
 
 
-
-      <!-- RESUELTOS -->
-
       <div class="stat-card">
 
         <div class="stat-header">
 
           <div class="stat-icon green">
-
             <i class="bi bi-check-circle"></i>
-
           </div>
 
           <span>
@@ -304,17 +249,7 @@
     </section>
 
 
-
-    <!-- ==========================================
-         GRÁFICAS
-    =========================================== -->
-
     <section class="charts-grid">
-
-
-      <!-- ======================================
-           REPORTES POR MES
-      ======================================= -->
 
       <div class="chart-card monthly-chart">
 
@@ -381,11 +316,6 @@
       </div>
 
 
-
-      <!-- ======================================
-           REPORTES POR TIPO
-      ======================================= -->
-
       <div class="chart-card type-chart">
 
         <div class="chart-header">
@@ -412,39 +342,22 @@
         @if (reportesPorTipo.length === 0) {
 
           <div class="no-data">
+
             <i class="bi bi-pie-chart"></i>
-            <span>No hay datos disponibles</span>
+
+            <span>
+              No hay datos disponibles
+            </span>
+
           </div>
 
         } @else {
 
           <div class="pie-content">
 
-
-            <!-- CÍRCULO -->
-
             <div
               class="pie-chart"
-              [style.background]="
-                reportesPorTipo.length === 1
-                ? reportesPorTipo[0].color
-                : 'conic-gradient(' +
-                  reportesPorTipo.map(
-                    (tipo, i) =>
-                      tipo.color + ' ' +
-                      (
-                        reportesPorTipo
-                          .slice(0, i + 1)
-                          .reduce((total, item) => total + item.porcentaje, 0)
-                      ) + '% ' +
-                      (
-                        reportesPorTipo
-                          .slice(0, i + 1)
-                          .reduce((total, item) => total + item.porcentaje, 0)
-                      ) + '%'
-                  ).join(', ') +
-                  ')'
-              ]"
+              [style.background]="obtenerGradienteCircular()"
             >
 
               <div class="pie-center">
@@ -462,15 +375,9 @@
             </div>
 
 
-
-            <!-- LEYENDA -->
-
             <div class="pie-legend">
 
-              @for (
-                tipo of reportesPorTipo;
-                track tipo.nombre
-              ) {
+              @for (tipo of reportesPorTipo; track tipo.nombre) {
 
                 <div class="legend-item">
 
@@ -506,11 +413,6 @@
     </section>
 
 
-
-    <!-- ==========================================
-         ÚLTIMOS REPORTES
-    =========================================== -->
-
     <section class="reports-section">
 
       <div class="reports-header">
@@ -542,17 +444,12 @@
 
         </div>
 
-      }
-
-
-      @else if (reportes.length === 0) {
+      } @else if (reportes.length === 0) {
 
         <div class="empty-container">
 
           <div class="empty-icon">
-
             <i class="bi bi-file-earmark-x"></i>
-
           </div>
 
           <h3>
@@ -565,10 +462,7 @@
 
         </div>
 
-      }
-
-
-      @else {
+      } @else {
 
         <div class="reports-table-container">
 
@@ -579,23 +473,16 @@
               <tr>
 
                 <th>ID</th>
-
                 <th>Reporte</th>
-
                 <th>Usuario</th>
-
                 <th>Tipo</th>
-
                 <th>Prioridad</th>
-
                 <th>Estado</th>
-
                 <th>Fecha</th>
 
               </tr>
 
             </thead>
-
 
             <tbody>
 
@@ -607,9 +494,11 @@
                 <tr>
 
                   <td>
+
                     <strong>
                       #{{ reporte.id_reporte }}
                     </strong>
+
                   </td>
 
 
@@ -669,9 +558,7 @@
 
 
                   <td>
-
                     {{ reporte.fecha_reporte | date:'dd/MM/yyyy' }}
-
                   </td>
 
                 </tr>

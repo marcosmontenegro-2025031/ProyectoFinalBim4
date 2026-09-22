@@ -1,0 +1,333 @@
+<div class="admin-layout">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <a routerLink="/home-admin" class="nav-item">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/admin/usuarios" class="nav-item">
+        <i class="bi bi-people-fill"></i>
+        <span>Usuarios</span>
+      </a>
+
+      <a routerLink="/admin/empleados" class="nav-item">
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Empleados</span>
+      </a>
+
+      <a routerLink="/admin/departamentos" class="nav-item">
+        <i class="bi bi-building"></i>
+        <span>Departamentos</span>
+      </a>
+
+      <a routerLink="/admin/servicios" class="nav-item">
+        <i class="bi bi-briefcase-fill"></i>
+        <span>Servicios</span>
+      </a>
+
+      <a routerLink="/admin/tipos-incidencia" class="nav-item">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Incidencias</span>
+      </a>
+
+      <a routerLink="/admin/prioridades" class="nav-item active">
+        <i class="bi bi-bar-chart-fill"></i>
+        <span>Prioridades</span>
+      </a>
+
+      <a routerLink="/admin/estados" class="nav-item">
+        <i class="bi bi-list-check"></i>
+        <span>Estados</span>
+      </a>
+
+      <a routerLink="/admin/reportes" class="nav-item">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Reportes</span>
+      </a>
+
+      <a routerLink="/admin/asignaciones" class="nav-item">
+        <i class="bi bi-person-check-fill"></i>
+        <span>Asignaciones</span>
+      </a>
+
+      <a routerLink="/admin/bitacora" class="nav-item">
+        <i class="bi bi-clock-history"></i>
+        <span>Bitácora</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="city-illustration">
+        <i class="bi bi-buildings"></i>
+      </div>
+    </div>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div class="topbar-title">
+        <span>Administración</span>
+        <strong>Prioridades</strong>
+      </div>
+
+      <div class="admin-profile">
+        <div class="profile-icon">
+          <i class="bi bi-person-fill"></i>
+        </div>
+
+        <div class="profile-info">
+          <strong>Administrador</strong>
+          <span>Administrador del sistema</span>
+        </div>
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="page-header">
+
+        <div>
+          <h1>Prioridades</h1>
+          <p>Administra los niveles de prioridad de los reportes ciudadanos.</p>
+        </div>
+
+        <button class="btn-primary" (click)="nuevaPrioridad()">
+          <i class="bi bi-plus-lg"></i>
+          Nueva prioridad
+        </button>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <i class="bi bi-bar-chart-fill"></i>
+          </div>
+
+          <div>
+            <span>Total prioridades</span>
+            <strong>{{ prioridades.length }}</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Activas</span>
+            <strong>{{ prioridadesActivas }}</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon red">
+            <i class="bi bi-x-circle-fill"></i>
+          </div>
+
+          <div>
+            <span>Inactivas</span>
+            <strong>{{ prioridadesInactivas }}</strong>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <i class="bi bi-file-earmark-text-fill"></i>
+          </div>
+
+          <div>
+            <span>Reportes clasificados</span>
+            <strong>{{ totalReportes }}</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="table-card">
+
+        <div class="table-header">
+
+          <div>
+            <h2>Listado de prioridades</h2>
+            <p>Configura los niveles utilizados por CivicFix.</p>
+          </div>
+
+          <div class="filters">
+
+            <div class="search-box">
+              <i class="bi bi-search"></i>
+
+              <input
+                type="text"
+                [(ngModel)]="textoBusqueda"
+                placeholder="Buscar prioridad..."
+              >
+            </div>
+
+            <select [(ngModel)]="filtroEstado">
+              <option value="Todos">Todos</option>
+              <option value="Activo">Activos</option>
+              <option value="Inactivo">Inactivos</option>
+            </select>
+
+          </div>
+
+        </div>
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Prioridad</th>
+                <th>Nivel</th>
+                <th>Descripción</th>
+                <th>Tiempo de respuesta</th>
+                <th>Reportes</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let prioridad of prioridadesFiltradas">
+
+                <td>
+                  <div class="priority-name">
+
+                    <span
+                      class="priority-dot"
+                      [style.background]="prioridad.color">
+                    </span>
+
+                    <div>
+                      <strong>{{ prioridad.nombre }}</strong>
+                      <small>Nivel {{ prioridad.nivel }}</small>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td>
+                  <div class="level-stars">
+
+                    <i
+                      *ngFor="let estrella of [1,2,3,4]"
+                      class="bi"
+                      [class.bi-star-fill]="estrella <= prioridad.nivel"
+                      [class.bi-star]="estrella > prioridad.nivel"
+                      [style.color]="estrella <= prioridad.nivel ? prioridad.color : '#d8e0e8'">
+                    </i>
+
+                  </div>
+                </td>
+
+                <td>
+                  <span class="description">
+                    {{ prioridad.descripcion }}
+                  </span>
+                </td>
+
+                <td>
+                  <span class="response-time">
+                    <i class="bi bi-clock"></i>
+                    {{ prioridad.tiempoRespuesta }}
+                  </span>
+                </td>
+
+                <td>
+                  <span class="report-count">
+                    {{ prioridad.reportes }}
+                  </span>
+                </td>
+
+                <td>
+                  <span
+                    class="status-badge"
+                    [ngClass]="obtenerClaseEstado(prioridad.estado)">
+                    <i
+                      class="bi"
+                      [class.bi-check-circle-fill]="prioridad.estado === 'Activo'"
+                      [class.bi-x-circle-fill]="prioridad.estado === 'Inactivo'">
+                    </i>
+
+                    {{ prioridad.estado }}
+                  </span>
+                </td>
+
+                <td>
+
+                  <div class="actions">
+
+                    <button
+                      class="action-btn edit"
+                      title="Editar"
+                      (click)="editarPrioridad(prioridad)">
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+
+                    <button
+                      class="action-btn status"
+                      title="Cambiar estado"
+                      (click)="cambiarEstado(prioridad)">
+                      <i class="bi bi-arrow-repeat"></i>
+                    </button>
+
+                    <button
+                      class="action-btn delete"
+                      title="Eliminar"
+                      (click)="eliminarPrioridad(prioridad)">
+                      <i class="bi bi-trash-fill"></i>
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr *ngIf="prioridadesFiltradas.length === 0">
+
+                <td colspan="7">
+
+                  <div class="empty-state">
+                    <i class="bi bi-search"></i>
+                    <h3>No se encontraron prioridades</h3>
+                    <p>Prueba con otro término de búsqueda.</p>
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

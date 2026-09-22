@@ -1,0 +1,467 @@
+<div class="admin-layout">
+
+  <aside class="sidebar">
+
+    <div class="logo-container">
+      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
+    </div>
+
+    <div class="menu-title">
+      PRINCIPAL
+    </div>
+
+    <nav class="sidebar-menu">
+
+      <a routerLink="/home-admin" class="menu-item">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/admin/usuarios" class="menu-item">
+        <i class="bi bi-people-fill"></i>
+        <span>Usuarios</span>
+      </a>
+
+      <a routerLink="/admin/empleados" class="menu-item">
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Empleados</span>
+      </a>
+
+      <a routerLink="/admin/departamentos" class="menu-item">
+        <i class="bi bi-building-fill"></i>
+        <span>Departamentos</span>
+      </a>
+
+      <a routerLink="/admin/servicios" class="menu-item">
+        <i class="bi bi-gear-fill"></i>
+        <span>Servicios</span>
+      </a>
+
+      <div class="menu-title">
+        CONFIGURACIÓN
+      </div>
+
+      <a routerLink="/admin/tipos-incidencia" class="menu-item">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Tipos de incidencia</span>
+      </a>
+
+      <a routerLink="/admin/prioridades" class="menu-item">
+        <i class="bi bi-flag-fill"></i>
+        <span>Prioridades</span>
+      </a>
+
+      <a routerLink="/admin/estados" class="menu-item">
+        <i class="bi bi-circle-half"></i>
+        <span>Estados</span>
+      </a>
+
+      <div class="menu-title">
+        GESTIÓN
+      </div>
+
+      <a routerLink="/admin/reportes" class="menu-item">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Reportes</span>
+      </a>
+
+      <a routerLink="/admin/asignaciones" class="menu-item">
+        <i class="bi bi-person-check-fill"></i>
+        <span>Asignaciones</span>
+      </a>
+
+      <a routerLink="/admin/bitacora" class="menu-item active">
+        <i class="bi bi-journal-text"></i>
+        <span>Bitácora</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="city-illustration">
+        <i class="bi bi-buildings-fill"></i>
+      </div>
+
+      <div class="system-status">
+        <span class="status-dot"></span>
+        Sistema operativo
+      </div>
+    </div>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+        <div class="page-title">
+          <span>Administración</span>
+          <strong>Bitácora del sistema</strong>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+
+        <div class="notification-button">
+          <i class="bi bi-bell"></i>
+          <span>3</span>
+        </div>
+
+        <div class="admin-profile">
+          <div class="profile-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+          <div class="profile-info">
+            <strong>Administrador</strong>
+            <span>Administrador del sistema</span>
+          </div>
+
+          <i class="bi bi-chevron-down profile-arrow"></i>
+        </div>
+
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="page-header">
+
+        <div>
+          <h1>Bitácora del sistema</h1>
+          <p>
+            Consulta y supervisa las actividades realizadas dentro de CivicFix.
+          </p>
+        </div>
+
+        <div class="header-icon">
+          <i class="bi bi-journal-text"></i>
+        </div>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-icon blue">
+            <i class="bi bi-journal-text"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>Total registros</span>
+            <strong>{{ totalRegistros }}</strong>
+            <small>Actividades registradas</small>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon green">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>Exitosos</span>
+            <strong>{{ registrosExitosos }}</strong>
+            <small>Operaciones correctas</small>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon red">
+            <i class="bi bi-x-circle-fill"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>Fallidos</span>
+            <strong>{{ registrosFallidos }}</strong>
+            <small>Operaciones rechazadas</small>
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-icon purple">
+            <i class="bi bi-people-fill"></i>
+          </div>
+
+          <div class="stat-content">
+            <span>Usuarios activos</span>
+            <strong>{{ usuariosActividad }}</strong>
+            <small>Con actividad registrada</small>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="panel-header">
+
+          <div>
+            <h2>Registro de actividades</h2>
+            <p>Historial de acciones realizadas en el sistema</p>
+          </div>
+
+          <div class="panel-counter">
+            {{ registrosFiltrados.length }} registros
+          </div>
+
+        </div>
+
+        <div class="filters">
+
+          <div class="search-box">
+
+            <i class="bi bi-search"></i>
+
+            <input
+              type="text"
+              [(ngModel)]="textoBusqueda"
+              placeholder="Buscar usuario, acción, módulo o IP..."
+            >
+
+          </div>
+
+          <div class="filter-select">
+
+            <i class="bi bi-lightning-charge"></i>
+
+            <select [(ngModel)]="filtroAccion">
+
+              <option value="Todas">Todas las acciones</option>
+              <option value="Crear">Crear</option>
+              <option value="Actualizar">Actualizar</option>
+              <option value="Eliminar">Eliminar</option>
+              <option value="Inicio de sesión">Inicio de sesión</option>
+
+            </select>
+
+          </div>
+
+          <div class="filter-select">
+
+            <i class="bi bi-grid"></i>
+
+            <select [(ngModel)]="filtroModulo">
+
+              <option value="Todos">Todos los módulos</option>
+              <option value="Usuarios">Usuarios</option>
+              <option value="Reportes">Reportes</option>
+              <option value="Servicios">Servicios</option>
+              <option value="Asignaciones">Asignaciones</option>
+              <option value="Tipos de Incidencia">Tipos de Incidencia</option>
+              <option value="Autenticación">Autenticación</option>
+
+            </select>
+
+          </div>
+
+          <div class="filter-select">
+
+            <i class="bi bi-check-circle"></i>
+
+            <select [(ngModel)]="filtroResultado">
+
+              <option value="Todos">Todos los resultados</option>
+              <option value="Exitoso">Exitoso</option>
+              <option value="Fallido">Fallido</option>
+
+            </select>
+
+          </div>
+
+          <button
+            class="clear-button"
+            type="button"
+            (click)="limpiarFiltros()"
+          >
+            <i class="bi bi-arrow-counterclockwise"></i>
+            Limpiar
+          </button>
+
+        </div>
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>USUARIO</th>
+                <th>ACCIÓN</th>
+                <th>MÓDULO</th>
+                <th>DESCRIPCIÓN</th>
+                <th>FECHA Y HORA</th>
+                <th>IP</th>
+                <th>RESULTADO</th>
+                <th></th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr *ngFor="let registro of registrosFiltrados">
+
+                <td>
+
+                  <div class="user-cell">
+
+                    <div class="user-avatar">
+                      <i class="bi bi-person-fill"></i>
+                    </div>
+
+                    <div class="user-data">
+                      <strong>{{ registro.usuario }}</strong>
+
+                      <span
+                        class="role-badge"
+                        [ngClass]="obtenerClaseRol(registro.rol)"
+                      >
+                        {{ registro.rol }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <div
+                    class="action-badge"
+                    [ngClass]="obtenerClaseAccion(registro.accion)"
+                  >
+
+                    <i
+                      class="bi"
+                      [ngClass]="obtenerIconoAccion(registro.accion)"
+                    ></i>
+
+                    {{ registro.accion }}
+
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <span class="module-badge">
+                    {{ registro.modulo }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <span class="description">
+                    {{ registro.descripcion }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="date-cell">
+                    <strong>{{ registro.fecha }}</strong>
+                    <span>{{ registro.hora }}</span>
+                  </div>
+
+                </td>
+
+                <td>
+
+                  <span class="ip-address">
+                    {{ registro.ip }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <span
+                    class="result-badge"
+                    [ngClass]="obtenerClaseResultado(registro.resultado)"
+                  >
+
+                    <i
+                      class="bi"
+                      [ngClass]="registro.resultado === 'Exitoso'
+                        ? 'bi-check-circle-fill'
+                        : 'bi-x-circle-fill'"
+                    ></i>
+
+                    {{ registro.resultado }}
+
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <button
+                    class="action-button"
+                    type="button"
+                    title="Ver detalle"
+                    (click)="verDetalle(registro)"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+
+                </td>
+
+              </tr>
+
+              <tr *ngIf="registrosFiltrados.length === 0">
+
+                <td colspan="8">
+
+                  <div class="empty-state">
+
+                    <div class="empty-icon">
+                      <i class="bi bi-search"></i>
+                    </div>
+
+                    <h3>No se encontraron registros</h3>
+
+                    <p>
+                      No hay actividades que coincidan con los filtros seleccionados.
+                    </p>
+
+                    <button
+                      type="button"
+                      (click)="limpiarFiltros()"
+                    >
+                      Limpiar filtros
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
