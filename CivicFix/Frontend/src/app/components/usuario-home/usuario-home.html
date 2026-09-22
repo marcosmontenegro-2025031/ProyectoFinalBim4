@@ -1,0 +1,458 @@
+<div class="civic-layout">
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+
+  <aside class="civic-sidebar">
+
+    <div class="civic-brand">
+
+      <div class="civic-logo-wrapper">
+
+        <img
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+          alt="CIVICFIX"
+          class="civic-logo"
+        >
+
+      </div>
+
+    </div>
+
+
+    <nav class="civic-navigation">
+
+      <a
+        class="civic-nav-item"
+        routerLink="/reportes"
+      >
+        <i class="bi bi-house-door"></i>
+        <span>Inicio</span>
+      </a>
+
+
+      <a
+        class="civic-nav-item"
+        routerLink="/reportes/nuevo"
+      >
+        <i class="bi bi-file-earmark-plus"></i>
+        <span>Reportar Incidencia</span>
+      </a>
+
+
+      <a
+        class="civic-nav-item active"
+        routerLink="/reportes/mis-reportes"
+      >
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Mis Reportes</span>
+      </a>
+
+
+      <a
+        class="civic-nav-item"
+        routerLink="/mapa"
+      >
+        <i class="bi bi-geo-alt"></i>
+        <span>Mapa</span>
+      </a>
+
+
+      <a class="civic-nav-item">
+
+        <i class="bi bi-bell"></i>
+
+        <span>Notificaciones</span>
+
+        <span class="notification-number">
+          3
+        </span>
+
+      </a>
+
+
+      <a class="civic-nav-item">
+
+        <i class="bi bi-person-circle"></i>
+
+        <span>Perfil</span>
+
+      </a>
+
+    </nav>
+
+
+    <!-- CIUDAD -->
+
+    <div class="civic-city">
+
+      <div class="city-buildings">
+
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+
+        <span class="lamp"></span>
+
+      </div>
+
+
+      <div class="civic-city-footer">
+
+        <div class="municipality-icon">
+
+          <i class="bi bi-shield-fill-check"></i>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Municipalidad de Guatemala
+          </strong>
+
+          <small>
+            Juntos mejoramos la ciudad
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================
+       CONTENIDO PRINCIPAL
+  ========================== -->
+
+  <main class="civic-main">
+
+
+    <!-- ENCABEZADO -->
+
+    <section class="welcome-section">
+
+      <div class="welcome-icon">
+
+        <i class="bi bi-person-check-fill"></i>
+
+      </div>
+
+
+      <div>
+
+        <h1>
+          ¡Hola, {{ nombreUsuario }}!
+        </h1>
+
+        <p>
+          Tu ciudad, nuestro compromiso
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         TARJETAS
+    ========================== -->
+
+    <section class="statistics">
+
+
+      <!-- MIS REPORTES -->
+
+      <div class="stat-card">
+
+        <div class="stat-header">
+
+          <div class="stat-icon blue">
+
+            <i class="bi bi-file-earmark-text"></i>
+
+          </div>
+
+          <span>
+            Mis reportes
+          </span>
+
+        </div>
+
+
+        <strong class="stat-number">
+          {{ totalReportes }}
+        </strong>
+
+      </div>
+
+
+
+      <!-- EN PROCESO -->
+
+      <div class="stat-card">
+
+        <div class="stat-header">
+
+          <div class="stat-icon orange">
+
+            <i class="bi bi-arrow-repeat"></i>
+
+          </div>
+
+          <span>
+            En proceso
+          </span>
+
+        </div>
+
+
+        <strong class="stat-number">
+          {{ obtenerCantidad('En proceso') }}
+        </strong>
+
+      </div>
+
+
+
+      <!-- RESUELTOS -->
+
+      <div class="stat-card">
+
+        <div class="stat-header">
+
+          <div class="stat-icon green">
+
+            <i class="bi bi-check-circle"></i>
+
+          </div>
+
+          <span>
+            Resueltos
+          </span>
+
+        </div>
+
+
+        <strong class="stat-number">
+          {{ obtenerCantidad('Resuelto') }}
+        </strong>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ÚLTIMOS REPORTES
+    ========================== -->
+
+    <section class="reports-section">
+
+
+      <div class="reports-header">
+
+        <div>
+
+          <h2>
+            Últimos reportes
+          </h2>
+
+          <p>
+            Consulta el estado de tus incidencias
+          </p>
+
+        </div>
+
+
+        <button
+          class="reload-button"
+          type="button"
+          (click)="cargarReportes()"
+        >
+
+          <i class="bi bi-arrow-clockwise"></i>
+
+          Recargar
+
+        </button>
+
+      </div>
+
+
+
+      <!-- CARGANDO -->
+
+      @if (cargando) {
+
+        <div class="loading-container">
+
+          <div class="spinner"></div>
+
+          <span>
+            Cargando tus reportes...
+          </span>
+
+        </div>
+
+      }
+
+
+      <!-- SIN REPORTES -->
+
+      @else if (reportes.length === 0) {
+
+        <div class="empty-container">
+
+          <div class="empty-icon">
+
+            <i class="bi bi-file-earmark-x"></i>
+
+          </div>
+
+          <h3>
+            No tienes reportes todavía
+          </h3>
+
+          <p>
+            Cuando registres una incidencia aparecerá aquí.
+          </p>
+
+
+          <a
+            routerLink="/reportes/nuevo"
+            class="new-report-button"
+          >
+
+            <i class="bi bi-plus-lg"></i>
+
+            Reportar incidencia
+
+          </a>
+
+        </div>
+
+      }
+
+
+      <!-- LISTA DE REPORTES -->
+
+      @else {
+
+        <div class="reports-list">
+
+          @for (
+            reporte of reportesRecientes;
+            track reporte.id_reporte
+          ) {
+
+            <article class="report-item">
+
+
+              <!-- ICONO -->
+
+              <div
+                class="report-status-icon"
+                [ngClass]="obtenerClaseEstado(reporte.estado)"
+              >
+
+                <i
+                  class="bi"
+                  [ngClass]="obtenerIconoEstado(reporte.estado)"
+                ></i>
+
+              </div>
+
+
+
+              <!-- INFORMACIÓN -->
+
+              <div class="report-information">
+
+                <h3>
+                  {{ reporte.titulo }}
+                </h3>
+
+                <p>
+                  {{ reporte.descripcion }}
+                </p>
+
+
+                <div class="report-meta">
+
+                  <span>
+
+                    <i class="bi bi-tag"></i>
+
+                    {{ reporte.tipo_incidencia }}
+
+                  </span>
+
+
+                  <span>
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    {{ reporte.zona || 'Ubicación registrada' }}
+
+                  </span>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- ESTADO -->
+
+              <div class="report-state">
+
+                <span
+                  class="state-badge"
+                  [ngClass]="obtenerClaseEstado(reporte.estado)"
+                >
+
+                  {{ reporte.estado }}
+
+                </span>
+
+              </div>
+
+
+
+              <!-- FECHA -->
+
+              <div class="report-date">
+
+                <span>
+                  {{ reporte.fecha_reporte | date:'dd/MM/yyyy' }}
+                </span>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+    </section>
+
+
+  </main>
+
+</div>
