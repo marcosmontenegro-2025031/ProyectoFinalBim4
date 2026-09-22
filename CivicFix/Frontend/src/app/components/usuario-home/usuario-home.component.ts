@@ -39,7 +39,10 @@ export class UsuarioHome implements OnInit {
 
         console.log('Reportes del usuario:', data);
 
-        this.reportes = data;
+        this.reportes = (data || []).map((reporte: any) => ({
+          ...reporte,
+          estado: this.normalizarEstado(reporte.estado)
+        }));
 
         this.cargando = false;
       },
@@ -57,6 +60,13 @@ export class UsuarioHome implements OnInit {
       }
 
     });
+  }
+
+  private normalizarEstado(estado: string | undefined): string {
+    const valor = (estado || 'Pendiente').trim().toLowerCase();
+    if (valor === 'recibido' || valor === 'en revisión' || valor === 'en revision') return 'pendiente';
+    if (valor === 'asignado') return 'en proceso';
+    return valor;
   }
 
   obtenerCantidad(estado: string): number {

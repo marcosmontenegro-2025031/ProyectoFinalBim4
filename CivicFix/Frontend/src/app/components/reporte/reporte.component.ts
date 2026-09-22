@@ -24,6 +24,7 @@ import { RouterModule } from '@angular/router';
 
 import { ReporteService } from '../../services/reporte.service';
 import { FotoProblemaService } from '../../services/fotoProblema.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-reporte',
@@ -46,6 +47,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private reporteService = inject(ReporteService);
   private fotoService = inject(FotoProblemaService);
+  private session = inject(SessionService);
 
   private map: any;
   private marker: any;
@@ -98,7 +100,7 @@ export class ReporteComponent implements OnInit, OnDestroy {
     ],
 
     idUsuario: [
-      1,
+      0,
       Validators.required
     ]
 
@@ -106,6 +108,11 @@ export class ReporteComponent implements OnInit, OnDestroy {
 
 
   async ngOnInit(): Promise<void> {
+
+    const usuario = this.session.obtenerUsuario<{ id_usuario?: number }>();
+    if (usuario?.id_usuario) {
+      this.form.patchValue({ idUsuario: usuario.id_usuario });
+    }
 
     if (!isPlatformBrowser(this.platformId)) {
       return;

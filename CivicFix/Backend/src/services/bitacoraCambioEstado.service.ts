@@ -3,15 +3,13 @@ import { BitacoraCambioEstado, CrearBitacoraDTO, ActualizarBitacoraDTO } from ".
 
 export class BitacoraCambioEstadoService {
 
-    private repository = new BitacoraCambioEstadoRepository();
-
-    async listar(): Promise<BitacoraCambioEstado[]> {
-        return await this.repository.obtenerTodos();
+    static async listar(): Promise<BitacoraCambioEstado[]> {
+        return await BitacoraCambioEstadoRepository.obtenerTodos();
     }
 
 
-    async obtenerPorId(id: number): Promise<BitacoraCambioEstado> {
-        const bitacora = await this.repository.obtenerPorId(id);
+    static async obtenerPorId(id: number): Promise<BitacoraCambioEstado> {
+        const bitacora = await BitacoraCambioEstadoRepository.obtenerPorId(id);
 
         if (!bitacora) {
             throw new Error(`No se encontró el registro de bitácora con id ${id}`);
@@ -21,12 +19,12 @@ export class BitacoraCambioEstadoService {
     }
 
 
-    async obtenerPorReporte(idReporte: number): Promise<BitacoraCambioEstado[]> {
-        return await this.repository.obtenerPorReporte(idReporte);
+    static async obtenerPorReporte(idReporte: number): Promise<BitacoraCambioEstado[]> {
+        return await BitacoraCambioEstadoRepository.obtenerPorReporte(idReporte);
     }
 
 
-    async crear(datos: CrearBitacoraDTO): Promise<BitacoraCambioEstado> {
+    static async crear(datos: CrearBitacoraDTO): Promise<BitacoraCambioEstado> {
 
         if (!datos.fk_id_reporte || !datos.fk_id_estado_nuevo) {
             throw new Error("fk_id_reporte y fk_id_estado_nuevo son obligatorios");
@@ -42,13 +40,13 @@ export class BitacoraCambioEstadoService {
             fecha_cambio: datos.fecha_cambio ?? new Date()
         };
 
-        return await this.repository.crear(nuevaBitacora);
+        return await BitacoraCambioEstadoRepository.crear(nuevaBitacora);
     }
 
 
-    async actualizar(id: number, datos: ActualizarBitacoraDTO): Promise<BitacoraCambioEstado> {
+    static async actualizar(id: number, datos: ActualizarBitacoraDTO): Promise<BitacoraCambioEstado> {
 
-        const bitacoraExistente = await this.repository.obtenerPorId(id);
+        const bitacoraExistente = await BitacoraCambioEstadoRepository.obtenerPorId(id);
 
         if (!bitacoraExistente) {
             throw new Error(`No se encontró el registro de bitácora con id ${id}`);
@@ -59,7 +57,7 @@ export class BitacoraCambioEstadoService {
             ...datos
         };
 
-        const resultado = await this.repository.actualizar(id, bitacoraActualizada);
+        const resultado = await BitacoraCambioEstadoRepository.actualizar(id, bitacoraActualizada);
 
         if (!resultado) {
             throw new Error(`No se pudo actualizar la bitácora con id ${id}`);
@@ -69,9 +67,9 @@ export class BitacoraCambioEstadoService {
     }
 
 
-    async eliminar(id: number): Promise<BitacoraCambioEstado> {
+    static async eliminar(id: number): Promise<BitacoraCambioEstado> {
 
-        const bitacoraEliminada = await this.repository.eliminar(id);
+        const bitacoraEliminada = await BitacoraCambioEstadoRepository.eliminar(id);
 
         if (!bitacoraEliminada) {
             throw new Error(`No se encontró el registro de bitácora con id ${id}`);

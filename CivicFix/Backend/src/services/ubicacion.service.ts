@@ -11,8 +11,4 @@ export class UbicacionService {
     async consultarPorId(idUbicacion: number): Promise<Ubicacion | null> {
         return await this.repo.obtenerPorId(idUbicacion);
     }
-
-    async consultarTodas(): Promise<Ubicacion[]> {
-        return await this.repo.obtenerTodas();
-    }
 }
