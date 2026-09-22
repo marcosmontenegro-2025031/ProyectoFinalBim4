@@ -1,0 +1,2108 @@
+:host {
+    --color-principal: #1565C0;
+    --color-secundario: #0D47A1;
+    --color-fondo: #F5F7FA;
+    --color-texto: #263238;
+    --color-borde: #E0E0E0;
+
+    display: block;
+    width: 100%;
+}
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+:root {
+    --blue-primary: #1565C0;
+    --blue-dark: #0D47A1;
+    --blue-light: #EAF3FF;
+    --blue-pale: #F2F7FC;
+
+    --green: #33a339;
+    --yellow: #F9A825;
+    --orange: #EF6C00;
+    --red: #C62828;
+
+    --background: #EAF2FB;
+
+    --text: #172B3A;
+    --text-secondary: #607D8B;
+    --text-muted: #90A4AE;
+
+    --border: #D7E1EA;
+    --white: #FFFFFF;
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: var(--text);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(33, 150, 243, .22),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(21, 101, 192, .20),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #EAF3FF 0%,
+            #F5F9FD 45%,
+            #DCEBFA 100%
+        );
+
+    background-size: 140% 140%;
+
+    /*
+     * Más lento para evitar exceso de movimiento.
+     */
+    animation:
+        backgroundMove 25s ease-in-out infinite alternate;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+
+/* =========================================
+   FONDO DECORATIVO
+========================================= */
+
+body::before,
+body::after {
+    content: "";
+
+    position: fixed;
+
+    width: 280px;
+    height: 280px;
+
+    border-radius: 50%;
+
+    filter: blur(10px);
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+body::before {
+    top: -100px;
+    left: -80px;
+
+    background: rgba(33, 150, 243, .16);
+
+    animation:
+        floatingBlob 18s ease-in-out infinite;
+}
+
+body::after {
+    right: -100px;
+    bottom: -100px;
+
+    background: rgba(13, 71, 161, .14);
+
+    animation:
+        floatingBlob 22s ease-in-out infinite reverse;
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 28px;
+
+    position: relative;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.register-container {
+    width: min(100%, 1120px);
+
+    min-height: 720px;
+
+    display: grid;
+
+    grid-template-columns: 1.05fr .95fr;
+
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, .90);
+
+    border: 1px solid rgba(255, 255, 255, .8);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 80px rgba(13, 71, 161, .18),
+        0 10px 30px rgba(13, 71, 161, .08);
+
+    backdrop-filter: blur(14px);
+
+    animation:
+        cardAppear .8s cubic-bezier(.22, 1, .36, 1);
+}
+
+
+/* =========================================
+   PANEL INFORMACIÓN
+========================================= */
+
+.information-panel {
+    position: relative;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 20% 15%,
+            rgba(255,255,255,.95),
+            transparent 32%
+        ),
+        linear-gradient(
+            180deg,
+            #FFFFFF 0%,
+            #F5FAFF 42%,
+            #DCEFFF 100%
+        );
+}
+
+
+/* =========================================
+   CONTENIDO INFORMACIÓN
+========================================= */
+
+.information-content {
+    position: relative;
+
+    z-index: 20;
+
+    padding: 50px 55px;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.municipality-logo {
+    display: flex;
+    align-items: center;
+
+    color: #0D47A1;
+
+    gap: 13px;
+
+    animation:
+        slideFromLeft .8s ease both;
+}
+
+.logo-svg {
+    width: 52px;
+    height: 52px;
+
+    flex: 0 0 auto;
+
+    color: var(--blue-dark);
+
+    filter:
+        drop-shadow(
+            0 5px 8px rgba(13, 71, 161, .16)
+        );
+
+    transition:
+        transform .3s ease,
+        filter .3s ease;
+}
+
+.municipality-logo:hover .logo-svg {
+    transform:
+        translateY(-4px)
+        rotate(-3deg);
+
+    filter:
+        drop-shadow(
+            0 9px 15px rgba(13, 71, 161, .24)
+        );
+}
+
+.municipality-name {
+    display: flex;
+
+    flex-direction: column;
+
+    line-height: 1.2;
+}
+
+.municipality-name strong {
+    color: var(--blue-dark);
+
+    font-size: 20px;
+
+    letter-spacing: .5px;
+}
+
+.municipality-name span {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    line-height: 1.35;
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero-copy {
+    margin-top: 72px;
+
+    max-width: 440px;
+
+    animation:
+        slideFromLeft .9s .12s ease both;
+}
+
+.hero-copy h1 {
+    margin: 0 0 18px;
+
+    color: var(--text);
+
+    font-size: 39px;
+
+    font-weight: 750;
+
+    line-height: 1.1;
+
+    letter-spacing: -1px;
+}
+
+.hero-copy h1 span {
+    display: block;
+
+    color: var(--blue-dark);
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue-dark),
+            #1976D2
+        );
+
+    background-clip: text;
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-copy p {
+    max-width: 380px;
+
+    color: var(--text);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   BENEFICIOS
+========================================= */
+
+.register-benefits {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    margin-top: 34px;
+
+    animation:
+        slideFromLeft .9s .25s ease both;
+}
+
+.benefit {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    transition:
+        transform .3s ease;
+}
+
+.benefit:hover {
+    transform: translateX(7px);
+}
+
+.benefit-icon {
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    border-radius: 12px;
+
+    color: var(--blue-dark);
+
+    background:
+        linear-gradient(
+            145deg,
+            #FFFFFF,
+            #EDF5FC
+        );
+
+    border: 1px solid rgba(255,255,255,.8);
+
+    box-shadow:
+        0 7px 18px rgba(13, 71, 161, .10);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.benefit:hover .benefit-icon {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 10px 24px rgba(21, 101, 192, .18);
+}
+
+.benefit-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.benefit-icon.blue {
+    color: #1976D2;
+}
+
+.benefit-icon.green {
+    color: #33A339;
+}
+
+.benefit > div:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.benefit strong {
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 650;
+}
+
+.benefit span {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   ESCENA CIUDAD
+========================================= */
+
+.city-scene {
+    position: absolute;
+
+    z-index: 2;
+
+    left: 0;
+    right: 0;
+
+    bottom: 62px;
+
+    height: 250px;
+
+    overflow: hidden;
+}
+
+
+/*
+ * No usamos will-change: transform constantemente.
+ * Evita que el navegador esté renderizando
+ * continuamente elementos que casi no se mueven.
+ */
+
+.city-hill,
+.buildings,
+.tree,
+.street-lamp,
+.bench {
+    will-change: auto;
+}
+
+
+/* =========================================
+   COLINAS
+========================================= */
+
+.hill-back {
+    animation:
+        hillBackMove 14s ease-in-out infinite alternate;
+}
+
+.hill-front {
+    animation:
+        hillFrontMove 18s ease-in-out infinite alternate;
+}
+
+.city-hill {
+    position: absolute;
+
+    left: -10%;
+
+    width: 120%;
+
+    border-radius: 50% 50% 0 0;
+}
+
+.hill-back {
+    bottom: 22px;
+
+    height: 135px;
+
+    background: #CDE5F8;
+
+    transform: rotate(-2deg);
+}
+
+.hill-front {
+    bottom: -45px;
+
+    height: 135px;
+
+    background: #A8D1ED;
+
+    transform: rotate(2deg);
+}
+
+@keyframes hillBackMove {
+    from {
+        transform:
+            translateX(-2px)
+            rotate(-2deg);
+    }
+
+    to {
+        transform:
+            translateX(2px)
+            rotate(-1.8deg);
+    }
+}
+
+@keyframes hillFrontMove {
+    from {
+        transform:
+            translateX(1px)
+            rotate(2deg);
+    }
+
+    to {
+        transform:
+            translateX(-1px)
+            rotate(2.1deg);
+    }
+}
+
+
+/* =========================================
+   EDIFICIOS
+========================================= */
+
+/*
+ * Los edificios quedan completamente quietos.
+ * Esto elimina el movimiento extraño de la ciudad.
+ */
+
+.buildings {
+    position: absolute;
+
+    z-index: 4;
+
+    left: 95px;
+    right: 54px;
+
+    bottom: 57px;
+
+    height: 135px;
+
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    gap: 8px;
+
+    animation: none;
+
+    transform:
+        translate3d(0, 0, 0);
+}
+
+.building {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    background:
+        linear-gradient(
+            180deg,
+            #4B91CF,
+            #347AB7
+        );
+
+    opacity: .82;
+
+    border-radius: 4px 4px 0 0;
+
+    box-shadow:
+        inset 0 0 15px rgba(255,255,255,.08);
+}
+
+.building-a {
+    width: 31px;
+    height: 77px;
+}
+
+.building-b {
+    width: 42px;
+    height: 110px;
+}
+
+.building-c {
+    width: 35px;
+    height: 88px;
+}
+
+.building-d {
+    width: 47px;
+    height: 130px;
+}
+
+.building-e {
+    width: 36px;
+    height: 72px;
+}
+
+.building-f {
+    width: 28px;
+    height: 58px;
+}
+
+
+/* =========================================
+   VENTANAS
+========================================= */
+
+.building span {
+    position: relative;
+
+    display: block;
+
+    width: 6px;
+    height: 6px;
+
+    margin: 9px auto 0;
+
+    background: rgba(255,255,255,.72);
+
+    border-radius: 2px;
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.25);
+
+    animation:
+        windowBlink 8s ease-in-out infinite;
+}
+
+.building:nth-child(2) span {
+    animation-delay: 1.5s;
+}
+
+.building:nth-child(3) span {
+    animation-delay: 3s;
+}
+
+.building:nth-child(4) span {
+    animation-delay: 4.5s;
+}
+
+.building:nth-child(5) span {
+    animation-delay: 2.2s;
+}
+
+.building:nth-child(6) span {
+    animation-delay: 5.5s;
+}
+
+@keyframes windowBlink {
+    0%,
+    88%,
+    100% {
+        opacity: .72;
+    }
+
+    92% {
+        opacity: .90;
+    }
+}
+
+
+/* =========================================
+   ÁRBOLES
+========================================= */
+
+.tree {
+    position: absolute;
+
+    z-index: 8;
+
+    bottom: 35px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    /*
+     * Movimiento muy pequeño.
+     *
+     * NO usamos transform aquí porque los
+     * media queries utilizan transform: scale().
+     */
+    animation:
+        treeSway 7s ease-in-out infinite alternate;
+}
+
+.tree-crown {
+    width: 48px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    background: #2174B5;
+
+    box-shadow:
+        -14px 10px 0 #2174B5,
+        14px 10px 0 #2174B5;
+
+    filter:
+        drop-shadow(
+            0 5px 5px rgba(13,71,161,.12)
+        );
+}
+
+.tree-trunk {
+    width: 9px;
+    height: 29px;
+
+    background: #52788E;
+}
+
+.tree-one {
+    left: 24px;
+
+    transform: scale(1.05);
+
+    animation-delay: 0s;
+}
+
+.tree-two {
+    left: 76px;
+
+    transform: scale(.75);
+
+    animation-delay: -1.8s;
+}
+
+.tree-three {
+    right: 33px;
+
+    transform: scale(.95);
+
+    animation-delay: -3.5s;
+}
+
+.tree-four {
+    right: 83px;
+
+    transform: scale(.72);
+
+    animation-delay: -5s;
+}
+
+@keyframes treeSway {
+    from {
+        translate: 0 0;
+    }
+
+    to {
+        translate: 0 -2px;
+    }
+}
+
+
+/* =========================================
+   LÁMPARA
+========================================= */
+
+.street-lamp {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 11px;
+
+    bottom: 48px;
+
+    width: 22px;
+    height: 150px;
+
+    /*
+     * La lámpara queda quieta.
+     */
+    animation: none;
+}
+
+.lamp-pole {
+    position: absolute;
+
+    left: 9px;
+    top: 18px;
+
+    width: 3px;
+    height: 123px;
+
+    background: #506D80;
+
+    border-radius: 2px;
+}
+
+.lamp-base {
+    position: absolute;
+
+    left: 4px;
+    bottom: 0;
+
+    width: 13px;
+    height: 5px;
+
+    background: #506D80;
+
+    border-radius: 3px;
+}
+
+.lamp-head {
+    position: absolute;
+
+    left: 2px;
+    top: 3px;
+
+    width: 16px;
+    height: 16px;
+
+    background: #506D80;
+
+    clip-path:
+        polygon(
+            50% 0,
+            100% 35%,
+            82% 100%,
+            18% 100%,
+            0 35%
+        );
+
+    box-shadow:
+        0 0 12px rgba(249,168,37,.20);
+
+    animation:
+        lampGlow 4s ease-in-out infinite;
+}
+
+@keyframes lampGlow {
+    0%,
+    100% {
+        filter: brightness(1);
+
+        box-shadow:
+            0 0 12px rgba(249,168,37,.20);
+    }
+
+    50% {
+        filter: brightness(1.08);
+
+        box-shadow:
+            0 0 18px rgba(249,168,37,.32);
+    }
+}
+
+
+/* =========================================
+   BANCA
+========================================= */
+
+.bench {
+    position: absolute;
+
+    z-index: 11;
+
+    left: 53%;
+
+    bottom: 44px;
+
+    width: 45px;
+    height: 31px;
+
+    /*
+     * Banca completamente estable.
+     */
+    animation: none;
+}
+
+.bench-seat,
+.bench-back {
+    background: #506D80;
+
+    border-radius: 3px;
+}
+
+.bench-seat {
+    position: absolute;
+
+    left: 0;
+    bottom: 11px;
+
+    width: 45px;
+    height: 5px;
+}
+
+.bench-back {
+    position: absolute;
+
+    left: 2px;
+    bottom: 18px;
+
+    width: 41px;
+    height: 5px;
+}
+
+.bench-leg {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 3px;
+    height: 13px;
+
+    background: #506D80;
+}
+
+.leg-left {
+    left: 6px;
+}
+
+.leg-right {
+    right: 6px;
+}
+
+
+/* =========================================
+   TERRENO
+========================================= */
+
+.ground {
+    position: absolute;
+
+    z-index: 7;
+
+    left: -5%;
+    bottom: -30px;
+
+    width: 110%;
+    height: 90px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #73AAD2,
+            #609AC5
+        );
+
+    border-radius: 50% 50% 0 0;
+
+    transform: rotate(-2deg);
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.information-footer {
+    position: absolute;
+
+    z-index: 30;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 0 32px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0D47A1,
+            #1565C0
+        );
+
+    box-shadow:
+        0 -5px 20px rgba(13,71,161,.12);
+}
+
+.footer-shield {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+}
+
+.footer-shield svg {
+    width: 27px;
+    height: 27px;
+}
+
+.footer-text {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.footer-text strong {
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+.footer-text span {
+    font-size: 10px;
+
+    opacity: .82;
+}
+
+
+/* =========================================
+   REGISTER PANEL
+========================================= */
+
+.register-panel {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 45px 55px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.98),
+            rgba(250,252,255,.98)
+        );
+}
+
+.register-card {
+    width: 100%;
+
+    max-width: 490px;
+
+    animation:
+        slideFromRight .8s cubic-bezier(.22,1,.36,1);
+}
+
+
+/* =========================================
+   ICONO REGISTRO
+========================================= */
+
+.register-icon {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 15px;
+
+    border-radius: 50%;
+
+    color: var(--blue-dark);
+
+    background:
+        linear-gradient(
+            145deg,
+            #EDF6FF,
+            #DCEEFF
+        );
+
+    box-shadow:
+        0 10px 25px rgba(21,101,192,.12);
+
+    animation:
+        iconPulse 3s ease-in-out infinite;
+}
+
+.register-icon svg {
+    width: 36px;
+    height: 36px;
+}
+
+
+/* =========================================
+   TITULO
+========================================= */
+
+.register-card h2 {
+    color: var(--text);
+
+    text-align: center;
+
+    font-size: 28px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -.4px;
+}
+
+.register-subtitle {
+    margin-top: 8px;
+
+    margin-bottom: 25px;
+
+    color: #78909C;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+.register-form {
+    width: 100%;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 650;
+}
+
+.input-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: #FFFFFF;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.input-wrapper:hover {
+    border-color: #B9CAD9;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--blue-primary);
+
+    box-shadow:
+        0 0 0 4px rgba(21,101,192,.09),
+        0 8px 20px rgba(21,101,192,.07);
+
+    transform: translateY(-1px);
+}
+
+.input-icon {
+    width: 19px;
+    height: 19px;
+
+    margin-left: 14px;
+
+    flex: 0 0 auto;
+
+    color: #90A4AE;
+
+    transition:
+        color .25s ease;
+}
+
+.input-wrapper:focus-within .input-icon {
+    color: var(--blue-primary);
+}
+
+.input-wrapper input {
+    width: 100%;
+
+    height: 46px;
+
+    min-width: 0;
+
+    padding: 0 13px;
+
+    border: 0;
+
+    outline: 0;
+
+    color: var(--text);
+
+    background: transparent;
+
+    font-size: 13px;
+}
+
+.input-wrapper input::placeholder {
+    color: #AAB8C2;
+
+    opacity: 1;
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+.input-wrapper select {
+    width: 100%;
+
+    height: 46px;
+
+    min-width: 0;
+
+    padding: 0 13px;
+
+    border: 0;
+
+    outline: 0;
+
+    color: var(--text);
+
+    background: transparent;
+
+    font-size: 13px;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    cursor: pointer;
+}
+
+.input-wrapper:has(select) {
+    position: relative;
+}
+
+.input-wrapper:has(select)::after {
+    content: "";
+
+    position: absolute;
+
+    right: 14px;
+
+    top: 50%;
+
+    width: 9px;
+    height: 9px;
+
+    border-right: 2px solid #90A4AE;
+    border-bottom: 2px solid #90A4AE;
+
+    transform:
+        translateY(-70%)
+        rotate(45deg);
+
+    pointer-events: none;
+}
+
+.input-wrapper:has(select):focus-within::after {
+    border-color: var(--blue-primary);
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error-text {
+    position: absolute;
+
+    left: 0;
+
+    top: calc(100% + 4px);
+
+    color: #C62828;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    animation:
+        errorAppear .25s ease;
+}
+
+
+/* =========================================
+   PASSWORD
+========================================= */
+
+.password-button {
+    width: 42px;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #78909C;
+
+    cursor: pointer;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.password-button:hover {
+    color: var(--blue-primary);
+
+    transform: scale(1.1);
+}
+
+.password-button svg {
+    width: 19px;
+    height: 19px;
+}
+
+
+/* =========================================
+   TERMINOS
+========================================= */
+
+.terms {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 3px;
+    margin-bottom: 19px;
+
+    color: #607D8B;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.terms input {
+    width: 15px;
+    height: 15px;
+
+    margin: 0;
+
+    accent-color: var(--blue-primary);
+
+    cursor: pointer;
+
+    flex: 0 0 auto;
+}
+
+.terms span {
+    line-height: 1.4;
+}
+
+
+/* =========================================
+   BOTÓN REGISTRO
+========================================= */
+
+.register-button {
+    width: 100%;
+
+    height: 49px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1976D2,
+            #0D47A1
+        );
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(21,101,192,.20);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        filter .25s ease,
+        opacity .25s ease;
+}
+
+.register-button svg {
+    width: 19px;
+    height: 19px;
+}
+
+.register-button:hover:not(:disabled) {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 14px 28px rgba(21,101,192,.28);
+
+    filter: brightness(1.06);
+}
+
+.register-button:active:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 15px rgba(21,101,192,.20);
+}
+
+.register-button:disabled {
+    opacity: .55;
+
+    cursor: not-allowed;
+
+    box-shadow:
+        0 5px 12px rgba(21,101,192,.10);
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+.login-link {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    margin-top: 22px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #78909C;
+}
+
+.login-link a {
+    color: var(--blue-primary);
+
+    font-weight: 650;
+
+    text-decoration: none;
+
+    transition:
+        color .2s ease;
+}
+
+.login-link a:hover {
+    color: var(--blue-dark);
+
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   ANIMACIONES GENERALES
+========================================= */
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(.97);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@keyframes slideFromLeft {
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(-25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
+}
+
+@keyframes slideFromRight {
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
+}
+
+@keyframes backgroundMove {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes floatingBlob {
+    0% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(25px, 20px)
+            scale(1.08);
+    }
+
+    100% {
+        transform:
+            translate(-15px, 35px)
+            scale(.95);
+    }
+}
+
+@keyframes iconPulse {
+    0%,
+    100% {
+        box-shadow:
+            0 10px 25px rgba(21,101,192,.12);
+    }
+
+    50% {
+        box-shadow:
+            0 12px 32px rgba(21,101,192,.22);
+    }
+}
+
+@keyframes errorAppear {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-3px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .page {
+        padding: 25px;
+    }
+
+    .register-container {
+        grid-template-columns: 1fr 1fr;
+
+        min-height: 680px;
+    }
+
+    .information-content {
+        padding: 40px 35px;
+    }
+
+    .hero-copy {
+        margin-top: 55px;
+    }
+
+    .hero-copy h1 {
+        font-size: 31px;
+    }
+
+    .hero-copy p {
+        font-size: 14px;
+    }
+
+    .register-benefits {
+        gap: 13px;
+    }
+
+    .register-panel {
+        padding: 40px 30px;
+    }
+
+    .register-card {
+        max-width: 440px;
+    }
+
+    .form-row {
+        gap: 10px;
+    }
+}
+
+
+/* =========================================
+   MÓVIL
+========================================= */
+
+@media (max-width: 700px) {
+
+    .page {
+        padding: 0;
+    }
+
+    .register-container {
+        width: 100%;
+
+        min-height: 100vh;
+
+        grid-template-columns: 1fr;
+
+        border-radius: 0;
+
+        box-shadow: none;
+
+        border: 0;
+    }
+
+    .information-panel {
+        min-height: 390px;
+
+        height: 390px;
+    }
+
+    .information-content {
+        padding: 30px 28px 20px;
+    }
+
+    .logo-svg {
+        width: 44px;
+        height: 44px;
+    }
+
+    .municipality-name strong {
+        font-size: 17px;
+    }
+
+    .municipality-name span {
+        font-size: 10px;
+    }
+
+    .hero-copy {
+        margin-top: 40px;
+    }
+
+    .hero-copy h1 {
+        font-size: 28px;
+
+        margin-bottom: 12px;
+    }
+
+    .hero-copy p {
+        font-size: 13px;
+
+        max-width: 300px;
+    }
+
+    .register-benefits {
+        margin-top: 20px;
+
+        gap: 10px;
+    }
+
+    .benefit-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .benefit-icon svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .benefit strong {
+        font-size: 11px;
+    }
+
+    .benefit span {
+        font-size: 9px;
+    }
+
+
+    /* -----------------------------
+       CIUDAD EN MÓVIL
+    ----------------------------- */
+
+    .city-scene {
+        bottom: 49px;
+
+        height: 145px;
+    }
+
+    .buildings {
+        left: 65px;
+        right: 30px;
+
+        bottom: 35px;
+
+        height: 90px;
+    }
+
+    .building-a {
+        width: 19px;
+        height: 48px;
+    }
+
+    .building-b {
+        width: 27px;
+        height: 70px;
+    }
+
+    .building-c {
+        width: 22px;
+        height: 55px;
+    }
+
+    .building-d {
+        width: 30px;
+        height: 82px;
+    }
+
+    .building-e {
+        width: 22px;
+        height: 45px;
+    }
+
+    .building-f {
+        width: 18px;
+        height: 37px;
+    }
+
+
+    /* -----------------------------
+       ÁRBOLES
+    ----------------------------- */
+
+    .tree {
+        bottom: 22px;
+    }
+
+    .tree-one {
+        left: 18px;
+
+        transform: scale(.72);
+    }
+
+    .tree-two {
+        left: 55px;
+
+        transform: scale(.55);
+    }
+
+    .tree-three {
+        right: 18px;
+
+        transform: scale(.68);
+    }
+
+    .tree-four {
+        right: 55px;
+
+        transform: scale(.52);
+    }
+
+
+    /* -----------------------------
+       LÁMPARA
+    ----------------------------- */
+
+    .street-lamp {
+        left: 7px;
+
+        bottom: 28px;
+
+        /*
+         * Solo escala.
+         * No hay animación que interfiera.
+         */
+        transform: scale(.7);
+
+        transform-origin: bottom left;
+    }
+
+
+    /* -----------------------------
+       BANCA
+    ----------------------------- */
+
+    .bench {
+        bottom: 27px;
+
+        transform: scale(.75);
+
+        transform-origin: bottom center;
+    }
+
+
+    /* -----------------------------
+       FOOTER
+    ----------------------------- */
+
+    .information-footer {
+        height: 49px;
+
+        padding: 0 22px;
+    }
+
+    .footer-text strong {
+        font-size: 9px;
+    }
+
+    .footer-text span {
+        font-size: 8px;
+    }
+
+
+    /* -----------------------------
+       FORMULARIO
+    ----------------------------- */
+
+    .register-panel {
+        min-height: 650px;
+
+        padding: 45px 28px;
+    }
+
+    .register-card {
+        max-width: 430px;
+    }
+
+    .register-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .register-icon svg {
+        width: 33px;
+        height: 33px;
+    }
+
+    .register-card h2 {
+        font-size: 25px;
+    }
+
+    .register-subtitle {
+        font-size: 12px;
+
+        margin-bottom: 22px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .input-wrapper input {
+        font-size: 13px;
+    }
+
+    .terms {
+        font-size: 10px;
+    }
+
+    .register-button {
+        height: 50px;
+
+        font-size: 14px;
+    }
+}
+
+
+/* =========================================
+   MÓVILES PEQUEÑOS
+========================================= */
+
+@media (max-width: 400px) {
+
+    .information-panel {
+        min-height: 365px;
+
+        height: 365px;
+    }
+
+    .information-content {
+        padding: 24px 22px;
+    }
+
+    .hero-copy {
+        margin-top: 30px;
+    }
+
+    .hero-copy h1 {
+        font-size: 25px;
+    }
+
+    .hero-copy p {
+        font-size: 12px;
+    }
+
+    .register-benefits {
+        gap: 7px;
+    }
+
+    .benefit-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .benefit-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .benefit strong {
+        font-size: 10px;
+    }
+
+    .benefit span {
+        font-size: 8px;
+    }
+
+    .register-panel {
+        padding: 40px 22px;
+    }
+
+    .register-subtitle {
+        font-size: 11px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .login-link {
+        margin-top: 19px;
+    }
+}
+
+
+/* =========================================
+   REDUCIR MOVIMIENTO
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+
+        scroll-behavior: auto !important;
+    }
+}

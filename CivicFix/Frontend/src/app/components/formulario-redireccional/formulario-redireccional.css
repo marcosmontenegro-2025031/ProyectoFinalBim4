@@ -1,0 +1,844 @@
+:host {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(33, 150, 243, .22),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(13, 71, 161, .18),
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #EAF3FF 0%,
+            #F5F9FD 50%,
+            #DCEBFA 100%
+        );
+
+    box-sizing: border-box;
+}
+
+:host,
+:host * {
+    box-sizing: border-box;
+}
+
+:root {
+    --blue-primary: #1565C0;
+    --blue-dark: #0D47A1;
+    --blue-light: #EAF3FF;
+    --blue-pale: #F2F7FC;
+
+    --green: #2E7D32;
+    --green-light: #E8F5E9;
+
+    --red: #C62828;
+    --red-light: #FFEBEE;
+
+    --text: #172B3A;
+    --text-secondary: #607D8B;
+    --border: #D7E1EA;
+    --white: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
+
+.container {
+    position: relative;
+
+    width: min(1050px, 100%);
+    height: min(600px, calc(100vh - 50px));
+
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, .96);
+
+    border: 1px solid rgba(255, 255, 255, .9);
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 30px 70px rgba(13, 71, 161, .14),
+        0 8px 25px rgba(13, 71, 161, .06);
+
+    backdrop-filter: blur(16px);
+
+    z-index: 10;
+}
+
+/* =========================================
+   ESCENA DE LA CIUDAD Y EFECTOS HOVER
+========================================= */
+
+.city-scene {
+    position: relative;
+
+    grid-column: 1;
+
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+        to bottom,
+        #EAF3FF,
+        #A8D1ED
+    );
+
+    overflow: hidden;
+}
+
+.city-hill,
+.buildings,
+.tree,
+.street-lamp,
+.bench,
+.logo-city {
+    will-change: transform;
+
+    transition:
+        transform 0.6s cubic-bezier(.25, .8, .25, 1);
+}
+
+.city-scene:hover .hill-back {
+    transform: translateX(5px) rotate(-2deg);
+}
+
+.city-scene:hover .hill-front {
+    transform: translateX(-5px) rotate(2deg);
+}
+
+.city-scene:hover .buildings {
+    transform: translateY(-5px);
+}
+
+.city-scene:hover .logo-city {
+    transform: translateX(-50%) translateY(-8px);
+}
+
+.city-scene:hover .tree {
+    transform: translateY(-4px);
+}
+
+.city-scene:hover .tree-one {
+    transform: scale(1.05) translateY(-4px);
+}
+
+.city-scene:hover .tree-two {
+    transform: scale(.75) translateY(-4px);
+}
+
+.city-scene:hover .tree-three {
+    transform: scale(.95) translateY(-4px);
+}
+
+.city-scene:hover .tree-four {
+    transform: scale(.72) translateY(-4px);
+}
+
+.city-scene:hover .street-lamp {
+    transform: translateY(-3px);
+}
+
+.city-scene:hover .bench {
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   COLINAS
+========================================= */
+
+.city-hill {
+    position: absolute;
+
+    left: -10%;
+
+    width: 120%;
+
+    border-radius: 50% 50% 0 0;
+}
+
+.hill-back {
+    bottom: 22px;
+
+    height: 135px;
+
+    background: #CDE5F8;
+
+    transform: rotate(-2deg);
+}
+
+.hill-front {
+    bottom: -45px;
+
+    height: 135px;
+
+    background: #A8D1ED;
+
+    transform: rotate(2deg);
+}
+
+/* =========================================
+   EDIFICIOS
+========================================= */
+
+.buildings {
+    position: absolute;
+
+    z-index: 4;
+
+    left: 10%;
+    right: 10%;
+    bottom: 57px;
+
+    height: 135px;
+
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    gap: 8px;
+}
+
+.building {
+    position: relative;
+
+    flex: 1;
+
+    max-width: 50px;
+
+    background: linear-gradient(
+        180deg,
+        #4B91CF,
+        #347AB7
+    );
+
+    opacity: .82;
+
+    border-radius: 4px 4px 0 0;
+
+    box-shadow:
+        inset 0 0 15px rgba(255,255,255,.08);
+}
+
+.building-a {
+    height: 77px;
+}
+
+.building-b {
+    height: 110px;
+}
+
+.building-c {
+    height: 88px;
+}
+
+.building-d {
+    height: 130px;
+}
+
+.building-e {
+    height: 72px;
+}
+
+.building-f {
+    height: 58px;
+}
+
+.building span {
+    position: relative;
+
+    display: block;
+
+    width: 6px;
+    height: 6px;
+
+    margin: 9px auto 0;
+
+    background: rgba(255,255,255,.72);
+
+    border-radius: 2px;
+
+    animation: windowBlink 4s ease-in-out infinite;
+}
+
+/* =========================================
+   LOGO DE CIVIFIX
+========================================= */
+
+.logo-city {
+    position: absolute;
+
+    z-index: 15;
+
+    left: 50%;
+
+    /*
+       POSICIÓN DEL LOGO
+
+       Aumenta este valor para subirlo.
+       Disminúyelo para bajarlo.
+    */
+    bottom: 485px;
+
+    width: 300px;
+    height: 300px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, .94);
+
+    border-radius: 45px;
+
+    color: var(--blue-primary);
+
+    box-shadow:
+        0 12px 28px rgba(13, 71, 161, .16);
+
+    backdrop-filter: blur(8px);
+}
+
+.logo-city img {
+    width: 200%;
+    height: 200%;
+
+    object-fit: contain;
+
+    border-radius: inherit;
+
+    padding: 25px;
+}
+
+/* =========================================
+   ÁRBOLES
+========================================= */
+
+.tree {
+    position: absolute;
+
+    z-index: 8;
+
+    bottom: 35px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.tree-crown {
+    width: 48px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    background: #2174B5;
+
+    box-shadow:
+        -14px 10px 0 #2174B5,
+        14px 10px 0 #2174B5;
+}
+
+.tree-trunk {
+    width: 9px;
+    height: 29px;
+
+    background: #52788E;
+}
+
+.tree-one {
+    left: 5%;
+
+    transform: scale(1.05);
+}
+
+.tree-two {
+    left: 25%;
+
+    transform: scale(.75);
+}
+
+.tree-three {
+    right: 25%;
+
+    transform: scale(.95);
+}
+
+.tree-four {
+    right: 5%;
+
+    transform: scale(.72);
+}
+
+/* =========================================
+   FAROLA
+========================================= */
+
+.street-lamp {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 15%;
+    bottom: 48px;
+
+    width: 22px;
+    height: 150px;
+}
+
+.lamp-pole {
+    position: absolute;
+
+    left: 9px;
+    top: 18px;
+
+    width: 3px;
+    height: 123px;
+
+    background: #506D80;
+}
+
+.lamp-base {
+    position: absolute;
+
+    left: 4px;
+    bottom: 0;
+
+    width: 13px;
+    height: 5px;
+
+    background: #506D80;
+}
+
+.lamp-head {
+    position: absolute;
+
+    left: 2px;
+    top: 3px;
+
+    width: 16px;
+    height: 16px;
+
+    background: #506D80;
+
+    clip-path: polygon(
+        50% 0,
+        100% 35%,
+        82% 100%,
+        18% 100%,
+        0 35%
+    );
+}
+
+/* =========================================
+   BANCA
+========================================= */
+
+.bench {
+    position: absolute;
+
+    z-index: 11;
+
+    left: 55%;
+    bottom: 44px;
+
+    width: 45px;
+    height: 31px;
+}
+
+.bench-seat,
+.bench-back {
+    background: #506D80;
+
+    border-radius: 3px;
+}
+
+.bench-seat {
+    position: absolute;
+
+    left: 0;
+    bottom: 11px;
+
+    width: 45px;
+    height: 5px;
+}
+
+.bench-back {
+    position: absolute;
+
+    left: 2px;
+    bottom: 18px;
+
+    width: 41px;
+    height: 5px;
+}
+
+.bench-leg {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 3px;
+    height: 13px;
+
+    background: #506D80;
+}
+
+.leg-left {
+    left: 6px;
+}
+
+.leg-right {
+    right: 6px;
+}
+
+/* =========================================
+   SUELO
+========================================= */
+
+.ground {
+    position: absolute;
+
+    z-index: 7;
+
+    left: -5%;
+    bottom: -30px;
+
+    width: 110%;
+    height: 90px;
+
+    background: linear-gradient(
+        180deg,
+        #73AAD2,
+        #609AC5
+    );
+
+    border-radius: 50% 50% 0 0;
+
+    transform: rotate(-2deg);
+}
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+.formulario-reactivo {
+    grid-column: 2;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+
+    background: var(--white);
+
+    text-align: center;
+}
+
+/* =========================================
+   ÍCONO SOBRE EL TÍTULO
+========================================= */
+
+.icono-formulario {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    background: var(--blue-light);
+
+    color: var(--blue-primary);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 20px rgba(13, 71, 161, .12);
+}
+
+.icono-formulario svg {
+    width: 34px;
+    height: 34px;
+}
+
+/* =========================================
+   TÍTULO
+========================================= */
+
+.titulo-formulario {
+    display: block;
+
+    font-size: 32px;
+
+    font-weight: 800;
+
+    color: var(--blue-dark);
+
+    margin-bottom: 8px;
+
+    letter-spacing: -.6px;
+}
+
+.subtitulo-formulario {
+    display: block;
+
+    font-size: 16px;
+
+    color: var(--text-secondary);
+
+    margin-bottom: 35px;
+
+    font-weight: 500;
+}
+
+/* =========================================
+   BOTONES
+========================================= */
+
+.botones-wrapper {
+    width: 100%;
+
+    max-width: 320px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.boton-formulario {
+    width: 100%;
+
+    min-height: 58px;
+
+    padding: 15px 24px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background-color .25s ease;
+
+    text-transform: uppercase;
+
+    letter-spacing: .4px;
+}
+
+.boton-formulario::before {
+    content: "";
+
+    width: 20px;
+    height: 20px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    display: inline-block;
+}
+
+/* =========================================
+   BOTÓN SÍ
+========================================= */
+
+.boton-formulario.btn-si {
+    background: var(--green);
+
+    color: var(--white);
+
+    box-shadow:
+        0 8px 20px rgba(46, 125, 50, .20);
+}
+
+.boton-formulario.btn-si::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+}
+
+.boton-formulario.btn-si:hover {
+    background: #1B5E20;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 25px rgba(46, 125, 50, .30);
+}
+
+/* =========================================
+   BOTÓN NO
+========================================= */
+
+.boton-formulario.btn-no {
+    background: var(--red);
+
+    color: var(--white);
+
+    box-shadow:
+        0 8px 20px rgba(198, 40, 40, .20);
+}
+
+.boton-formulario.btn-no::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E");
+}
+
+.boton-formulario.btn-no:hover {
+    background: #B71C1C;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 25px rgba(198, 40, 40, .30);
+}
+
+.boton-formulario:active {
+    transform: translateY(0);
+}
+
+/* =========================================
+   ANIMACIONES
+========================================= */
+
+@keyframes windowBlink {
+    0%,
+    100% {
+        opacity: .72;
+    }
+
+    50% {
+        opacity: .35;
+    }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+    :host {
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        height: auto;
+
+        min-height: 600px;
+
+        grid-template-columns: 1fr;
+    }
+
+    .city-scene {
+        display: none;
+    }
+
+    .formulario-reactivo {
+        grid-column: 1;
+
+        min-height: 600px;
+
+        padding: 40px 25px;
+    }
+}
+
+/* =========================================
+   PANTALLAS CON POCA ALTURA
+========================================= */
+
+@media (max-height: 650px) and (min-width: 851px) {
+
+    :host {
+        padding: 15px;
+    }
+
+    .container {
+        height: calc(100vh - 30px);
+
+        border-radius: 24px;
+    }
+
+    .formulario-reactivo {
+        padding: 25px;
+    }
+
+    .titulo-formulario {
+        font-size: 28px;
+    }
+
+    .subtitulo-formulario {
+        margin-bottom: 25px;
+    }
+
+    .boton-formulario {
+        min-height: 52px;
+    }
+
+    .logo-city {
+        bottom: 270px;
+
+        width: 84px;
+        height: 84px;
+    }
+}
