@@ -3,7 +3,7 @@ import { Asignacion } from "../models/asignacion.model.js";
 
 export class AsignacionRepository {
 
-    async obtenerTodos(): Promise<Asignacion[]> {
+    static async obtenerTodos(): Promise<Asignacion[]> {
         const resultado = await pool.query(`
             SELECT
                 id_asignacion,
@@ -19,7 +19,7 @@ export class AsignacionRepository {
     }
 
 
-    async obtenerPorId(id: number): Promise<Asignacion | null> {
+    static async obtenerPorId(id: number): Promise<Asignacion | null> {
         const resultado = await pool.query(
             `SELECT
                 id_asignacion,
@@ -40,7 +40,7 @@ export class AsignacionRepository {
     }
 
 
-    async crear(asignacion: Asignacion): Promise<Asignacion> {
+    static async crear(asignacion: Asignacion): Promise<Asignacion> {
         const resultado = await pool.query(
             `INSERT INTO Asignacion
                 (id_reporte, id_empleado, fecha_asignacion, observacion)
@@ -63,7 +63,7 @@ export class AsignacionRepository {
     }
 
 
-    async actualizar(id: number, asignacion: Asignacion): Promise<Asignacion | null> {
+    static async actualizar(id: number, asignacion: Asignacion): Promise<Asignacion | null> {
         const resultado = await pool.query(
             `UPDATE Asignacion
             SET
@@ -95,7 +95,7 @@ export class AsignacionRepository {
     }
 
 
-    async eliminar(id: number): Promise<Asignacion | null> {
+    static async eliminar(id: number): Promise<Asignacion | null> {
         const resultado = await pool.query(
             `DELETE FROM Asignacion
             WHERE id_asignacion = $1

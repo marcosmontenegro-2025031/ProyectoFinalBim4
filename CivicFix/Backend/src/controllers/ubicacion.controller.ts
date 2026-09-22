@@ -3,14 +3,6 @@ import { UbicacionService } from '../services/ubicacion.service';
 
 const ubicacionService = new UbicacionService();
 
-export const obtenerTodasLasUbicacionesHandler = async (_req: Request, res: Response): Promise<Response> => {
-    try {
-        return res.status(200).json(await ubicacionService.consultarTodas());
-    } catch (error: any) {
-        return res.status(500).json({ error: 'Error al consultar las ubicaciones', detalle: error.message });
-    }
-};
-
 export const obtenerUbicacionPorIdHandler = async (req: Request, res: Response): Promise<Response> => {
     try {
         const idUbicacion = Number(req.params.id);
