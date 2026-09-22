@@ -18,5 +18,14 @@ pool.on('connect', () => {
 });
 
 pool.on('error', (err) => {
+<<<<<<< HEAD
+  console.error('Error inesperado en el cliente de Postgres', err);
+});
+
+pool.query('SELECT NOW()')
+  .then(res => console.log('Base de datos lista y respondiendo en:', res.rows[0].now))
+  .catch(err => console.error('Error crítico al conectar con la BD:', err));
+=======
     console.error('Error inesperado en el cliente de Postgres:', err);
 });
+>>>>>>> Develop

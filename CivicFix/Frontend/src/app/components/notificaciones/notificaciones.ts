@@ -1,83 +1,252 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { NotificacionService } from '../../core/services/notificacion.service';
-import { Notificacion } from '../../core/models/notificacion.model';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { NotificacionService } from '../../services/notificacion.service';
+import { Notificacion } from '../../models/notificacion.model';
 
 @Component({
-    selector: 'app-notificaciones',
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
-    templateUrl: './notificaciones.html',
-    styleUrl: './notificaciones.css'
+  selector: 'app-notificaciones',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ],
+  templateUrl: './notificaciones.html',
+  styleUrls: ['./notificaciones.css']
 })
-export class Notificaciones {
-    private service = inject(NotificacionService);
-    private fb = inject(FormBuilder);
+export class NotificacionesComponent implements OnInit {
 
-    notificaciones = signal<Notificacion[]>([]);
-    cargando = signal(false);
-    error = signal<string | null>(null);
+  private notificacionService = inject(NotificacionService);
+  private router = inject(Router);
 
-    buscarForm = this.fb.nonNullable.group({
-        fk_id_usuario: [null as number | null, Validators.required]
+  filtroActual = 'Todas';
+  textoBusqueda = '';
+
+  notificaciones: Notificacion[] = [];
+
+  cargando = false;
+  error = false;
+
+  ngOnInit(): void {
+    this.cargarNotificaciones();
+  }
+
+  cargarNotificaciones(): void {
+    this.cargando = true;
+    this.error = false;
+
+    this.notificacionService.obtenerNotificaciones().subscribe({
+      next: (notificaciones) => {
+        this.notificaciones = notificaciones;
+        this.cargando = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar notificaciones:', error);
+        this.error = true;
+        this.cargando = false;
+      }
     });
+  }
 
-    form = this.fb.nonNullable.group({
-        fk_id_usuario: [null as number | null, Validators.required],
-        fk_id_reporte: [null as number | null, Validators.required],
-        titulo: ['', Validators.required],
-        mensaje: ['', Validators.required]
+  get notificacionesFiltradas(): Notificacion[] {
+    let resultado = this.notificaciones;
+
+    if (this.filtroActual === 'No leídas') {
+      resultado = resultado.filter(
+        notificacion => !notificacion.leida
+      );
+    }
+
+    if (this.filtroActual === 'Leídas') {
+      resultado = resultado.filter(
+        notificacion => notificacion.leida
+      );
+    }
+
+    if (this.textoBusqueda.trim()) {
+      const busqueda = this.textoBusqueda
+        .toLowerCase()
+        .trim();
+
+      resultado = resultado.filter(
+        notificacion =>
+          notificacion.titulo.toLowerCase().includes(busqueda) ||
+          notificacion.mensaje.toLowerCase().includes(busqueda)
+      );
+    }
+
+    return resultado;
+  }
+
+  get cantidadNoLeidas(): number {
+    return this.notificaciones.filter(
+      notificacion => !notificacion.leida
+    ).length;
+  }
+
+  get cantidadLeidas(): number {
+    return this.notificaciones.filter(
+      notificacion => notificacion.leida
+    ).length;
+  }
+
+  cambiarFiltro(filtro: string): void {
+    this.filtroActual = filtro;
+  }
+
+  marcarComoLeida(notificacion: Notificacion): void {
+    if (notificacion.leida) {
+      return;
+    }
+
+    this.notificacionService
+      .marcarComoLeida(notificacion.id_notificacion)
+      .subscribe({
+        next: () => {
+          notificacion.leida = true;
+        },
+        error: (error) => {
+          console.error(
+            'Error al marcar la notificación como leída:',
+            error
+          );
+        }
+      });
+  }
+
+  marcarComoNoLeida(notificacion: Notificacion): void {
+    notificacion.leida = false;
+  }
+
+  marcarTodasComoLeidas(): void {
+    if (this.cantidadNoLeidas === 0) {
+      return;
+    }
+
+    this.notificacionService
+      .marcarTodasComoLeidas()
+      .subscribe({
+        next: () => {
+          this.notificaciones.forEach(notificacion => {
+            notificacion.leida = true;
+          });
+        },
+        error: (error) => {
+          console.error(
+            'Error al marcar todas las notificaciones como leídas:',
+            error
+          );
+        }
+      });
+  }
+
+  eliminarNotificacion(idNotificacion: number): void {
+    this.notificacionService
+      .eliminarNotificacion(idNotificacion)
+      .subscribe({
+        next: () => {
+          this.notificaciones = this.notificaciones.filter(
+            notificacion =>
+              notificacion.id_notificacion !== idNotificacion
+          );
+        },
+        error: (error) => {
+          console.error(
+            'Error al eliminar la notificación:',
+            error
+          );
+        }
+      });
+  }
+
+  obtenerIconoTipo(tipo: string): string {
+    switch (tipo) {
+      case 'reporte':
+        return 'bi bi-file-earmark-check';
+
+      case 'proceso':
+        return 'bi bi-arrow-repeat';
+
+      case 'resuelto':
+        return 'bi bi-check-circle';
+
+      case 'actualizacion':
+        return 'bi bi-info-circle';
+
+      default:
+        return 'bi bi-bell';
+    }
+  }
+
+  obtenerClaseTipo(tipo: string): string {
+    switch (tipo) {
+      case 'reporte':
+        return 'notification-report';
+
+      case 'proceso':
+        return 'notification-process';
+
+      case 'resuelto':
+        return 'notification-resolved';
+
+      case 'actualizacion':
+        return 'notification-update';
+
+      default:
+        return 'notification-default';
+    }
+  }
+
+  obtenerFecha(fecha: string | Date): string {
+    const fechaConvertida = new Date(fecha);
+
+    if (isNaN(fechaConvertida.getTime())) {
+      return String(fecha);
+    }
+
+    return fechaConvertida.toLocaleDateString('es-GT', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
     });
+  }
 
-    buscar(): void {
-        if (this.buscarForm.invalid) return;
-        const idUsuario = this.buscarForm.getRawValue().fk_id_usuario!;
+  obtenerHora(fecha: string | Date): string {
+    const fechaConvertida = new Date(fecha);
 
-        this.cargando.set(true);
-        this.service.listarPorUsuario(idUsuario).subscribe({
-            next: (data) => {
-                this.notificaciones.set(data);
-                this.cargando.set(false);
-            },
-            error: () => {
-                this.error.set('No se pudieron cargar las notificaciones. Verifica que el backend esté corriendo.');
-                this.cargando.set(false);
-            }
-        });
+    if (isNaN(fechaConvertida.getTime())) {
+      return '';
     }
 
-    guardar(): void {
-        if (this.form.invalid) return;
+    return fechaConvertida.toLocaleTimeString('es-GT', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
 
-        const valores = this.form.getRawValue();
-        this.service.crear({
-            fk_id_usuario: valores.fk_id_usuario!,
-            fk_id_reporte: valores.fk_id_reporte!,
-            titulo: valores.titulo,
-            mensaje: valores.mensaje
-        }).subscribe({
-            next: () => {
-                this.form.reset();
-                if (this.buscarForm.value.fk_id_usuario === valores.fk_id_usuario) {
-                    this.buscar();
-                }
-            },
-            error: () => this.error.set('No se pudo crear la notificación.')
-        });
+  verReporte(notificacion: Notificacion): void {
+    if (!notificacion.id_reporte) {
+      return;
     }
 
-    marcarLeida(id: number): void {
-        this.service.marcarComoLeida(id).subscribe({
-            next: () => this.buscar(),
-            error: () => this.error.set('No se pudo marcar como leída.')
-        });
-    }
+    this.marcarComoLeida(notificacion);
 
-    eliminar(id: number): void {
-        this.service.eliminar(id).subscribe({
-            next: () => this.buscar(),
-            error: () => this.error.set('No se pudo eliminar la notificación.')
-        });
-    }
+    this.router.navigate([
+      '/reportes/mis-reportes'
+    ]);
+  }
+
+  irNotificaciones(): void {
+    this.router.navigate([
+      '/notificaciones'
+    ]);
+  }
+
+  volverAlInicio(): void {
+    this.router.navigate([
+      '/reportes'
+    ]);
+  }
 }

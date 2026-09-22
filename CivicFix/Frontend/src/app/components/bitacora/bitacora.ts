@@ -1,8 +1,8 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { BitacoraCambioEstadoService } from '../../core/services/bitacoraCambioEstado';
-import { BitacoraCambioEstado } from '../../core/models/bitacoraCambioEstado.model';
+import { BitacoraCambioEstadoService } from '../../services/bitacoraCambioEstado.service';
+import { BitacoraCambioEstado } from '../../models/bitacoraCambioEstado.model';
 
 /** Representa una transición única (estado anterior -> estado nuevo) detectada en los datos. */
 interface TransicionEstado {

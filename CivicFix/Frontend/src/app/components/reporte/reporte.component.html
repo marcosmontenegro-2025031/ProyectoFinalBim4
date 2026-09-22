@@ -1,0 +1,843 @@
+<div class="perfil-layout">
+
+  <aside class="perfil-sidebar">
+
+    <div class="sidebar-brand">
+      <img
+        src="assets/logo.png"
+        alt="CivicFix"
+      >
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <a
+        class="sidebar-nav-item"
+        routerLink="/reportes/nuevo"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>Crear reporte</span>
+      </a>
+
+
+      <a
+        class="sidebar-nav-item"
+        routerLink="/mis-reportes"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Mis reportes</span>
+      </a>
+
+
+      <a
+        class="sidebar-nav-item"
+        routerLink="/mapa"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-geo-alt-fill"></i>
+        <span>Mapa</span>
+      </a>
+
+
+      <a
+        class="sidebar-nav-item"
+        routerLink="/notificaciones"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-bell-fill"></i>
+        <span>Notificaciones</span>
+        <span class="notification-count">3</span>
+      </a>
+
+
+      <a
+        class="sidebar-nav-item"
+        routerLink="/perfil"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="bi bi-person-fill"></i>
+        <span>Perfil</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-city">
+
+      <div class="city-icon">
+        <i class="bi bi-buildings-fill"></i>
+      </div>
+
+      <div class="city-info">
+        <strong>Ciudad de Guatemala</strong>
+        <span>Municipalidad</span>
+      </div>
+
+    </div>
+
+  </aside>
+
+  <main class="perfil-main">
+
+    <header class="perfil-topbar">
+
+      <div class="topbar-left">
+
+        <button
+          type="button"
+          class="back-button"
+          routerLink="/mis-reportes"
+        >
+          <i class="bi bi-arrow-left"></i>
+        </button>
+
+
+        <div class="topbar-title">
+
+          <span>
+            <i class="bi bi-plus-circle-fill"></i>
+            CivicFix
+          </span>
+
+          <h1>Crear Reporte</h1>
+
+        </div>
+
+      </div>
+
+
+      <div class="topbar-right">
+
+        <button
+          type="button"
+          class="notification-button"
+          routerLink="/notificaciones"
+        >
+
+          <i class="bi bi-bell-fill"></i>
+
+          <span class="notification-dot"></span>
+
+        </button>
+
+
+        <div class="topbar-divider"></div>
+
+
+        <div
+          class="topbar-user"
+          routerLink="/perfil"
+        >
+
+          <div class="topbar-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+
+          <div class="topbar-user-info">
+
+            <strong>Juan Pérez</strong>
+
+            <span>
+              <i class="bi bi-person-check-fill"></i>
+              Ciudadano
+            </span>
+
+          </div>
+
+
+          <i class="bi bi-chevron-down user-arrow"></i>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <section class="perfil-content">
+
+
+      <div class="page-heading">
+
+        <div class="heading-label">
+          <i class="bi bi-plus-circle-fill"></i>
+          NUEVO REPORTE
+        </div>
+
+
+        <div class="heading-main">
+
+          <div>
+
+            <h2>Crear Reporte</h2>
+
+            <p>
+              Describe el problema urbano. Nuestra IA lo analizará
+              y podrás adjuntar evidencias fotográficas.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="report-grid">
+
+
+        <section class="information-card">
+
+          <div class="section-title">
+
+            <span class="step-number">1</span>
+
+            <h2>Información del Problema</h2>
+
+          </div>
+
+
+          <form
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+          >
+
+            <div class="field">
+
+              <label>Descripción del Problema</label>
+
+              <textarea
+                formControlName="textoCiudadano"
+                rows="5"
+                maxlength="500"
+                placeholder="Ej: Hay un bache enorme en la calle..."
+              ></textarea>
+
+              <div class="character-counter">
+                {{ form.get('textoCiudadano')?.value?.length || 0 }}/500
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>Dirección Aproximada</label>
+
+              <div class="input-icon">
+
+                <i class="bi bi-geo-alt-fill"></i>
+
+                <input
+                  type="text"
+                  formControlName="direccion"
+                  placeholder="Selecciona en el mapa o escribe aquí"
+                >
+
+                <i class="bi bi-crosshair"></i>
+
+              </div>
+
+            </div>
+
+
+            <div class="two-fields">
+
+              <div class="field">
+
+                <label>Zona</label>
+
+                <select formControlName="zona">
+
+                  <option value="">
+                    Selecciona una zona
+                  </option>
+
+                  <option value="Zona 1">Zona 1</option>
+                  <option value="Zona 2">Zona 2</option>
+                  <option value="Zona 3">Zona 3</option>
+                  <option value="Zona 4">Zona 4</option>
+                  <option value="Zona 5">Zona 5</option>
+                  <option value="Zona 6">Zona 6</option>
+                  <option value="Zona 7">Zona 7</option>
+                  <option value="Zona 9">Zona 9</option>
+                  <option value="Zona 10">Zona 10</option>
+                  <option value="Zona 11">Zona 11</option>
+                  <option value="Zona 12">Zona 12</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="field">
+
+                <label>Referencia</label>
+
+                <input
+                  type="text"
+                  formControlName="referencia"
+                  placeholder="Ej: Cerca de la esquina"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="photo-section">
+
+              <label class="photo-title">
+
+                <i class="bi bi-images"></i>
+
+                Fotografía de Evidencia
+
+                <span>(Opcional)</span>
+
+              </label>
+
+
+              <div
+                class="photo-upload"
+                *ngIf="!archivoSeleccionado"
+              >
+
+                <i class="bi bi-camera"></i>
+
+                <strong>Agregar fotografía</strong>
+
+                <small>JPG, PNG o WEBP</small>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                >
+
+              </div>
+
+
+              <div
+                class="photo-preview"
+                *ngIf="archivoSeleccionado"
+              >
+
+                <img
+                  *ngIf="vistaPrevia"
+                  [src]="vistaPrevia"
+                  alt="Vista previa de la fotografía"
+                >
+
+
+                <div class="photo-info">
+
+                  <strong>
+                    {{ archivoSeleccionado.name }}
+                  </strong>
+
+                  <small>
+                    {{
+                      (archivoSeleccionado.size / 1024 / 1024)
+                      | number:'1.1-2'
+                    }}
+                    MB
+                  </small>
+
+                </div>
+
+
+                <button
+                  type="button"
+                  class="remove-photo"
+                  (click)="eliminarFoto()"
+                >
+                  <i class="bi bi-x"></i>
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="submit-report"
+              [disabled]="form.invalid || cargando"
+            >
+
+              <span
+                *ngIf="cargando"
+                class="spinner-border"
+              ></span>
+
+              <i
+                *ngIf="!cargando"
+                class="bi bi-robot"
+              ></i>
+
+              <span>
+                {{
+                  cargando
+                    ? 'Analizando con IA...'
+                    : 'Analizar con IA y Enviar Reporte'
+                }}
+              </span>
+
+              <i
+                *ngIf="!cargando"
+                class="bi bi-chevron-right"
+              ></i>
+
+            </button>
+
+
+            <p class="submit-description">
+
+              <i class="bi bi-stars"></i>
+
+              La IA evaluará la información, identificará el tipo
+              de incidencia, asignará la prioridad y mostrará un
+              resumen del análisis.
+
+            </p>
+
+          </form>
+
+
+          <div
+            class="error-message"
+            *ngIf="mensajeError"
+          >
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            <div>
+
+              <strong>Aviso del Sistema</strong>
+
+              <p>{{ mensajeError }}</p>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <section class="right-column">
+
+
+          <div class="ai-card">
+
+            <div class="ai-header">
+
+              <div class="ai-title">
+
+                <div class="ai-icon">
+                  <i class="bi bi-robot"></i>
+                </div>
+
+                <h2>Análisis de la IA (Gemini)</h2>
+
+              </div>
+
+
+              <span
+                class="analysis-status"
+                [class.pending]="!analisisCompleto"
+              >
+
+                <i
+                  class="bi"
+                  [class.bi-check-circle]="analisisCompleto"
+                  [class.bi-hourglass-split]="!analisisCompleto"
+                ></i>
+
+                {{
+                  analisisCompleto
+                    ? 'Análisis completado'
+                    : 'Esperando reporte'
+                }}
+
+              </span>
+
+            </div>
+
+
+            <div class="analysis-process">
+
+              <div class="process-item">
+
+                <span [class.complete]="analisisCompleto">
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>Analizando texto</small>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item">
+
+                <span [class.complete]="analisisCompleto">
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>Identificando tipo</small>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item">
+
+                <span [class.complete]="analisisCompleto">
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>Detectando ubicación</small>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item">
+
+                <span [class.complete]="analisisCompleto">
+
+                  <i
+                    class="bi"
+                    [class.bi-check]="analisisCompleto"
+                    [class.bi-hourglass]="!analisisCompleto"
+                  ></i>
+
+                </span>
+
+                <small>Asignando prioridad</small>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="ai-result"
+              *ngIf="resultado && verificarValidez()"
+            >
+
+              <div class="ai-result-heading">
+
+                <i class="bi bi-stars"></i>
+
+                La IA ha analizado tu reporte y ha determinado
+                la siguiente información:
+
+              </div>
+
+
+              <div class="result-cards">
+
+                <div class="result-card">
+
+                  <small>Tipo de Incidencia</small>
+
+                  <div class="result-main">
+
+                    <i
+                      class="bi"
+                      [class]="obtenerIconoTipo()"
+                    ></i>
+
+                    <strong>
+                      {{ obtenerTipo() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    Tipo identificado por IA
+                  </span>
+
+                </div>
+
+
+                <div
+                  class="result-card priority"
+                  [style.--priority-color]="obtenerColorPrioridad()"
+                >
+
+                  <small>Prioridad</small>
+
+                  <div class="result-main">
+
+                    <i
+                      class="bi"
+                      [class]="obtenerIconoPrioridad()"
+                      [style.color]="obtenerColorPrioridad()"
+                    ></i>
+
+                    <strong>
+                      {{ obtenerPrioridad() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    Requiere atención según análisis
+                  </span>
+
+                </div>
+
+
+                <div class="result-card">
+
+                  <small>Estado Inicial</small>
+
+                  <div class="result-main">
+
+                    <i
+                      class="bi"
+                      [class]="obtenerIconoEstado()"
+                    ></i>
+
+                    <strong>
+                      {{ obtenerEstado() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    En espera de revisión
+                  </span>
+
+                </div>
+
+
+                <div class="result-card">
+
+                  <small>Servicio Municipal</small>
+
+                  <div class="result-main">
+
+                    <i class="bi bi-buildings-fill"></i>
+
+                    <strong>
+                      {{ obtenerServicio() }}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    Área responsable
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="ai-summary">
+
+                <div class="summary-title">
+
+                  <i class="bi bi-stars"></i>
+
+                  Resumen del análisis
+
+                </div>
+
+                <p>
+                  {{ obtenerResumen() }}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="error-message"
+              *ngIf="resultado && !verificarValidez()"
+            >
+
+              <i class="bi bi-exclamation-triangle-fill"></i>
+
+              <div>
+
+                <strong>Reporte no válido</strong>
+
+                <p>
+                  {{
+                    mensajeError ||
+                    'La IA determinó que el texto ingresado no corresponde a un problema urbano válido.'
+                  }}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="ai-empty"
+              *ngIf="!resultado"
+            >
+
+              <i class="bi bi-robot"></i>
+
+              <strong>
+                El análisis de Gemini aparecerá aquí
+              </strong>
+
+              <span>
+                Completa la información y presiona
+                "Analizar con IA y Enviar Reporte".
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="location-card">
+
+            <div class="location-heading">
+
+              <i class="bi bi-geo-alt-fill"></i>
+
+              <h2>Ubicación del Reporte</h2>
+
+            </div>
+
+
+            <div class="location-content">
+
+              <div
+                #mapContainer
+                id="mapContainer"
+                class="map-container"
+              ></div>
+
+
+              <div class="location-info">
+
+                <div class="location-item">
+
+                  <i class="bi bi-geo-alt-fill"></i>
+
+                  <div>
+
+                    <strong>Dirección</strong>
+
+                    <span>
+                      {{
+                        form.get('direccion')?.value ||
+                        'Selecciona una ubicación'
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="location-item">
+
+                  <i class="bi bi-pin-map-fill"></i>
+
+                  <div>
+
+                    <strong>Zona</strong>
+
+                    <span>
+                      {{
+                        form.get('zona')?.value ||
+                        'No seleccionada'
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="location-item">
+
+                  <i class="bi bi-signpost-2-fill"></i>
+
+                  <div>
+
+                    <strong>Referencia</strong>
+
+                    <span>
+                      {{
+                        form.get('referencia')?.value ||
+                        'Sin referencia'
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="coordinates">
+
+                  <div>
+                    <strong>Latitud:</strong>
+                    {{ form.get('latitud')?.value }}
+                  </div>
+
+                  <div>
+                    <strong>Longitud:</strong>
+                    {{ form.get('longitud')?.value }}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+import { Router } from 'express';
+import { registrarFotoProblema } from '../controllers/fotoProblema.controller';
+import { upload } from '../config/upload.middleware';
+
+const router = Router();
+
+router.post('/', upload.single('imagen'), registrarFotoProblema);
+
+export default router;
+
+=======
 import { Router } from "express";
 import cors from "cors";
 import { FotoProblemaController } from "../controllers/fotoProblema.controller.js";
@@ -33,3 +45,4 @@ fotoProblemaRouter.delete("/api/fotografias/:id", cors(), (req, res) => {
     const controller = new FotoProblemaController();
     controller.eliminar(req, res);
 });
+>>>>>>> Develop

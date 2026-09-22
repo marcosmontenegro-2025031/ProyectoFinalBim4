@@ -1,3 +1,30 @@
+<<<<<<< HEAD
+import { Router } from 'express';
+import {
+  obtenerNotificacionesHandler,
+  obtenerNotificacionHandler,
+  marcarComoLeidaHandler,
+  marcarTodasComoLeidasHandler,
+  eliminarNotificacionHandler
+} from '../controllers/notificacion.controller';
+
+const router = Router();
+
+router.get('/notificaciones', obtenerNotificacionesHandler);
+
+router.get('/notificaciones/:id', obtenerNotificacionHandler);
+
+router.patch('/notificaciones/:id/leida', marcarComoLeidaHandler);
+
+router.patch(
+  '/notificaciones/marcar-todas-leidas',
+  marcarTodasComoLeidasHandler
+);
+
+router.delete('/notificaciones/:id', eliminarNotificacionHandler);
+
+export default router;
+=======
 import { Router } from "express";
 import cors from "cors";
 import { NotificacionController } from "../controllers/notificacion.controller.js";
@@ -38,3 +65,4 @@ notificacionRouter.delete("/api/notificaciones/:id", cors(), (req, res) => {
     const controller = new NotificacionController();
     controller.eliminar(req, res);
 });
+>>>>>>> Develop
