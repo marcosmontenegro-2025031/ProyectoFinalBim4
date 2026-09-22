@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BitacoraCambioEstadoService } from "../service/bitacoraCambioEstado.service.js";
+import { BitacoraCambioEstadoService } from "../services/bitacoraCambioEstado.service.js";
 
 export class BitacoraCambioEstadoController {
 

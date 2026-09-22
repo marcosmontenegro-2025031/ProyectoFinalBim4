@@ -1,0 +1,719 @@
+<div class="app-layout">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">
+        <i class="bi bi-person-fill"></i>
+      </div>
+
+      <div class="user-info">
+        <strong>Juan Pérez</strong>
+        <span>Ciudadano</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <a
+        routerLink="/reportes/nuevo"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="sidebar-nav-item"
+      >
+        <i class="bi bi-file-earmark-plus-fill"></i>
+        <span>Crear Reporte</span>
+      </a>
+
+      <a
+        routerLink="/mis-reportes"
+        class="sidebar-nav-item"
+        [class.active]="esMisReportesActivo()"
+      >
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Mis Reportes</span>
+      </a>
+
+      <a
+        routerLink="/mapa"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="sidebar-nav-item"
+      >
+        <i class="bi bi-geo-alt-fill"></i>
+        <span>Mapa</span>
+      </a>
+
+      <a
+        routerLink="/notificaciones"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="sidebar-nav-item"
+      >
+        <i class="bi bi-bell-fill"></i>
+        <span>Notificaciones</span>
+        <span class="notification-count">3</span>
+      </a>
+
+      <a
+        routerLink="/perfil"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="sidebar-nav-item"
+      >
+        <i class="bi bi-person-fill"></i>
+        <span>Mi Perfil</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="city-illustration">
+        <i class="bi bi-buildings-fill"></i>
+        <i class="bi bi-building-fill"></i>
+        <i class="bi bi-buildings-fill"></i>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          type="button"
+          class="back-button"
+          (click)="volver()"
+          title="Volver"
+        >
+          <i class="bi bi-arrow-left"></i>
+        </button>
+
+        <div class="topbar-title">
+          <span>CivicFix</span>
+          <strong>Detalle del reporte</strong>
+        </div>
+
+      </div>
+
+      <div class="topbar-right">
+
+        <button
+          type="button"
+          class="topbar-notification"
+          routerLink="/notificaciones"
+          title="Notificaciones"
+        >
+          <i class="bi bi-bell-fill"></i>
+          <span>3</span>
+        </button>
+
+        <div class="topbar-user">
+          <div class="topbar-avatar">
+            <i class="bi bi-person-fill"></i>
+          </div>
+
+          <div class="topbar-user-info">
+            <strong>Juan Pérez</strong>
+            <span>Ciudadano</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <section class="page-content">
+
+      <div class="page-header">
+
+        <div class="page-header-left">
+
+          <div class="breadcrumb">
+            <span>Mis Reportes</span>
+            <i class="bi bi-chevron-right"></i>
+            <span>Detalle</span>
+          </div>
+
+          <h1>{{ reporte.titulo }}</h1>
+
+          <p>
+            Reporte #{{ reporte.id }}
+          </p>
+
+        </div>
+
+        <button
+          type="button"
+          class="location-button"
+          (click)="irMapa()"
+        >
+          <i class="bi bi-geo-alt-fill"></i>
+          Ver ubicación
+        </button>
+
+      </div>
+
+
+      <div class="status-card">
+
+        <div class="status-card-left">
+
+          <div
+            class="report-type-icon"
+            [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
+          >
+            <i [class]="obtenerIconoTipo(reporte.tipo)"></i>
+          </div>
+
+          <div class="status-info">
+
+            <span class="status-label">
+              Estado actual
+            </span>
+
+            <div class="status-row">
+
+              <span
+                class="status-badge"
+                [ngClass]="obtenerClaseEstado(reporte.estado)"
+              >
+                <span class="status-dot"></span>
+                {{ reporte.estado }}
+              </span>
+
+              <span
+                class="priority-badge"
+                [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
+              >
+                <i class="bi bi-flag-fill"></i>
+                Prioridad {{ reporte.prioridad }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="status-card-right">
+
+          <div class="status-date">
+            <i class="bi bi-calendar3"></i>
+
+            <div>
+              <span>Fecha del reporte</span>
+              <strong>{{ reporte.fecha }}</strong>
+            </div>
+          </div>
+
+          <div class="status-date">
+            <i class="bi bi-clock-fill"></i>
+
+            <div>
+              <span>Hora</span>
+              <strong>{{ reporte.hora }}</strong>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="details-grid">
+
+        <div class="details-main">
+
+
+          <section class="detail-card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <div class="card-icon">
+                  <i class="bi bi-file-earmark-text-fill"></i>
+                </div>
+
+                <div>
+                  <h2>Información del reporte</h2>
+                  <p>Datos principales de la incidencia</p>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="info-grid">
+
+              <div class="info-item">
+
+                <span class="info-label">
+                  <i class="bi bi-tag-fill"></i>
+                  Tipo de incidencia
+                </span>
+
+                <strong>{{ reporte.tipo }}</strong>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <span class="info-label">
+                  <i class="bi bi-flag-fill"></i>
+                  Prioridad
+                </span>
+
+                <strong
+                  class="priority-text"
+                  [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
+                >
+                  {{ reporte.prioridad }}
+                </strong>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <span class="info-label">
+                  <i class="bi bi-geo-alt-fill"></i>
+                  Dirección
+                </span>
+
+                <strong>{{ reporte.direccion }}</strong>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <span class="info-label">
+                  <i class="bi bi-map-fill"></i>
+                  Zona
+                </span>
+
+                <strong>{{ reporte.zona }}</strong>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <section class="detail-card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <div class="card-icon">
+                  <i class="bi bi-card-text"></i>
+                </div>
+
+                <div>
+                  <h2>Descripción</h2>
+                  <p>Información proporcionada en el reporte</p>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="description-box">
+              <p>{{ reporte.descripcion }}</p>
+            </div>
+
+          </section>
+
+
+          <section class="detail-card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <div class="card-icon">
+                  <i class="bi bi-camera-fill"></i>
+                </div>
+
+                <div>
+                  <h2>Evidencia</h2>
+                  <p>Fotografía adjunta al reporte</p>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="evidence-container">
+
+              <img
+                [src]="reporte.imagen"
+                [alt]="reporte.titulo"
+                class="evidence-image"
+              >
+
+              <div class="evidence-overlay">
+                <button type="button">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                  Ver imagen
+                </button>
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <section class="detail-card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <div class="card-icon">
+                  <i class="bi bi-clock-history"></i>
+                </div>
+
+                <div>
+                  <h2>Historial del reporte</h2>
+                  <p>Seguimiento de las acciones realizadas</p>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="timeline">
+
+              <div
+                class="timeline-item"
+                *ngFor="let item of historial; let ultimo = last"
+              >
+
+                <div class="timeline-marker">
+
+                  <div class="timeline-icon">
+                    <i
+                      *ngIf="item.estado === 'Reporte creado'"
+                      class="bi bi-file-earmark-plus-fill"
+                    ></i>
+
+                    <i
+                      *ngIf="item.estado === 'Analizado por IA'"
+                      class="bi bi-robot"
+                    ></i>
+
+                    <i
+                      *ngIf="item.estado === 'Asignado'"
+                      class="bi bi-person-check-fill"
+                    ></i>
+
+                    <i
+                      *ngIf="item.estado === 'En proceso'"
+                      class="bi bi-tools"
+                    ></i>
+
+                    <i
+                      *ngIf="item.estado === 'Resuelto'"
+                      class="bi bi-check-lg"
+                    ></i>
+
+                  </div>
+
+                </div>
+
+                <div class="timeline-content">
+
+                  <div class="timeline-top">
+
+                    <strong>{{ item.estado }}</strong>
+
+                    <span>
+                      {{ item.fecha }} · {{ item.hora }}
+                    </span>
+
+                  </div>
+
+                  <p>
+                    {{ item.descripcion }}
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+
+        <div class="details-side">
+
+
+          <section class="detail-card location-card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <div class="card-icon">
+                  <i class="bi bi-geo-alt-fill"></i>
+                </div>
+
+                <div>
+                  <h2>Ubicación</h2>
+                  <p>Localización del reporte</p>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="location-preview">
+
+              <div class="map-placeholder">
+
+                <i class="bi bi-geo-alt-fill"></i>
+
+                <span>
+                  {{ reporte.zona }}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="location-info">
+
+              <div class="location-row">
+
+                <i class="bi bi-pin-map-fill"></i>
+
+                <div>
+                  <span>Dirección</span>
+                  <strong>{{ reporte.direccion }}</strong>
+                </div>
+
+              </div>
+
+              <button
+                type="button"
+                class="view-map-button"
+                (click)="irMapa()"
+              >
+                <i class="bi bi-map-fill"></i>
+                Ver en el mapa
+              </button>
+
+            </div>
+
+          </section>
+
+
+          <section class="detail-card ai-card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <div class="card-icon ai-icon">
+                  <i class="bi bi-robot"></i>
+                </div>
+
+                <div>
+                  <h2>Análisis de IA</h2>
+                  <p>Clasificación automática</p>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="ai-content">
+
+              <div class="ai-status">
+
+                <div class="ai-check">
+                  <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div>
+                  <strong>Análisis completado</strong>
+                  <span>Procesado automáticamente</span>
+                </div>
+
+              </div>
+
+
+              <div class="ai-result">
+
+                <div class="ai-result-item">
+
+                  <span>Tipo detectado</span>
+
+                  <strong>
+                    {{ reporte.tipo }}
+                  </strong>
+
+                </div>
+
+
+                <div class="ai-result-item">
+
+                  <span>Prioridad asignada</span>
+
+                  <strong
+                    [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
+                  >
+                    {{ reporte.prioridad }}
+                  </strong>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <section class="detail-card process-card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+
+                <div class="card-icon">
+                  <i class="bi bi-list-check"></i>
+                </div>
+
+                <div>
+                  <h2>Estado del proceso</h2>
+                  <p>Progreso de atención</p>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="process-list">
+
+              <div class="process-item completed">
+
+                <div class="process-icon">
+                  <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div class="process-text">
+                  <strong>Reporte creado</strong>
+                  <span>Completado</span>
+                </div>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item completed">
+
+                <div class="process-icon">
+                  <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div class="process-text">
+                  <strong>Analizado por IA</strong>
+                  <span>Completado</span>
+                </div>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item completed">
+
+                <div class="process-icon">
+                  <i class="bi bi-check-lg"></i>
+                </div>
+
+                <div class="process-text">
+                  <strong>Asignado</strong>
+                  <span>Completado</span>
+                </div>
+
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-item current">
+
+                <div class="process-icon">
+                  <i class="bi bi-tools"></i>
+                </div>
+
+                <div class="process-text">
+                  <strong>En proceso</strong>
+                  <span>Atención en curso</span>
+                </div>
+
+              </div>
+
+
+              <div class="process-line pending"></div>
+
+
+              <div class="process-item pending">
+
+                <div class="process-icon">
+                  <i class="bi bi-check-circle"></i>
+                </div>
+
+                <div class="process-text">
+                  <strong>Resuelto</strong>
+                  <span>Pendiente</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

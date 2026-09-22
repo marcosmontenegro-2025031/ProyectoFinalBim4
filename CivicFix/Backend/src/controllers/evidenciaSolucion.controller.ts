@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { EvidenciaSolucionService } from "../service/evidenciaSolucion.service.js";
+import { EvidenciaSolucionService } from "../services/evidenciaSolucion.service.js";
 
 export class EvidenciaSolucionController {
 

@@ -1,8 +1,14 @@
-import { Request, Response } from "express";
-import { FotoProblemaService } from "../service/fotoProblema.service.js";
+import { Request, Response } from 'express';
+import { FotoProblemaRepository } from '../repository/fotoProblema.repository';
 
-export class FotoProblemaController {
+const repositorio = new FotoProblemaRepository();
 
+<<<<<<< HEAD
+export const registrarFotoProblema = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No se ha proporcionado ninguna imagen.' });
+=======
     private service = new FotoProblemaService();
 
     async listar(req: Request, res: Response): Promise<void> {
@@ -11,10 +17,16 @@ export class FotoProblemaController {
             res.status(200).json(fotos);
         } catch (error) {
             res.status(500).json({ mensaje: "Error al obtener las fotografías", error: (error as Error).message });
+>>>>>>> Develop
         }
-    }
 
+        const { reporteId, id_reporte } = req.body;
+        const targetReporteId = id_reporte || reporteId;
 
+<<<<<<< HEAD
+        if (!targetReporteId) {
+            return res.status(400).json({ error: 'El id_reporte es obligatorio para asociar la fotografía.' });
+=======
     async obtenerPorId(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
@@ -28,9 +40,29 @@ export class FotoProblemaController {
             res.status(200).json(foto);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
+>>>>>>> Develop
         }
-    }
 
+        const rutaFotografia = `/uploads/${req.file.filename}`;
+
+        const nuevaFoto = await repositorio.crear({
+            id_reporte: Number(targetReporteId),
+            ruta_fotografia: rutaFotografia,
+            descripcion: req.body.descripcion || 'Foto inicial del reporte'
+        });
+
+        return res.status(201).json({
+            message: 'Fotografía registrada con éxito en la base de datos',
+            data: nuevaFoto
+        });
+    } catch (error: any) {
+        console.error('Error al guardar foto:', error);
+        return res.status(500).json({ error: 'Error interno al procesar e insertar la imagen en la base de datos.' });
+    }
+};
+
+<<<<<<< HEAD
+=======
 
     async obtenerPorReporte(req: Request, res: Response): Promise<void> {
         try {
@@ -93,3 +125,4 @@ export class FotoProblemaController {
     }
 
 }
+>>>>>>> Develop

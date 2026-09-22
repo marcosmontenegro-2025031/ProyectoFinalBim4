@@ -1,86 +1,635 @@
-<section class="pantalla">
-  <header class="pantalla-header">
-    <h1>Notificaciones</h1>
-    <p>Avisos enviados a un ciudadano sobre el avance de sus reportes.</p>
-  </header>
+<div class="civic-layout">
 
-  @if (error()) {
-    <div class="aviso-error">{{ error() }}</div>
-  }
+  <aside class="civic-sidebar">
 
-  <form class="formulario" [formGroup]="buscarForm" (ngSubmit)="buscar()">
-    <div class="campo">
-      <label for="buscar_id_usuario">Ver notificaciones del usuario</label>
-      <input id="buscar_id_usuario" type="number" formControlName="fk_id_usuario" placeholder="ID de usuario" />
-    </div>
-    <button type="submit" class="boton-primario" [disabled]="buscarForm.invalid">Buscar</button>
-  </form>
+    <div class="civic-brand">
 
-  <form class="formulario" [formGroup]="form" (ngSubmit)="guardar()">
-    <div class="campo">
-      <label for="fk_id_usuario">ID del usuario</label>
-      <input id="fk_id_usuario" type="number" formControlName="fk_id_usuario" placeholder="Ej. 8" />
-    </div>
-    <div class="campo">
-      <label for="fk_id_reporte">ID del reporte</label>
-      <input id="fk_id_reporte" type="number" formControlName="fk_id_reporte" placeholder="Ej. 12" />
-    </div>
-    <div class="campo campo-ancho">
-      <label for="titulo">Título</label>
-      <input id="titulo" type="text" formControlName="titulo" placeholder="Ej. Tu reporte fue asignado" />
-    </div>
-    <div class="campo campo-ancho">
-      <label for="mensaje">Mensaje</label>
-      <input id="mensaje" type="text" formControlName="mensaje" placeholder="Detalle del aviso" />
-    </div>
-    <button type="submit" class="boton-primario" [disabled]="form.invalid">Enviar notificación</button>
-  </form>
+      <div class="civic-logo-wrapper">
 
-  <div class="tabla-contenedor">
-    @if (cargando()) {
-      <p class="estado-vacio">Cargando notificaciones…</p>
-    } @else if (notificaciones().length === 0) {
-      <p class="estado-vacio">Busca por ID de usuario para ver sus notificaciones.</p>
-    } @else {
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Reporte</th>
-            <th>Título</th>
-            <th>Mensaje</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of notificaciones(); track item.id_notificacion) {
-            <tr>
-              <td>{{ item.id_notificacion }}</td>
-              <td>{{ item.fk_id_reporte }}</td>
-              <td>{{ item.titulo }}</td>
-              <td>{{ item.mensaje }}</td>
-              <td>{{ item.fecha_notificacion | date: 'short' }}</td>
-              <td>
-                @if (item.leida) {
-                  <span class="insignia bg-prioridad-baja">Leída</span>
-                } @else {
-                  <span class="insignia bg-prioridad-media">Sin leer</span>
-                }
-              </td>
-              <td>
-                <div class="acciones">
-                  @if (!item.leida) {
-                    <button type="button" class="boton-texto" (click)="marcarLeida(item.id_notificacion!)">Marcar leída</button>
-                  }
-                  <button type="button" class="boton-texto" (click)="eliminar(item.id_notificacion!)">Eliminar</button>
+        <img
+          src="assets/logo.png"
+          alt="CIVICFIX"
+          class="civic-logo"
+        >
+
+      </div>
+
+    </div>
+
+
+    <nav class="civic-navigation">
+
+      <a
+        routerLink="/reportes/nuevo"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>Crear reporte</span>
+      </a>
+
+
+      <a
+        routerLink="/mis-reportes"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Mis reportes</span>
+      </a>
+
+
+      <a
+        routerLink="/mapa"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-geo-alt-fill"></i>
+        <span>Mapa</span>
+      </a>
+
+
+      <a
+        routerLink="/notificaciones"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-bell-fill"></i>
+        <span>Notificaciones</span>
+
+        <span
+          class="nav-notification-count"
+          *ngIf="cantidadNoLeidas > 0"
+        >
+          {{ cantidadNoLeidas }}
+        </span>
+      </a>
+
+
+      <a
+        routerLink="/perfil"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-person-fill"></i>
+        <span>Perfil</span>
+      </a>
+
+    </nav>
+
+
+    <div class="civic-city">
+
+      <div class="city-buildings">
+
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+
+        <span class="lamp"></span>
+
+      </div>
+
+
+      <div class="civic-city-footer">
+
+        <i class="bi bi-shield-fill-check"></i>
+
+        <div>
+          <strong>
+            Municipalidad de Guatemala
+          </strong>
+
+          <span>
+            Juntos mejoramos la ciudad
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <main class="civic-main">
+
+
+    <header class="civic-topbar">
+
+      <div class="civic-search">
+
+        <i class="bi bi-search"></i>
+
+        <input
+          type="text"
+          placeholder="Buscar notificaciones..."
+          [(ngModel)]="textoBusqueda"
+        >
+
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <button
+          class="topbar-notification"
+          type="button"
+          routerLink="/notificaciones"
+        >
+
+          <i class="bi bi-bell-fill"></i>
+
+          <span
+            class="topbar-notification-count"
+            *ngIf="cantidadNoLeidas > 0"
+          >
+            {{ cantidadNoLeidas }}
+          </span>
+
+        </button>
+
+
+        <div class="topbar-divider"></div>
+
+
+        <a
+          class="topbar-user"
+          routerLink="/perfil"
+        >
+
+          <div class="topbar-user-avatar">
+
+            <i class="bi bi-person-fill"></i>
+
+          </div>
+
+
+          <div class="topbar-user-info">
+
+            <strong>
+              Ciudadano
+            </strong>
+
+            <span>
+              Usuario
+            </span>
+
+          </div>
+
+
+          <i class="bi bi-chevron-down"></i>
+
+        </a>
+
+      </div>
+
+    </header>
+
+
+    <section class="notification-page">
+
+
+      <div class="notification-header">
+
+        <div>
+
+          <span class="page-badge">
+
+            <i class="bi bi-bell-fill"></i>
+
+            Centro de notificaciones
+
+          </span>
+
+
+          <h1>
+            Mis Notificaciones
+          </h1>
+
+
+          <p>
+            Mantente informado sobre el estado y las actualizaciones de tus reportes.
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="mark-all-button"
+          (click)="marcarTodasComoLeidas()"
+          [disabled]="cantidadNoLeidas === 0"
+        >
+
+          <i class="bi bi-check2-all"></i>
+
+          Marcar todas como leídas
+
+        </button>
+
+      </div>
+
+
+      <div class="notification-stats">
+
+
+        <div class="notification-stat-card">
+
+          <div class="notification-stat-icon total">
+
+            <i class="bi bi-bell-fill"></i>
+
+          </div>
+
+          <div>
+
+            <span>
+              Total
+            </span>
+
+            <strong>
+              {{ notificaciones.length }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="notification-stat-card">
+
+          <div class="notification-stat-icon unread">
+
+            <i class="bi bi-envelope-fill"></i>
+
+          </div>
+
+          <div>
+
+            <span>
+              No leídas
+            </span>
+
+            <strong>
+              {{ cantidadNoLeidas }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="notification-stat-card">
+
+          <div class="notification-stat-icon read">
+
+            <i class="bi bi-envelope-open-fill"></i>
+
+          </div>
+
+          <div>
+
+            <span>
+              Leídas
+            </span>
+
+            <strong>
+              {{ cantidadLeidas }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="notification-card">
+
+
+        <div class="notification-card-header">
+
+          <div>
+
+            <h2>
+
+              Notificaciones
+
+              <span *ngIf="cantidadNoLeidas > 0">
+                {{ cantidadNoLeidas }} nuevas
+              </span>
+
+            </h2>
+
+
+            <p>
+              Revisa las actualizaciones relacionadas con tus reportes.
+            </p>
+
+          </div>
+
+
+          <div class="notification-filters">
+
+            <button
+              type="button"
+              [class.active]="filtroActual === 'Todas'"
+              (click)="cambiarFiltro('Todas')"
+            >
+              Todas
+            </button>
+
+
+            <button
+              type="button"
+              [class.active]="filtroActual === 'No leídas'"
+              (click)="cambiarFiltro('No leídas')"
+            >
+              No leídas
+            </button>
+
+
+            <button
+              type="button"
+              [class.active]="filtroActual === 'Leídas'"
+              (click)="cambiarFiltro('Leídas')"
+            >
+              Leídas
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="notification-loading"
+          *ngIf="cargando"
+        >
+
+          <div class="loading-spinner"></div>
+
+          <span>
+            Cargando notificaciones...
+          </span>
+
+        </div>
+
+
+        <div
+          class="notification-error"
+          *ngIf="error && !cargando"
+        >
+
+          <div class="error-icon">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              No se pudieron cargar las notificaciones
+            </strong>
+
+            <span>
+              Ocurrió un problema al obtener la información.
+            </span>
+
+          </div>
+
+
+          <button
+            type="button"
+            (click)="cargarNotificaciones()"
+          >
+
+            <i class="bi bi-arrow-clockwise"></i>
+
+            Reintentar
+
+          </button>
+
+        </div>
+
+
+        <div
+          class="notification-list"
+          *ngIf="!cargando && !error"
+        >
+
+
+          <article
+            class="notification-item"
+            *ngFor="let notificacion of notificacionesFiltradas"
+            [class.unread]="!notificacion.leida"
+          >
+
+
+            <div
+              class="notification-type-icon"
+              [ngClass]="obtenerClaseTipo(notificacion.tipo)"
+            >
+
+              <i
+                [class]="obtenerIconoTipo(notificacion.tipo)"
+              ></i>
+
+            </div>
+
+
+            <div class="notification-content">
+
+
+              <div class="notification-top">
+
+                <div class="notification-heading">
+
+                  <h3>
+
+                    {{ notificacion.titulo }}
+
+                    <span
+                      class="unread-dot"
+                      *ngIf="!notificacion.leida"
+                    ></span>
+
+                  </h3>
+
+
+                  <span class="notification-time">
+
+                    <i class="bi bi-clock-fill"></i>
+
+                    {{ obtenerHora(notificacion.fecha_creacion) }}
+
+                  </span>
+
                 </div>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    }
-  </div>
-</section>
+
+
+                <span class="notification-type">
+                  {{ notificacion.tipo }}
+                </span>
+
+              </div>
+
+
+              <p class="notification-message">
+                {{ notificacion.mensaje }}
+              </p>
+
+
+              <div class="notification-bottom">
+
+
+                <span class="notification-date">
+
+                  <i class="bi bi-calendar3"></i>
+
+                  {{ obtenerFecha(notificacion.fecha_creacion) }}
+
+                </span>
+
+
+                <div class="notification-actions">
+
+
+                  <button
+                    type="button"
+                    class="notification-report-button"
+                    *ngIf="notificacion.id_reporte"
+                    (click)="verReporte(notificacion)"
+                  >
+
+                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                    Ver reporte
+
+                  </button>
+
+
+                  <button
+                    type="button"
+                    class="notification-read-button"
+                    *ngIf="!notificacion.leida"
+                    (click)="marcarComoLeida(notificacion)"
+                  >
+
+                    <i class="bi bi-check2"></i>
+
+                    Marcar como leída
+
+                  </button>
+
+
+                  <button
+                    type="button"
+                    class="notification-read-button"
+                    *ngIf="notificacion.leida"
+                    (click)="marcarComoNoLeida(notificacion)"
+                  >
+
+                    <i class="bi bi-envelope-fill"></i>
+
+                    Marcar como no leída
+
+                  </button>
+
+
+                  <button
+                    type="button"
+                    class="delete-notification"
+                    (click)="eliminarNotificacion(notificacion.id_notificacion)"
+                    title="Eliminar notificación"
+                  >
+
+                    <i class="bi bi-trash3"></i>
+
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <div
+            class="notification-empty"
+            *ngIf="notificacionesFiltradas.length === 0"
+          >
+
+            <div class="empty-icon">
+
+              <i class="bi bi-bell-slash-fill"></i>
+
+            </div>
+
+
+            <h3>
+              No hay notificaciones
+            </h3>
+
+
+            <p>
+              No encontramos notificaciones con los filtros seleccionados.
+            </p>
+
+
+            <button
+              type="button"
+              class="empty-button"
+              (click)="cambiarFiltro('Todas')"
+              *ngIf="filtroActual !== 'Todas'"
+            >
+              Ver todas las notificaciones
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="notification-info-box">
+
+
+        <div class="notification-info-icon">
+
+          <i class="bi bi-info-circle-fill"></i>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            ¿Cómo funcionan las notificaciones?
+          </strong>
+
+          <p>
+            Recibirás una notificación cada vez que exista una actualización
+            importante sobre alguno de tus reportes ciudadanos.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>

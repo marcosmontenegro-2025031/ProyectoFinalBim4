@@ -1,40 +1,31 @@
-import { Router } from "express";
-import cors from "cors";
-import { NotificacionController } from "../controllers/notificacion.controller.js";
+import { Router } from 'express';
+import {
+    obtenerNotificacionesHandler,
+    obtenerNotificacionHandler,
+    marcarComoLeidaHandler,
+    marcarTodasComoLeidasHandler,
+    eliminarNotificacionHandler
+} from '../controllers/notificacion.controller';
 
-export const notificacionRouter = Router();
+const router = Router();
 
-notificacionRouter.get("/api/notificaciones", cors(), (req, res) => {
-    const controller = new NotificacionController();
-    controller.listar(req, res);
-});
+router.get('/notificaciones', obtenerNotificacionesHandler);
 
-notificacionRouter.get("/api/notificaciones/usuario/:idUsuario", cors(), (req, res) => {
-    const controller = new NotificacionController();
-    controller.obtenerPorUsuario(req, res);
-});
+router.get('/notificaciones/:id', obtenerNotificacionHandler);
 
-notificacionRouter.get("/api/notificaciones/:id", cors(), (req, res) => {
-    const controller = new NotificacionController();
-    controller.obtenerPorId(req, res);
-});
+router.patch(
+    '/notificaciones/:id/leida',
+    marcarComoLeidaHandler
+);
 
-notificacionRouter.post("/api/notificaciones", cors(), (req, res) => {
-    const controller = new NotificacionController();
-    controller.crear(req, res);
-});
+router.patch(
+    '/notificaciones/marcar-todas-leidas',
+    marcarTodasComoLeidasHandler
+);
 
-notificacionRouter.put("/api/notificaciones/:id", cors(), (req, res) => {
-    const controller = new NotificacionController();
-    controller.actualizar(req, res);
-});
+router.delete(
+    '/notificaciones/:id',
+    eliminarNotificacionHandler
+);
 
-notificacionRouter.patch("/api/notificaciones/:id/leida", cors(), (req, res) => {
-    const controller = new NotificacionController();
-    controller.marcarComoLeida(req, res);
-});
-
-notificacionRouter.delete("/api/notificaciones/:id", cors(), (req, res) => {
-    const controller = new NotificacionController();
-    controller.eliminar(req, res);
-});
+export default router;
