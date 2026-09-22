@@ -70,10 +70,13 @@ CREATE TABLE EmpleadoMunicipal (
     password VARCHAR(255) NOT NULL,
     dpi VARCHAR(20) UNIQUE,
     telefono VARCHAR(20),
+	direccion VARCHAR(80),
     correo VARCHAR(150),
     cargo VARCHAR(100),
-    fk_id_departamento INT NOT NULL,
-    FOREIGN KEY (fk_id_departamento) REFERENCES DepartamentoMunicipal(id_departamento)
+    id_departamento INT NOT NULL,
+	id_municipalidad INT NOT NULL,
+    FOREIGN KEY (id_departamento) REFERENCES DepartamentoMunicipal(id_departamento),
+	FOREIGN Key (id_municipalidad) REFERENCES Municipalidad (id_municipalidad )
 );
  
 CREATE TABLE Reporte (

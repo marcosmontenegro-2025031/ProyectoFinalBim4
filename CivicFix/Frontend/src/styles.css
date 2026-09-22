@@ -1,69 +1,193 @@
-/* You can add global styles to this file, and also import other style files */
-
-:root {
-  /* Colores institucionales */
-  --color-primario: #1565c0;
-  --color-secundario: #0d47a1;
-  --color-primario-suave: #e8f1fc;
-  --color-primario-borde: #cfe0f7;
-
-  /* Estados / prioridades */
-  --color-exito: #2e7d32;
-  --color-prioridad-media: #f9a825;
-  --color-prioridad-alta: #ef6c00;
-  --color-prioridad-critica: #c62828;
-
-  /* Estados de flujo (bitácora, notificaciones, etc.) */
-  --color-estado-pendiente: #64748b;
-  --color-estado-proceso: #1565c0;
-  --color-estado-resuelto: #2e7d32;
-
-  /* Base */
-  --color-fondo: #f3f6fb;
+:host {
+  --color-principal: #1565C0;
+  --color-secundario: #0D47A1;
+  --color-fondo: #F5F7FA;
   --color-texto: #263238;
-  --color-texto-tenue: #64748b;
-  --color-blanco: #ffffff;
-  --color-borde: #e0e4e9;
-
-  /* Tipografia */
-  --font-familia: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-
-  /* Espaciado y bordes */
-  --radio-borde: 10px;
-  --radio-borde-chico: 6px;
-  --sombra-tarjeta: 0 1px 2px rgba(13, 71, 161, 0.06), 0 1px 12px rgba(13, 71, 161, 0.07);
-  --sombra-tarjeta-hover: 0 4px 18px rgba(13, 71, 161, 0.12);
+  --color-borde: #E0E0E0;
+  display: block;
+  width: 100%;
 }
-
-* {
-  box-sizing: border-box;
+ 
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
 }
-
-html,
-body {
+ 
+.card {
+  width: 100%;
+  background-color: #ffffff !important;
+  border: 1px solid var(--color-borde) !important;
+  border-radius: 12px;
+  overflow: hidden;
+}
+ 
+.row {
+  align-items: stretch;
+}
+ 
+.form-control {
+  width: 100%;
+  min-height: 44px;
+  font-size: 1rem;
+}
+ 
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+ 
+.btn-primary {
+  background-color: var(--color-principal) !important;
+  border-color: var(--color-principal) !important;
+  min-height: 46px;
+  font-size: 1rem;
+}
+ 
+.btn-primary:hover {
+  background-color: var(--color-secundario) !important;
+  border-color: var(--color-secundario) !important;
+}
+ 
+.text-primary {
+  color: var(--color-principal) !important;
+}
+ 
+.map-frame {
+  width: 100%;
+  min-height: 400px;
   height: 100%;
-  margin: 0;
-  padding: 0;
+  border-radius: 10px;
+  overflow: hidden;
 }
-
-body {
-  font-family: var(--font-familia);
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
+ 
+.alert {
+  width: 100%;
+  overflow-wrap: anywhere;
 }
-
-:focus-visible {
-  outline: 2px solid var(--color-primario);
-  outline-offset: 2px;
+ 
+.badge {
+  font-size: 0.85rem;
+  padding: 0.45rem 0.65rem;
 }
-
-/* Utilidades de prioridad, reutilizables en badges, marcadores de mapa, etc. */
-.prioridad-baja { color: var(--color-exito); }
-.prioridad-media { color: var(--color-prioridad-media); }
-.prioridad-alta { color: var(--color-prioridad-alta); }
-.prioridad-critica { color: var(--color-prioridad-critica); }
-
-.bg-prioridad-baja { background-color: var(--color-exito); }
-.bg-prioridad-media { background-color: var(--color-prioridad-media); }
-.bg-prioridad-alta { background-color: var(--color-prioridad-alta); }
-.bg-prioridad-critica { background-color: var(--color-prioridad-critica); }
+ 
+@media (max-width: 767.98px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+ 
+  .card {
+    border-radius: 10px;
+  }
+ 
+  .card.p-4 {
+    padding: 1.25rem !important;
+  }
+ 
+  h3 {
+    font-size: 1.35rem;
+  }
+ 
+  h5 {
+    font-size: 1.05rem;
+  }
+ 
+  .form-label {
+    font-size: 0.95rem;
+  }
+ 
+  .form-control {
+    font-size: 0.95rem;
+  }
+ 
+  .map-frame {
+    min-height: 350px;
+    height: 350px;
+  }
+ 
+  .btn-primary {
+    min-height: 48px;
+  }
+}
+ 
+@media (max-width: 575.98px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+ 
+  .card.p-4 {
+    padding: 1rem !important;
+  }
+ 
+  h3 {
+    font-size: 1.25rem;
+  }
+ 
+  .map-frame {
+    min-height: 300px;
+    height: 300px;
+  }
+ 
+  textarea.form-control {
+    min-height: 110px;
+  }
+ 
+  .alert {
+    font-size: 0.9rem;
+  }
+}
+ 
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .container {
+    max-width: 960px;
+  }
+ 
+  .map-frame {
+    min-height: 420px;
+  }
+}
+ 
+@media (min-width: 992px) {
+  .container {
+    max-width: 1140px;
+  }
+ 
+  .map-frame {
+    min-height: 500px;
+  }
+}
+ 
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1320px;
+  }
+ 
+  .map-frame {
+    min-height: 540px;
+  }
+}
+ 
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1440px;
+  }
+ 
+  .map-frame {
+    min-height: 560px;
+  }
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
