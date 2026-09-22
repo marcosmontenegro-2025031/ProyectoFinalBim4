@@ -122,7 +122,6 @@ export class ReporteRepository {
                 id_reporte: rows[0].id_reporte,
                 fecha_reporte: rows[0].fecha_reporte
             };
-
         } catch (error) {
             await client.query('ROLLBACK');
             throw error;
@@ -176,6 +175,7 @@ export class ReporteRepository {
                 p.nombre AS prioridad,
                 f.ruta_fotografia
             FROM Reporte r
+<<<<<<< HEAD
             INNER JOIN Usuario usr
                 ON r.id_usuario = usr.id_usuario
             INNER JOIN Ubicacion u
@@ -200,3 +200,18 @@ export class ReporteRepository {
         return rows;
     }
 }
+=======
+            INNER JOIN Usuario usr ON r.id_usuario = usr.id_usuario
+            INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
+            INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
+            INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
+            INNER JOIN Estado e ON r.id_estado = e.id_estado
+            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
+            WHERE r.id_usuario = $1
+            ORDER BY r.fecha_reporte DESC;
+        `;
+        const { rows } = await pool.query(query, [idUsuario]);
+        return rows;
+    }
+}
+>>>>>>> d415eb1296741435254f3888415e9765aa112a68

@@ -105,9 +105,7 @@ export const obtenerMisReportesHandler = async (
             });
         }
 
-        const reportes = await reporteService.obtenerReportesPorUsuario(
-            idUsuario
-        );
+        const reportes = await reporteService.obtenerReportesPorUsuario(idUsuario);
 
         return res.status(200).json(reportes);
     } catch (error: any) {
@@ -116,4 +114,8 @@ export const obtenerMisReportesHandler = async (
             detalle: error.message
         });
     }
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> d415eb1296741435254f3888415e9765aa112a68
