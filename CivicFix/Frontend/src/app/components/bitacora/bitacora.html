@@ -1,0 +1,103 @@
+<section class="pantalla">
+  <header class="pantalla-header">
+    <h1>Bitácora de cambios de estado</h1>
+    <p>Historial de cada cambio de estado de un reporte, con quién lo hizo y por qué.</p>
+  </header>
+
+  @if (error()) {
+    <div class="aviso-error">{{ error() }}</div>
+  }
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="fk_id_reporte">ID del reporte</label>
+      <input id="fk_id_reporte" type="number" formControlName="fk_id_reporte" placeholder="Ej. 12" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_estado_anterior">Estado anterior</label>
+      <input id="fk_id_estado_anterior" type="number" formControlName="fk_id_estado_anterior" placeholder="ID estado" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_estado_nuevo">Estado nuevo</label>
+      <input id="fk_id_estado_nuevo" type="number" formControlName="fk_id_estado_nuevo" placeholder="ID estado" />
+    </div>
+    <div class="campo">
+      <label for="fk_id_empleado">ID del empleado</label>
+      <input id="fk_id_empleado" type="number" formControlName="fk_id_empleado" placeholder="Ej. 4" />
+    </div>
+    <div class="campo campo-ancho">
+      <label for="comentario">Comentario</label>
+      <input id="comentario" type="text" formControlName="comentario" placeholder="Motivo del cambio" />
+    </div>
+    <button type="submit" class="boton-primario" [disabled]="form.invalid">Registrar cambio</button>
+  </form>
+
+  <div class="barra-filtros">
+    <div class="campo campo-busqueda">
+      <label for="busqueda">Buscar</label>
+      <input
+        id="busqueda"
+        type="text"
+        placeholder="ID de reporte, empleado u observación…"
+        [value]="textoBusqueda()"
+        (input)="actualizarBusqueda($any($event.target).value)"
+      />
+    </div>
+    <div class="campo">
+      <label for="transicion">Transición de estado</label>
+      <select
+        id="transicion"
+        [value]="transicionSeleccionada()"
+        (change)="actualizarTransicion($any($event.target).value)"
+      >
+        <option value="todas">Todas las transiciones</option>
+        @for (t of transicionesDisponibles(); track t.etiqueta) {
+          <option [value]="(t.anterior ?? 'n') + '->' + t.nuevo">{{ t.etiqueta }}</option>
+        }
+      </select>
+    </div>
+    <button type="button" class="boton-texto" (click)="limpiarFiltros()">Limpiar filtros</button>
+    <span class="contador-resultados">
+      {{ registrosFiltrados().length }} de {{ registros().length }} registro(s)
+    </span>
+  </div>
+
+  <div class="tabla-contenedor">
+    @if (cargando()) {
+      <p class="estado-vacio">Cargando bitácora…</p>
+    } @else if (registros().length === 0) {
+      <p class="estado-vacio">Todavía no hay cambios de estado registrados.</p>
+    } @else if (registrosFiltrados().length === 0) {
+      <p class="estado-vacio">Ningún registro coincide con los filtros aplicados.</p>
+    } @else {
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID reporte</th>
+            <th>Estado anterior</th>
+            <th>Estado nuevo</th>
+            <th>Observación</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of registrosFiltrados(); track item.id_bitacora) {
+            <tr>
+              <td>{{ item.fk_id_reporte }}</td>
+              <td>
+                @if (item.fk_id_estado_anterior != null) {
+                  <span class="insignia insignia-neutra">{{ item.fk_id_estado_anterior }}</span>
+                } @else {
+                  <span class="estado-vacio-celda">—</span>
+                }
+              </td>
+              <td><span class="insignia insignia-nuevo">{{ item.fk_id_estado_nuevo }}</span></td>
+              <td>{{ item.comentario || '—' }}</td>
+              <td>{{ item.fecha_cambio | date: 'short' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>

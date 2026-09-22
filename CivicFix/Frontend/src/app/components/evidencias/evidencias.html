@@ -1,0 +1,61 @@
+<section class="pantalla">
+  <header class="pantalla-header">
+    <h1>Evidencias de solución</h1>
+    <p>Fotografías que demuestran que un reporte quedó resuelto.</p>
+  </header>
+
+  @if (error()) {
+    <div class="aviso-error">{{ error() }}</div>
+  }
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="fk_id_reporte">ID del reporte</label>
+      <input id="fk_id_reporte" type="number" formControlName="fk_id_reporte" placeholder="Ej. 12" />
+    </div>
+    <div class="campo campo-ancho">
+      <label for="ruta_fotografia">URL de la fotografía</label>
+      <input id="ruta_fotografia" type="text" formControlName="ruta_fotografia" placeholder="https://…" />
+    </div>
+    <div class="campo campo-ancho">
+      <label for="descripcion">Descripción</label>
+      <input id="descripcion" type="text" formControlName="descripcion" placeholder="Qué muestra la fotografía" />
+    </div>
+    <button type="submit" class="boton-primario" [disabled]="form.invalid">Registrar evidencia</button>
+  </form>
+
+  <div class="tabla-contenedor">
+    @if (cargando()) {
+      <p class="estado-vacio">Cargando evidencias…</p>
+    } @else if (evidencias().length === 0) {
+      <p class="estado-vacio">Todavía no hay evidencias registradas.</p>
+    } @else {
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Reporte</th>
+            <th>Fotografía</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of evidencias(); track item.id_evidencia) {
+            <tr>
+              <td>{{ item.id_evidencia }}</td>
+              <td>{{ item.fk_id_reporte }}</td>
+              <td><a [href]="item.ruta_fotografia" target="_blank" rel="noopener">Ver foto</a></td>
+              <td>{{ item.descripcion || '—' }}</td>
+              <td>{{ item.fecha_subida | date: 'short' }}</td>
+              <td>
+                <button type="button" class="boton-texto" (click)="eliminar(item.id_evidencia!)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>
