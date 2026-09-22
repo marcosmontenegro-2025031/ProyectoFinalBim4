@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NotificacionService } from '../../services/notificacion.service';
 import { Notificacion } from '../../models/notificacion.model';
 
@@ -14,18 +14,19 @@ import { Notificacion } from '../../models/notificacion.model';
     RouterModule
   ],
   templateUrl: './notificaciones.html',
-  styleUrl: './notificaciones.css'
+  styleUrls: ['./notificaciones.css']
 })
 export class NotificacionesComponent implements OnInit {
 
   private notificacionService = inject(NotificacionService);
+  private router = inject(Router);
 
   filtroActual = 'Todas';
+  textoBusqueda = '';
 
   notificaciones: Notificacion[] = [];
 
   cargando = false;
-
   error = false;
 
   ngOnInit(): void {
@@ -50,20 +51,33 @@ export class NotificacionesComponent implements OnInit {
   }
 
   get notificacionesFiltradas(): Notificacion[] {
+    let resultado = this.notificaciones;
 
     if (this.filtroActual === 'No leídas') {
-      return this.notificaciones.filter(
+      resultado = resultado.filter(
         notificacion => !notificacion.leida
       );
     }
 
     if (this.filtroActual === 'Leídas') {
-      return this.notificaciones.filter(
+      resultado = resultado.filter(
         notificacion => notificacion.leida
       );
     }
 
-    return this.notificaciones;
+    if (this.textoBusqueda.trim()) {
+      const busqueda = this.textoBusqueda
+        .toLowerCase()
+        .trim();
+
+      resultado = resultado.filter(
+        notificacion =>
+          notificacion.titulo.toLowerCase().includes(busqueda) ||
+          notificacion.mensaje.toLowerCase().includes(busqueda)
+      );
+    }
+
+    return resultado;
   }
 
   get cantidadNoLeidas(): number {
@@ -83,7 +97,6 @@ export class NotificacionesComponent implements OnInit {
   }
 
   marcarComoLeida(notificacion: Notificacion): void {
-
     if (notificacion.leida) {
       return;
     }
@@ -108,7 +121,6 @@ export class NotificacionesComponent implements OnInit {
   }
 
   marcarTodasComoLeidas(): void {
-
     if (this.cantidadNoLeidas === 0) {
       return;
     }
@@ -131,16 +143,14 @@ export class NotificacionesComponent implements OnInit {
   }
 
   eliminarNotificacion(idNotificacion: number): void {
-
     this.notificacionService
       .eliminarNotificacion(idNotificacion)
       .subscribe({
         next: () => {
-          this.notificaciones =
-            this.notificaciones.filter(
-              notificacion =>
-                notificacion.id_notificacion !== idNotificacion
-            );
+          this.notificaciones = this.notificaciones.filter(
+            notificacion =>
+              notificacion.id_notificacion !== idNotificacion
+          );
         },
         error: (error) => {
           console.error(
@@ -152,9 +162,7 @@ export class NotificacionesComponent implements OnInit {
   }
 
   obtenerIconoTipo(tipo: string): string {
-
     switch (tipo) {
-
       case 'reporte':
         return 'bi bi-file-earmark-check';
 
@@ -173,9 +181,7 @@ export class NotificacionesComponent implements OnInit {
   }
 
   obtenerClaseTipo(tipo: string): string {
-
     switch (tipo) {
-
       case 'reporte':
         return 'notification-report';
 
@@ -194,55 +200,53 @@ export class NotificacionesComponent implements OnInit {
   }
 
   obtenerFecha(fecha: string | Date): string {
-
     const fechaConvertida = new Date(fecha);
 
     if (isNaN(fechaConvertida.getTime())) {
       return String(fecha);
     }
 
-    return fechaConvertida.toLocaleDateString(
-      'es-GT',
-      {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-      }
-    );
+    return fechaConvertida.toLocaleDateString('es-GT', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
   }
 
   obtenerHora(fecha: string | Date): string {
-
     const fechaConvertida = new Date(fecha);
 
     if (isNaN(fechaConvertida.getTime())) {
       return '';
     }
 
-    return fechaConvertida.toLocaleTimeString(
-      'es-GT',
-      {
-        hour: '2-digit',
-        minute: '2-digit'
-      }
-    );
+    return fechaConvertida.toLocaleTimeString('es-GT', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   }
 
   verReporte(notificacion: Notificacion): void {
-
     if (!notificacion.id_reporte) {
       return;
     }
 
     this.marcarComoLeida(notificacion);
 
-    console.log(
-      'Ver reporte:',
-      notificacion.id_reporte
-    );
+    this.router.navigate([
+      '/reportes/mis-reportes'
+    ]);
+  }
+
+  irNotificaciones(): void {
+    this.router.navigate([
+      '/notificaciones'
+    ]);
   }
 
   volverAlInicio(): void {
-    window.location.href = '/reportes';
+    this.router.navigate([
+      '/reportes'
+    ]);
   }
 }
