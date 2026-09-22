@@ -79,5 +79,12 @@ export class ReporteService {
     async obtenerPuntosParaMapa() {
         return await this.reporteRepo.obtenerReportesParaMapa();
     }
-}
 
+    async obtenerReportesPorUsuario(idUsuario: number) {
+        return await this.reporteRepo.obtenerReportesPorUsuario(idUsuario);
+    }
+
+    async actualizarEstadoReporte(idReporte: number, idEstado: number) {
+        return await this.reporteRepo.actualizarEstadoReporte(idReporte, idEstado);
+    }
+}

@@ -115,6 +115,45 @@ export class ReporteRepository {
         }
     }
 
+    async obtenerReportesPorUsuario(idUsuario: number) {
+        const query = `
+            SELECT 
+                r.id_reporte,
+                r.titulo,
+                r.descripcion,
+                r.fecha_reporte,
+                ti.nombre AS tipo_incidencia,
+                u.direccion,
+                u.zona,
+                u.latitud,
+                u.longitud,
+                e.nombre AS estado,
+                p.nombre AS prioridad,
+                f.ruta_fotografia
+            FROM Reporte r
+            INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
+            INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
+            INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
+            INNER JOIN Estado e ON r.id_estado = e.id_estado
+            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
+            WHERE r.id_usuario = $1
+            ORDER BY r.fecha_reporte DESC;
+        `;
+        const { rows } = await pool.query(query, [idUsuario]);
+        return rows;
+    }
+
+    async actualizarEstadoReporte(idReporte: number, idEstado: number) {
+        const query = `
+            UPDATE Reporte
+            SET id_estado = $2
+            WHERE id_reporte = $1
+            RETURNING id_reporte;
+        `;
+        const { rows } = await pool.query(query, [idReporte, idEstado]);
+        return rows[0] ?? null;
+    }
+
     async obtenerReportesParaMapa() {
         const query = `
             SELECT 
@@ -141,4 +180,3 @@ export class ReporteRepository {
         return rows;
     }
 }
-

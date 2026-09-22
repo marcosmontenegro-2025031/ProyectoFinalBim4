@@ -9,6 +9,15 @@ import ubicacionRoutes from '../routes/ubicacion.routes';
 import reporteRoutes from '../routes/reporte.routes';
 import fotoProblemaRoutes from '../routes/fotoProblema.routes';
 import notificacionRoutes from '../routes/notificacion.routes';
+import evidenciaSolucionRoutes from '../routes/evidenciaSolucion.routes';
+import bitacoraCambioEstadoRoutes from '../routes/bitacoraCambioEstado.routes';
+import asignacionRoutes from '../routes/asignacion.routes';
+import { authRouter } from '../routes/auth.routes';
+import { servicioRouter } from '../routes/servicioMunicipal.routes';
+import { empleadoRouter } from '../routes/empleadoMunicipal.routes';
+import { municipalidadRouter } from '../routes/municipalidad.routes';
+import { departamentoRouter } from '../routes/departamentoMunicipal.routes';
+import { usuariosRouter } from '../routes/usuarios.routes';
 
 dotenv.config();
 
@@ -43,6 +52,18 @@ export class Server {
         this.app.use('/api', reporteRoutes);
         this.app.use('/api/fotos', fotoProblemaRoutes);
         this.app.use('/api', notificacionRoutes);
+        this.app.use('/api/evidencia', evidenciaSolucionRoutes);
+        this.app.use('/api/bitacora', bitacoraCambioEstadoRoutes);
+        this.app.use('/api/asignaciones', asignacionRoutes);
+
+        // Estos routers ya incluyen el prefijo /api en cada ruta interna,
+        // por lo que se montan en la raíz para no duplicarlo (/api/api/...).
+        this.app.use(authRouter);
+        this.app.use(servicioRouter);
+        this.app.use(empleadoRouter);
+        this.app.use(municipalidadRouter);
+        this.app.use(departamentoRouter);
+        this.app.use(usuariosRouter);
     }
 
     public listen(): void {
@@ -60,4 +81,3 @@ export class Server {
         });
     }
 }
-

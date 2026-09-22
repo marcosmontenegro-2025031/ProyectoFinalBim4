@@ -55,6 +55,48 @@ export const crearReporteHandler = async (req: Request, res: Response): Promise<
     }
 };
 
+export const obtenerMisReportesHandler = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const idUsuario = (req as any).usuario?.id_usuario;
+
+        if (!idUsuario) {
+            return res.status(401).json({ error: 'No se pudo identificar al usuario autenticado.' });
+        }
+
+        const reportes = await reporteService.obtenerReportesPorUsuario(idUsuario);
+        return res.status(200).json(reportes);
+    } catch (error: any) {
+        return res.status(500).json({
+            error: 'Error al obtener los reportes del usuario',
+            detalle: error.message
+        });
+    }
+};
+
+export const actualizarEstadoReporteHandler = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const idReporte = Number(req.params.id);
+        const { idEstado } = req.body;
+
+        if (!idReporte || !idEstado) {
+            return res.status(400).json({ error: 'Faltan datos: idReporte e idEstado son obligatorios.' });
+        }
+
+        const actualizado = await reporteService.actualizarEstadoReporte(idReporte, Number(idEstado));
+
+        if (!actualizado) {
+            return res.status(404).json({ error: 'Reporte no encontrado.' });
+        }
+
+        return res.status(200).json({ mensaje: 'Estado del reporte actualizado con éxito' });
+    } catch (error: any) {
+        return res.status(500).json({
+            error: 'Error al actualizar el estado del reporte',
+            detalle: error.message
+        });
+    }
+};
+
 export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Promise<Response> => {
     try {
         const puntos = await reporteService.obtenerPuntosParaMapa();
@@ -66,4 +108,3 @@ export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Pr
         });
     }
 };
-
