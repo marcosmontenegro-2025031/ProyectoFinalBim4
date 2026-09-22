@@ -1,141 +1,142 @@
-<div class="civic-layout">
+<div class="perfil-layout">
 
-  <aside class="civic-sidebar">
+  <aside class="perfil-sidebar">
 
-    <div class="civic-brand">
-      <div class="civic-logo-wrapper">
-        <img
-          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
-          alt="CIVICFIX"
-          class="civic-logo"
-        >
-      </div>
+    <div class="sidebar-brand">
+      <img
+        src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+        alt="CivicFix"
+      >
     </div>
 
-    <nav class="civic-navigation">
+    <nav class="sidebar-nav">
 
       <a
-        class="civic-nav-item"
-        routerLink="/reportes"
-      >
-        <i class="bi bi-house-door"></i>
-        <span>Inicio</span>
-      </a>
-
-      <a
-        class="civic-nav-item"
+        class="sidebar-nav-item"
         routerLink="/reportes/nuevo"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-file-earmark-plus"></i>
-        <span>Reportar Incidencia</span>
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>Crear reporte</span>
       </a>
 
       <a
-        class="civic-nav-item active"
-        routerLink="/reportes"
+        routerLink="/mis-reportes"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="sidebar-nav-item"
       >
         <i class="bi bi-file-earmark-text"></i>
         <span>Mis Reportes</span>
       </a>
 
       <a
-        class="civic-nav-item"
+        class="sidebar-nav-item"
         routerLink="/mapa"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-geo-alt"></i>
+        <i class="bi bi-geo-alt-fill"></i>
         <span>Mapa</span>
       </a>
 
-      <a class="civic-nav-item">
-
-        <i class="bi bi-bell"></i>
-
-        <span>
-          Notificaciones
-        </span>
-
-        <span class="notification-number">
-          3
-        </span>
-
+      <a
+        class="sidebar-nav-item"
+        routerLink="/notificaciones"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="bi bi-bell-fill"></i>
+        <span>Notificaciones</span>
+        <span class="notification-count">3</span>
       </a>
 
-      <a class="civic-nav-item">
-        <i class="bi bi-person-circle"></i>
+      <a
+        class="sidebar-nav-item"
+        routerLink="/perfil"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="bi bi-person-fill"></i>
         <span>Perfil</span>
       </a>
 
     </nav>
 
-    <div class="civic-city">
+    <div class="sidebar-city">
 
-      <div class="city-buildings">
-        <span class="building b1"></span>
-        <span class="building b2"></span>
-        <span class="building b3"></span>
-        <span class="building b4"></span>
-        <span class="building b5"></span>
-
-        <span class="tree t1"></span>
-        <span class="tree t2"></span>
-
-        <span class="lamp"></span>
+      <div class="city-icon">
+        <i class="bi bi-buildings-fill"></i>
       </div>
 
-      <div class="civic-city-footer">
-
-        <div class="municipality-icon">
-          <i class="bi bi-shield-fill-check"></i>
-        </div>
-
-        <div>
-          <strong>Municipalidad de Guatemala</strong>
-          <small>Juntos mejoramos la ciudad</small>
-        </div>
-
+      <div class="city-info">
+        <strong>Ciudad de Guatemala</strong>
+        <span>Municipalidad</span>
       </div>
 
     </div>
 
   </aside>
 
-  <main class="civic-main">
+  <main class="perfil-main">
 
-    <header class="civic-topbar">
+    <header class="perfil-topbar">
 
-      <div class="civic-search">
+      <div class="topbar-left">
 
-        <i class="bi bi-search"></i>
-
-        <input
-          type="text"
-          [(ngModel)]="textoBusqueda"
-          placeholder="Buscar reportes, ubicaciones o servicios..."
+        <button
+          type="button"
+          class="back-button"
+          routerLink="/reportes/nuevo"
         >
+          <i class="bi bi-arrow-left"></i>
+        </button>
 
-      </div>
+        <div class="topbar-title">
 
-      <div class="topbar-actions">
+          <span>
+            <i class="bi bi-file-earmark-text-fill"></i>
+            CivicFix
+          </span>
 
-        <div class="topbar-notification">
-
-          <i class="bi bi-bell"></i>
-
-          <span>3</span>
+          <h1>Mis Reportes</h1>
 
         </div>
 
+      </div>
+
+      <div class="topbar-right">
+
+        <button
+          type="button"
+          class="notification-button"
+          routerLink="/notificaciones"
+        >
+          <i class="bi bi-bell-fill"></i>
+          <span class="notification-dot"></span>
+        </button>
+
         <div class="topbar-divider"></div>
 
-        <div class="topbar-user">
+        <div
+          class="topbar-user"
+          routerLink="/perfil"
+        >
 
-          <div class="user-avatar">
+          <div class="topbar-avatar">
             <i class="bi bi-person-fill"></i>
           </div>
 
-          <div class="user-information">
+          <div class="topbar-user-info">
+
             <strong>Juan Pérez</strong>
-            <small>Ciudadano</small>
+
+            <span>
+              <i class="bi bi-person-check-fill"></i>
+              Ciudadano
+            </span>
+
           </div>
 
           <i class="bi bi-chevron-down user-arrow"></i>
@@ -146,7 +147,7 @@
 
     </header>
 
-    <section class="civic-content">
+    <section class="perfil-content">
 
       <div class="page-heading">
 
@@ -155,11 +156,13 @@
         </div>
 
         <div>
+
           <h1>Mis Reportes</h1>
 
           <p>
             Consulta el estado y seguimiento de las incidencias que has reportado.
           </p>
+
         </div>
 
       </div>
@@ -313,12 +316,14 @@
                   class="status-badge"
                   [class]="obtenerClaseEstado(reporte.estado)"
                 >
+
                   <i
                     class="bi"
                     [class]="obtenerIconoEstado(reporte.estado)"
                   ></i>
 
                   {{ reporte.estado }}
+
                 </span>
 
               </div>
@@ -360,12 +365,14 @@
                 [class]="obtenerClasePrioridad(reporte.prioridad)"
                 [style.color]="obtenerColorPrioridad(reporte.prioridad)"
               >
+
                 <i
                   class="bi"
                   [class]="obtenerIconoPrioridad(reporte.prioridad)"
                 ></i>
 
                 {{ reporte.prioridad }}
+
               </span>
 
               <i class="bi bi-chevron-right report-arrow"></i>
@@ -384,7 +391,7 @@
             <strong>No se encontraron reportes</strong>
 
             <span>
-              Intenta cambiar el texto de búsqueda o el filtro seleccionado.
+              Intenta cambiar el filtro seleccionado.
             </span>
 
           </div>
