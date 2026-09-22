@@ -28,13 +28,10 @@ export class ReporteService {
         return await this.reporteRepo.obtenerTodosLosReportes();
     }
 
-<<<<<<< HEAD
-=======
     async obtenerReportesPorUsuario(idUsuario: number) {
         return await this.reporteRepo.obtenerReportesPorUsuario(idUsuario);
     }
 
->>>>>>> Develop
     async registrarReporteCiudadano(dto: CrearReporteDTO): Promise<RespuestaProcesamientoReporte> {
         if (!this.ubicacionService.validarCoordenadas(dto.latitud, dto.longitud)) {
             throw new Error('Las coordenadas geográficas (latitud/longitud) ingresadas no son válidas.');
@@ -87,4 +84,3 @@ export class ReporteService {
         return await this.reporteRepo.obtenerReportesParaMapa();
     }
 }
-
