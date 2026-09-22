@@ -7,7 +7,7 @@
       <div class="civic-logo-wrapper">
 
         <img
-          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+          src="assets/logo.png"
           alt="CIVICFIX"
           class="civic-logo"
         >
@@ -21,63 +21,49 @@
 
       <a
         class="civic-nav-item"
-        routerLink="/reportes"
-      >
-
-        <i class="bi bi-house-door"></i>
-
-        <span>
-          Inicio
-        </span>
-
-      </a>
-
-
-      <a
-        class="civic-nav-item"
         routerLink="/reportes/nuevo"
+        routerLinkActive="active"
       >
-
-        <i class="bi bi-file-earmark-plus"></i>
+        <i class="bi bi-plus-circle-fill"></i>
 
         <span>
-          Reportar Incidencia
+          Crear reporte
         </span>
-
       </a>
 
 
       <a
         class="civic-nav-item"
-        routerLink="/reportes/mis-reportes"
+        routerLink="/mis-reportes"
+        routerLinkActive="active"
       >
-
-        <i class="bi bi-file-earmark-text"></i>
+        <i class="bi bi-file-earmark-text-fill"></i>
 
         <span>
-          Mis Reportes
+          Mis reportes
         </span>
-
       </a>
 
 
       <a
-        class="civic-nav-item active"
+        class="civic-nav-item"
         routerLink="/mapa"
+        routerLinkActive="active"
       >
-
-        <i class="bi bi-geo-alt"></i>
+        <i class="bi bi-geo-alt-fill"></i>
 
         <span>
           Mapa
         </span>
-
       </a>
 
 
-      <a class="civic-nav-item">
-
-        <i class="bi bi-bell"></i>
+      <a
+        class="civic-nav-item"
+        routerLink="/notificaciones"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-bell-fill"></i>
 
         <span>
           Notificaciones
@@ -86,18 +72,19 @@
         <span class="notification-number">
           3
         </span>
-
       </a>
 
 
-      <a class="civic-nav-item">
-
-        <i class="bi bi-person-circle"></i>
+      <a
+        class="civic-nav-item"
+        routerLink="/perfil"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-person-fill"></i>
 
         <span>
           Perfil
         </span>
-
       </a>
 
     </nav>
@@ -184,21 +171,29 @@
       <div class="topbar-actions">
 
 
-        <div class="topbar-notification">
+        <button
+          type="button"
+          class="topbar-notification"
+          routerLink="/notificaciones"
+          title="Notificaciones"
+        >
 
-          <i class="bi bi-bell"></i>
+          <i class="bi bi-bell-fill"></i>
 
           <span>
             3
           </span>
 
-        </div>
+        </button>
 
 
         <div class="topbar-divider"></div>
 
 
-        <div class="topbar-user">
+        <div
+          class="topbar-user"
+          routerLink="/perfil"
+        >
 
           <div class="user-avatar">
 
@@ -236,7 +231,7 @@
 
         <div class="page-heading-icon">
 
-          <i class="bi bi-geo-alt"></i>
+          <i class="bi bi-geo-alt-fill"></i>
 
         </div>
 
@@ -263,7 +258,7 @@
 
           <div class="stat-icon total">
 
-            <i class="bi bi-pin-map"></i>
+            <i class="bi bi-pin-map-fill"></i>
 
           </div>
 
@@ -287,7 +282,7 @@
 
           <div class="stat-icon pending">
 
-            <i class="bi bi-clock"></i>
+            <i class="bi bi-clock-fill"></i>
 
           </div>
 
@@ -335,7 +330,7 @@
 
           <div class="stat-icon resolved">
 
-            <i class="bi bi-check-circle"></i>
+            <i class="bi bi-check-circle-fill"></i>
 
           </div>
 
@@ -364,7 +359,7 @@
 
           <div class="filters-title">
 
-            <i class="bi bi-funnel"></i>
+            <i class="bi bi-funnel-fill"></i>
 
             <div>
 
@@ -447,7 +442,7 @@
 
             <label for="prioridad">
 
-              <i class="bi bi-flag"></i>
+              <i class="bi bi-flag-fill"></i>
 
               Prioridad
 
@@ -515,7 +510,7 @@
 
               <div class="map-title">
 
-                <i class="bi bi-map"></i>
+                <i class="bi bi-map-fill"></i>
 
                 <h2>
                   Incidencias en el mapa
@@ -586,7 +581,7 @@
 
               <div class="empty-icon">
 
-                <i class="bi bi-exclamation-circle"></i>
+                <i class="bi bi-exclamation-circle-fill"></i>
 
               </div>
 
@@ -743,7 +738,11 @@
 
         <div
           class="reports-grid"
-          *ngIf="!cargandoReportes && !errorReportes && reportesFiltrados.length > 0"
+          *ngIf="
+            !cargandoReportes &&
+            !errorReportes &&
+            reportesFiltrados.length > 0
+          "
         >
 
 
