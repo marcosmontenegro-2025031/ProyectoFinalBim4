@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 import { Request, Response } from 'express';
 import { AsignacionService } from '../services/asignacion.service.js';
+=======
+import { Request, Response } from "express";
+<<<<<<< HEAD
+import { AsignacionService } from "../services/asignacion.service.js";
+=======
+import { AsignacionService } from "../service/asignacion.service.js";
+import { Asignacion } from "../models/asignacion.model.js";
+>>>>>>> Develop
+>>>>>>> f4894cefaee6ff1f2f4c49035348117ec7f78596
 
 export class AsignacionController {
 

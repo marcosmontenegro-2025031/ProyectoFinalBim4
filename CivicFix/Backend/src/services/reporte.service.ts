@@ -32,9 +32,19 @@ export class ReporteService {
         return await this.reporteRepo.obtenerReportesPorUsuario(idUsuario);
     }
 
-    async registrarReporteCiudadano(dto: CrearReporteDTO): Promise<RespuestaProcesamientoReporte> {
-        if (!this.ubicacionService.validarCoordenadas(dto.latitud, dto.longitud)) {
-            throw new Error('Las coordenadas geográficas (latitud/longitud) ingresadas no son válidas.');
+    async registrarReporteCiudadano(
+        dto: CrearReporteDTO
+    ): Promise<RespuestaProcesamientoReporte> {
+
+        if (
+            !this.ubicacionService.validarCoordenadas(
+                dto.latitud,
+                dto.longitud
+            )
+        ) {
+            throw new Error(
+                'Las coordenadas geográficas (latitud/longitud) ingresadas no son válidas.'
+            );
         }
 
         const analisis = await analizarQueja(dto.textoCiudadano);
@@ -42,29 +52,30 @@ export class ReporteService {
         if (!analisis.es_reporte_valido) {
             return {
                 esValido: false,
-                mensaje: "El reporte no es válido",
+                mensaje: 'El reporte no es válido',
                 analisis
             };
         }
 
-        const resultado = await this.reporteRepo.crearReporteConTransaccion({
-            ubicacion: {
-                direccion: dto.direccion,
-                zona: dto.zona,
-                referencia: dto.referencia,
-                latitud: dto.latitud,
-                longitud: dto.longitud
-            },
-            titulo: analisis.titulo_corto,
-            descripcion: analisis.descripcion_limpia,
-            idUsuario: dto.idUsuario,
-            codigoTipo: analisis.codigo_tipo,
-            codigoPrioridad: analisis.codigo_prioridad
-        });
+        const resultado =
+            await this.reporteRepo.crearReporteConTransaccion({
+                ubicacion: {
+                    direccion: dto.direccion,
+                    zona: dto.zona,
+                    referencia: dto.referencia,
+                    latitud: dto.latitud,
+                    longitud: dto.longitud
+                },
+                titulo: analisis.titulo_corto,
+                descripcion: analisis.descripcion_limpia,
+                idUsuario: dto.idUsuario,
+                codigoTipo: analisis.codigo_tipo,
+                codigoPrioridad: analisis.codigo_prioridad
+            });
 
         return {
             esValido: true,
-            mensaje: "Reporte registrado con éxito",
+            mensaje: 'Reporte registrado con éxito',
             id_reporte: resultado.id_reporte,
             fecha_reporte: resultado.fecha_reporte,
             data: {
@@ -84,4 +95,3 @@ export class ReporteService {
         return await this.reporteRepo.obtenerReportesParaMapa();
     }
 }
-

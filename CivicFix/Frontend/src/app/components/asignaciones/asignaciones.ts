@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { AsignacionService } from '../../core/services/asignacion.service';
-import { Asignacion } from '../../core/models/asignacion.model';
+import { AsignacionService } from '../../services/asignacion.service';
+import { Asignacion } from '../../models/asignacion.model';
 
 @Component({
     selector: 'app-asignaciones',

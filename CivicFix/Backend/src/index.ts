@@ -1,23 +1,13 @@
-import express from "express";
-import cors from "cors";
-import { asignacionRouter } from "./routes/asignacion.routes";
-import { bitacoraCambioEstadoRouter } from "./routes/bitacoraCambioEstado.routes";
-import { evidenciaSolucionRouter } from "./routes/evidenciaSolucion.routes";
-import { fotoProblemaRouter } from "./routes/fotoProblema.routes";
-import { notificacionRouter } from "./routes/notificacion.routes";
+import { Server } from './api/server';
 
-const app = express();
-const PORT = 3000;
+const server = new Server();
 
-app.use(cors());
-app.use(express.json());
+server.listen();
 
-app.use(asignacionRouter);
-app.use(bitacoraCambioEstadoRouter);
-app.use(evidenciaSolucionRouter);
-app.use(fotoProblemaRouter);
-app.use(notificacionRouter);
+process.on('uncaughtException', (error) => {
+    console.error('EXCEPCIÓN NO CAPTURADA:', error);
+});
 
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`);
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('PROMESA RECHAZADA NO MANEJADA:', promise, 'razón:', reason);
 });

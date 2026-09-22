@@ -1,5 +1,4 @@
 import { pool } from '../config/db';
-import { Reporte } from '../models/reporte.model';
 import { Ubicacion } from '../models/ubicacion.model';
 import { UbicacionRepository } from './ubicacion.repository';
 
@@ -15,9 +14,9 @@ export interface GuardarReporteCompletoParams {
 export class ReporteRepository {
     private ubicacionRepo = new UbicacionRepository();
 
-   async obtenerTodosLosReportes() {
+    async obtenerTodosLosReportes() {
         const query = `
-            SELECT 
+            SELECT
                 r.id_reporte,
                 r.titulo,
                 r.descripcion,
@@ -40,17 +39,24 @@ export class ReporteRepository {
             LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
             ORDER BY r.fecha_reporte DESC;
         `;
+
         const { rows } = await pool.query(query);
+
         return rows;
     }
 
-    async crearReporteConTransaccion(params: GuardarReporteCompletoParams): Promise<any> {
+    async crearReporteConTransaccion(
+        params: GuardarReporteCompletoParams
+    ): Promise<any> {
         const client = await pool.connect();
 
         try {
             await client.query('BEGIN');
 
-            const idUbicacion = await this.ubicacionRepo.crear(params.ubicacion, client);
+            const idUbicacion = await this.ubicacionRepo.crear(
+                params.ubicacion,
+                client
+            );
 
             const queryReporte = `
                 INSERT INTO Reporte (
@@ -63,11 +69,28 @@ export class ReporteRepository {
                     id_prioridad
                 )
                 VALUES (
-                    $1, $2, $3,
-                    (SELECT id_tipo_incidencia FROM TipoIncidencia WHERE LOWER(codigo_ia) = LOWER($4) LIMIT 1),
+                    $1,
+                    $2,
+                    $3,
+                    (
+                        SELECT id_tipo_incidencia
+                        FROM TipoIncidencia
+                        WHERE LOWER(codigo_ia) = LOWER($4)
+                        LIMIT 1
+                    ),
                     $5,
-                    (SELECT id_estado FROM Estado WHERE nombre = 'Pendiente' LIMIT 1),
-                    (SELECT id_prioridad FROM Prioridad WHERE LOWER(codigo_ia) = LOWER($6) LIMIT 1)
+                    (
+                        SELECT id_estado
+                        FROM Estado
+                        WHERE nombre = 'Pendiente'
+                        LIMIT 1
+                    ),
+                    (
+                        SELECT id_prioridad
+                        FROM Prioridad
+                        WHERE LOWER(codigo_ia) = LOWER($6)
+                        LIMIT 1
+                    )
                 )
                 RETURNING id_reporte, fecha_reporte;
             `;
@@ -81,7 +104,11 @@ export class ReporteRepository {
                 params.codigoPrioridad
             ];
 
-            const { rows } = await client.query(queryReporte, values);
+            const { rows } = await client.query(
+                queryReporte,
+                values
+            );
+
             await client.query('COMMIT');
 
             return {
@@ -106,7 +133,7 @@ export class ReporteRepository {
 
     async obtenerReportesParaMapa() {
         const query = `
-            SELECT 
+            SELECT
                 r.id_reporte,
                 r.titulo,
                 r.descripcion,
@@ -126,14 +153,15 @@ export class ReporteRepository {
             INNER JOIN Estado e ON r.id_estado = e.id_estado
             ORDER BY r.fecha_reporte DESC;
         `;
+
         const { rows } = await pool.query(query);
+
         return rows;
     }
 
     async obtenerReportesPorUsuario(idUsuario: number) {
-
         const query = `
-            SELECT 
+            SELECT
                 r.id_reporte,
                 r.titulo,
                 r.descripcion,
@@ -148,25 +176,27 @@ export class ReporteRepository {
                 p.nombre AS prioridad,
                 f.ruta_fotografia
             FROM Reporte r
-            INNER JOIN Usuario usr 
+            INNER JOIN Usuario usr
                 ON r.id_usuario = usr.id_usuario
-            INNER JOIN Ubicacion u 
+            INNER JOIN Ubicacion u
                 ON r.id_ubicacion = u.id_ubicacion
-            INNER JOIN TipoIncidencia ti 
+            INNER JOIN TipoIncidencia ti
                 ON r.id_tipo_incidencia = ti.id_tipo_incidencia
-            INNER JOIN Prioridad p 
+            INNER JOIN Prioridad p
                 ON r.id_prioridad = p.id_prioridad
-            INNER JOIN Estado e 
+            INNER JOIN Estado e
                 ON r.id_estado = e.id_estado
-            LEFT JOIN fotografiaproblema f 
+            LEFT JOIN fotografiaproblema f
                 ON r.id_reporte = f.id_reporte
             WHERE r.id_usuario = $1
             ORDER BY r.fecha_reporte DESC;
         `;
 
-        const { rows } = await pool.query(query, [idUsuario]);
+        const { rows } = await pool.query(
+            query,
+            [idUsuario]
+        );
 
         return rows;
     }
 }
-
