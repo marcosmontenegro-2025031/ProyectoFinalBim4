@@ -67,15 +67,11 @@ export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Pr
     }
 };
 
-<<<<<<< HEAD
-=======
 export const obtenerMisReportesHandler = async (
     req: Request,
     res: Response
 ): Promise<Response> => {
-
     try {
-
         const idUsuario = (req as any).usuario?.id_usuario;
 
         if (!idUsuario) {
@@ -84,18 +80,13 @@ export const obtenerMisReportesHandler = async (
             });
         }
 
-        const reportes = await reporteService.obtenerReportesPorUsuario(
-            idUsuario
-        );
+        const reportes = await reporteService.obtenerReportesPorUsuario(idUsuario);
 
         return res.status(200).json(reportes);
-
     } catch (error: any) {
-
         return res.status(500).json({
             error: 'Error al obtener los reportes del usuario',
             detalle: error.message
         });
     }
 };
->>>>>>> Develop
