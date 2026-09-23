@@ -7,7 +7,7 @@
       <div class="civic-logo-wrapper">
 
         <img
-          src="assets/logo.png"
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
           alt="CIVICFIX"
           class="civic-logo"
         >
@@ -16,79 +16,70 @@
 
     </div>
 
-
     <nav class="civic-navigation">
+
+      <a
+        class="civic-nav-item"
+        routerLink="/home-usuario"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="bi bi-house-door"></i>
+        <span>Inicio</span>
+      </a>
 
       <a
         class="civic-nav-item"
         routerLink="/reportes/nuevo"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-plus-circle-fill"></i>
-
-        <span>
-          Crear reporte
-        </span>
+        <i class="bi bi-file-earmark-plus"></i>
+        <span>Reportar Incidencia</span>
       </a>
-
 
       <a
         class="civic-nav-item"
-        routerLink="/mis-reportes"
+        routerLink="/reportes/mis-reportes"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-file-earmark-text-fill"></i>
-
-        <span>
-          Mis reportes
-        </span>
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Mis Reportes</span>
       </a>
-
 
       <a
         class="civic-nav-item"
         routerLink="/mapa"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-geo-alt-fill"></i>
-
-        <span>
-          Mapa
-        </span>
+        <i class="bi bi-geo-alt"></i>
+        <span>Mapa</span>
       </a>
-
 
       <a
         class="civic-nav-item"
         routerLink="/notificaciones"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-bell-fill"></i>
-
-        <span>
-          Notificaciones
-        </span>
-
-        <span class="notification-number">
-          3
-        </span>
+        <i class="bi bi-bell"></i>
+        <span>Notificaciones</span>
+        <span class="notification-number">3</span>
       </a>
-
 
       <a
         class="civic-nav-item"
         routerLink="/perfil"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-person-fill"></i>
-
-        <span>
-          Perfil
-        </span>
+        <i class="bi bi-person-circle"></i>
+        <span>Perfil</span>
       </a>
 
     </nav>
-
 
     <div class="civic-city">
 
@@ -107,26 +98,15 @@
 
       </div>
 
-
       <div class="civic-city-footer">
 
         <div class="municipality-icon">
-
           <i class="bi bi-shield-fill-check"></i>
-
         </div>
 
-
         <div>
-
-          <strong>
-            Municipalidad de Guatemala
-          </strong>
-
-          <small>
-            Juntos mejoramos la ciudad
-          </small>
-
+          <strong>Municipalidad de Guatemala</strong>
+          <small>Juntos mejoramos la ciudad</small>
         </div>
 
       </div>
@@ -135,12 +115,9 @@
 
   </aside>
 
-
   <main class="civic-main">
 
-
     <header class="civic-topbar">
-
 
       <div class="civic-search">
 
@@ -160,16 +137,12 @@
           (click)="limpiarBusqueda()"
           title="Limpiar búsqueda"
         >
-
           <i class="bi bi-x"></i>
-
         </button>
 
       </div>
 
-
       <div class="topbar-actions">
-
 
         <button
           type="button"
@@ -177,18 +150,11 @@
           routerLink="/notificaciones"
           title="Notificaciones"
         >
-
-          <i class="bi bi-bell-fill"></i>
-
-          <span>
-            3
-          </span>
-
+          <i class="bi bi-bell"></i>
+          <span>3</span>
         </button>
 
-
         <div class="topbar-divider"></div>
-
 
         <div
           class="topbar-user"
@@ -196,24 +162,13 @@
         >
 
           <div class="user-avatar">
-
-            <i class="bi bi-person-fill"></i>
-
+            <i class="bi bi-person-circle"></i>
           </div>
-
 
           <div class="user-information">
-
-            <strong>
-              Usuario
-            </strong>
-
-            <small>
-              Ciudadano
-            </small>
-
+            <strong>Usuario</strong>
+            <small>Ciudadano</small>
           </div>
-
 
           <i class="bi bi-chevron-down user-arrow"></i>
 
@@ -223,18 +178,13 @@
 
     </header>
 
-
     <section class="civic-content">
-
 
       <div class="page-heading">
 
         <div class="page-heading-icon">
-
           <i class="bi bi-geo-alt-fill"></i>
-
         </div>
-
 
         <div>
 
@@ -250,18 +200,13 @@
 
       </div>
 
-
       <div class="stats-grid">
-
 
         <div class="stat-card">
 
           <div class="stat-icon total">
-
             <i class="bi bi-pin-map-fill"></i>
-
           </div>
-
 
           <div class="stat-content">
 
@@ -277,15 +222,11 @@
 
         </div>
 
-
         <div class="stat-card">
 
           <div class="stat-icon pending">
-
             <i class="bi bi-clock-fill"></i>
-
           </div>
-
 
           <div class="stat-content">
 
@@ -301,15 +242,11 @@
 
         </div>
 
-
         <div class="stat-card">
 
           <div class="stat-icon process">
-
             <i class="bi bi-arrow-repeat"></i>
-
           </div>
-
 
           <div class="stat-content">
 
@@ -325,15 +262,11 @@
 
         </div>
 
-
         <div class="stat-card">
 
           <div class="stat-icon resolved">
-
             <i class="bi bi-check-circle-fill"></i>
-
           </div>
-
 
           <div class="stat-content">
 
@@ -351,9 +284,7 @@
 
       </div>
 
-
       <div class="filters-card">
-
 
         <div class="filters-header">
 
@@ -375,7 +306,6 @@
 
           </div>
 
-
           <button
             type="button"
             class="clear-filters"
@@ -386,18 +316,13 @@
               cambiarFiltro()
             "
           >
-
             <i class="bi bi-arrow-counterclockwise"></i>
-
             Limpiar filtros
-
           </button>
 
         </div>
 
-
         <div class="filters-grid">
-
 
           <div class="filter-group">
 
@@ -408,7 +333,6 @@
               Estado
 
             </label>
-
 
             <select
               id="estado"
@@ -437,7 +361,6 @@
 
           </div>
 
-
           <div class="filter-group">
 
             <label for="prioridad">
@@ -447,7 +370,6 @@
               Prioridad
 
             </label>
-
 
             <select
               id="prioridad"
@@ -480,7 +402,6 @@
 
           </div>
 
-
           <div class="filter-result">
 
             <span>
@@ -497,12 +418,9 @@
 
       </div>
 
-
       <div class="map-section">
 
-
         <div class="map-card">
-
 
           <div class="map-header">
 
@@ -524,7 +442,6 @@
 
             </div>
 
-
             <div class="map-status">
 
               <span class="status-indicator"></span>
@@ -541,9 +458,7 @@
 
           </div>
 
-
           <div class="map-wrapper">
-
 
             <div
               #mapContainer
@@ -551,16 +466,13 @@
               class="map-container"
             ></div>
 
-
             <div
               *ngIf="cargandoReportes"
               class="empty-state map-loading-state"
             >
 
               <div class="empty-icon">
-
                 <i class="bi bi-arrow-repeat spin"></i>
-
               </div>
 
               <h3>
@@ -573,16 +485,13 @@
 
             </div>
 
-
             <div
               *ngIf="!cargandoReportes && errorReportes"
               class="empty-state map-error-state"
             >
 
               <div class="empty-icon">
-
                 <i class="bi bi-exclamation-circle-fill"></i>
-
               </div>
 
               <h3>
@@ -607,9 +516,7 @@
 
             </div>
 
-
             <div class="map-controls">
-
 
               <button
                 type="button"
@@ -617,11 +524,8 @@
                 (click)="zoomIn()"
                 title="Acercar"
               >
-
                 <i class="bi bi-plus-lg"></i>
-
               </button>
-
 
               <button
                 type="button"
@@ -629,14 +533,10 @@
                 (click)="zoomOut()"
                 title="Alejar"
               >
-
                 <i class="bi bi-dash-lg"></i>
-
               </button>
 
-
               <div class="map-control-separator"></div>
-
 
               <button
                 type="button"
@@ -644,20 +544,16 @@
                 (click)="centrarMapa()"
                 title="Centrar mapa"
               >
-
                 <i class="bi bi-crosshair"></i>
-
               </button>
 
             </div>
-
 
             <div class="map-legend">
 
               <div class="legend-title">
                 Prioridad
               </div>
-
 
               <div class="legend-item">
 
@@ -669,7 +565,6 @@
 
               </div>
 
-
               <div class="legend-item">
 
                 <span class="legend-marker medium"></span>
@@ -679,7 +574,6 @@
                 </span>
 
               </div>
-
 
               <div class="legend-item">
 
@@ -699,9 +593,7 @@
 
       </div>
 
-
       <div class="reports-section">
-
 
         <div class="reports-header">
 
@@ -735,7 +627,6 @@
 
         </div>
 
-
         <div
           class="reports-grid"
           *ngIf="
@@ -745,27 +636,20 @@
           "
         >
 
-
           <article
             class="report-card"
             *ngFor="let reporte of reportesFiltrados"
             (click)="centrarReporte(reporte)"
           >
 
-
             <div class="report-card-top">
-
 
               <div class="report-category">
 
                 <div class="category-icon">
 
                   <i
-                    [class]="
-                      obtenerIconoCategoria(
-                        reporte.categoria
-                      )
-                    "
+                    [class]="obtenerIconoCategoria(reporte.categoria)"
                   ></i>
 
                 </div>
@@ -776,22 +660,14 @@
 
               </div>
 
-
               <span
                 class="priority-badge"
-                [ngClass]="
-                  obtenerClasePrioridad(
-                    reporte.prioridad
-                  )
-                "
+                [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
               >
-
                 {{ reporte.prioridad }}
-
               </span>
 
             </div>
-
 
             <div class="report-card-body">
 
@@ -805,16 +681,13 @@
 
               </span>
 
-
               <h3>
                 {{ reporte.titulo }}
               </h3>
 
-
               <p>
                 {{ reporte.descripcion }}
               </p>
-
 
               <div class="report-location">
 
@@ -828,17 +701,11 @@
 
             </div>
 
-
             <div class="report-card-footer">
-
 
               <span
                 class="state-badge"
-                [ngClass]="
-                  obtenerClaseEstado(
-                    reporte.estado
-                  )
-                "
+                [ngClass]="obtenerClaseEstado(reporte.estado)"
               >
 
                 <span class="state-dot"></span>
@@ -846,7 +713,6 @@
                 {{ reporte.estado }}
 
               </span>
-
 
               <span class="report-date">
 
@@ -862,7 +728,6 @@
 
         </div>
 
-
         <div
           class="empty-state"
           *ngIf="
@@ -872,23 +737,19 @@
           "
         >
 
-
           <div class="empty-icon">
 
             <i class="bi bi-search"></i>
 
           </div>
 
-
           <h3>
             No se encontraron incidencias
           </h3>
 
-
           <p>
             No existen reportes que coincidan con los filtros seleccionados.
           </p>
-
 
           <button
             type="button"
@@ -909,9 +770,7 @@
 
         </div>
 
-
       </div>
-
 
     </section>
 

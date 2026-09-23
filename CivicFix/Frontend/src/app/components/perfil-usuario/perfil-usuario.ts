@@ -1,40 +1,64 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
+import { SessionService } from '../../services/session.service';
+
+interface UsuarioPerfil {
+  id_usuario: number;
+  nombre: string;
+  apellido: string;
+  usuario: string;
+  correo: string;
+  telefono: string;
+  direccion: string;
+  rol: string;
+  fechaRegistro: string;
+}
 
 @Component({
-  selector: 'app-perfil',
+  selector: 'app-perfil-usuario',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './perfil-usuario.html',
-  styleUrl: './perfil-usuario.css'
+  styleUrls: ['./perfil-usuario.css']
 })
-export class PerfilComponent {
+export class PerfilUsuarioComponent implements OnInit {
 
-  usuario = {
-    nombre: 'Juan Pérez',
-    usuario: 'juanperez',
-    correo: 'juan.perez@gmail.com',
-    telefono: '5555-1234',
-    direccion: 'Zona 10, Ciudad de Guatemala',
-    fechaRegistro: '15 de enero de 2026',
-    rol: 'Ciudadano'
+  usuario: UsuarioPerfil = {
+    id_usuario: 0,
+    nombre: '',
+    apellido: '',
+    usuario: '',
+    correo: '',
+    telefono: '',
+    direccion: '',
+    rol: 'ciudadano',
+    fechaRegistro: ''
   };
 
-  estadisticas = {
-    reportes: 8,
-    pendientes: 2,
-    proceso: 3,
-    resueltos: 3
+  usuarioOriginal: UsuarioPerfil = {
+    id_usuario: 0,
+    nombre: '',
+    apellido: '',
+    usuario: '',
+    correo: '',
+    telefono: '',
+    direccion: '',
+    rol: 'ciudadano',
+    fechaRegistro: ''
   };
 
   editando = false;
-
   mostrarSeguridad = false;
 
   passwordActual = '';
@@ -45,35 +69,130 @@ export class PerfilComponent {
   mostrarNuevaPassword = false;
   mostrarConfirmarPassword = false;
 
-  constructor(private router: Router) {}
+  estadisticas = {
+    reportes: 0,
+    pendientes: 0,
+    proceso: 0,
+    resueltos: 0
+  };
 
-  activarEdicion(): void {
-    this.editando = true;
+  constructor(
+    private sessionService: SessionService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.cargarUsuario();
   }
 
-  cancelarEdicion(): void {
-    this.editando = false;
+  cargarUsuario(): void {
+    const usuarioSesion = this.sessionService.obtenerUsuario<any>();
+
+    if (!usuarioSesion) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    this.usuario = {
+      id_usuario: Number(
+        usuarioSesion.id_usuario ??
+        usuarioSesion.id ??
+        0
+      ),
+      nombre: usuarioSesion.nombre ?? '',
+      apellido: usuarioSesion.apellido ?? '',
+      usuario: usuarioSesion.usuario ?? '',
+      correo: usuarioSesion.correo ?? '',
+      telefono: usuarioSesion.telefono ?? '',
+      direccion: usuarioSesion.direccion ?? '',
+      rol: usuarioSesion.rol ?? 'ciudadano',
+      fechaRegistro: this.formatearFechaRegistro(
+        usuarioSesion.fechaRegistro ??
+        usuarioSesion.fecha_registro ??
+        usuarioSesion.createdAt ??
+        usuarioSesion.created_at
+      )
+    };
+
+    this.usuarioOriginal = {
+      ...this.usuario
+    };
   }
 
-  guardarCambios(): void {
-    this.editando = false;
+  private formatearFechaRegistro(fecha: any): string {
+    if (!fecha) {
+      return 'No disponible';
+    }
+
+    const fechaConvertida = new Date(fecha);
+
+    if (isNaN(fechaConvertida.getTime())) {
+      return String(fecha);
+    }
+
+    return fechaConvertida.toLocaleDateString('es-GT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
+
+  obtenerNombreCompleto(): string {
+    return `${this.usuario.nombre} ${this.usuario.apellido}`.trim();
+  }
+
+  obtenerRolTexto(): string {
+    switch (this.usuario.rol?.toLowerCase()) {
+      case 'ciudadano':
+        return 'Ciudadano';
+
+      case 'empleado':
+        return 'Empleado';
+
+      case 'administrador':
+      case 'admin':
+        return 'Administrador';
+
+      default:
+        return this.usuario.rol || 'Ciudadano';
+    }
   }
 
   volverReportes(): void {
-    this.router.navigate(['/mis-reportes']);
+    this.router.navigate(['/reportes/mis-reportes']);
   }
 
   crearReporte(): void {
-    this.router.navigate(['/crear-reporte']);
+    this.router.navigate(['/reportes/nuevo']);
   }
 
   irNotificaciones(): void {
     this.router.navigate(['/notificaciones']);
   }
 
+  activarEdicion(): void {
+    this.editando = true;
+  }
+
+  cancelarEdicion(): void {
+    this.usuario = {
+      ...this.usuarioOriginal
+    };
+
+    this.editando = false;
+  }
+
+  guardarCambios(): void {
+    this.usuarioOriginal = {
+      ...this.usuario
+    };
+
+    this.editando = false;
+  }
+
   abrirConfiguracionSeguridad(): void {
     this.mostrarSeguridad = true;
-    this.editando = false;
+    this.limpiarPassword();
   }
 
   cerrarConfiguracionSeguridad(): void {
@@ -105,5 +224,6 @@ export class PerfilComponent {
     }
 
     this.limpiarPassword();
+    this.mostrarSeguridad = false;
   }
 }

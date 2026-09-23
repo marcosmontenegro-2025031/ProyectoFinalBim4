@@ -13,7 +13,6 @@
                         viewBox="0 0 64 64"
                         aria-hidden="true"
                     >
-                        <!-- techo -->
                         <path
                             d="M8 24L32 10L56 24H8Z"
                             fill="none"
@@ -21,7 +20,6 @@
                             stroke-width="3"
                         />
 
-                        <!-- edificio -->
                         <path
                             d="M13 25V48H51V25"
                             fill="none"
@@ -29,7 +27,6 @@
                             stroke-width="3"
                         />
 
-                        <!-- columnas -->
                         <path
                             d="M19 28V44"
                             stroke="currentColor"
@@ -54,14 +51,12 @@
                             stroke-width="3"
                         />
 
-                        <!-- base -->
                         <path
                             d="M8 49H56"
                             stroke="currentColor"
                             stroke-width="4"
                         />
 
-                        <!-- bandera -->
                         <path
                             d="M32 10V5"
                             stroke="currentColor"
@@ -278,8 +273,6 @@
 
                 <div class="city-hill hill-front"></div>
 
-                <!-- EDIFICIOS -->
-
                 <div class="buildings">
 
                     <div class="building building-a">
@@ -412,8 +405,6 @@
 
             <div class="login-card">
 
-                <!-- ICONO SEGURIDAD -->
-
                 <div class="security-icon">
 
                     <svg
@@ -462,15 +453,11 @@
                     Ingresa tus credenciales para continuar
                 </p>
 
-                <!-- FORMULARIO -->
-
                 <form
                     class="login-form"
                     [formGroup]="loginForm"
                     (ngSubmit)="onSubmit()"
                 >
-
-                    <!-- USUARIO -->
 
                     <div class="form-group">
 
@@ -503,22 +490,21 @@
                                 type="text"
                                 placeholder="Ej. juan.perez"
                                 formControlName="usuario"
-                            >
-
-                            @if (
-                                loginForm.get('usuario')?.touched &&
-                                loginForm.get('usuario')?.hasError('required')
-                            ) {
-                                <small class="error-text">
-                                    El usuario es requerido.
-                                </small>
-                            }
+                                autocomplete="username"
+                            />
 
                         </div>
 
-                    </div>
+                        @if (
+                            loginForm.get('usuario')?.touched &&
+                            loginForm.get('usuario')?.hasError('required')
+                        ) {
+                            <small class="error-text">
+                                El usuario es requerido.
+                            </small>
+                        }
 
-                    <!-- CONTRASEÑA -->
+                    </div>
 
                     <div class="form-group">
 
@@ -528,7 +514,6 @@
 
                         <div class="input-wrapper">
 
-                            <!-- ICONO DE CONTRASEÑA -->
                             <svg
                                 class="input-icon password-icon"
                                 viewBox="0 0 16 16"
@@ -573,25 +558,8 @@
                                 [type]="mostrarPassword ? 'text' : 'password'"
                                 placeholder="Ingresa tu contraseña"
                                 formControlName="password"
-                            >
-
-                            @if (
-                                loginForm.get('password')?.touched &&
-                                loginForm.get('password')?.hasError('required')
-                            ) {
-                                <small class="error-text">
-                                    La contraseña es requerida.
-                                </small>
-                            }
-
-                            @if (
-                                loginForm.get('password')?.touched &&
-                                loginForm.get('password')?.hasError('minlength')
-                            ) {
-                                <small class="error-text">
-                                    La contraseña debe tener al menos 8 caracteres.
-                                </small>
-                            }
+                                autocomplete="current-password"
+                            />
 
                             <button
                                 type="button"
@@ -599,6 +567,7 @@
                                 (click)="togglePassword()"
                                 [attr.aria-label]="mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
                             >
+
                                 <svg
                                     viewBox="0 0 24 24"
                                     aria-hidden="true"
@@ -619,11 +588,38 @@
                                         stroke-width="1.7"
                                     />
                                 </svg>
+
                             </button>
 
                         </div>
 
+                        @if (
+                            loginForm.get('password')?.touched &&
+                            loginForm.get('password')?.hasError('required')
+                        ) {
+                            <small class="error-text">
+                                La contraseña es requerida.
+                            </small>
+                        }
+
+                        @if (
+                            loginForm.get('password')?.touched &&
+                            loginForm.get('password')?.hasError('minlength')
+                        ) {
+                            <small class="error-text">
+                                La contraseña debe tener al menos 8 caracteres.
+                            </small>
+                        }
+
                     </div>
+
+                    @if (mensajeError) {
+
+                        <div class="login-error">
+                            {{ mensajeError }}
+                        </div>
+
+                    }
 
                     <div class="login-options">
 
@@ -633,7 +629,7 @@
                                 type="checkbox"
                                 name="remember"
                                 checked
-                            >
+                            />
 
                             <span>
                                 Recordar sesión
@@ -653,38 +649,50 @@
                     <button
                         type="submit"
                         class="login-button"
-                        [disabled]="loginForm.invalid"
+                        [disabled]="loginForm.invalid || cargando"
                     >
 
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M4 12H15"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            />
+                        @if (cargando) {
 
-                            <path
-                                d="M11 8L15 12L11 16"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            />
+                            <span class="login-spinner"></span>
 
-                            <path
-                                d="M19 5V19"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            />
-                        </svg>
+                            <span>
+                                Iniciando sesión...
+                            </span>
 
-                        <span>
-                            Iniciar sesión
-                        </span>
+                        } @else {
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M4 12H15"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                />
+
+                                <path
+                                    d="M11 8L15 12L11 16"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                />
+
+                                <path
+                                    d="M19 5V19"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                />
+                            </svg>
+
+                            <span>
+                                Iniciar sesión
+                            </span>
+
+                        }
 
                     </button>
 

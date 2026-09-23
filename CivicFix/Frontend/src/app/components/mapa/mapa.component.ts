@@ -18,7 +18,8 @@ import {
 } from '@angular/forms';
 
 import {
-  RouterLink
+  RouterLink,
+  RouterLinkActive
 } from '@angular/router';
 
 import {
@@ -48,7 +49,8 @@ interface ReporteMapa {
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.css'

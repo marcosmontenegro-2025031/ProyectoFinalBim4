@@ -1,69 +1,86 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import {
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
+
 import { ReporteService } from '../../services/reporte.service';
+import { SessionService } from '../../services/session.service';
+import { Reporte } from '../../models/reporte.model';
 
 @Component({
   selector: 'app-usuario-home',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './usuario-home.html',
   styleUrl: './usuario-home.css'
 })
 export class UsuarioHome implements OnInit {
 
-  reportes: any[] = [];
+  reportes: Reporte[] = [];
 
   cargando = true;
 
   nombreUsuario = 'Usuario';
 
   constructor(
-    private reporteService: ReporteService
+    private reporteService: ReporteService,
+    private sessionService: SessionService
   ) {}
 
   ngOnInit(): void {
+    this.cargarUsuario();
     this.cargarReportes();
   }
 
-  cargarReportes(): void {
+  cargarUsuario(): void {
+    const usuario = this.sessionService.obtenerUsuario<any>();
 
+    if (!usuario) {
+      this.nombreUsuario = 'Usuario';
+      return;
+    }
+
+    const nombre = usuario.nombre || usuario.nombres || '';
+    const apellido = usuario.apellido || usuario.apellidos || '';
+
+    if (nombre || apellido) {
+      this.nombreUsuario = `${nombre} ${apellido}`.trim();
+      return;
+    }
+
+    this.nombreUsuario =
+      usuario.nombre_usuario ||
+      usuario.usuario ||
+      'Usuario';
+  }
+
+  cargarReportes(): void {
     this.cargando = true;
 
     this.reporteService.obtenerMisReportes().subscribe({
-
       next: (data) => {
-
-        console.log('Reportes del usuario:', data);
-
-        this.reportes = data;
-
+        this.reportes = Array.isArray(data) ? data : [];
         this.cargando = false;
       },
-
       error: (error) => {
-
-        console.error(
-          'Error al obtener los reportes:',
-          error
-        );
-
+        console.error('Error al obtener los reportes:', error);
         this.reportes = [];
-
         this.cargando = false;
       }
-
     });
   }
 
   obtenerCantidad(estado: string): number {
-
     return this.reportes.filter(
       reporte =>
-        reporte.estado?.toLowerCase() === estado.toLowerCase()
+        (reporte.estado || '').trim().toLowerCase() ===
+        estado.trim().toLowerCase()
     ).length;
   }
 
@@ -71,17 +88,16 @@ export class UsuarioHome implements OnInit {
     return this.reportes.length;
   }
 
-  get reportesRecientes(): any[] {
+  get reportesRecientes(): Reporte[] {
     return this.reportes.slice(0, 5);
   }
 
-  obtenerClaseEstado(estado: string): string {
-
+  obtenerClaseEstado(estado?: string): string {
     if (!estado) {
       return 'estado-pendiente';
     }
 
-    switch (estado.toLowerCase()) {
+    switch (estado.trim().toLowerCase()) {
 
       case 'pendiente':
         return 'estado-pendiente';
@@ -102,13 +118,12 @@ export class UsuarioHome implements OnInit {
     }
   }
 
-  obtenerIconoEstado(estado: string): string {
-
+  obtenerIconoEstado(estado?: string): string {
     if (!estado) {
       return 'bi-clock';
     }
 
-    switch (estado.toLowerCase()) {
+    switch (estado.trim().toLowerCase()) {
 
       case 'pendiente':
         return 'bi-clock';
@@ -128,5 +143,4 @@ export class UsuarioHome implements OnInit {
         return 'bi-clock';
     }
   }
-
 }

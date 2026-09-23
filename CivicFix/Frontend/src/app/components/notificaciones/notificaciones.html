@@ -7,7 +7,7 @@
       <div class="civic-logo-wrapper">
 
         <img
-          src="assets/logo.png"
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
           alt="CIVICFIX"
           class="civic-logo"
         >
@@ -19,63 +19,79 @@
 
     <nav class="civic-navigation">
 
-      <a
-        routerLink="/reportes/nuevo"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-        <i class="bi bi-plus-circle-fill"></i>
-        <span>Crear reporte</span>
-      </a>
+  <a
+    routerLink="/home-usuario"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="nav-item"
+  >
+    <i class="bi bi-house-door"></i>
+    <span>Inicio</span>
+  </a>
 
 
-      <a
-        routerLink="/mis-reportes"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-        <i class="bi bi-file-earmark-text-fill"></i>
-        <span>Mis reportes</span>
-      </a>
+  <a
+    routerLink="/reportes/nuevo"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="nav-item"
+  >
+    <i class="bi bi-file-earmark-plus"></i>
+    <span>Reportar Incidencia</span>
+  </a>
 
 
-      <a
-        routerLink="/mapa"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-        <i class="bi bi-geo-alt-fill"></i>
-        <span>Mapa</span>
-      </a>
+  <a
+    routerLink="/reportes/mis-reportes"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="nav-item"
+  >
+    <i class="bi bi-file-earmark-text"></i>
+    <span>Mis Reportes</span>
+  </a>
 
 
-      <a
-        routerLink="/notificaciones"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-        <i class="bi bi-bell-fill"></i>
-        <span>Notificaciones</span>
-
-        <span
-          class="nav-notification-count"
-          *ngIf="cantidadNoLeidas > 0"
-        >
-          {{ cantidadNoLeidas }}
-        </span>
-      </a>
+  <a
+    routerLink="/mapa"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="nav-item"
+  >
+    <i class="bi bi-geo-alt"></i>
+    <span>Mapa</span>
+  </a>
 
 
-      <a
-        routerLink="/perfil"
-        routerLinkActive="active"
-        class="nav-item"
-      >
-        <i class="bi bi-person-fill"></i>
-        <span>Perfil</span>
-      </a>
+  <a
+    routerLink="/notificaciones"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="nav-item"
+  >
+    <i class="bi bi-bell"></i>
+    <span>Notificaciones</span>
 
-    </nav>
+    <span
+      class="nav-notification-count"
+      *ngIf="cantidadNoLeidas > 0"
+    >
+      {{ cantidadNoLeidas }}
+    </span>
+  </a>
+
+
+  <a
+    routerLink="/perfil"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="nav-item"
+  >
+    <i class="bi bi-person-circle"></i>
+    <span>Perfil</span>
+  </a>
+
+</nav>
 
 
     <div class="civic-city">

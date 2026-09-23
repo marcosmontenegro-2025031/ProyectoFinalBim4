@@ -4,8 +4,8 @@
 
     <div class="sidebar-brand">
       <img
-        src="assets/logo.png"
-        alt="CivicFix"
+        src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+        alt="CIVICFIX"
       >
     </div>
 
@@ -13,45 +13,51 @@
 
       <a
         class="sidebar-nav-item"
+        routerLink="/home-usuario"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="bi bi-house-door"></i>
+        <span>Inicio</span>
+      </a>
+
+      <a
+        class="sidebar-nav-item"
         routerLink="/reportes/nuevo"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-plus-circle-fill"></i>
-        <span>Crear reporte</span>
+        <i class="bi bi-file-earmark-plus"></i>
+        <span>Reportar Incidencia</span>
       </a>
-
 
       <a
         class="sidebar-nav-item"
-        routerLink="/mis-reportes"
+        routerLink="/reportes/mis-reportes"
         routerLinkActive="active"
       >
-        <i class="bi bi-file-earmark-text-fill"></i>
-        <span>Mis reportes</span>
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Mis Reportes</span>
       </a>
-
 
       <a
         class="sidebar-nav-item"
         routerLink="/mapa"
         routerLinkActive="active"
       >
-        <i class="bi bi-geo-alt-fill"></i>
+        <i class="bi bi-geo-alt"></i>
         <span>Mapa</span>
       </a>
-
 
       <a
         class="sidebar-nav-item"
         routerLink="/notificaciones"
         routerLinkActive="active"
       >
-        <i class="bi bi-bell-fill"></i>
+        <i class="bi bi-bell"></i>
         <span>Notificaciones</span>
         <span class="notification-count">3</span>
       </a>
-
 
       <a
         class="sidebar-nav-item"
@@ -59,22 +65,21 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="bi bi-person-fill"></i>
+        <i class="bi bi-person-circle"></i>
         <span>Perfil</span>
       </a>
 
     </nav>
 
-
     <div class="sidebar-city">
 
       <div class="city-icon">
-        <i class="bi bi-buildings-fill"></i>
+        <i class="bi bi-shield-fill-check"></i>
       </div>
 
       <div class="city-info">
-        <strong>Ciudad de Guatemala</strong>
-        <span>Municipalidad</span>
+        <strong>Municipalidad de Guatemala</strong>
+        <span>Juntos mejoramos la ciudad</span>
       </div>
 
     </div>
@@ -90,16 +95,15 @@
         <button
           type="button"
           class="back-button"
-          routerLink="/mis-reportes"
+          routerLink="/home-usuario"
         >
           <i class="bi bi-arrow-left"></i>
         </button>
 
-
         <div class="topbar-title">
 
           <span>
-            <i class="bi bi-plus-circle-fill"></i>
+            <i class="bi bi-file-earmark-plus"></i>
             CivicFix
           </span>
 
@@ -109,7 +113,6 @@
 
       </div>
 
-
       <div class="topbar-right">
 
         <button
@@ -117,16 +120,11 @@
           class="notification-button"
           routerLink="/notificaciones"
         >
-
-          <i class="bi bi-bell-fill"></i>
-
+          <i class="bi bi-bell"></i>
           <span class="notification-dot"></span>
-
         </button>
 
-
         <div class="topbar-divider"></div>
-
 
         <div
           class="topbar-user"
@@ -134,9 +132,8 @@
         >
 
           <div class="topbar-avatar">
-            <i class="bi bi-person-fill"></i>
+            <i class="bi bi-person-circle"></i>
           </div>
-
 
           <div class="topbar-user-info">
 
@@ -149,7 +146,6 @@
 
           </div>
 
-
           <i class="bi bi-chevron-down user-arrow"></i>
 
         </div>
@@ -158,9 +154,7 @@
 
     </header>
 
-
     <section class="perfil-content">
-
 
       <div class="page-heading">
 
@@ -168,7 +162,6 @@
           <i class="bi bi-plus-circle-fill"></i>
           NUEVO REPORTE
         </div>
-
 
         <div class="heading-main">
 
@@ -187,9 +180,7 @@
 
       </div>
 
-
       <div class="report-grid">
-
 
         <section class="information-card">
 
@@ -200,7 +191,6 @@
             <h2>Información del Problema</h2>
 
           </div>
-
 
           <form
             [formGroup]="form"
@@ -224,7 +214,6 @@
 
             </div>
 
-
             <div class="field">
 
               <label>Dirección Aproximada</label>
@@ -244,7 +233,6 @@
               </div>
 
             </div>
-
 
             <div class="two-fields">
 
@@ -274,7 +262,6 @@
 
               </div>
 
-
               <div class="field">
 
                 <label>Referencia</label>
@@ -289,7 +276,6 @@
 
             </div>
 
-
             <div class="photo-section">
 
               <label class="photo-title">
@@ -301,7 +287,6 @@
                 <span>(Opcional)</span>
 
               </label>
-
 
               <div
                 class="photo-upload"
@@ -322,7 +307,6 @@
 
               </div>
 
-
               <div
                 class="photo-preview"
                 *ngIf="archivoSeleccionado"
@@ -333,7 +317,6 @@
                   [src]="vistaPrevia"
                   alt="Vista previa de la fotografía"
                 >
-
 
                 <div class="photo-info">
 
@@ -351,7 +334,6 @@
 
                 </div>
 
-
                 <button
                   type="button"
                   class="remove-photo"
@@ -363,7 +345,6 @@
               </div>
 
             </div>
-
 
             <button
               type="submit"
@@ -396,7 +377,6 @@
 
             </button>
 
-
             <p class="submit-description">
 
               <i class="bi bi-stars"></i>
@@ -408,7 +388,6 @@
             </p>
 
           </form>
-
 
           <div
             class="error-message"
@@ -429,9 +408,7 @@
 
         </section>
 
-
         <section class="right-column">
-
 
           <div class="ai-card">
 
@@ -446,7 +423,6 @@
                 <h2>Análisis de la IA (Gemini)</h2>
 
               </div>
-
 
               <span
                 class="analysis-status"
@@ -469,7 +445,6 @@
 
             </div>
 
-
             <div class="analysis-process">
 
               <div class="process-item">
@@ -488,9 +463,7 @@
 
               </div>
 
-
               <div class="process-line"></div>
-
 
               <div class="process-item">
 
@@ -508,9 +481,7 @@
 
               </div>
 
-
               <div class="process-line"></div>
-
 
               <div class="process-item">
 
@@ -528,9 +499,7 @@
 
               </div>
 
-
               <div class="process-line"></div>
-
 
               <div class="process-item">
 
@@ -550,7 +519,6 @@
 
             </div>
 
-
             <div
               class="ai-result"
               *ngIf="resultado && verificarValidez()"
@@ -564,7 +532,6 @@
                 la siguiente información:
 
               </div>
-
 
               <div class="result-cards">
 
@@ -590,7 +557,6 @@
                   </span>
 
                 </div>
-
 
                 <div
                   class="result-card priority"
@@ -619,7 +585,6 @@
 
                 </div>
 
-
                 <div class="result-card">
 
                   <small>Estado Inicial</small>
@@ -643,7 +608,6 @@
 
                 </div>
 
-
                 <div class="result-card">
 
                   <small>Servicio Municipal</small>
@@ -666,7 +630,6 @@
 
               </div>
 
-
               <div class="ai-summary">
 
                 <div class="summary-title">
@@ -684,7 +647,6 @@
               </div>
 
             </div>
-
 
             <div
               class="error-message"
@@ -708,7 +670,6 @@
 
             </div>
 
-
             <div
               class="ai-empty"
               *ngIf="!resultado"
@@ -729,7 +690,6 @@
 
           </div>
 
-
           <div class="location-card">
 
             <div class="location-heading">
@@ -740,7 +700,6 @@
 
             </div>
 
-
             <div class="location-content">
 
               <div
@@ -748,7 +707,6 @@
                 id="mapContainer"
                 class="map-container"
               ></div>
-
 
               <div class="location-info">
 
@@ -771,7 +729,6 @@
 
                 </div>
 
-
                 <div class="location-item">
 
                   <i class="bi bi-pin-map-fill"></i>
@@ -791,7 +748,6 @@
 
                 </div>
 
-
                 <div class="location-item">
 
                   <i class="bi bi-signpost-2-fill"></i>
@@ -810,7 +766,6 @@
                   </div>
 
                 </div>
-
 
                 <div class="coordinates">
 

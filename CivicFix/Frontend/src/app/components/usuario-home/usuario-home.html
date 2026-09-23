@@ -1,89 +1,81 @@
 <div class="civic-layout">
 
-  <!-- =========================
-       SIDEBAR
-  ========================== -->
-
   <aside class="civic-sidebar">
 
     <div class="civic-brand">
-
       <div class="civic-logo-wrapper">
-
         <img
           src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
           alt="CIVICFIX"
           class="civic-logo"
         >
-
       </div>
-
     </div>
-
 
     <nav class="civic-navigation">
 
       <a
         class="civic-nav-item"
-        routerLink="/reportes"
+        routerLink="/home-usuario"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
         <i class="bi bi-house-door"></i>
         <span>Inicio</span>
       </a>
 
-
       <a
         class="civic-nav-item"
         routerLink="/reportes/nuevo"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
         <i class="bi bi-file-earmark-plus"></i>
         <span>Reportar Incidencia</span>
       </a>
 
-
       <a
-        class="civic-nav-item active"
+        class="civic-nav-item"
         routerLink="/reportes/mis-reportes"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
         <i class="bi bi-file-earmark-text"></i>
         <span>Mis Reportes</span>
       </a>
 
-
       <a
         class="civic-nav-item"
         routerLink="/mapa"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
         <i class="bi bi-geo-alt"></i>
         <span>Mapa</span>
       </a>
 
-
-      <a class="civic-nav-item">
-
+      <a
+        class="civic-nav-item"
+        routerLink="/notificaciones"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <i class="bi bi-bell"></i>
-
         <span>Notificaciones</span>
-
-        <span class="notification-number">
-          3
-        </span>
-
+        <span class="notification-number">3</span>
       </a>
 
-
-      <a class="civic-nav-item">
-
+      <a
+        class="civic-nav-item"
+        routerLink="/perfil"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <i class="bi bi-person-circle"></i>
-
         <span>Perfil</span>
-
       </a>
 
     </nav>
-
-
-    <!-- CIUDAD -->
 
     <div class="civic-city">
 
@@ -102,26 +94,15 @@
 
       </div>
 
-
       <div class="civic-city-footer">
 
         <div class="municipality-icon">
-
           <i class="bi bi-shield-fill-check"></i>
-
         </div>
 
-
         <div>
-
-          <strong>
-            Municipalidad de Guatemala
-          </strong>
-
-          <small>
-            Juntos mejoramos la ciudad
-          </small>
-
+          <strong>Municipalidad de Guatemala</strong>
+          <small>Juntos mejoramos la ciudad</small>
         </div>
 
       </div>
@@ -130,66 +111,34 @@
 
   </aside>
 
-
-  <!-- =========================
-       CONTENIDO PRINCIPAL
-  ========================== -->
-
   <main class="civic-main">
-
-
-    <!-- ENCABEZADO -->
 
     <section class="welcome-section">
 
       <div class="welcome-icon">
-
         <i class="bi bi-person-check-fill"></i>
-
       </div>
 
-
       <div>
-
-        <h1>
-          ¡Hola, {{ nombreUsuario }}!
-        </h1>
-
-        <p>
-          Tu ciudad, nuestro compromiso
-        </p>
-
+        <h1>¡Hola, {{ nombreUsuario }}!</h1>
+        <p>Tu ciudad, nuestro compromiso</p>
       </div>
 
     </section>
 
-
-
-    <!-- =========================
-         TARJETAS
-    ========================== -->
-
     <section class="statistics">
-
-
-      <!-- MIS REPORTES -->
 
       <div class="stat-card">
 
         <div class="stat-header">
 
           <div class="stat-icon blue">
-
             <i class="bi bi-file-earmark-text"></i>
-
           </div>
 
-          <span>
-            Mis reportes
-          </span>
+          <span>Mis reportes</span>
 
         </div>
-
 
         <strong class="stat-number">
           {{ totalReportes }}
@@ -197,26 +146,17 @@
 
       </div>
 
-
-
-      <!-- EN PROCESO -->
-
       <div class="stat-card">
 
         <div class="stat-header">
 
           <div class="stat-icon orange">
-
             <i class="bi bi-arrow-repeat"></i>
-
           </div>
 
-          <span>
-            En proceso
-          </span>
+          <span>En proceso</span>
 
         </div>
-
 
         <strong class="stat-number">
           {{ obtenerCantidad('En proceso') }}
@@ -224,26 +164,17 @@
 
       </div>
 
-
-
-      <!-- RESUELTOS -->
-
       <div class="stat-card">
 
         <div class="stat-header">
 
           <div class="stat-icon green">
-
             <i class="bi bi-check-circle"></i>
-
           </div>
 
-          <span>
-            Resueltos
-          </span>
+          <span>Resueltos</span>
 
         </div>
-
 
         <strong class="stat-number">
           {{ obtenerCantidad('Resuelto') }}
@@ -253,47 +184,25 @@
 
     </section>
 
-
-
-    <!-- =========================
-         ÚLTIMOS REPORTES
-    ========================== -->
-
     <section class="reports-section">
-
 
       <div class="reports-header">
 
         <div>
-
-          <h2>
-            Últimos reportes
-          </h2>
-
-          <p>
-            Consulta el estado de tus incidencias
-          </p>
-
+          <h2>Últimos reportes</h2>
+          <p>Consulta el estado de tus incidencias</p>
         </div>
-
 
         <button
           class="reload-button"
           type="button"
           (click)="cargarReportes()"
         >
-
           <i class="bi bi-arrow-clockwise"></i>
-
           Recargar
-
         </button>
 
       </div>
-
-
-
-      <!-- CARGANDO -->
 
       @if (cargando) {
 
@@ -307,49 +216,7 @@
 
         </div>
 
-      }
-
-
-      <!-- SIN REPORTES -->
-
-      @else if (reportes.length === 0) {
-
-        <div class="empty-container">
-
-          <div class="empty-icon">
-
-            <i class="bi bi-file-earmark-x"></i>
-
-          </div>
-
-          <h3>
-            No tienes reportes todavía
-          </h3>
-
-          <p>
-            Cuando registres una incidencia aparecerá aquí.
-          </p>
-
-
-          <a
-            routerLink="/reportes/nuevo"
-            class="new-report-button"
-          >
-
-            <i class="bi bi-plus-lg"></i>
-
-            Reportar incidencia
-
-          </a>
-
-        </div>
-
-      }
-
-
-      <!-- LISTA DE REPORTES -->
-
-      @else {
+      } @else if (reportes && reportes.length > 0) {
 
         <div class="reports-list">
 
@@ -359,9 +226,6 @@
           ) {
 
             <article class="report-item">
-
-
-              <!-- ICONO -->
 
               <div
                 class="report-status-icon"
@@ -375,47 +239,31 @@
 
               </div>
 
-
-
-              <!-- INFORMACIÓN -->
-
               <div class="report-information">
 
                 <h3>
-                  {{ reporte.titulo }}
+                  {{ reporte.titulo || 'Reporte sin título' }}
                 </h3>
 
                 <p>
-                  {{ reporte.descripcion }}
+                  {{ reporte.descripcion || 'Sin descripción disponible' }}
                 </p>
-
 
                 <div class="report-meta">
 
                   <span>
-
                     <i class="bi bi-tag"></i>
-
-                    {{ reporte.tipo_incidencia }}
-
+                    {{ reporte.tipo_incidencia || 'Incidencia' }}
                   </span>
 
-
                   <span>
-
                     <i class="bi bi-geo-alt"></i>
-
-                    {{ reporte.zona || 'Ubicación registrada' }}
-
+                    {{ reporte.zona || reporte.direccion || 'Ubicación registrada' }}
                   </span>
 
                 </div>
 
               </div>
-
-
-
-              <!-- ESTADO -->
 
               <div class="report-state">
 
@@ -423,16 +271,10 @@
                   class="state-badge"
                   [ngClass]="obtenerClaseEstado(reporte.estado)"
                 >
-
-                  {{ reporte.estado }}
-
+                  {{ reporte.estado || 'Pendiente' }}
                 </span>
 
               </div>
-
-
-
-              <!-- FECHA -->
 
               <div class="report-date">
 
@@ -448,10 +290,35 @@
 
         </div>
 
+      } @else {
+
+        <div class="empty-container">
+
+          <div class="empty-icon">
+            <i class="bi bi-file-earmark-x"></i>
+          </div>
+
+          <h3>
+            No tienes reportes todavía
+          </h3>
+
+          <p>
+            Cuando registres una incidencia aparecerá aquí.
+          </p>
+
+          <a
+            routerLink="/reportes/nuevo"
+            class="new-report-button"
+          >
+            <i class="bi bi-plus-lg"></i>
+            Reportar incidencia
+          </a>
+
+        </div>
+
       }
 
     </section>
-
 
   </main>
 

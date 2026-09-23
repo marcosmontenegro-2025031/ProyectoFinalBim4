@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import {
   CrearReporteDTO,
   RespuestaReporte,
   PuntoMapa,
-  ReporteAdmin
+  ReporteAdmin,
+  Reporte
 } from '../models/reporte.model';
-import { UsuariosService } from './usuarios.service';
-import { EmpleadoService } from './empleado.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,34 +17,36 @@ export class ReporteService {
 
   private http = inject(HttpClient);
 
-  private usuariosService = inject(UsuariosService);
-
-  private empleadoService = inject(EmpleadoService);
-
   private apiUrl = 'http://localhost:3000/api/reportes';
 
-  registrarReporte(dto: CrearReporteDTO): Observable<RespuestaReporte> {
+  registrarReporte(
+    dto: CrearReporteDTO
+  ): Observable<RespuestaReporte> {
+
     return this.http.post<RespuestaReporte>(
       this.apiUrl,
       dto
     );
   }
 
-  obtenerMisReportes(): Observable<any[]> {
+  obtenerMisReportes(): Observable<Reporte[]> {
 
-    const token = this.usuariosService.obtenerToken();
+    return this.http.get<Reporte[]>(
+      `${this.apiUrl}/mis-reportes`
+    );
+  }
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
+  obtenerReporte(
+    idReporte: number
+  ): Observable<Reporte> {
 
-    return this.http.get<any[]>(
-      `${this.apiUrl}/mis-reportes`,
-      { headers }
+    return this.http.get<Reporte>(
+      `${this.apiUrl}/${idReporte}`
     );
   }
 
   obtenerPuntosMapa(): Observable<PuntoMapa[]> {
+
     return this.http.get<PuntoMapa[]>(
       `${this.apiUrl}/mapa`
     );
@@ -52,15 +54,8 @@ export class ReporteService {
 
   obtenerTodosLosReportes(): Observable<ReporteAdmin[]> {
 
-    const token = this.empleadoService.obtenerToken();
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
     return this.http.get<ReporteAdmin[]>(
-      this.apiUrl,
-      { headers }
+      this.apiUrl
     );
   }
 

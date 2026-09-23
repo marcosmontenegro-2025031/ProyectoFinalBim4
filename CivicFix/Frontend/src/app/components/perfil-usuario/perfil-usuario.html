@@ -4,10 +4,20 @@
 
 
 <div class="sidebar-brand">
-  <img src="assets/logo.png" alt="CivicFix">
+  <img src="../../../assets/CIVICFIX_LOGO-removebg-preview.png" alt="CivicFix">
 </div>
 
 <nav class="sidebar-nav">
+
+  <a
+    routerLink="/home-usuario"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="sidebar-nav-item"
+  >
+    <i class="bi bi-house-door"></i>
+    <span>Inicio</span>
+  </a>
 
   <a
     routerLink="/reportes/nuevo"
@@ -15,34 +25,37 @@
     [routerLinkActiveOptions]="{ exact: true }"
     class="sidebar-nav-item"
   >
-    <i class="bi bi-plus-circle-fill"></i>
-    <span>Crear reporte</span>
+    <i class="bi bi-file-earmark-plus"></i>
+    <span>Reportar Incidencia</span>
   </a>
 
   <a
-    routerLink="/mis-reportes"
+    routerLink="/reportes/mis-reportes"
     routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
     class="sidebar-nav-item"
   >
-    <i class="bi bi-file-earmark-text-fill"></i>
-    <span>Mis reportes</span>
+    <i class="bi bi-file-earmark-text"></i>
+    <span>Mis Reportes</span>
   </a>
 
   <a
     routerLink="/mapa"
     routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
     class="sidebar-nav-item"
   >
-    <i class="bi bi-geo-alt-fill"></i>
+    <i class="bi bi-geo-alt"></i>
     <span>Mapa</span>
   </a>
 
   <a
     routerLink="/notificaciones"
     routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
     class="sidebar-nav-item"
   >
-    <i class="bi bi-bell-fill"></i>
+    <i class="bi bi-bell"></i>
     <span>Notificaciones</span>
     <span class="notification-count">3</span>
   </a>
@@ -53,7 +66,7 @@
     [routerLinkActiveOptions]="{ exact: true }"
     class="sidebar-nav-item"
   >
-    <i class="bi bi-person-fill"></i>
+    <i class="bi bi-person-circle"></i>
     <span>Perfil</span>
   </a>
 
