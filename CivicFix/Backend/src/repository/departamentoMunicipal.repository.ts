@@ -15,17 +15,17 @@ export class DepartamentoMunicipalRepository{
     }
 
     async crearDepartamento(departamento: DepartamentoMunicipal): Promise<DepartamentoMunicipal>{
-        const resultado = await pool.query("INSERT INTO DepartamentoMunicipal (nombre,descripccion,id_municipalidad) VALUES ($1,$2,$3)",
+        const resultado = await pool.query("INSERT INTO DepartamentoMunicipal (nombre,descripcion,id_municipalidad) VALUES ($1,$2,$3)",
             [departamento.nombre,departamento.descripcion,departamento.id_municipalidad]
         );
         return departamento;
     }
 
     async actualizarDepartamento(id: number, departamento: DepartamentoMunicipal): Promise<DepartamentoMunicipal | undefined>{
-        const resusltado = await pool.query("UPDATE DepartamentoMunicipal SET nombre= $1, descripccion= $2, id_municipalidad= $3 WHERE id_departamento= $4",
+        const resultado = await pool.query("UPDATE DepartamentoMunicipal SET nombre= $1, descripcion= $2, id_municipalidad= $3 WHERE id_departamento= $4",
             [departamento.nombre, departamento.descripcion,departamento.id_municipalidad,id]
         );
-        return (resusltado.rowCount ?? 0) > 0 ? departamento : undefined;
+        return (resultado.rowCount ?? 0) > 0 ? departamento : undefined;
     }
 
     async eliminarDepartamento(id: number): Promise<boolean>{
