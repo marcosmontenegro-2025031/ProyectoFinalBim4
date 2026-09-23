@@ -21,7 +21,7 @@ export class EmpleadoMunicipalService {
 
     async crearEmpleado(empleado: EmpleadoRegister) : Promise<EmpleadoRegister> {
         if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.password || !empleado.telefono || 
-            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || empleado.id_municipalidad
+            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || !empleado.id_municipalidad
         ) {
             throw new Error("Todos los campos son obligatorios");
         }
@@ -47,7 +47,7 @@ export class EmpleadoMunicipalService {
 
     async actualizarEmpleado(id: number,empleado: EmpleadoRegister) : Promise<EmpleadoRegister | undefined> {
         if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.password || !empleado.telefono || 
-            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || empleado.id_municipalidad
+            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || !empleado.id_municipalidad
         ) {
             throw new Error("Todos los campos son obligatorios");
         }
