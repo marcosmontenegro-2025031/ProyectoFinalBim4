@@ -61,6 +61,22 @@
   flex-direction: column;
   gap: 7px;
   padding: 12px 14px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, .25) transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.civic-navigation::-webkit-scrollbar {
+  width: 5px;
+}
+
+.civic-navigation::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .25);
+  border-radius: 10px;
 }
 
 .civic-nav-item {
@@ -114,11 +130,15 @@
 }
 
 .civic-city {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  position: relative;
+  flex-shrink: 0;
+  pointer-events: none;
 }
+
+.civic-city-footer {
+  pointer-events: auto;
+}
+
 
 .city-buildings {
   position: relative;
