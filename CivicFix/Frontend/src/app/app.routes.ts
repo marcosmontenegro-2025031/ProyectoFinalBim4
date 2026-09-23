@@ -39,7 +39,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterUsuario },
   { path: 'empleado-login', component: EmpleadoLogin },
   { path: 'empleado/register', component: EmpleadoRegister },
-  { path: 'reportes/nuevo', component: ReporteComponent, canActivate: [roleGuard(['ciudadano'])] },
+  { path: 'reportes/nuevo', component: ReporteComponent, canActivate: [roleGuard(['ciudadano', 'administrador'])] },
   { path: 'crear-reporte', redirectTo: 'reportes/nuevo', pathMatch: 'full' },
   { path: 'reportes', redirectTo: 'mis-reportes', pathMatch: 'full' },
   { path: 'reportes/mis-reportes', redirectTo: 'mis-reportes', pathMatch: 'full' },
