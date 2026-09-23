@@ -2,12 +2,14 @@
 import { Router } from "express";
 import { AsignacionController } from "../controllers/asignacion.controller.js";
 
+import { verificarTokenEmpleado, verificarAdministrador } from "../middleware/auth.middleware";
+
 const router = Router();
 
-router.get("/", AsignacionController.listar);
-router.get("/:id", AsignacionController.obtenerPorId);
-router.post("/", AsignacionController.crear);
-router.put("/:id", AsignacionController.actualizar);
-router.delete("/:id", AsignacionController.eliminar);
+router.get("/", verificarTokenEmpleado, AsignacionController.listar);
+router.get("/:id", verificarTokenEmpleado, AsignacionController.obtenerPorId);
+router.post("/", verificarAdministrador, AsignacionController.crear);
+router.put("/:id", verificarAdministrador, AsignacionController.actualizar);
+router.delete("/:id", verificarAdministrador, AsignacionController.eliminar);
 
 export default router;
