@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { EmpleadoService } from '../../services/empleado.service';
 import { DepartamentoService } from '../../services/departamento.service';
 import { Router, RouterLink } from '@angular/router';
+import { MunicipalidadService } from "../../services/municipalides.service";
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink, CommonModule],
@@ -15,12 +16,14 @@ import { Router, RouterLink } from '@angular/router';
 export class EmpleadoRegister implements OnInit {
   RegisterForm: FormGroup;
   departamentos: any[] = [];
+  municipalidades: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private empleadoService: EmpleadoService,
     private departamentoService: DepartamentoService,
-    private router: Router
+    private router: Router,
+    private municipalidadService: MunicipalidadService
   ){
     this.RegisterForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -31,7 +34,9 @@ export class EmpleadoRegister implements OnInit {
       telefono: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
       cargo: ['', Validators.required],
-      id_departamento: ['', Validators.required]
+      id_departamento: ['', Validators.required],
+      direccion: ['', Validators.required],
+      id_municipalidad: ['', Validators.required]
     })
   }
 
@@ -42,6 +47,15 @@ export class EmpleadoRegister implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar departamentos:', err);
+      }
+    });
+
+    this.municipalidadService.obtenerMunicipalidades().subscribe({
+      next: (data) => {
+        this.municipalidades = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar municipalidades:', err);
       }
     });
   }

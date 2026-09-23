@@ -370,6 +370,26 @@
                         </div>
                     </div>
 
+                    <!-- DIRECCIÓN -->
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <div class="input-wrapper">
+                            <input
+                                id="direccion"
+                                type="text"
+                                placeholder="Ej. Zona 1, calle principal"
+                                formControlName="direccion"
+                                autocomplete="street-address"
+                            />
+                            @if (
+                                RegisterForm.get('direccion')?.touched &&
+                                RegisterForm.get('direccion')?.hasError('required')
+                            ) {
+                                <small class="error-text">La dirección es requerida.</small>
+                            }
+                        </div>
+                    </div>
+
                     <!-- DEPARTAMENTO (SELECTOR) -->
                     <div class="form-group">
                         <label for="id_departamento">Departamento</label>
@@ -402,11 +422,33 @@
                         </div>
                     </div>
 
-                    <!-- TERMINOS -->
-                    <label class="terms">
-                        <input type="checkbox" required />
-                        <span>Acepto los términos y condiciones del servicio</span>
-                    </label>
+                    <!-- MUNICIPALIDAD (SELECTOR) -->
+                    <div class="form-group">
+                        <label for="id_municipalidad">Municipalidad</label>
+                        <div class="input-wrapper">
+                            <select
+                                id="id_municipalidad"
+                                formControlName="id_municipalidad"
+                            >
+                                <option value="" disabled selected>
+                                    Selecciona una municipalidad
+                                </option>
+                                @for (mun of municipalidades; track mun.id_municipalidad) {
+                                    <option [value]="mun.id_municipalidad">
+                                        {{ mun.nombre }}
+                                    </option>
+                                }
+                            </select>
+                            @if (
+                                RegisterForm.get('id_municipalidad')?.touched &&
+                                RegisterForm.get('id_municipalidad')?.hasError('required')
+                            ) {
+                                <small class="error-text">La municipalidad es requerida.</small>
+                            }
+                        </div>
+                    </div>
+
+                    
 
                     <!-- BOTON -->
                     <button
