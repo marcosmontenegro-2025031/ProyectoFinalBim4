@@ -31,6 +31,8 @@ import { PrioridadesAdminComponent } from './components/prioridades-admin/priori
 import { EstadosAdminComponent } from './components/estados-admin/estados-admin';
 import { ReportesAdminComponent } from './components/reportes-admin/reportes-admin';
 import { AsignacionesAdminComponent } from './components/asignaciones-admin/asignaciones-admin';
+import { AdminFormularioComponent } from './components/admin-formulario/admin-formulario';
+import { AdminCatalogoComponent } from './components/admin-catalogo/admin-catalogo';
 import { BitacoraAdminComponent } from './components/bitacora-admin/bitacora-admin';
 
 export const routes: Routes = [
@@ -73,6 +75,10 @@ export const routes: Routes = [
   { path: 'fotografias', component: Fotografias, canActivate: [roleGuard(['administrador'])] },
   { path: 'formulario', component: FormularioRedireccional },
   { path: 'home-admin', component: DashboardComponent, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/:modulo/nuevo', component: AdminFormularioComponent, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/:modulo/editar/:id', component: AdminFormularioComponent, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/municipalidades', component: AdminCatalogoComponent, data: { modulo: 'municipalidades' }, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/ubicaciones', component: AdminCatalogoComponent, data: { modulo: 'ubicaciones' }, canActivate: [roleGuard(['administrador'])] },
   { path: 'admin/usuarios', component: UsuariosAdminComponent, canActivate: [roleGuard(['administrador'])] },
   { path: 'admin/empleados', component: EmpleadosAdminComponent, canActivate: [roleGuard(['administrador'])] },
   { path: 'admin/departamentos', component: DepartamentosAdminComponent, canActivate: [roleGuard(['administrador'])] },
