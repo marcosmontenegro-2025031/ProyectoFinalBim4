@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReporteService } from '../../services/reporte.service';
@@ -47,6 +47,7 @@ interface GraficaTipo {
 export class DashboardComponent implements OnInit {
 
   private reporteService = inject(ReporteService);
+  private cd = inject(ChangeDetectorRef);
 
   reportes: ReporteDashboard[] = [];
 
@@ -103,6 +104,7 @@ export class DashboardComponent implements OnInit {
           .slice(0, 5);
 
         this.cargando = false;
+        this.cd.markForCheck();
       },
 
       error: (error) => {
@@ -116,6 +118,7 @@ export class DashboardComponent implements OnInit {
         this.generarGraficaPorTipo();
 
         this.cargando = false;
+        this.cd.markForCheck();
       }
     });
   }
@@ -125,7 +128,7 @@ export class DashboardComponent implements OnInit {
 
     this.pendientes = this.reportes.filter(
       reporte =>
-        this.normalizarEstado(reporte.estado) === 'pendiente'
+        ['recibido','en revision','asignado'].includes(this.normalizarEstado(reporte.estado))
     ).length;
 
     this.enProceso = this.reportes.filter(
@@ -217,6 +220,9 @@ export class DashboardComponent implements OnInit {
 
   obtenerClaseEstado(estado: string): string {
     switch (this.normalizarEstado(estado)) {
+      case 'recibido':
+      case 'en revision':
+      case 'asignado':
       case 'pendiente':
         return 'estado-pendiente';
 
@@ -233,6 +239,9 @@ export class DashboardComponent implements OnInit {
 
   obtenerIconoEstado(estado: string): string {
     switch (this.normalizarEstado(estado)) {
+      case 'recibido':
+      case 'en revision':
+      case 'asignado':
       case 'pendiente':
         return 'bi-clock';
 
