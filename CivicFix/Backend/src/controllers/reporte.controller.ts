@@ -82,7 +82,7 @@ export const actualizarEstadoReporteHandler = async (req: Request, res: Response
             return res.status(400).json({ error: 'Faltan datos: idReporte e idEstado son obligatorios.' });
         }
 
-        const actualizado = await reporteService.actualizarEstadoReporte(idReporte, Number(idEstado));
+        const actualizado = await reporteService.actualizarEstadoReporte(idReporte, Number(idEstado), (req as any).empleado?.id_empleado);
 
         if (!actualizado) {
             return res.status(404).json({ error: 'Reporte no encontrado.' });
