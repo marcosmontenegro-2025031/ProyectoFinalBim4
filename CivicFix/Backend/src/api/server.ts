@@ -18,6 +18,7 @@ import { empleadoRouter } from '../routes/empleadoMunicipal.routes';
 import { municipalidadRouter } from '../routes/municipalidad.routes';
 import { departamentoRouter } from '../routes/departamentoMunicipal.routes';
 import { usuariosRouter } from '../routes/usuarios.routes';
+import { adminRouter } from '../routes/admin.routes';
 
 dotenv.config();
 
@@ -68,6 +69,7 @@ export class Server {
         this.app.use(municipalidadRouter);
         this.app.use(departamentoRouter);
         this.app.use(usuariosRouter);
+        this.app.use(adminRouter);
     }
 
     public listen(): void {
