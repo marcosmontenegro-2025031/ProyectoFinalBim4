@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface TipoIncidencia {
   id: number;
@@ -21,15 +30,34 @@ interface TipoIncidencia {
     CommonModule,
     FormsModule,
     RouterModule
+<<<<<<< HEAD
   ],
+=======
+  , AdminSidebarComponent],
+>>>>>>> fix-jaquino-2025376
   templateUrl: './tipos-incidencia-admin.html',
   styleUrl: './tipos-incidencia-admin.css'
 })
 export class TiposIncidenciaAdminComponent {
+<<<<<<< HEAD
+=======
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<TipoIncidencia>('tipos-incidencia').subscribe({
+      next: datos => { this.tipos = datos; this.cd.markForCheck(); },
+      error: error => { this.tipos = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
+<<<<<<< HEAD
   tipos: TipoIncidencia[] = [
     {
       id: 1,
@@ -92,6 +120,9 @@ export class TiposIncidenciaAdminComponent {
       fechaCreacion: '2023-12-08'
     }
   ];
+=======
+  tipos: TipoIncidencia[] = [];
+>>>>>>> fix-jaquino-2025376
 
   get tiposFiltrados(): TipoIncidencia[] {
     return this.tipos.filter(tipo => {
@@ -132,6 +163,7 @@ export class TiposIncidenciaAdminComponent {
   }
 
   nuevoTipo(): void {
+<<<<<<< HEAD
     alert('Aquí se abrirá el formulario para crear un tipo de incidencia.');
   }
 
@@ -159,6 +191,26 @@ export class TiposIncidenciaAdminComponent {
     this.tipos = this.tipos.filter(
       item => item.id !== tipo.id
     );
+=======
+    this.router.navigate(['/admin/tipos-incidencia/nuevo']);
+  }
+
+  editarTipo(actual: TipoIncidencia): void {
+    this.router.navigate(['/admin/tipos-incidencia/editar', actual.id]);
+  }
+
+  cambiarEstado(actual: TipoIncidencia): void {
+    this.adminApi.activar('tipos-incidencia',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+  }
+
+  eliminarTipo(actual: TipoIncidencia): void {
+    if (!confirm('¿Eliminar tipo #' + actual.id + '?')) return;
+    this.adminApi.eliminar('tipos-incidencia',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+>>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

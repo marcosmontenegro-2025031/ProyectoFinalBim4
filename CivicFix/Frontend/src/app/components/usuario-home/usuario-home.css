@@ -17,19 +17,29 @@
   font-family: "Segoe UI", Inter, Arial, sans-serif;
 }
 
+<<<<<<< HEAD
+=======
 
 /* =====================================================
    SIDEBAR
 ===================================================== */
 
+>>>>>>> fix-jaquino-2025376
 .civic-sidebar {
   position: fixed;
   top: 0;
   left: 0;
+<<<<<<< HEAD
+  width: 278px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+=======
   display: flex;
   flex-direction: column;
   width: 278px;
   height: 100vh;
+>>>>>>> fix-jaquino-2025376
   overflow: hidden;
   background: linear-gradient(
     180deg,
@@ -41,6 +51,21 @@
 }
 
 .civic-brand {
+<<<<<<< HEAD
+  height: 132px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.civic-logo-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+=======
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,6 +78,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+>>>>>>> fix-jaquino-2025376
 }
 
 .civic-logo {
@@ -73,16 +99,42 @@
 
 .civic-nav-item {
   position: relative;
+<<<<<<< HEAD
+  width: 100%;
+  height: 51px;
+  padding: 0 17px;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+=======
   display: flex;
   align-items: center;
   gap: 17px;
   width: 100%;
   height: 51px;
   padding: 0 18px;
+>>>>>>> fix-jaquino-2025376
   border-radius: 12px;
   color: #ffffff;
   text-decoration: none;
   font-size: 14px;
+<<<<<<< HEAD
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.civic-nav-item i {
+  width: 22px;
+  font-size: 19px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.civic-nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(2px);
+=======
   font-weight: 500;
   cursor: pointer;
   transition: 0.2s ease;
@@ -96,11 +148,18 @@
 
 .civic-nav-item:hover {
   background: rgba(255, 255, 255, 0.08);
+>>>>>>> fix-jaquino-2025376
 }
 
 .civic-nav-item.active {
   background: linear-gradient(
     90deg,
+<<<<<<< HEAD
+    #0874dc 0%,
+    #126bd0 100%
+  );
+  box-shadow: 0 5px 15px rgba(0, 40, 90, 0.18);
+=======
     #0874dc,
     #126bd0
   );
@@ -108,10 +167,28 @@
   box-shadow:
     inset 0 0 0 1px rgba(255,255,255,.04);
 
+>>>>>>> fix-jaquino-2025376
   font-weight: 700;
 }
 
 .notification-number {
+<<<<<<< HEAD
+  min-width: 20px;
+  height: 20px;
+  margin-left: auto;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #06437c;
+  border-radius: 50px;
+  background: #1684e8;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+=======
   position: absolute;
   top: 7px;
   right: 10px;
@@ -139,6 +216,7 @@
    CIUDAD DEL SIDEBAR
 ===================================================== */
 
+>>>>>>> fix-jaquino-2025376
 .civic-city {
   position: absolute;
   right: 0;
@@ -150,27 +228,44 @@
   position: relative;
   height: 245px;
   overflow: hidden;
+<<<<<<< HEAD
+  background: linear-gradient(
+    to bottom,
+    rgba(9, 86, 148, 0),
+    rgba(3, 45, 91, 0.12)
+=======
 
   background: linear-gradient(
     to bottom,
     rgba(9, 86, 148, 0),
     rgba(3, 45, 91, .12)
+>>>>>>> fix-jaquino-2025376
   );
 }
 
 .city-buildings::after {
   content: "";
+<<<<<<< HEAD
+=======
 
+>>>>>>> fix-jaquino-2025376
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
+<<<<<<< HEAD
+  height: 80px;
+  background: linear-gradient(
+    to top,
+    rgba(2, 54, 101, 0.85),
+=======
 
   height: 80px;
 
   background: linear-gradient(
     to top,
     rgba(2, 54, 101, .85),
+>>>>>>> fix-jaquino-2025376
     rgba(2, 54, 101, 0)
   );
 }
@@ -178,10 +273,15 @@
 .building {
   position: absolute;
   bottom: 0;
+<<<<<<< HEAD
+  display: block;
+  background: rgba(30, 121, 196, 0.25);
+=======
 
   display: block;
 
   background: rgba(30, 121, 196, .25);
+>>>>>>> fix-jaquino-2025376
 }
 
 .b1 {
@@ -216,11 +316,22 @@
 
 .building::before {
   content: "";
+<<<<<<< HEAD
+=======
 
+>>>>>>> fix-jaquino-2025376
   position: absolute;
   top: 12px;
   right: 12px;
   left: 12px;
+<<<<<<< HEAD
+  height: 7px;
+  background: rgba(100, 183, 239, 0.24);
+  box-shadow:
+    0 22px rgba(100, 183, 239, 0.24),
+    0 44px rgba(100, 183, 239, 0.24),
+    0 66px rgba(100, 183, 239, 0.24);
+=======
 
   height: 7px;
 
@@ -230,11 +341,18 @@
     0 22px rgba(100, 183, 239, .24),
     0 44px rgba(100, 183, 239, .24),
     0 66px rgba(100, 183, 239, .24);
+>>>>>>> fix-jaquino-2025376
 }
 
 .tree {
   position: absolute;
   bottom: 0;
+<<<<<<< HEAD
+  width: 28px;
+  height: 75px;
+  background: rgba(4, 64, 115, 0.75);
+  border-radius: 50% 50% 0 0;
+=======
 
   width: 28px;
   height: 75px;
@@ -243,6 +361,7 @@
 
   border-radius: 50% 50% 0 0;
 
+>>>>>>> fix-jaquino-2025376
   z-index: 4;
 }
 
@@ -259,17 +378,31 @@
   position: absolute;
   bottom: 0;
   left: 93px;
+<<<<<<< HEAD
+  width: 4px;
+  height: 143px;
+  background: rgba(27, 112, 174, 0.8);
+=======
 
   width: 4px;
   height: 143px;
 
   background: rgba(27, 112, 174, .8);
 
+>>>>>>> fix-jaquino-2025376
   z-index: 5;
 }
 
 .lamp::before {
   content: "";
+<<<<<<< HEAD
+  position: absolute;
+  top: -4px;
+  left: -7px;
+  width: 18px;
+  height: 7px;
+  border-radius: 10px;
+=======
 
   position: absolute;
   top: -4px;
@@ -280,10 +413,37 @@
 
   border-radius: 10px;
 
+>>>>>>> fix-jaquino-2025376
   background: #1e75b6;
 }
 
 .civic-city-footer {
+<<<<<<< HEAD
+  min-height: 125px;
+  padding: 22px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(4, 57, 106, 0.65);
+}
+
+.municipality-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 21px;
+}
+
+.civic-city-footer > div:last-child {
+  min-width: 0;
+=======
   display: flex;
   align-items: center;
   gap: 12px;
@@ -313,19 +473,39 @@
   color: #ffffff;
 
   font-size: 21px;
+>>>>>>> fix-jaquino-2025376
 }
 
 .civic-city-footer strong {
   display: block;
+<<<<<<< HEAD
+  color: #ffffff;
+=======
 
   color: #ffffff;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 12px;
   font-weight: 700;
 }
 
 .civic-city-footer small {
   display: block;
+<<<<<<< HEAD
+  margin-top: 5px;
+  color: #b9d8f4;
+  font-size: 10px;
+}
+
+.civic-main {
+  width: calc(100% - 278px);
+  min-height: 100vh;
+  margin-left: 278px;
+  padding: 42px 55px 60px;
+  background: #f3f8fd;
+}
+
+=======
 
   margin-top: 5px;
 
@@ -355,15 +535,29 @@
    BIENVENIDA
 ===================================================== */
 
+>>>>>>> fix-jaquino-2025376
 .welcome-section {
   display: flex;
   align-items: center;
   gap: 18px;
+<<<<<<< HEAD
+=======
 
+>>>>>>> fix-jaquino-2025376
   margin-bottom: 30px;
 }
 
 .welcome-icon {
+<<<<<<< HEAD
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: #e2f0ff;
+  color: #0874dc;
+=======
   display: flex;
   align-items: center;
   justify-content: center;
@@ -377,20 +571,35 @@
 
   color: #0874dc;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 29px;
 }
 
 .welcome-section h1 {
   margin: 0;
+<<<<<<< HEAD
+  color: #123b70;
+=======
 
   color: #123b70;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 28px;
   font-weight: 700;
 }
 
 .welcome-section p {
   margin: 5px 0 0;
+<<<<<<< HEAD
+  color: #6f849d;
+  font-size: 14px;
+}
+
+.statistics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+=======
 
   color: #6f849d;
 
@@ -410,11 +619,27 @@
 
   gap: 20px;
 
+>>>>>>> fix-jaquino-2025376
   margin-bottom: 30px;
 }
 
 .stat-card {
   min-height: 145px;
+<<<<<<< HEAD
+  padding: 22px 25px;
+  border: 1px solid #dce8f3;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(26, 76, 120, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(26, 76, 120, 0.08);
+=======
 
   padding: 22px 25px;
 
@@ -425,20 +650,33 @@
 
   box-shadow:
     0 3px 12px rgba(26, 76, 120, .05);
+>>>>>>> fix-jaquino-2025376
 }
 
 .stat-header {
   display: flex;
   align-items: center;
   gap: 12px;
+<<<<<<< HEAD
+  color: #66809d;
+=======
 
   color: #66809d;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 14px;
   font-weight: 600;
 }
 
 .stat-icon {
+<<<<<<< HEAD
+  width: 39px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+=======
   display: flex;
   align-items: center;
   justify-content: center;
@@ -448,6 +686,7 @@
 
   border-radius: 10px;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 18px;
 }
 
@@ -468,6 +707,21 @@
 
 .stat-number {
   display: block;
+<<<<<<< HEAD
+  margin-top: 13px;
+  color: #123b70;
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.reports-section {
+  overflow: hidden;
+  border: 1px solid #dce8f3;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 3px 15px rgba(26, 76, 120, 0.05);
+=======
 
   margin-top: 13px;
 
@@ -494,29 +748,44 @@
 
   box-shadow:
     0 3px 15px rgba(26, 76, 120, .05);
+>>>>>>> fix-jaquino-2025376
 }
 
 .reports-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+<<<<<<< HEAD
+  padding: 25px 27px;
+=======
 
   padding: 25px 27px;
 
+>>>>>>> fix-jaquino-2025376
   border-bottom: 1px solid #edf2f7;
 }
 
 .reports-header h2 {
   margin: 0;
+<<<<<<< HEAD
+  color: #123b70;
+=======
 
   color: #123b70;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 19px;
   font-weight: 700;
 }
 
 .reports-header p {
   margin: 5px 0 0;
+<<<<<<< HEAD
+  color: #7c8ea3;
+  font-size: 12px;
+}
+
+=======
 
   color: #7c8ea3;
 
@@ -528,10 +797,23 @@
    BOTÓN RECARGAR
 ===================================================== */
 
+>>>>>>> fix-jaquino-2025376
 .reload-button {
   display: flex;
   align-items: center;
   gap: 8px;
+<<<<<<< HEAD
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: #0874dc;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+=======
 
   padding: 10px 16px;
 
@@ -550,27 +832,47 @@
   cursor: pointer;
 
   transition: .2s ease;
+>>>>>>> fix-jaquino-2025376
 }
 
 .reload-button:hover {
   background: #0665c0;
 }
 
+<<<<<<< HEAD
+.reload-button:active {
+  transform: scale(0.97);
+}
+
+=======
+>>>>>>> fix-jaquino-2025376
 .reload-button i {
   font-size: 14px;
 }
 
+<<<<<<< HEAD
+=======
 
 /* =====================================================
    REPORTE
 ===================================================== */
 
+>>>>>>> fix-jaquino-2025376
 .reports-list {
   width: 100%;
 }
 
 .report-item {
   display: grid;
+<<<<<<< HEAD
+  grid-template-columns: 46px minmax(250px, 1fr) 125px 100px;
+  align-items: center;
+  gap: 15px;
+  min-height: 105px;
+  padding: 18px 27px;
+  border-bottom: 1px solid #edf2f7;
+  transition: background 0.2s ease;
+=======
 
   grid-template-columns:
     46px
@@ -589,6 +891,7 @@
   border-bottom: 1px solid #edf2f7;
 
   transition: background .2s ease;
+>>>>>>> fix-jaquino-2025376
 }
 
 .report-item:last-child {
@@ -599,6 +902,15 @@
   background: #f8fbfe;
 }
 
+<<<<<<< HEAD
+.report-status-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+=======
 
 /* ICONO */
 
@@ -612,6 +924,7 @@
 
   border-radius: 50%;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 17px;
 }
 
@@ -635,15 +948,24 @@
   color: #df3e3e;
 }
 
+<<<<<<< HEAD
+=======
 
 /* INFORMACIÓN */
 
+>>>>>>> fix-jaquino-2025376
 .report-information {
   min-width: 0;
 }
 
 .report-information h3 {
   margin: 0 0 5px;
+<<<<<<< HEAD
+  overflow: hidden;
+  color: #234c76;
+  font-size: 14px;
+  font-weight: 700;
+=======
 
   overflow: hidden;
 
@@ -652,12 +974,18 @@
   font-size: 14px;
   font-weight: 700;
 
+>>>>>>> fix-jaquino-2025376
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .report-information p {
   margin: 0;
+<<<<<<< HEAD
+  overflow: hidden;
+  color: #8292a5;
+  font-size: 12px;
+=======
 
   overflow: hidden;
 
@@ -665,6 +993,7 @@
 
   font-size: 12px;
 
+>>>>>>> fix-jaquino-2025376
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -673,11 +1002,16 @@
   display: flex;
   align-items: center;
   gap: 16px;
+<<<<<<< HEAD
+  margin-top: 7px;
+  color: #8b9bad;
+=======
 
   margin-top: 7px;
 
   color: #8b9bad;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 10px;
 }
 
@@ -691,15 +1025,26 @@
   color: #5c8dbb;
 }
 
+<<<<<<< HEAD
+=======
 
 /* ESTADO */
 
+>>>>>>> fix-jaquino-2025376
 .report-state {
   display: flex;
   justify-content: center;
 }
 
 .state-badge {
+<<<<<<< HEAD
+  min-width: 85px;
+  padding: 6px 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+=======
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -710,6 +1055,7 @@
 
   border-radius: 20px;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 10px;
   font-weight: 700;
 }
@@ -734,6 +1080,16 @@
   color: #d53c3c;
 }
 
+<<<<<<< HEAD
+.report-date {
+  text-align: right;
+  color: #71859c;
+  font-size: 11px;
+}
+
+.loading-container {
+  min-height: 300px;
+=======
 
 /* FECHA */
 
@@ -751,10 +1107,15 @@
 ===================================================== */
 
 .loading-container {
+>>>>>>> fix-jaquino-2025376
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
+  gap: 14px;
+  color: #71859c;
+=======
 
   min-height: 300px;
 
@@ -762,12 +1123,19 @@
 
   color: #71859c;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 13px;
 }
 
 .spinner {
   width: 32px;
   height: 32px;
+<<<<<<< HEAD
+  border: 3px solid #dbe9f6;
+  border-top-color: #0874dc;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+=======
 
   border: 3px solid #dbe9f6;
   border-top-color: #0874dc;
@@ -775,6 +1143,7 @@
   border-radius: 50%;
 
   animation: spin .8s linear infinite;
+>>>>>>> fix-jaquino-2025376
 }
 
 @keyframes spin {
@@ -783,25 +1152,45 @@
   }
 }
 
+<<<<<<< HEAD
+.empty-container {
+  min-height: 330px;
+  padding: 40px;
+=======
 
 /* =====================================================
    SIN REPORTES
 ===================================================== */
 
 .empty-container {
+>>>>>>> fix-jaquino-2025376
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
+=======
 
   min-height: 330px;
 
   padding: 40px;
 
+>>>>>>> fix-jaquino-2025376
   text-align: center;
 }
 
 .empty-icon {
+<<<<<<< HEAD
+  width: 65px;
+  height: 65px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #eaf3fb;
+  color: #6e9bc2;
+=======
   display: flex;
   align-items: center;
   justify-content: center;
@@ -817,22 +1206,31 @@
 
   color: #6e9bc2;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 27px;
 }
 
 .empty-container h3 {
   margin: 0;
+<<<<<<< HEAD
+  color: #234c76;
+=======
 
   color: #234c76;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 17px;
 }
 
 .empty-container p {
   margin: 8px 0 20px;
+<<<<<<< HEAD
+  color: #8292a5;
+=======
 
   color: #8292a5;
 
+>>>>>>> fix-jaquino-2025376
   font-size: 12px;
 }
 
@@ -840,6 +1238,16 @@
   display: flex;
   align-items: center;
   gap: 7px;
+<<<<<<< HEAD
+  padding: 10px 16px;
+  border-radius: 9px;
+  background: #0874dc;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  transition: 0.2s ease;
+=======
 
   padding: 10px 16px;
 
@@ -853,12 +1261,46 @@
 
   font-size: 12px;
   font-weight: 600;
+>>>>>>> fix-jaquino-2025376
 }
 
 .new-report-button:hover {
   background: #0665c0;
 }
 
+<<<<<<< HEAD
+@media (min-width: 1700px) {
+  .civic-main {
+    padding: 45px 65px 65px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .civic-sidebar {
+    width: 250px;
+  }
+
+  .civic-main {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    padding: 35px 35px 50px;
+  }
+
+  .report-item {
+    grid-template-columns:
+      46px
+      minmax(200px, 1fr)
+      115px
+      90px;
+  }
+
+  .city-buildings {
+    height: 220px;
+  }
+}
+
+@media (max-width: 1050px) {
+=======
 
 /* =====================================================
    RESPONSIVE
@@ -866,6 +1308,7 @@
 
 @media (max-width: 1050px) {
 
+>>>>>>> fix-jaquino-2025376
   .statistics {
     grid-template-columns: 1fr;
   }
@@ -880,25 +1323,31 @@
   .report-date {
     display: none;
   }
-
+<<<<<<< HEAD
 }
 
-
-@media (max-width: 750px) {
-
+@media (max-width: 950px) {
   .civic-sidebar {
-    width: 78px;
+    width: 82px;
   }
 
   .civic-main {
-    width: calc(100% - 78px);
-    margin-left: 78px;
+    width: calc(100% - 82px);
+    margin-left: 82px;
+  }
 
-    padding: 30px 20px;
+  .civic-brand {
+    height: 90px;
+    padding: 12px;
   }
 
   .civic-logo {
-    width: 52px;
+    width: 58px;
+    margin-top: 0;
+  }
+
+  .civic-navigation {
+    padding: 12px 9px;
   }
 
   .civic-nav-item {
@@ -906,7 +1355,105 @@
     padding: 0;
   }
 
+  .civic-nav-item span:not(.notification-number) {
+    display: none;
+  }
+
+  .civic-nav-item i {
+    font-size: 19px;
+  }
+
+  .notification-number {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    min-width: 17px;
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    font-size: 8px;
+  }
+
+  .civic-city {
+    position: absolute;
+  }
+
+  .city-buildings {
+    height: 160px;
+  }
+
+  .civic-city-footer {
+    min-height: 80px;
+    padding: 15px 10px 20px;
+    justify-content: center;
+  }
+
+  .civic-city-footer > div:last-child {
+    display: none;
+  }
+
+  .municipality-icon {
+    width: 39px;
+    height: 39px;
+    flex-basis: 39px;
+  }
+}
+
+@media (max-width: 750px) {
+=======
+
+}
+
+
+@media (max-width: 750px) {
+
+>>>>>>> fix-jaquino-2025376
+  .civic-sidebar {
+    width: 78px;
+  }
+
+  .civic-main {
+    width: calc(100% - 78px);
+    margin-left: 78px;
+<<<<<<< HEAD
+    padding: 30px 20px;
+  }
+
+  .civic-brand {
+    height: 100px;
+    padding: 12px;
+=======
+
+    padding: 30px 20px;
+>>>>>>> fix-jaquino-2025376
+  }
+
+  .civic-logo {
+    width: 52px;
+<<<<<<< HEAD
+    margin-top: 0;
+  }
+
+  .civic-navigation {
+    padding: 10px 8px;
+=======
+>>>>>>> fix-jaquino-2025376
+  }
+
+  .civic-nav-item {
+    justify-content: center;
+<<<<<<< HEAD
+    gap: 0;
+    padding: 0;
+  }
+
+  .civic-nav-item span:not(.notification-number) {
+=======
+    padding: 0;
+  }
+
   .civic-nav-item span {
+>>>>>>> fix-jaquino-2025376
     display: none;
   }
 
@@ -918,17 +1465,45 @@
     display: flex;
   }
 
+<<<<<<< HEAD
+=======
   .civic-city-footer,
+>>>>>>> fix-jaquino-2025376
   .civic-city {
     display: none;
   }
 
+<<<<<<< HEAD
+  .welcome-section {
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .welcome-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .welcome-section h1 {
+    font-size: 22px;
+  }
+
+  .welcome-section p {
+    font-size: 12px;
+  }
+
+=======
+>>>>>>> fix-jaquino-2025376
   .report-item {
     grid-template-columns:
       42px
       minmax(0, 1fr)
       90px;
+<<<<<<< HEAD
+=======
 
+>>>>>>> fix-jaquino-2025376
     padding: 16px;
   }
 
@@ -939,5 +1514,126 @@
   .reports-header {
     padding: 20px;
   }
+<<<<<<< HEAD
+}
+
+@media (max-width: 520px) {
+  .civic-main {
+    padding: 22px 12px 35px;
+  }
+
+  .statistics {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    min-height: 120px;
+    padding: 18px;
+  }
+
+  .stat-number {
+    font-size: 28px;
+  }
+
+  .reports-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .reload-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .report-item {
+    grid-template-columns:
+      38px
+      minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .report-state {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+
+  .report-information h3 {
+    white-space: normal;
+  }
+
+  .report-information p {
+    white-space: normal;
+  }
+
+  .report-date {
+    display: none;
+  }
+}
+
+@media (max-width: 450px) {
+  .civic-main {
+    padding: 18px 9px 28px;
+  }
+
+  .civic-sidebar {
+    width: 68px;
+  }
+
+  .civic-main {
+    width: calc(100% - 68px);
+    margin-left: 68px;
+  }
+
+  .civic-brand {
+    height: 80px;
+  }
+
+  .civic-logo {
+    width: 45px;
+  }
+
+  .civic-navigation {
+    padding: 8px 6px;
+  }
+
+  .civic-nav-item {
+    height: 45px;
+  }
+
+  .civic-nav-item i {
+    font-size: 19px;
+  }
+
+  .welcome-section h1 {
+    font-size: 20px;
+  }
+
+  .welcome-section p {
+    font-size: 11px;
+  }
+
+  .welcome-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .reports-header h2 {
+    font-size: 17px;
+  }
+
+  .reports-header p {
+    font-size: 11px;
+  }
+
+  .empty-container {
+    min-height: 280px;
+    padding: 25px 15px;
+  }
+}
+=======
 
 }
+>>>>>>> fix-jaquino-2025376

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "test": ""
+    "test": "",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

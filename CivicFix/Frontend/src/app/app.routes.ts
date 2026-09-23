@@ -31,6 +31,8 @@ import { PrioridadesAdminComponent } from './components/prioridades-admin/priori
 import { EstadosAdminComponent } from './components/estados-admin/estados-admin';
 import { ReportesAdminComponent } from './components/reportes-admin/reportes-admin';
 import { AsignacionesAdminComponent } from './components/asignaciones-admin/asignaciones-admin';
+import { AdminFormularioComponent } from './components/admin-formulario/admin-formulario';
+import { AdminCatalogoComponent } from './components/admin-catalogo/admin-catalogo';
 import { BitacoraAdminComponent } from './components/bitacora-admin/bitacora-admin';
 import { NotificacionesEmpleadoComponent } from './components/notificaciones-empleado/notificaciones-empleado';
 import { PerfilEmpleadoComponent } from './components/perfil-empleado/perfil-empleado.component';
@@ -41,7 +43,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterUsuario },
   { path: 'empleado-login', component: EmpleadoLogin },
   { path: 'empleado/register', component: EmpleadoRegister },
-  { path: 'reportes/nuevo', component: ReporteComponent, canActivate: [roleGuard(['ciudadano'])] },
+  { path: 'reportes/nuevo', component: ReporteComponent, canActivate: [roleGuard(['ciudadano', 'administrador'])] },
   { path: 'crear-reporte', redirectTo: 'reportes/nuevo', pathMatch: 'full' },
   { path: 'reportes', redirectTo: 'mis-reportes', pathMatch: 'full' },
   { path: 'reportes/mis-reportes', redirectTo: 'mis-reportes', pathMatch: 'full' },
@@ -50,7 +52,7 @@ export const routes: Routes = [
   { path: 'detalle-reporte/:id', component: DetalleReporteComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
   { path: 'mapa', component: MapaComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
   { path: 'notificaciones', component: NotificacionesComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
-  { path: 'perfil', component: PerfilComponent, canActivate: [roleGuard(['ciudadano'])] },
+  { path: 'perfil', component: PerfilComponent, canActivate: [roleGuard(['ciudadano', 'administrador'])] },
   { path: 'empleado/home', component: HomeEmpleadoComponent, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/incidencias', redirectTo: 'empleado/reportes', pathMatch: 'full' },
   { path: 'empleado/mapa', component: MapaComponent, canActivate: [roleGuard(['empleado', 'administrador'])] },
@@ -74,6 +76,10 @@ export const routes: Routes = [
   { path: 'fotografias', component: Fotografias, canActivate: [roleGuard(['administrador'])] },
   { path: 'formulario', component: FormularioRedireccional },
   { path: 'home-admin', component: DashboardComponent, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/:modulo/nuevo', component: AdminFormularioComponent, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/:modulo/editar/:id', component: AdminFormularioComponent, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/municipalidades', component: AdminCatalogoComponent, data: { modulo: 'municipalidades' }, canActivate: [roleGuard(['administrador'])] },
+  { path: 'admin/ubicaciones', component: AdminCatalogoComponent, data: { modulo: 'ubicaciones' }, canActivate: [roleGuard(['administrador'])] },
   { path: 'admin/usuarios', component: UsuariosAdminComponent, canActivate: [roleGuard(['administrador'])] },
   { path: 'admin/empleados', component: EmpleadosAdminComponent, canActivate: [roleGuard(['administrador'])] },
   { path: 'admin/departamentos', component: DepartamentosAdminComponent, canActivate: [roleGuard(['administrador'])] },

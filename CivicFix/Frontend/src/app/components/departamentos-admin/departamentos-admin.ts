@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Departamento {
   id: number;
@@ -21,15 +30,34 @@ interface Departamento {
     CommonModule,
     FormsModule,
     RouterModule
+<<<<<<< HEAD
   ],
+=======
+  , AdminSidebarComponent],
+>>>>>>> fix-jaquino-2025376
   templateUrl: './departamentos-admin.html',
   styleUrl: './departamentos-admin.css'
 })
 export class DepartamentosAdminComponent {
+<<<<<<< HEAD
+=======
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Departamento>('departamentos').subscribe({
+      next: datos => { this.departamentos = datos; this.cd.markForCheck(); },
+      error: error => { this.departamentos = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
+<<<<<<< HEAD
   departamentos: Departamento[] = [
     {
       id: 1,
@@ -82,6 +110,9 @@ export class DepartamentosAdminComponent {
       fechaCreacion: '2023-09-12'
     }
   ];
+=======
+  departamentos: Departamento[] = [];
+>>>>>>> fix-jaquino-2025376
 
   get departamentosFiltrados(): Departamento[] {
     return this.departamentos.filter(departamento => {
@@ -130,6 +161,7 @@ export class DepartamentosAdminComponent {
   }
 
   nuevoDepartamento(): void {
+<<<<<<< HEAD
     alert('Aquí se abrirá el formulario para crear un departamento.');
   }
 
@@ -157,6 +189,26 @@ export class DepartamentosAdminComponent {
     this.departamentos = this.departamentos.filter(
       item => item.id !== departamento.id
     );
+=======
+    this.router.navigate(['/admin/departamentos/nuevo']);
+  }
+
+  editarDepartamento(actual: Departamento): void {
+    this.router.navigate(['/admin/departamentos/editar', actual.id]);
+  }
+
+  cambiarEstado(actual: Departamento): void {
+    this.adminApi.activar('departamentos',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+  }
+
+  eliminarDepartamento(actual: Departamento): void {
+    if (!confirm('¿Eliminar departamento #' + actual.id + '?')) return;
+    this.adminApi.eliminar('departamentos',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+>>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

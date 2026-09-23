@@ -47,7 +47,8 @@ interface ReporteMapa {
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.css'

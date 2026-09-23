@@ -1,35 +1,52 @@
-import { pool } from "../config/db";
-import { DepartamentoMunicipal } from "../models/departamentoMunicipal.model";
+import { pool } from "../config/db.js";
+import { DepartamentoMunicipal } from "../models/departamentoMunicipal.model.js";
 
-export class DepartamentoMunicipalRepository{
-    async obtenerDepartamentos(): Promise<DepartamentoMunicipal[]>{
-        const resultado = await pool.query("SELECT * FROM DepartamentoMunicipal");
+export class DepartamentoMunicipalRepository {
+    async obtenerDepartamentos(): Promise<DepartamentoMunicipal[]> {
+        const resultado = await pool.query<DepartamentoMunicipal>(
+            "SELECT * FROM DepartamentoMunicipal ORDER BY id_departamento"
+        );
         return resultado.rows;
     }
 
-    async obtenerDepartamentosPorId(id: number): Promise<DepartamentoMunicipal | undefined>{
-        const resultado = await pool.query("SELECT * FROM DepartamentoMunicipal WHERE id_departamento = $1",
+    async obtenerDepartamentosPorId(id: number): Promise<DepartamentoMunicipal | undefined> {
+        const resultado = await pool.query<DepartamentoMunicipal>(
+            "SELECT * FROM DepartamentoMunicipal WHERE id_departamento = $1",
             [id]
         );
-        return resultado.rows[0] as DepartamentoMunicipal | undefined;
+        return resultado.rows[0];
     }
 
-    async crearDepartamento(departamento: DepartamentoMunicipal): Promise<DepartamentoMunicipal>{
-        const resultado = await pool.query("INSERT INTO DepartamentoMunicipal (nombre,descripccion,id_municipalidad) VALUES ($1,$2,$3)",
-            [departamento.nombre,departamento.descripcion,departamento.id_municipalidad]
+    async crearDepartamento(departamento: DepartamentoMunicipal): Promise<DepartamentoMunicipal> {
+        const resultado = await pool.query<DepartamentoMunicipal>(
+            `INSERT INTO DepartamentoMunicipal
+                (nombre, descripcion, id_municipalidad)
+             VALUES ($1, $2, $3)
+             RETURNING *`,
+            [departamento.nombre, departamento.descripcion, departamento.id_municipalidad]
         );
-        return departamento;
+        return resultado.rows[0];
     }
 
-    async actualizarDepartamento(id: number, departamento: DepartamentoMunicipal): Promise<DepartamentoMunicipal | undefined>{
-        const resusltado = await pool.query("UPDATE DepartamentoMunicipal SET nombre= $1, descripccion= $2, id_municipalidad= $3 WHERE id_departamento= $4",
-            [departamento.nombre, departamento.descripcion,departamento.id_municipalidad,id]
+    async actualizarDepartamento(
+        id: number,
+        departamento: DepartamentoMunicipal
+    ): Promise<DepartamentoMunicipal | undefined> {
+        const resultado = await pool.query<DepartamentoMunicipal>(
+            `UPDATE DepartamentoMunicipal
+             SET nombre = $1,
+                 descripcion = $2,
+                 id_municipalidad = $3
+             WHERE id_departamento = $4
+             RETURNING *`,
+            [departamento.nombre, departamento.descripcion, departamento.id_municipalidad, id]
         );
-        return (resusltado.rowCount ?? 0) > 0 ? departamento : undefined;
+        return resultado.rows[0];
     }
 
-    async eliminarDepartamento(id: number): Promise<boolean>{
-        const resultado = await pool.query("DELETE FROM DepartamentoMunicipal WHERE id_departamento = $1",
+    async eliminarDepartamento(id: number): Promise<boolean> {
+        const resultado = await pool.query(
+            "DELETE FROM DepartamentoMunicipal WHERE id_departamento = $1",
             [id]
         );
         return (resultado.rowCount ?? 0) > 0;

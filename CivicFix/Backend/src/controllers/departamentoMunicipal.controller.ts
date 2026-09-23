@@ -13,7 +13,7 @@ export class DepartamentoMunicipalController {
             res.status(200).json(departamento);
         } catch (error: any) {
             console.error("Error al obtener departentos", error);
-            res.status(404).json({ menssage: "Error al obtener departamentos "});
+            res.status(404).json({ message: "Error al obtener departamentos" });
         }
     }
 

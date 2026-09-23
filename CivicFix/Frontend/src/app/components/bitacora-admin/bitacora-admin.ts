@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface RegistroBitacora {
   id: number;
@@ -19,12 +28,17 @@ interface RegistroBitacora {
 @Component({
   selector: 'app-bitacora-admin',
   standalone: true,
+<<<<<<< HEAD
   imports: [CommonModule, FormsModule, RouterModule],
+=======
+  imports: [CommonModule, FormsModule, RouterModule, AdminSidebarComponent],
+>>>>>>> fix-jaquino-2025376
   templateUrl: './bitacora-admin.html',
   styleUrl: './bitacora-admin.css'
 })
 export class BitacoraAdminComponent {
 
+<<<<<<< HEAD
   registros: RegistroBitacora[] = [
     {
       id: 1,
@@ -123,6 +137,17 @@ export class BitacoraAdminComponent {
       resultado: 'Fallido'
     }
   ];
+=======
+  registros: RegistroBitacora[] = [];
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void {
+    this.adminApi.listar<RegistroBitacora>('bitacora').subscribe({
+      next: datos => { this.registros = datos; this.cd.markForCheck(); },
+      error: error => { this.registros = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroAccion = 'Todas';

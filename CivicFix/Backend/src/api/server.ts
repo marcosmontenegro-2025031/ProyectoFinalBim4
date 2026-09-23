@@ -18,10 +18,13 @@ import { empleadoRouter } from '../routes/empleadoMunicipal.routes';
 import { municipalidadRouter } from '../routes/municipalidad.routes';
 import { departamentoRouter } from '../routes/departamentoMunicipal.routes';
 import { usuariosRouter } from '../routes/usuarios.routes';
+import { adminRouter } from '../routes/admin.routes';
+
 
 dotenv.config();
 
 export class Server {
+
     private app: Application;
     private port: number | string;
 
@@ -34,12 +37,17 @@ export class Server {
     }
 
     private middlewares(): void {
+
         this.app.use(cors({
             origin: process.env.CLIENT_URL || 'http://localhost:4200',
             credentials: true
         }));
 
         this.app.use(express.json());
+
+        this.app.get("/", (_req, res) => {
+            res.status(200).json({ mensaje: "API CivicFix funcionando" });
+        });
 
         this.app.use('/uploads', express.static('uploads'));
     }
@@ -64,6 +72,7 @@ export class Server {
         this.app.use(municipalidadRouter);
         this.app.use(departamentoRouter);
         this.app.use(usuariosRouter);
+        this.app.use(adminRouter);
     }
 
     public listen(): void {
@@ -81,3 +90,4 @@ export class Server {
         });
     }
 }
+

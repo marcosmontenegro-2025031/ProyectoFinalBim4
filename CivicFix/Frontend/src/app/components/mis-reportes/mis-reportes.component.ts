@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+<<<<<<< HEAD
+=======
 import { ReporteService } from '../../services/reporte.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Reporte {
   id: number;
@@ -31,6 +34,60 @@ export class MisReportesComponent {
 
   filtroActual = 'Todos';
 
+<<<<<<< HEAD
+  reportes: Reporte[] = [
+    {
+      id: 1,
+      titulo: 'Bache en calle principal',
+      descripcion: 'Hay un bache grande que afecta la circulación de vehículos.',
+      tipo: 'Bache',
+      prioridad: 'Alta',
+      estado: 'Pendiente',
+      fecha: '16 Sep 2026',
+      direccion: '2da. avenida, Zona 1, Guatemala',
+      zona: 'Zona 1',
+      referencia: 'Cerca de la esquina'
+    },
+    {
+      id: 2,
+      titulo: 'Luminaria dañada',
+      descripcion: 'La lámpara de la calle no funciona durante la noche.',
+      tipo: 'Luminaria Dañada',
+      prioridad: 'Media',
+      estado: 'En Proceso',
+      fecha: '14 Sep 2026',
+      direccion: '6ta. avenida, Zona 4, Guatemala',
+      zona: 'Zona 4',
+      referencia: 'Frente al parque'
+    },
+    {
+      id: 3,
+      titulo: 'Fuga de agua',
+      descripcion: 'Se observa una fuga de agua en la vía pública.',
+      tipo: 'Fuga de Agua',
+      prioridad: 'Crítica',
+      estado: 'Resuelto',
+      fecha: '10 Sep 2026',
+      direccion: '10a. calle, Zona 1, Guatemala',
+      zona: 'Zona 1',
+      referencia: 'Frente al edificio municipal'
+    },
+    {
+      id: 4,
+      titulo: 'Bache en avenida',
+      descripcion: 'Bache ubicado en uno de los carriles de circulación.',
+      tipo: 'Bache',
+      prioridad: 'Baja',
+      estado: 'Pendiente',
+      fecha: '8 Sep 2026',
+      direccion: '3ra. avenida, Zona 3, Guatemala',
+      zona: 'Zona 3',
+      referencia: 'Cerca de la parada de bus'
+    }
+  ];
+
+  constructor(private router: Router) {}
+=======
   reportes: Reporte[] = [];
   cargando = false;
   error = '';
@@ -84,12 +141,17 @@ export class MisReportesComponent {
     if (Number.isNaN(valor.getTime())) return String(fecha || '');
     return valor.toLocaleDateString('es-GT', { day: '2-digit', month: 'short', year: 'numeric' });
   }
+>>>>>>> fix-jaquino-2025376
 
   get reportesFiltrados(): Reporte[] {
     return this.reportes.filter(reporte => {
       return (
         this.filtroActual === 'Todos' ||
+<<<<<<< HEAD
+        reporte.estado === this.filtroActual
+=======
         reporte.estado.toLowerCase() === this.filtroActual.toLowerCase()
+>>>>>>> fix-jaquino-2025376
       );
     });
   }

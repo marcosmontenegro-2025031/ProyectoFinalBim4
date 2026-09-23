@@ -3,7 +3,7 @@ import { Prioridad } from '../models/prioridad.model';
 
 export class PrioridadRepository {
     async obtenerTodas(): Promise<Prioridad[]> {
-        const query = 'SELECT id_prioridad, nombre, codigo_ia FROM Prioridad';
+        const query = 'SELECT id_prioridad, nombre, codigo_ia FROM Prioridad WHERE activo = TRUE';
         const { rows } = await pool.query(query);
         return rows;
     }

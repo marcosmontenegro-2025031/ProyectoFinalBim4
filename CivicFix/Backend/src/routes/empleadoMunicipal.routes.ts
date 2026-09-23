@@ -1,3 +1,4 @@
+import { verificarAdministrador } from "../middleware/auth.middleware";
 import { Router } from "express";
 import cors from "cors";
 import { EmpleadoMunicipalController } from "../controllers/empleadoMunicipal.controller";
@@ -7,8 +8,12 @@ export const empleadoRouter = Router();
 
 empleadoRouter.get("/api/empleados", verificarTokenEmpleado, verificarAdministrador, (req,res) => {
     const controller = new EmpleadoMunicipalController();
-    controller.obtenerEmpleados(req,res);
+    controller.crearEmpleado(req, res);
 });
+
+// ==========================================
+// RUTAS DE ADMINISTRACIÓN
+// ==========================================
 
 empleadoRouter.get('/api/empleados/me', verificarTokenEmpleado, (req, res) => {
     new EmpleadoMunicipalController().obtenerMiPerfil(req, res);
@@ -50,3 +55,6 @@ empleadoRouter.patch("/api/empleados/actualizarPassword", verificarTokenEmpleado
     const controller = new EmpleadoMunicipalController();
     controller.actualizarPassword(req,res);
 });
+
+
+

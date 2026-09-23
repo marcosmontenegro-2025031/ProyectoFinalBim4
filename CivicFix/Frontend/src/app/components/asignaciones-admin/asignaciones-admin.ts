@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Asignacion {
   id: number;
@@ -21,11 +30,16 @@ interface Asignacion {
     CommonModule,
     FormsModule,
     RouterModule
+<<<<<<< HEAD
   ],
+=======
+  , AdminSidebarComponent],
+>>>>>>> fix-jaquino-2025376
   templateUrl: './asignaciones-admin.html',
   styleUrl: './asignaciones-admin.css'
 })
 export class AsignacionesAdminComponent {
+<<<<<<< HEAD
 
   asignaciones: Asignacion[] = [
     {
@@ -79,6 +93,21 @@ export class AsignacionesAdminComponent {
       fechaLimite: '22/09/2026'
     }
   ];
+=======
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Asignacion>('asignaciones').subscribe({
+      next: datos => { this.asignaciones = datos; this.cd.markForCheck(); },
+      error: error => { this.asignaciones = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
+
+  asignaciones: Asignacion[] = [];
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
@@ -121,7 +150,11 @@ export class AsignacionesAdminComponent {
 
   get enProceso(): number {
     return this.asignaciones.filter(
+<<<<<<< HEAD
       asignacion => asignacion.estado === 'En proceso'
+=======
+      asignacion => asignacion.estado.toLowerCase() === 'en proceso'
+>>>>>>> fix-jaquino-2025376
     ).length;
   }
 
@@ -132,6 +165,7 @@ export class AsignacionesAdminComponent {
   }
 
   nuevaAsignacion(): void {
+<<<<<<< HEAD
     alert('Aquí se abrirá el formulario para crear una nueva asignación.');
   }
 
@@ -165,6 +199,34 @@ export class AsignacionesAdminComponent {
         item => item.id !== asignacion.id
       );
     }
+=======
+    this.router.navigate(['/admin/asignaciones/nuevo']);
+  }
+
+  editarAsignacion(actual: Asignacion): void {
+    this.router.navigate(['/admin/asignaciones/editar', actual.id]);
+  }
+
+  cambiarEstado(actual: Asignacion): void {
+    const siguientes: Record<string,string> = {'Asignado':'En Proceso','En proceso':'Resuelto','En Proceso':'Resuelto','Resuelto':'Asignado'};
+    const nombre = siguientes[actual.estado] ?? 'Asignado';
+    this.adminApi.listar<{id:number;nombre:string}>('estados').subscribe({
+      next: estados => {
+        const estado = estados.find(e => e.nombre.toLowerCase() === nombre.toLowerCase());
+        if (!estado) { alert('Estado no encontrado en la base de datos'); return; }
+        this.adminApi.estadoReporte((actual as any).id_reporte,estado.id).subscribe({
+          next: () => this.cargar(),error: e => this.adminApi.aviso(e)
+        });
+      }, error: e => this.adminApi.aviso(e)
+    });
+  }
+
+  eliminarAsignacion(actual: Asignacion): void {
+    if (!confirm('¿Eliminar asignacion #' + actual.id + '?')) return;
+    this.adminApi.eliminar('asignaciones',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+>>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {
@@ -172,6 +234,10 @@ export class AsignacionesAdminComponent {
       case 'Asignado':
         return 'estado-asignado';
 
+<<<<<<< HEAD
+=======
+      case 'En Proceso':
+>>>>>>> fix-jaquino-2025376
       case 'En proceso':
         return 'estado-proceso';
 

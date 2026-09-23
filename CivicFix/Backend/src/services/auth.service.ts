@@ -20,7 +20,7 @@ export class AuthService {
             datos.usuario
         );
 
-        if (!usuario) {
+        if (!usuario || (usuario as any).activo === false) {
             throw new Error("Usuario o contraseña incorrectos");
         }
 
@@ -59,7 +59,7 @@ export class AuthService {
             datos.usuario
         );
 
-        if (!empleado) {
+        if (!empleado || (empleado as any).activo === false) {
             throw new Error("Usuario o contraseña incorrectos");
         }
 

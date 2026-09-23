@@ -12,7 +12,7 @@ import { verificarTokenUsuario, verificarTokenEmpleado } from '../middleware/aut
 const router = Router();
 
 router.post('/reportes', crearReporteHandler);
-router.get('/reportes', obtenerReportesHandler);
+router.get('/reportes', verificarTokenEmpleado, obtenerReportesHandler);
 router.get('/reportes/mapa', obtenerPuntosMapaHandler);
 router.get('/reportes/mis-reportes', verificarTokenUsuario, obtenerMisReportesHandler);
 router.patch('/reportes/:id/estado', verificarTokenEmpleado, actualizarEstadoReporteHandler);

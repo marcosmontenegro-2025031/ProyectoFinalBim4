@@ -4,7 +4,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { EmpleadoService } from '../../services/empleado.service';
 import { DepartamentoService } from '../../services/departamento.service';
 import { Router, RouterLink } from '@angular/router';
+<<<<<<< HEAD
+=======
 import { MunicipalidadService } from "../../services/municipalides.service";
+>>>>>>> fix-jaquino-2025376
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink, CommonModule],
@@ -16,14 +19,21 @@ import { MunicipalidadService } from "../../services/municipalides.service";
 export class EmpleadoRegister implements OnInit {
   RegisterForm: FormGroup;
   departamentos: any[] = [];
+<<<<<<< HEAD
+=======
   municipalidades: any[] = [];
+>>>>>>> fix-jaquino-2025376
 
   constructor(
     private fb: FormBuilder,
     private empleadoService: EmpleadoService,
     private departamentoService: DepartamentoService,
+<<<<<<< HEAD
+    private router: Router
+=======
     private router: Router,
     private municipalidadService: MunicipalidadService
+>>>>>>> fix-jaquino-2025376
   ){
     this.RegisterForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -34,9 +44,13 @@ export class EmpleadoRegister implements OnInit {
       telefono: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
       cargo: ['', Validators.required],
+<<<<<<< HEAD
+      id_departamento: ['', Validators.required]
+=======
       id_departamento: ['', Validators.required],
       direccion: ['', Validators.required],
       id_municipalidad: ['', Validators.required]
+>>>>>>> fix-jaquino-2025376
     })
   }
 
@@ -49,6 +63,8 @@ export class EmpleadoRegister implements OnInit {
         console.error('Error al cargar departamentos:', err);
       }
     });
+<<<<<<< HEAD
+=======
 
     this.municipalidadService.obtenerMunicipalidades().subscribe({
       next: (data) => {
@@ -58,6 +74,7 @@ export class EmpleadoRegister implements OnInit {
         console.error('Error al cargar municipalidades:', err);
       }
     });
+>>>>>>> fix-jaquino-2025376
   }
 
   mostarPassword = false;

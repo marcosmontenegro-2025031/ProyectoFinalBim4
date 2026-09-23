@@ -182,6 +182,120 @@ textarea.form-control {
   }
 }
  
+/* ==========================================
+   PANEL DE ADMINISTRACIÓN (mismo look del Dashboard)
+   Estas clases las usan admin-home, usuario-home y
+   todas las vistas de /admin/* a través de
+   <app-admin-sidebar> para que compartan un único
+   sistema visual.
+========================================== */
+
+.civic-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #f3f8fd;
+  color: #123b70;
+  font-family: "Segoe UI", Inter, Arial, sans-serif;
+}
+
+.civic-main {
+  width: calc(100% - 278px);
+  min-height: 100vh;
+  margin-left: 278px;
+  padding: 35px 40px 50px;
+  box-sizing: border-box;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.dashboard-label {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #0874dc;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  color: #123b70;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.dashboard-header p {
+  margin: 7px 0 0;
+  color: #6d8197;
+  font-size: 14px;
+}
+
+.dashboard-header .reload-button,
+.dashboard-header .btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 18px;
+  border: 1px solid #d8e4ef;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #126bd0;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s ease;
+  white-space: nowrap;
+}
+
+.dashboard-header .btn-primary {
+  border-color: #0874dc;
+  background: linear-gradient(90deg, #0874dc, #126bd0);
+  color: #ffffff;
+}
+
+.dashboard-header .reload-button:hover {
+  background: #eef6ff;
+  transform: translateY(-1px);
+}
+
+.dashboard-header .btn-primary:hover {
+  opacity: .92;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 850px) {
+  .civic-main {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+    padding: 25px;
+  }
+}
+
+@media (max-width: 650px) {
+  .civic-layout {
+    flex-direction: column;
+  }
+
+  .civic-main {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
