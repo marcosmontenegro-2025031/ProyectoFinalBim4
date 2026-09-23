@@ -628,3 +628,32 @@ INSERT INTO BitacoraCambioEstado (
     2,
     'Reporte asignado para revisión.'
 );
+
+ALTER TABLE usuario
+ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE empleadomunicipal
+ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
+
+SELECT id_usuario, activo FROM usuario;
+
+SELECT id_empleado, cargo, activo FROM empleadomunicipal;
+
+SELECT id_empleado, nombre, apellido, usuario, cargo, activo
+FROM empleadomunicipal
+ORDER BY id_empleado;
+
+ALTER TABLE DepartamentoMunicipal
+ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE ServicioMunicipal
+ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE TipoIncidencia
+ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE Prioridad
+ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE Estado
+ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
