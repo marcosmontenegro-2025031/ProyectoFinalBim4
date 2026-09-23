@@ -4,7 +4,8 @@ import {
   obtenerPuntosMapaHandler, 
   obtenerReportesHandler, // <--- 1. Importa el controlador para listar reportes
   obtenerMisReportesHandler,
-  actualizarEstadoReporteHandler
+  actualizarEstadoReporteHandler,
+  obtenerMisAsignacionesHandler
 } from '../controllers/reporte.controller';
 import { verificarTokenUsuario, verificarTokenEmpleado } from '../middleware/auth.middleware';
 
@@ -15,5 +16,6 @@ router.get('/reportes', obtenerReportesHandler);
 router.get('/reportes/mapa', obtenerPuntosMapaHandler);
 router.get('/reportes/mis-reportes', verificarTokenUsuario, obtenerMisReportesHandler);
 router.patch('/reportes/:id/estado', verificarTokenEmpleado, actualizarEstadoReporteHandler);
+router.get('/reportes/mis-asignaciones', verificarTokenEmpleado, obtenerMisAsignacionesHandler);
 
 export default router;

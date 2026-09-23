@@ -108,3 +108,21 @@ export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Pr
         });
     }
 };
+
+export const obtenerMisAsignacionesHandler = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const idEmpleado = (req as any).empleado?.id_empleado;
+
+        if (!idEmpleado) {
+            return res.status(401).json({ error: 'No se pudo identificar al empleado autenticado.' });
+        }
+
+        const reportes = await reporteService.obtenerReportesPorEmpleado(idEmpleado);
+        return res.status(200).json(reportes);
+    } catch (error: any) {
+        return res.status(500).json({
+            error: 'Error al obtener las incidencias asignadas',
+            detalle: error.message
+        });
+    }
+};
