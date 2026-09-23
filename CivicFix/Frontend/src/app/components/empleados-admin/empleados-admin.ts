@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
 
 interface Empleado {
   id: number;
@@ -28,67 +29,22 @@ interface Empleado {
   styleUrl: './empleados-admin.css'
 })
 export class EmpleadosAdminComponent {
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Empleado>('empleados').subscribe({
+      next: datos => { this.empleados = datos; this.cd.markForCheck(); },
+      error: error => { this.empleados = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
-  empleados: Empleado[] = [
-    {
-      id: 1,
-      nombre: 'Carlos',
-      apellido: 'Ramírez',
-      correo: 'carlos.ramirez@municipalidad.gob.gt',
-      telefono: '5555-1001',
-      departamento: 'Servicios Públicos',
-      cargo: 'Supervisor',
-      estado: 'Activo',
-      fechaIngreso: '2025-01-15'
-    },
-    {
-      id: 2,
-      nombre: 'María',
-      apellido: 'López',
-      correo: 'maria.lopez@municipalidad.gob.gt',
-      telefono: '5555-1002',
-      departamento: 'Medio Ambiente',
-      cargo: 'Coordinadora',
-      estado: 'Activo',
-      fechaIngreso: '2024-08-20'
-    },
-    {
-      id: 3,
-      nombre: 'José',
-      apellido: 'Hernández',
-      correo: 'jose.hernandez@municipalidad.gob.gt',
-      telefono: '5555-1003',
-      departamento: 'Infraestructura',
-      cargo: 'Técnico',
-      estado: 'Activo',
-      fechaIngreso: '2025-03-10'
-    },
-    {
-      id: 4,
-      nombre: 'Ana',
-      apellido: 'Morales',
-      correo: 'ana.morales@municipalidad.gob.gt',
-      telefono: '5555-1004',
-      departamento: 'Servicios Públicos',
-      cargo: 'Inspectora',
-      estado: 'Inactivo',
-      fechaIngreso: '2023-11-05'
-    },
-    {
-      id: 5,
-      nombre: 'Luis',
-      apellido: 'Castillo',
-      correo: 'luis.castillo@municipalidad.gob.gt',
-      telefono: '5555-1005',
-      departamento: 'Infraestructura',
-      cargo: 'Ingeniero',
-      estado: 'Activo',
-      fechaIngreso: '2024-02-12'
-    }
-  ];
+  empleados: Empleado[] = [];
 
   get empleadosFiltrados(): Empleado[] {
     return this.empleados.filter(empleado => {
@@ -133,33 +89,24 @@ export class EmpleadosAdminComponent {
   }
 
   nuevoEmpleado(): void {
-    alert('Aquí se abrirá el formulario para crear un empleado.');
+    this.router.navigate(['/admin/empleados/nuevo']);
   }
 
-  editarEmpleado(empleado: Empleado): void {
-    alert(`Editar empleado: ${empleado.nombre} ${empleado.apellido}`);
+  editarEmpleado(actual: Empleado): void {
+    this.router.navigate(['/admin/empleados/editar', actual.id]);
   }
 
-  cambiarEstado(empleado: Empleado): void {
-    empleado.estado =
-      empleado.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
+  cambiarEstado(actual: Empleado): void {
+    this.adminApi.activar('empleados',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
   }
 
-  eliminarEmpleado(empleado: Empleado): void {
-
-    const confirmar = confirm(
-      `¿Deseas eliminar a ${empleado.nombre} ${empleado.apellido}?`
-    );
-
-    if (!confirmar) {
-      return;
-    }
-
-    this.empleados = this.empleados.filter(
-      item => item.id !== empleado.id
-    );
+  eliminarEmpleado(actual: Empleado): void {
+    if (!confirm('¿Eliminar empleado #' + actual.id + '?')) return;
+    this.adminApi.eliminar('empleados',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
   }
 
   obtenerClaseEstado(estado: string): string {

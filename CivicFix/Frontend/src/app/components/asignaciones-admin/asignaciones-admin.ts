@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
 
 interface Asignacion {
   id: number;
@@ -27,59 +28,19 @@ interface Asignacion {
   styleUrl: './asignaciones-admin.css'
 })
 export class AsignacionesAdminComponent {
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Asignacion>('asignaciones').subscribe({
+      next: datos => { this.asignaciones = datos; this.cd.markForCheck(); },
+      error: error => { this.asignaciones = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
 
-  asignaciones: Asignacion[] = [
-    {
-      id: 1,
-      reporte: 'Bache en Avenida Reforma',
-      empleado: 'Carlos López',
-      departamento: 'Obras Públicas',
-      prioridad: 'Alta',
-      estado: 'Asignado',
-      fechaAsignacion: '18/09/2026',
-      fechaLimite: '20/09/2026'
-    },
-    {
-      id: 2,
-      reporte: 'Lámpara sin funcionar',
-      empleado: 'María García',
-      departamento: 'Alumbrado Público',
-      prioridad: 'Media',
-      estado: 'En proceso',
-      fechaAsignacion: '17/09/2026',
-      fechaLimite: '19/09/2026'
-    },
-    {
-      id: 3,
-      reporte: 'Acumulación de basura',
-      empleado: 'José Martínez',
-      departamento: 'Servicios Públicos',
-      prioridad: 'Crítica',
-      estado: 'Asignado',
-      fechaAsignacion: '18/09/2026',
-      fechaLimite: '19/09/2026'
-    },
-    {
-      id: 4,
-      reporte: 'Fuga de agua',
-      empleado: 'Ana Morales',
-      departamento: 'Agua y Saneamiento',
-      prioridad: 'Alta',
-      estado: 'Resuelto',
-      fechaAsignacion: '15/09/2026',
-      fechaLimite: '17/09/2026'
-    },
-    {
-      id: 5,
-      reporte: 'Señalización dañada',
-      empleado: 'Pedro Ramírez',
-      departamento: 'Tránsito',
-      prioridad: 'Baja',
-      estado: 'Asignado',
-      fechaAsignacion: '16/09/2026',
-      fechaLimite: '22/09/2026'
-    }
-  ];
+
+  asignaciones: Asignacion[] = [];
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
@@ -122,7 +83,7 @@ export class AsignacionesAdminComponent {
 
   get enProceso(): number {
     return this.asignaciones.filter(
-      asignacion => asignacion.estado === 'En proceso'
+      asignacion => asignacion.estado.toLowerCase() === 'en proceso'
     ).length;
   }
 
@@ -133,39 +94,32 @@ export class AsignacionesAdminComponent {
   }
 
   nuevaAsignacion(): void {
-    alert('Aquí se abrirá el formulario para crear una nueva asignación.');
+    this.router.navigate(['/admin/asignaciones/nuevo']);
   }
 
-  editarAsignacion(asignacion: Asignacion): void {
-    alert(`Editar asignación del reporte: ${asignacion.reporte}`);
+  editarAsignacion(actual: Asignacion): void {
+    this.router.navigate(['/admin/asignaciones/editar', actual.id]);
   }
 
-  cambiarEstado(asignacion: Asignacion): void {
-
-    if (asignacion.estado === 'Asignado') {
-      asignacion.estado = 'En proceso';
-      return;
-    }
-
-    if (asignacion.estado === 'En proceso') {
-      asignacion.estado = 'Resuelto';
-      return;
-    }
-
-    asignacion.estado = 'Asignado';
+  cambiarEstado(actual: Asignacion): void {
+    const siguientes: Record<string,string> = {'Asignado':'En Proceso','En proceso':'Resuelto','En Proceso':'Resuelto','Resuelto':'Asignado'};
+    const nombre = siguientes[actual.estado] ?? 'Asignado';
+    this.adminApi.listar<{id:number;nombre:string}>('estados').subscribe({
+      next: estados => {
+        const estado = estados.find(e => e.nombre.toLowerCase() === nombre.toLowerCase());
+        if (!estado) { alert('Estado no encontrado en la base de datos'); return; }
+        this.adminApi.estadoReporte((actual as any).id_reporte,estado.id).subscribe({
+          next: () => this.cargar(),error: e => this.adminApi.aviso(e)
+        });
+      }, error: e => this.adminApi.aviso(e)
+    });
   }
 
-  eliminarAsignacion(asignacion: Asignacion): void {
-
-    const confirmar = confirm(
-      `¿Deseas eliminar la asignación del reporte "${asignacion.reporte}"?`
-    );
-
-    if (confirmar) {
-      this.asignaciones = this.asignaciones.filter(
-        item => item.id !== asignacion.id
-      );
-    }
+  eliminarAsignacion(actual: Asignacion): void {
+    if (!confirm('¿Eliminar asignacion #' + actual.id + '?')) return;
+    this.adminApi.eliminar('asignaciones',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
   }
 
   obtenerClaseEstado(estado: string): string {
@@ -173,6 +127,7 @@ export class AsignacionesAdminComponent {
       case 'Asignado':
         return 'estado-asignado';
 
+      case 'En Proceso':
       case 'En proceso':
         return 'estado-proceso';
 

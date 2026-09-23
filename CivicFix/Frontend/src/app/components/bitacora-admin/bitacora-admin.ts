@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
 
 interface RegistroBitacora {
   id: number;
@@ -26,104 +27,15 @@ interface RegistroBitacora {
 })
 export class BitacoraAdminComponent {
 
-  registros: RegistroBitacora[] = [
-    {
-      id: 1,
-      usuario: 'Carlos López',
-      rol: 'Administrador',
-      accion: 'Crear',
-      modulo: 'Usuarios',
-      descripcion: 'Creó un nuevo usuario en el sistema',
-      fecha: '21/09/2026',
-      hora: '08:42',
-      ip: '192.168.1.10',
-      resultado: 'Exitoso'
-    },
-    {
-      id: 2,
-      usuario: 'María García',
-      rol: 'Empleado',
-      accion: 'Actualizar',
-      modulo: 'Reportes',
-      descripcion: 'Actualizó el estado de un reporte',
-      fecha: '21/09/2026',
-      hora: '09:15',
-      ip: '192.168.1.15',
-      resultado: 'Exitoso'
-    },
-    {
-      id: 3,
-      usuario: 'José Martínez',
-      rol: 'Administrador',
-      accion: 'Eliminar',
-      modulo: 'Servicios',
-      descripcion: 'Eliminó un servicio municipal',
-      fecha: '20/09/2026',
-      hora: '10:27',
-      ip: '192.168.1.12',
-      resultado: 'Exitoso'
-    },
-    {
-      id: 4,
-      usuario: 'Ana Morales',
-      rol: 'Empleado',
-      accion: 'Actualizar',
-      modulo: 'Asignaciones',
-      descripcion: 'Cambió el estado de una asignación',
-      fecha: '20/09/2026',
-      hora: '11:03',
-      ip: '192.168.1.20',
-      resultado: 'Exitoso'
-    },
-    {
-      id: 5,
-      usuario: 'Pedro Ramírez',
-      rol: 'Administrador',
-      accion: 'Crear',
-      modulo: 'Tipos de Incidencia',
-      descripcion: 'Registró un nuevo tipo de incidencia',
-      fecha: '19/09/2026',
-      hora: '14:18',
-      ip: '192.168.1.18',
-      resultado: 'Exitoso'
-    },
-    {
-      id: 6,
-      usuario: 'Luis Hernández',
-      rol: 'Empleado',
-      accion: 'Inicio de sesión',
-      modulo: 'Autenticación',
-      descripcion: 'Inicio de sesión en el sistema',
-      fecha: '19/09/2026',
-      hora: '15:32',
-      ip: '192.168.1.25',
-      resultado: 'Exitoso'
-    },
-    {
-      id: 7,
-      usuario: 'Sofía Castillo',
-      rol: 'Usuario',
-      accion: 'Crear',
-      modulo: 'Reportes',
-      descripcion: 'Registró un nuevo reporte ciudadano',
-      fecha: '18/09/2026',
-      hora: '16:45',
-      ip: '192.168.1.30',
-      resultado: 'Exitoso'
-    },
-    {
-      id: 8,
-      usuario: 'Carlos López',
-      rol: 'Administrador',
-      accion: 'Inicio de sesión',
-      modulo: 'Autenticación',
-      descripcion: 'Intento de inicio de sesión',
-      fecha: '18/09/2026',
-      hora: '17:20',
-      ip: '192.168.1.10',
-      resultado: 'Fallido'
-    }
-  ];
+  registros: RegistroBitacora[] = [];
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void {
+    this.adminApi.listar<RegistroBitacora>('bitacora').subscribe({
+      next: datos => { this.registros = datos; this.cd.markForCheck(); },
+      error: error => { this.registros = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
 
   textoBusqueda = '';
   filtroAccion = 'Todas';
