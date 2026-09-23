@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
 
 interface Servicio {
   id: number;
@@ -27,63 +28,23 @@ interface Servicio {
   styleUrl: './servicios-admin.css'
 })
 export class ServiciosAdminComponent {
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Servicio>('servicios').subscribe({
+      next: datos => { this.servicios = datos; this.cd.markForCheck(); },
+      error: error => { this.servicios = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
   filtroDepartamento = 'Todos';
 
-  servicios: Servicio[] = [
-    {
-      id: 1,
-      nombre: 'Recolección de basura',
-      descripcion: 'Servicio de recolección de residuos en las diferentes zonas.',
-      departamento: 'Servicios Públicos',
-      responsable: 'Carlos Ramírez',
-      reportes: 38,
-      estado: 'Activo',
-      fechaCreacion: '2024-01-15'
-    },
-    {
-      id: 2,
-      nombre: 'Mantenimiento de calles',
-      descripcion: 'Reparación y mantenimiento de calles y vías municipales.',
-      departamento: 'Infraestructura',
-      responsable: 'Luis Castillo',
-      reportes: 52,
-      estado: 'Activo',
-      fechaCreacion: '2024-02-10'
-    },
-    {
-      id: 3,
-      nombre: 'Limpieza de áreas verdes',
-      descripcion: 'Mantenimiento y limpieza de parques y áreas verdes.',
-      departamento: 'Medio Ambiente',
-      responsable: 'María López',
-      reportes: 24,
-      estado: 'Activo',
-      fechaCreacion: '2024-03-05'
-    },
-    {
-      id: 4,
-      nombre: 'Alumbrado público',
-      descripcion: 'Atención de problemas relacionados con luminarias públicas.',
-      departamento: 'Servicios Públicos',
-      responsable: 'Carlos Ramírez',
-      reportes: 31,
-      estado: 'Activo',
-      fechaCreacion: '2024-03-18'
-    },
-    {
-      id: 5,
-      nombre: 'Señalización vial',
-      descripcion: 'Instalación y mantenimiento de señales de tránsito.',
-      departamento: 'Infraestructura',
-      responsable: 'Luis Castillo',
-      reportes: 17,
-      estado: 'Inactivo',
-      fechaCreacion: '2023-11-20'
-    }
-  ];
+  servicios: Servicio[] = [];
 
   get serviciosFiltrados(): Servicio[] {
     return this.servicios.filter(servicio => {
@@ -140,33 +101,24 @@ export class ServiciosAdminComponent {
   }
 
   nuevoServicio(): void {
-    alert('Aquí se abrirá el formulario para crear un servicio.');
+    this.router.navigate(['/admin/servicios/nuevo']);
   }
 
-  editarServicio(servicio: Servicio): void {
-    alert(`Editar servicio: ${servicio.nombre}`);
+  editarServicio(actual: Servicio): void {
+    this.router.navigate(['/admin/servicios/editar', actual.id]);
   }
 
-  cambiarEstado(servicio: Servicio): void {
-    servicio.estado =
-      servicio.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
+  cambiarEstado(actual: Servicio): void {
+    this.adminApi.activar('servicios',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
   }
 
-  eliminarServicio(servicio: Servicio): void {
-
-    const confirmar = confirm(
-      `¿Deseas eliminar el servicio "${servicio.nombre}"?`
-    );
-
-    if (!confirmar) {
-      return;
-    }
-
-    this.servicios = this.servicios.filter(
-      item => item.id !== servicio.id
-    );
+  eliminarServicio(actual: Servicio): void {
+    if (!confirm('¿Eliminar servicio #' + actual.id + '?')) return;
+    this.adminApi.eliminar('servicios',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
   }
 
   obtenerClaseEstado(estado: string): string {

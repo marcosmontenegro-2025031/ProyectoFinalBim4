@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
 
 interface UsuarioAdmin {
   id: number;
@@ -28,62 +29,22 @@ interface UsuarioAdmin {
   styleUrl: './usuarios-admin.css'
 })
 export class UsuariosAdminComponent {
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<UsuarioAdmin>('usuarios').subscribe({
+      next: datos => { this.usuarios = datos; this.cd.markForCheck(); },
+      error: error => { this.usuarios = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
-  usuarios: UsuarioAdmin[] = [
-    {
-      id: 1,
-      nombre: 'Carlos',
-      apellido: 'Ramírez',
-      usuario: 'carlos.ramirez',
-      correo: 'carlos@email.com',
-      telefono: '5555-1234',
-      fechaRegistro: '2026-01-15',
-      estado: 'Activo'
-    },
-    {
-      id: 2,
-      nombre: 'María',
-      apellido: 'López',
-      usuario: 'maria.lopez',
-      correo: 'maria@email.com',
-      telefono: '5555-2345',
-      fechaRegistro: '2026-02-03',
-      estado: 'Activo'
-    },
-    {
-      id: 3,
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      usuario: 'juan.perez',
-      correo: 'juan@email.com',
-      telefono: '5555-3456',
-      fechaRegistro: '2026-02-18',
-      estado: 'Inactivo'
-    },
-    {
-      id: 4,
-      nombre: 'Ana',
-      apellido: 'Gómez',
-      usuario: 'ana.gomez',
-      correo: 'ana@email.com',
-      telefono: '5555-4567',
-      fechaRegistro: '2026-03-10',
-      estado: 'Activo'
-    },
-    {
-      id: 5,
-      nombre: 'Luis',
-      apellido: 'Hernández',
-      usuario: 'luis.hernandez',
-      correo: 'luis@email.com',
-      telefono: '5555-5678',
-      fechaRegistro: '2026-03-22',
-      estado: 'Activo'
-    }
-  ];
+  usuarios: UsuarioAdmin[] = [];
 
   get usuariosFiltrados(): UsuarioAdmin[] {
     const texto = this.textoBusqueda.toLowerCase().trim();
@@ -126,32 +87,24 @@ export class UsuariosAdminComponent {
   }
 
   nuevoUsuario(): void {
-    console.log('Nuevo usuario');
+    this.router.navigate(['/admin/usuarios/nuevo']);
   }
 
-  editarUsuario(usuario: UsuarioAdmin): void {
-    console.log('Editar usuario:', usuario);
+  editarUsuario(actual: UsuarioAdmin): void {
+    this.router.navigate(['/admin/usuarios/editar', actual.id]);
   }
 
-  cambiarEstado(usuario: UsuarioAdmin): void {
-    usuario.estado =
-      usuario.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
+  cambiarEstado(actual: UsuarioAdmin): void {
+    this.adminApi.activar('usuarios',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
   }
 
-  eliminarUsuario(usuario: UsuarioAdmin): void {
-    const confirmar = confirm(
-      `¿Deseas eliminar al usuario ${usuario.nombre} ${usuario.apellido}?`
-    );
-
-    if (!confirmar) {
-      return;
-    }
-
-    this.usuarios = this.usuarios.filter(
-      item => item.id !== usuario.id
-    );
+  eliminarUsuario(actual: UsuarioAdmin): void {
+    if (!confirm('¿Eliminar usuario #' + actual.id + '?')) return;
+    this.adminApi.eliminar('usuarios',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
   }
 
   obtenerClaseEstado(estado: string): string {
