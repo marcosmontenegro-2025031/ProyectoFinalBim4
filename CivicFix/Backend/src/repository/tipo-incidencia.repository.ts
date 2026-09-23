@@ -3,7 +3,7 @@ import { TipoIncidencia } from '../models/tipo-incidencia.model';
 
 export class TipoIncidenciaRepository {
     async obtenerTodos(): Promise<TipoIncidencia[]> {
-        const query = 'SELECT id_tipo_incidencia, nombre, codigo_ia FROM TipoIncidencia ORDER BY nombre ASC';
+        const query = 'SELECT id_tipo_incidencia, nombre, codigo_ia FROM TipoIncidencia WHERE activo = TRUE ORDER BY nombre ASC';
         const { rows } = await pool.query(query);
         return rows;
     }
