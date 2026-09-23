@@ -21,7 +21,7 @@ export class MunicipalidadService {
     }
 
     async crearMunicipalidad(municipalidad: Municipalidad): Promise<Municipalidad> {
-        if (!municipalidad.nombre || !municipalidad.direccion || !municipalidad.correo || municipalidad.telefono){
+        if (!municipalidad.nombre || !municipalidad.direccion || !municipalidad.correo || !municipalidad.telefono){
             throw new Error("Todos los campos son obligatorios");
         }
 
@@ -37,7 +37,7 @@ export class MunicipalidadService {
     }
 
     async actualizarMunicipalidad(id: number,municipalidad: Municipalidad): Promise<Municipalidad | undefined> {
-        if (!municipalidad.nombre || !municipalidad.direccion || !municipalidad.correo || municipalidad.telefono){
+        if (!municipalidad.nombre || !municipalidad.direccion || !municipalidad.correo || !municipalidad.telefono){
             throw new Error("Todos los campos son obligatorios");
         }
 

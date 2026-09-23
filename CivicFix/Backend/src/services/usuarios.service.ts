@@ -53,7 +53,7 @@ export class UsuariosService {
             throw new Error("El id proporcionado no es válido.");
         }
 
-        if (!usuario.nombre || !usuario.apellido || !usuario.usuario || !usuario.correo || !usuario.password || !usuario.telefono) {
+        if (!usuario.nombre || !usuario.apellido || !usuario.usuario || !usuario.correo || !usuario.telefono) {
             throw new Error("Todos los campos son obligatorios");
         }
 
@@ -65,7 +65,7 @@ export class UsuariosService {
             throw new Error("El número de teléfono debe tener 8 dígitos");
         }
 
-        if (usuario.password.length < 8) {
+        if (usuario.password && usuario.password.length < 8) {
             throw new Error("La contraseña debe tener al menos 8 caracteres");
         }
 
