@@ -1,0 +1,51 @@
+<div class="civic-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+  <main class="civic-main admin-form-main">
+    <section class="admin-form-container">
+      <a class="volver" [routerLink]="volver"><i class="bi bi-arrow-left"></i> Volver a {{ definicion.titulo }}</a>
+      <header class="admin-form-header"><span class="eyebrow">Administración · {{ definicion.titulo }}</span>
+        <h1>{{ titulo }}</h1><p>{{ editando ? 'Modifica la información y guarda los cambios en la base de datos.' : 'Completa los datos para registrar un nuevo elemento.' }}</p>
+      </header>
+      <div class="notice error" role="alert" *ngIf="error">{{ error }} <button type="button" *ngIf="cargando===false && !editando && definicion.campos.length===0" [routerLink]="volver">Volver</button></div>
+      <div *ngIf="cargando" class="admin-form-card">Cargando datos desde PostgreSQL…</div>
+      <form *ngIf="!cargando && definicion.campos.length" class="admin-form-card" #formAdmin="ngForm" (ngSubmit)="guardar(formAdmin)" novalidate>
+        <div class="form-grid">
+          <div class="form-group" *ngFor="let campo of definicion.campos" [class.ancho]="campo.tipo==='textarea'">
+            <label [for]="campo.clave">{{ campo.etiqueta }} <span class="required" *ngIf="esObligatorio(campo)">*</span></label>
+            <ng-container [ngSwitch]="campo.tipo">
+              <textarea *ngSwitchCase="'textarea'" [id]="campo.clave" [name]="campo.clave" [(ngModel)]="valores[campo.clave]"
+                [required]="esObligatorio(campo)" [attr.maxlength]="campo.maximo||null" rows="4"></textarea>
+              <select *ngSwitchCase="'select'" [id]="campo.clave" [name]="campo.clave" [(ngModel)]="valores[campo.clave]"
+                [required]="esObligatorio(campo)" (ngModelChange)="cambioSelect(campo.clave)">
+                <option [ngValue]="null">{{ esObligatorio(campo)?'Selecciona una opción':'Sin asignar' }}</option>
+                <option
+  *ngFor="let opcion of opciones(campo)"
+  [ngValue]="opcion['id']"
+  [disabled]="
+    opcion['estado'] === 'Inactivo' &&
+    valores[campo.clave] !== opcion['id']
+  "
+>
+  {{ etiqueta(opcion, campo.opciones || '') }}
+  {{ opcion['estado'] === 'Inactivo' ? ' (inactivo)' : '' }}
+</option>
+
+              </select>
+              <input *ngSwitchDefault [id]="campo.clave" [name]="campo.clave" [type]="campo.tipo||'text'" [(ngModel)]="valores[campo.clave]"
+                [required]="esObligatorio(campo)" [attr.maxlength]="campo.maximo||null" [attr.min]="campo.clave==='latitud'?-90:campo.clave==='longitud'?-180:null"
+                [attr.max]="campo.clave==='latitud'?90:campo.clave==='longitud'?180:null" [attr.step]="campo.tipo==='number'?'any':null"
+                [attr.minlength]="campo.tipo==='password' && esObligatorio(campo)?8:null" autocomplete="off">
+            </ng-container>
+            <small *ngIf="campo.ayuda">{{ campo.ayuda }}</small>
+            <small class="field-error" *ngIf="formAdmin.controls[campo.clave]?.invalid && (formAdmin.controls[campo.clave]?.touched || formAdmin.submitted)">
+              {{ formAdmin.controls[campo.clave]?.errors?.['required'] ? 'Este campo es obligatorio.' : 'Revisa el formato o la longitud del dato.' }}
+            </small>
+          </div>
+        </div>
+        <div class="form-actions"><a class="btn-cancel" [routerLink]="volver">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="guardando"> <i class="bi bi-check2-circle"></i> {{ guardando?'Guardando…':editando?'Guardar cambios':'Crear registro' }}</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>

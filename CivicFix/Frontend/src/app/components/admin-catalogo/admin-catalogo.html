@@ -1,0 +1,124 @@
+<div class="civic-layout">
+  <app-admin-sidebar></app-admin-sidebar>
+
+  <main class="civic-main">
+    <section class="catalogo">
+      <div class="encabezado">
+        <div>
+          <span class="subtitulo">Administración · Catálogos</span>
+          <h1>{{ titulo }}</h1>
+          <p>Gestiona los registros y sus relaciones con CivicFix.</p>
+        </div>
+
+        <button class="primary" (click)="nuevo()">
+          <i class="bi bi-plus-lg"></i> Agregar {{ singular }}
+        </button>
+      </div>
+
+      <div class="lista">
+        <div class="barra">
+          <label class="buscar">
+            <i class="bi bi-search"></i>
+            <input
+              [(ngModel)]="busqueda"
+              aria-label="Buscar"
+              placeholder="Buscar registros..."
+            />
+          </label>
+
+          <button class="reload" (click)="cargar()">
+            <i class="bi bi-arrow-clockwise"></i> Actualizar
+          </button>
+        </div>
+
+        <p class="error" *ngIf="error" role="alert">{{ error }}</p>
+        <p *ngIf="cargando">Cargando datos…</p>
+
+        <div class="tabla" *ngIf="!cargando">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>
+                  {{ modulo === 'municipalidades' ? 'Municipalidad' : 'Dirección' }}
+                </th>
+                <th>
+                  {{ modulo === 'municipalidades' ? 'Correo' : 'Zona' }}
+                </th>
+                <th>
+                  {{ modulo === 'municipalidades' ? 'Teléfono' : 'Referencia' }}
+                </th>
+                <th>
+                  {{ modulo === 'municipalidades' ? 'Departamentos' : 'Reportes' }}
+                </th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of filtrados">
+                <td>#{{ item['id'] }}</td>
+
+                <td>
+                  <strong>
+                    {{ item['nombre'] || item['direccion'] }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{
+                    modulo === 'municipalidades'
+                      ? (item['correo'] || '—')
+                      : (item['zona'] || '—')
+                  }}
+                </td>
+
+                <td>
+                  {{
+                    modulo === 'municipalidades'
+                      ? (item['telefono'] || '—')
+                      : (item['referencia'] || '—')
+                  }}
+                </td>
+
+                <td>
+                  {{
+                    modulo === 'municipalidades'
+                      ? item['departamentos']
+                      : item['reportes']
+                  }}
+                </td>
+
+                <td>
+                  <div class="acciones">
+                    <button
+                      (click)="editar(item)"
+                      title="Editar"
+                      aria-label="Editar"
+                    >
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+
+                    <button
+                      (click)="eliminar(item)"
+                      title="Eliminar"
+                      aria-label="Eliminar"
+                    >
+                      <i class="bi bi-trash-fill"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngIf="filtrados.length === 0">
+                <td colspan="6" class="empty">
+                  No hay registros que coincidan.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

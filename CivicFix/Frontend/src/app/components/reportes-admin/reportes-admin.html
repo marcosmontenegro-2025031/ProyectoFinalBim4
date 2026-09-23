@@ -14,6 +14,8 @@
           <p>Consulta y administra los reportes registrados en CivicFix.</p>
         </div>
 
+        <div class="report-actions-header">
+        <button class="refresh-btn" (click)="nuevoReporte()"><i class="bi bi-plus-lg"></i> Nuevo reporte</button>
         <button
           class="refresh-btn"
           (click)="cargarReportes()">
@@ -23,6 +25,7 @@
           Actualizar
 
         </button>
+        </div>
 
       </div>
 
@@ -284,8 +287,8 @@
 
                     <button
                       class="action-btn edit"
-                      title="Actualizar estado"
-                      (click)="actualizarEstado(reporte)">
+                      title="Editar reporte y actualizar estado"
+                      (click)="editarReporte(reporte)">
 
                       <i class="bi bi-pencil-fill"></i>
 
@@ -330,4 +333,33 @@
 
   </main>
 
+</div>
+<div class="detalle-backdrop" *ngIf="detalle || cargandoDetalle || errorDetalle" (click)="cerrarDetalle()">
+  <section class="detalle-panel" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-label="Detalle de reporte">
+    <button class="detalle-cerrar" (click)="cerrarDetalle()" aria-label="Cerrar"><i class="bi bi-x-lg"></i></button>
+    <div *ngIf="cargandoDetalle">Consultando reporte…</div>
+    <div *ngIf="errorDetalle" class="detalle-error" role="alert">{{ errorDetalle }}</div>
+    <ng-container *ngIf="detalle as resultado">
+      <span class="detalle-label">Reporte #{{ resultado.reporte.id_reporte }}</span>
+      <h2>{{ resultado.reporte.titulo }}</h2><p>{{ resultado.reporte.descripcion }}</p>
+      <div class="detalle-datos">
+        <div><b>Ciudadano</b><span>{{ resultado.reporte.ciudadano }}</span></div>
+        <div><b>Contacto</b><span>{{ resultado.reporte.correo }}</span></div>
+        <div><b>Incidencia</b><span>{{ resultado.reporte.tipo }}</span></div>
+        <div><b>Servicio</b><span>{{ resultado.reporte.servicio }}</span></div>
+        <div><b>Estado</b><span>{{ resultado.reporte.estado }}</span></div>
+        <div><b>Prioridad</b><span>{{ resultado.reporte.prioridad }}</span></div>
+        <div><b>Ubicación</b><span>{{ resultado.reporte.direccion }} {{ resultado.reporte.zona }}</span></div>
+        <div><b>Registrado</b><span>{{ resultado.reporte.fecha_reporte | date:'dd/MM/yyyy HH:mm' }}</span></div>
+      </div>
+      <h3>Historial de cambios de estado</h3>
+      <p *ngIf="resultado.historial.length===0">Todavía no hay cambios registrados.</p>
+      <div *ngFor="let cambio of resultado.historial" class="detalle-historial">
+        <strong>{{ cambio.estado_anterior }} → {{ cambio.estado_nuevo }}</strong>
+        <span>{{ cambio.fecha_cambio | date:'dd/MM/yyyy HH:mm' }} · {{ cambio.empleado }}</span>
+        <p *ngIf="cambio.comentario">{{ cambio.comentario }}</p>
+      </div>
+      <div class="detalle-acciones"><button type="button" (click)="editarReporte(resultado.reporte);cerrarDetalle()">Editar reporte</button></div>
+    </ng-container>
+  </section>
 </div>
