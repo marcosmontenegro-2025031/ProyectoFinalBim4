@@ -1,96 +1,65 @@
 <div class="empleado-layout">
 
-  <aside class="empleado-sidebar">
+  <aside class="civic-sidebar">
 
-    <div class="sidebar-brand">
-      <div class="brand-icon">
-        <i class="fa-solid fa-location-dot"></i>
-        <i class="fa-solid fa-wrench"></i>
-      </div>
-
-      <div class="brand-text">
-        <strong>CIVICFIX</strong>
-        <span>Empleado Municipal</span>
+    <div class="civic-brand">
+      <div class="civic-logo-wrapper">
+        <img
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+          alt="CIVICFIX"
+          class="civic-logo"
+        >
       </div>
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="civic-navigation">
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/home"
-        routerLinkActive="active"
-      >
+      <a class="civic-nav-item" routerLink="/empleado/home" routerLinkActive="active">
         <i class="bi bi-house-fill"></i>
         <span>Inicio</span>
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/incidencias"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <span>Incidencias</span>
-      </a>
-
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/asignaciones"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-list-check"></i>
-        <span>Asignaciones</span>
-      </a>
-
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/mapa"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-map-location-dot"></i>
-        <span>Mapa</span>
-      </a>
-
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/reportes"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-chart-column"></i>
+      <a class="civic-nav-item" routerLink="/empleado/reportes" routerLinkActive="active">
+        <i class="bi bi-bar-chart"></i>
         <span>Reportes</span>
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/notificaciones"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-bell"></i>
+      <a class="civic-nav-item" routerLink="/empleado/notificaciones" routerLinkActive="active">
+        <i class="bi bi-bell"></i>
         <span>Notificaciones</span>
-        <span class="notification-count">3</span>
+        
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/perfil"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-user"></i>
+      <a class="civic-nav-item" routerLink="/empleado/perfil" routerLinkActive="active">
+        <i class="bi bi-person-circle"></i>
         <span>Perfil</span>
       </a>
 
     </nav>
 
-    <div class="sidebar-bottom">
-      <div class="municipality-icon">
-        <i class="fa-solid fa-building-columns"></i>
+    <div class="civic-city">
+
+      <div class="city-buildings">
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+        <span class="lamp"></span>
       </div>
 
-      <div>
-        <strong>Municipalidad</strong>
-        <span>Ciudad de Guatemala</span>
+      <div class="civic-city-footer">
+        <div class="municipality-icon">
+          <i class="bi bi-shield-fill-check"></i>
+        </div>
+        <div>
+          <strong>{{ empleado.cargo }}</strong>
+          <small>Municipalidad de Guatemala</small>
+        </div>
       </div>
+
     </div>
 
   </aside>
@@ -106,28 +75,20 @@
 
       <div class="topbar-actions">
 
-        <button
-          class="topbar-button"
-          type="button"
-          routerLink="/empleado/notificaciones"
-        >
+        <button class="topbar-button" type="button" routerLink="/empleado/notificaciones">
           <i class="fa-solid fa-bell"></i>
           <span class="notification-dot"></span>
         </button>
 
         <div class="employee-profile">
-
           <div class="employee-avatar">
-            CL
+            {{ empleado.nombre.charAt(0) }}
           </div>
-
           <div class="employee-info">
             <strong>{{ empleado.nombre }}</strong>
             <span>{{ empleado.cargo }}</span>
           </div>
-
           <i class="fa-solid fa-chevron-down"></i>
-
         </div>
 
       </div>
@@ -137,76 +98,62 @@
     <section class="dashboard-content">
 
       <div class="welcome-row">
-
         <div>
           <span class="section-label">Panel de trabajo</span>
           <h2>Hola, {{ empleado.nombre.split(' ')[0] }}</h2>
-          <p>
-            Aquí puedes consultar y gestionar las incidencias asignadas.
-          </p>
+          <p>Aquí puedes consultar y gestionar las incidencias asignadas a ti.</p>
         </div>
 
-        <div class="date-box">
-          <i class="fa-regular fa-calendar"></i>
+        <button class="date-box" type="button" (click)="recargar()" title="Actualizar">
+          <i class="fa-solid fa-rotate" [class.fa-spin]="cargando"></i>
           <div>
-            <span>Hoy</span>
-            <strong>21 Septiembre 2026</strong>
+            <span>{{ cargando ? 'Actualizando…' : 'Actualizar' }}</span>
+            <strong>{{ incidencias.length }} asignadas</strong>
           </div>
-        </div>
-
+        </button>
       </div>
+
+      @if (error) {
+        <div class="error-banner">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>{{ error }}</span>
+          <button type="button" (click)="recargar()">Reintentar</button>
+        </div>
+      }
 
       <section class="stats-grid">
 
         <article class="stat-card">
-
           <div class="stat-icon blue">
             <i class="fa-solid fa-clipboard-list"></i>
           </div>
-
           <div class="stat-content">
             <span>Incidencias asignadas</span>
             <strong>{{ estadisticas.asignadas }}</strong>
-            <small>
-              <i class="fa-solid fa-arrow-up"></i>
-              Total activas
-            </small>
+            <small><i class="fa-solid fa-arrow-up"></i> Total activas</small>
           </div>
-
         </article>
 
         <article class="stat-card">
-
           <div class="stat-icon orange">
             <i class="fa-solid fa-spinner"></i>
           </div>
-
           <div class="stat-content">
             <span>En proceso</span>
             <strong>{{ estadisticas.proceso }}</strong>
-            <small>
-              <i class="fa-solid fa-clock"></i>
-              Requieren seguimiento
-            </small>
+            <small><i class="fa-solid fa-clock"></i> Requieren seguimiento</small>
           </div>
-
         </article>
 
         <article class="stat-card">
-
           <div class="stat-icon green">
-            <i class="fa-solid fa-rotate"></i>
+            <i class="fa-solid fa-circle-check"></i>
           </div>
-
           <div class="stat-content">
-            <span>Revisitas hoy</span>
-            <strong>{{ estadisticas.revisitas }}</strong>
-            <small>
-              <i class="fa-solid fa-calendar-check"></i>
-              Programadas
-            </small>
+            <span>Resueltas</span>
+            <strong>{{ estadisticas.resueltas }}</strong>
+            <small><i class="fa-solid fa-calendar-check"></i> Completadas</small>
           </div>
-
         </article>
 
       </section>
@@ -216,72 +163,28 @@
         <article class="map-card">
 
           <div class="card-header">
-
             <div>
               <span class="card-kicker">
                 <i class="fa-solid fa-map-location-dot"></i>
                 Incidencias
               </span>
-
-              <h3>Mapa de incidencias</h3>
+              <h3>Mapa de mis incidencias</h3>
             </div>
 
-            <button
-              class="map-expand"
-              type="button"
-              routerLink="/empleado/mapa"
-            >
+            <button class="map-expand" type="button" routerLink="/empleado/mapa">
               <i class="fa-solid fa-expand"></i>
             </button>
-
           </div>
 
           <div class="map-container">
+            <div #miniMapContainer class="mini-map"></div>
 
-            <div class="map-background">
-
-              <div class="map-road road-1"></div>
-              <div class="map-road road-2"></div>
-              <div class="map-road road-3"></div>
-              <div class="map-road road-4"></div>
-              <div class="map-road road-5"></div>
-              <div class="map-road road-6"></div>
-
-              <div class="map-block block-1"></div>
-              <div class="map-block block-2"></div>
-              <div class="map-block block-3"></div>
-              <div class="map-block block-4"></div>
-              <div class="map-block block-5"></div>
-              <div class="map-block block-6"></div>
-              <div class="map-block block-7"></div>
-              <div class="map-block block-8"></div>
-              <div class="map-block block-9"></div>
-              <div class="map-block block-10"></div>
-
-              <div
-                class="map-marker"
-                *ngFor="let incidencia of incidencias"
-                [ngClass]="obtenerClasePrioridad(incidencia.prioridad)"
-                [style.left.%]="incidencia.x"
-                [style.top.%]="incidencia.y"
-                (click)="verIncidencia(incidencia.id)"
-                [title]="incidencia.tipo + ' - ' + incidencia.ubicacion"
-              >
-                <i [class]="incidencia.icono"></i>
+            @if (!incidencias.length && !cargando) {
+              <div class="map-empty">
+                <i class="fa-solid fa-map-pin"></i>
+                <span>No tienes incidencias asignadas por el momento.</span>
               </div>
-
-              <div class="current-location">
-                <div class="location-pulse"></div>
-                <div class="location-dot"></div>
-              </div>
-
-            </div>
-
-            <div class="map-location">
-              <i class="fa-solid fa-location-dot"></i>
-              <span>Ciudad de Guatemala</span>
-            </div>
-
+            }
           </div>
 
         </article>
@@ -289,79 +192,59 @@
         <aside class="legend-card">
 
           <div class="card-header compact">
-
             <div>
               <span class="card-kicker">
                 <i class="fa-solid fa-filter"></i>
                 Filtros
               </span>
-
               <h3>Prioridad</h3>
             </div>
-
           </div>
 
           <div class="priority-list">
-
             <div class="priority-item">
               <span class="priority-dot critica"></span>
               <span>Crítica</span>
-              <strong>1</strong>
+              <strong>{{ contarPrioridad('Crítica') }}</strong>
             </div>
-
             <div class="priority-item">
               <span class="priority-dot alta"></span>
               <span>Alta</span>
-              <strong>2</strong>
+              <strong>{{ contarPrioridad('Alta') }}</strong>
             </div>
-
             <div class="priority-item">
               <span class="priority-dot media"></span>
               <span>Media</span>
-              <strong>2</strong>
+              <strong>{{ contarPrioridad('Media') }}</strong>
             </div>
-
             <div class="priority-item">
               <span class="priority-dot baja"></span>
               <span>Baja</span>
-              <strong>1</strong>
+              <strong>{{ contarPrioridad('Baja') }}</strong>
             </div>
-
           </div>
 
           <div class="legend-divider"></div>
 
-          <div class="type-title">
-            <span>Tipo</span>
-          </div>
+          <div class="type-title"><span>Tipo</span></div>
 
           <div class="type-list">
-
             <div class="type-item">
               <i class="fa-solid fa-droplet agua"></i>
-              <span>Agua</span>
+              <span>Agua ({{ contarTipo('agua') }})</span>
             </div>
-
             <div class="type-item">
               <i class="fa-solid fa-road bache"></i>
-              <span>Bache</span>
+              <span>Bache ({{ contarTipo('bache') }})</span>
             </div>
-
             <div class="type-item">
               <i class="fa-solid fa-lightbulb luminaria"></i>
-              <span>Luminaria</span>
+              <span>Luminaria ({{ contarTipo('luminaria') }})</span>
             </div>
-
             <div class="type-item">
               <i class="fa-solid fa-trash basura"></i>
-              <span>Basura</span>
+              <span>Basura ({{ contarTipo('basura') }})</span>
             </div>
-
-            <div class="type-item">
-              <i class="fa-solid fa-ellipsis otros"></i>
-              <span>Otros</span>
-            </div>
-
           </div>
 
         </aside>
@@ -371,21 +254,17 @@
       <section class="incidencias-card">
 
         <div class="incidencias-header">
-
           <div>
             <span class="card-kicker">
               <i class="fa-solid fa-list"></i>
               Gestión rápida
             </span>
-
             <h3>Incidencias recientes</h3>
           </div>
-
           <a routerLink="/empleado/incidencias">
             Ver todas
             <i class="fa-solid fa-arrow-right"></i>
           </a>
-
         </div>
 
         <div class="incidencias-table">
@@ -399,52 +278,43 @@
             <span>Acción</span>
           </div>
 
-          <div
-            class="table-row"
-            *ngFor="let incidencia of incidencias.slice(0, 5)"
-          >
+          @if (cargando) {
+            <div class="table-empty">Cargando incidencias…</div>
+          } @else if (!incidencias.length) {
+            <div class="table-empty">No tienes incidencias asignadas.</div>
+          } @else {
+            @for (incidencia of incidencias.slice(0, 5); track incidencia.id_reporte) {
+              <div class="table-row">
+                <span class="report-id">REP-{{ incidencia.id_reporte.toString().padStart(4, '0') }}</span>
 
-            <span class="report-id">
-              {{ incidencia.id }}
-            </span>
+                <span class="incident-name">
+                  <i [class]="obtenerIconoTipo(incidencia.tipo_incidencia)"></i>
+                  {{ incidencia.tipo_incidencia }}
+                </span>
 
-            <span class="incident-name">
-              <i [class]="incidencia.icono"></i>
-              {{ incidencia.tipo }}
-            </span>
+                <span class="location-text">
+                  <i class="fa-solid fa-location-dot"></i>
+                  {{ incidencia.zona ? (incidencia.zona + ' - ' + incidencia.direccion) : incidencia.direccion }}
+                </span>
 
-            <span class="location-text">
-              <i class="fa-solid fa-location-dot"></i>
-              {{ incidencia.ubicacion }}
-            </span>
+                <span>
+                  <span class="priority-badge" [ngClass]="obtenerClasePrioridad(incidencia.prioridad)">
+                    {{ incidencia.prioridad }}
+                  </span>
+                </span>
 
-            <span>
-              <span
-                class="priority-badge"
-                [ngClass]="obtenerClasePrioridad(incidencia.prioridad)"
-              >
-                {{ incidencia.prioridad }}
-              </span>
-            </span>
+                <span>
+                  <span class="status-badge" [ngClass]="obtenerClaseEstado(incidencia.estado)">
+                    {{ incidencia.estado }}
+                  </span>
+                </span>
 
-            <span>
-              <span
-                class="status-badge"
-                [ngClass]="obtenerClaseEstado(incidencia.estado)"
-              >
-                {{ incidencia.estado }}
-              </span>
-            </span>
-
-            <button
-              class="action-button"
-              type="button"
-              (click)="verIncidencia(incidencia.id)"
-            >
-              <i class="fa-solid fa-eye"></i>
-            </button>
-
-          </div>
+                <button class="action-button" type="button" (click)="verIncidencia(incidencia.id_reporte)">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            }
+          }
 
         </div>
 

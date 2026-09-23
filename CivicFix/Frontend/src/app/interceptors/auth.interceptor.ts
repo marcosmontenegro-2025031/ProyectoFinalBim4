@@ -1,9 +1,13 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { SessionService } from '../services/session.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  if (typeof localStorage === 'undefined' || req.headers.has('Authorization')) return next(req);
-  const role = localStorage.getItem('auth_role');
-  const token = role === 'ciudadano' ? localStorage.getItem('auth_token')
-    : localStorage.getItem('auth_token_empleado');
-  return next(token ? req.clone({setHeaders:{Authorization:`Bearer ${token}`}}) : req);
+  const session = inject(SessionService);
+  // Preserve Authorization supplied by a particular service; never use the legacy "token" key.
+  if (req.headers.has('Authorization') || /\/api\/login\//.test(req.url)) return next(req);
+  const rol = session.obtenerRol();
+  const token = rol === 'ciudadano' ? session.obtenerTokenCiudadano() : session.obtenerTokenEmpleado();
+  if (!token) return next(req);
+  return next(req.clone({ setHeaders: { Authorization: `Bearer ${token.replace(/^Bearer\s+/i, '').trim()}` } }));
 };

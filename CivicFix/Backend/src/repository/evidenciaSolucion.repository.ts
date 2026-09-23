@@ -1,6 +1,6 @@
-import { pool } from "../config/db.js";
-import { EvidenciaSolucion } from "../models/evidenciaSolucion.model.js";
-
+import { pool } from '../config/db.js';
+import { EvidenciaSolucion } from '../models/evidenciaSolucion.model.js';
+const cols = `id_evidencia, id_reporte AS fk_id_reporte, ruta_fotografia, descripcion, fecha_subida`;
 export class EvidenciaSolucionRepository {
     private static selectColumns = `
         id_evidencia,

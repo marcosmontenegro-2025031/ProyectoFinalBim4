@@ -46,16 +46,21 @@ export class EmpleadoService {
         ).pipe(
             tap(response => {
                 if (response && response.token) {
+<<<<<<< HEAD
                     this.guardarToken(response.token);
                     this.session.guardarEmpleado(
                         response.token,
                         response.usuario
                     );
+=======
+                    this.session.guardarEmpleado(response.token, response.usuario);
+>>>>>>> fix-kjuarez-2025054
                 }
             })
         );
     }
 
+<<<<<<< HEAD
     // ==========================================
     // REGISTRO PÚBLICO
     // ==========================================
@@ -70,16 +75,46 @@ crearEmpleado(empleado: EmpleadoMunicipal) {
     // ==========================================
     // TOKEN
     // ==========================================
+=======
+    obtenerMiPerfil(): Observable<EmpleadoMunicipal> {
+        return this.http.get<EmpleadoMunicipal>(`${this.apiUrl}/me`);
+    }
 
-    private guardarToken(token: string): void {
-        if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem(this.TOKEN_KEY, token);
-        }
+    actualizarMiPerfil(datos: Pick<EmpleadoMunicipal, 'nombre' | 'apellido' | 'usuario' | 'correo' | 'telefono'>): Observable<EmpleadoMunicipal> {
+        return this.http.put<EmpleadoMunicipal>(`${this.apiUrl}/me`, datos);
+    }
+
+    crearEmpleado(empleado: EmpleadoMunicipal) {
+        return this.http.post<EmpleadoMunicipal>(this.apiUrl, empleado);
+    }
+>>>>>>> fix-kjuarez-2025054
+
+    obtenerEmpleadoPorId(id: number): Observable<EmpleadoMunicipal> {
+
+        return this.http.get<EmpleadoMunicipal>(
+            `${this.apiUrl}/${id}`,
+        );
+    }
+
+    actualizarEmpleado(
+        id: number,
+        empleado: EmpleadoMunicipal
+    ): Observable<EmpleadoMunicipal> {
+
+        return this.http.put<EmpleadoMunicipal>(
+            `${this.apiUrl}/${id}`,
+            empleado,
+        );
     }
 
     obtenerToken(): string | null {
+<<<<<<< HEAD
         if (isPlatformBrowser(this.platformId)) {
             return localStorage.getItem(this.TOKEN_KEY);
+=======
+        if(isPlatformBrowser(this.platformId)){
+            return this.session.obtenerTokenEmpleado();
+>>>>>>> fix-kjuarez-2025054
         }
 
         return null;

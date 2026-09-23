@@ -25,7 +25,7 @@ export class ReporteService {
   obtenerMisReportes(): Observable<any[]> {
     const token = this.usuariosService.obtenerToken();
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}`
     });
 
     return this.http.get<any[]>(`${this.apiUrl}/mis-reportes`, { headers });
@@ -38,7 +38,7 @@ export class ReporteService {
   obtenerTodosLosReportes(): Observable<ReporteAdmin[]> {
     const token = this.empleadoService.obtenerToken();
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}`
     });
 
     return this.http.get<ReporteAdmin[]>(this.apiUrl, { headers });
@@ -46,12 +46,19 @@ export class ReporteService {
 
   actualizarEstado(idReporte: number, idEstado: number): Observable<{ mensaje: string }> {
     const token = this.empleadoService.obtenerToken();
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}` });
 
     return this.http.patch<{ mensaje: string }>(
       `${this.apiUrl}/${idReporte}/estado`,
       { idEstado },
       { headers }
     );
+  }
+
+  obtenerMisAsignaciones(): Observable<ReporteAdmin[]> {
+    const token = this.empleadoService.obtenerToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}` });
+
+    return this.http.get<ReporteAdmin[]>(`${this.apiUrl}/mis-asignaciones`, { headers });
   }
 }

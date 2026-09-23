@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { AsignacionService } from '../../services/asignacion.service';
 import { Asignacion } from '../../models/asignacion.model';
+import { SessionService } from '../../services/session.service';
 
 @Component({
     selector: 'app-asignaciones',
@@ -14,6 +15,8 @@ import { Asignacion } from '../../models/asignacion.model';
 export class Asignaciones {
     private service = inject(AsignacionService);
     private fb = inject(FormBuilder);
+    private sesion = inject(SessionService);
+    get esAdministrador(): boolean { return this.sesion.obtenerRol() === 'administrador'; }
 
     asignaciones = signal<Asignacion[]>([]);
     cargando = signal(false);

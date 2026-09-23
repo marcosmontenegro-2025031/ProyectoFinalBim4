@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ReporteService } from '../services/reporte.service';
+import { pool } from '../config/db';
 
 const reporteService = new ReporteService();
 
@@ -74,27 +75,36 @@ export const obtenerMisReportesHandler = async (req: Request, res: Response): Pr
 };
 
 export const actualizarEstadoReporteHandler = async (req: Request, res: Response): Promise<Response> => {
-    try {
-        const idReporte = Number(req.params.id);
-        const { idEstado } = req.body;
-
-        if (!idReporte || !idEstado) {
-            return res.status(400).json({ error: 'Faltan datos: idReporte e idEstado son obligatorios.' });
-        }
-
-        const actualizado = await reporteService.actualizarEstadoReporte(idReporte, Number(idEstado), (req as any).empleado?.id_empleado);
-
-        if (!actualizado) {
-            return res.status(404).json({ error: 'Reporte no encontrado.' });
-        }
-
-        return res.status(200).json({ mensaje: 'Estado del reporte actualizado con éxito' });
-    } catch (error: any) {
-        return res.status(500).json({
-            error: 'Error al actualizar el estado del reporte',
-            detalle: error.message
-        });
+    const idReporte = Number(req.params.id);
+    const idEstado = Number(req.body?.idEstado);
+    const empleado = (req as any).empleado;
+    if (!Number.isInteger(idReporte) || idReporte < 1 || !Number.isInteger(idEstado) || idEstado < 1) {
+        return res.status(400).json({message: 'idReporte e idEstado deben ser números válidos'});
     }
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        const {rows} = await client.query('SELECT id_estado FROM Reporte WHERE id_reporte=$1 FOR UPDATE', [idReporte]);
+        if (!rows.length) {await client.query('ROLLBACK');return res.status(404).json({message: 'Reporte no encontrado'});}
+        const {rowCount} = await client.query('SELECT 1 FROM Asignacion WHERE id_reporte=$1 AND id_empleado=$2',
+          [idReporte, empleado.id_empleado]);
+        if (!/admin/i.test(empleado.cargo ?? '') && !rowCount) {
+          await client.query('ROLLBACK');return res.status(403).json({message:'Este reporte no está asignado a tu usuario'});
+        }
+        const anterior = Number(rows[0].id_estado);
+        if (anterior === idEstado) {await client.query('COMMIT');return res.json({mensaje:'El reporte ya tenía ese estado'});}
+        await client.query('UPDATE Reporte SET id_estado=$1 WHERE id_reporte=$2', [idEstado,idReporte]);
+        await client.query(`INSERT INTO BitacoraCambioEstado
+          (id_reporte,id_estado_anterior,id_estado_nuevo,id_empleado,comentario)
+          VALUES ($1,$2,$3,$4,$5)`,[idReporte,anterior,idEstado,empleado.id_empleado,'Cambio de estado']);
+        await client.query('COMMIT');
+        return res.json({mensaje:'Estado del reporte actualizado'});
+    } catch(error: any) {
+        await client.query('ROLLBACK');
+        console.error('Error al actualizar estado:',error);
+        return res.status(error.code === '23503' ? 400 : 500).json({message:
+          error.code === '23503' ? 'El estado seleccionado no existe' : 'Error al actualizar el estado'});
+    } finally { client.release(); }
 };
 
 export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Promise<Response> => {
@@ -104,6 +114,24 @@ export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Pr
     } catch (error: any) {
         return res.status(500).json({
             error: 'Error al obtener la lista de puntos para el mapa',
+            detalle: error.message
+        });
+    }
+};
+
+export const obtenerMisAsignacionesHandler = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const idEmpleado = (req as any).empleado?.id_empleado;
+
+        if (!idEmpleado) {
+            return res.status(401).json({ error: 'No se pudo identificar al empleado autenticado.' });
+        }
+
+        const reportes = await reporteService.obtenerReportesPorEmpleado(idEmpleado);
+        return res.status(200).json(reportes);
+    } catch (error: any) {
+        return res.status(500).json({
+            error: 'Error al obtener las incidencias asignadas',
             detalle: error.message
         });
     }

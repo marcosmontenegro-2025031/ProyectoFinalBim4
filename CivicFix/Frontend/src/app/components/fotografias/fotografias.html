@@ -1,1 +1,9 @@
-<p>fotografias works!</p>
+<main class="pantalla"><nav><a routerLink="/empleado/home">Inicio</a><a routerLink="/empleado/reportes">Mis reportes</a>
+<a routerLink="/empleado/evidencias">Evidencias</a><a routerLink="/empleado/perfil">Perfil</a></nav>
+<header><div><h1>Fotografías de mis reportes</h1><p>Imágenes registradas en las incidencias que tienes asignadas.</p></div>
+<button type="button" (click)="cargar()" [disabled]="cargando">Actualizar</button></header>
+@if(error){<p role="alert">{{error}}</p>}@if(cargando){<p>Cargando fotografías…</p>}
+@else if(!reportes.length && !error){<p>Las incidencias asignadas todavía no tienen fotografías.</p>}
+@else{<div class="galeria">@for(r of reportes;track r.id_reporte){<article><img [src]="url(r)" [alt]="r.titulo" loading="lazy" />
+<h2>{{r.titulo}}</h2><p>{{r.direccion}}</p><a [routerLink]="['/empleado/bitacora',r.id_reporte]">Ver incidencia</a></article>}</div>}
+</main>

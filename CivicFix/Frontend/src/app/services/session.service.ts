@@ -31,6 +31,12 @@ export class SessionService {
     return this.obtenerItem(this.EMPLEADO_TOKEN_KEY);
   }
 
+  actualizarDatosEmpleado(datos: {nombre: string;apellido: string;usuario: string;correo: string;telefono: string;}): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const actual = this.obtenerUsuario<Record<string, unknown>>();
+    if (actual) localStorage.setItem(this.USER_KEY, JSON.stringify({...actual, ...datos}));
+  }
+
   obtenerRol(): RolSesion | null {
     const rol = this.obtenerItem(this.ROLE_KEY);
     return rol === 'ciudadano' || rol === 'empleado' || rol === 'administrador' ? rol : null;
@@ -38,12 +44,19 @@ export class SessionService {
 
   obtenerUsuario<T = any>(): T | null {
     const usuario = this.obtenerItem(this.USER_KEY);
-    return usuario ? JSON.parse(usuario) as T : null;
+    if (!usuario) return null;
+    try { return JSON.parse(usuario) as T; } catch { return null; }
   }
 
   estaAutenticado(roles: RolSesion[] = ['ciudadano', 'empleado', 'administrador']): boolean {
     const rol = this.obtenerRol();
-    return !!rol && roles.includes(rol);
+    if (!rol || !roles.includes(rol)) return false;
+    const token = rol === 'ciudadano' ? this.obtenerTokenCiudadano() : this.obtenerTokenEmpleado();
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+      return !payload.exp || Date.now() < Number(payload.exp) * 1000;
+    } catch { return false; }
   }
 
   cerrarSesion(): void {

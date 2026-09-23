@@ -1,0 +1,306 @@
+<div class="empleado-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="civic-sidebar">
+
+    <div class="civic-brand">
+      <div class="civic-logo-wrapper">
+        <img
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+          alt="CIVICFIX"
+          class="civic-logo"
+        >
+      </div>
+    </div>
+
+    <nav class="civic-navigation">
+
+      <a class="civic-nav-item" routerLink="/empleado/home" routerLinkActive="active">
+        <i class="bi bi-house-fill"></i>
+        <span>Inicio</span>
+      </a>
+
+      <a class="civic-nav-item" routerLink="/empleado/reportes" routerLinkActive="active">
+        <i class="bi bi-bar-chart"></i>
+        <span>Reportes</span>
+      </a>
+
+      <a class="civic-nav-item" routerLink="/empleado/notificaciones" routerLinkActive="active">
+        <i class="bi bi-bell"></i>
+        <span>Notificaciones</span>
+        
+      </a>
+
+      <a class="civic-nav-item" routerLink="/empleado/perfil" routerLinkActive="active">
+        <i class="bi bi-person-circle"></i>
+        <span>Perfil</span>
+      </a>
+
+    </nav>
+
+    <div class="civic-city">
+
+      <div class="city-buildings">
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+        <span class="lamp"></span>
+      </div>
+
+      <div class="civic-city-footer">
+        <div class="municipality-icon">
+          <i class="bi bi-shield-fill-check"></i>
+        </div>
+        <div>
+          <strong>{{ empleado?.cargo || 'Empleado Municipal' }}</strong>
+          <small>Municipalidad de Guatemala</small>
+        </div>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <header class="top-header">
+
+            <div>
+                <h1>Mi perfil</h1>
+                <p>
+                    Consulta y administra tu información como empleado municipal.
+                </p>
+            </div>
+
+        </header>
+
+
+        <!-- CARGANDO -->
+        <div
+            class="loading"
+            *ngIf="cargando"
+        >
+            <i class="bi bi-arrow-repeat"></i>
+            <span>Cargando perfil...</span>
+        </div>
+
+
+        <!-- ERROR -->
+        <div
+            class="alert error"
+            *ngIf="error && !cargando"
+        >
+            <i class="bi bi-exclamation-circle"></i>
+            {{ error }}
+            <button *ngIf="!empleado" type="button" (click)="obtenerIdEmpleado()">Reintentar</button>
+        </div>
+
+
+        <!-- PERFIL -->
+        <section
+            class="perfil-container"
+            *ngIf="empleado && !cargando"
+        >
+
+            <!-- CABECERA -->
+            <div class="perfil-header">
+
+                <div class="avatar">
+                    <i class="bi bi-person"></i>
+                </div>
+
+                <div class="perfil-identidad">
+
+                    <h2>
+                        {{ empleado.nombre }}
+                        {{ empleado.apellido }}
+                    </h2>
+
+                    <span>
+                        {{ empleado.cargo }}
+                    </span>
+
+                </div>
+
+                <button
+                    class="btn-editar"
+                    *ngIf="!editando"
+                    (click)="activarEdicion()"
+                >
+                    <i class="bi bi-pencil"></i>
+                    Editar perfil
+                </button>
+
+            </div>
+
+
+            <!-- MENSAJE -->
+            <div
+                class="alert success"
+                *ngIf="mensaje"
+            >
+                <i class="bi bi-check-circle"></i>
+                {{ mensaje }}
+            </div>
+
+
+            <!-- DATOS -->
+            <div class="perfil-body">
+
+                <div class="section-title">
+                    <i class="bi bi-person-vcard"></i>
+                    <div>
+                        <h3>Información personal</h3>
+                        <p>Datos registrados del empleado</p>
+                    </div>
+                </div>
+
+
+                <div class="form-grid">
+
+                    <!-- NOMBRE -->
+                    <div class="form-group">
+
+                        <label>Nombre</label>
+
+                        <input
+                            type="text"
+                            [(ngModel)]="empleado.nombre"
+                            [disabled]="!editando"
+                            placeholder="Nombre"
+                        >
+
+                    </div>
+
+
+                    <!-- APELLIDO -->
+                    <div class="form-group">
+
+                        <label>Apellido</label>
+
+                        <input
+                            type="text"
+                            [(ngModel)]="empleado.apellido"
+                            [disabled]="!editando"
+                            placeholder="Apellido"
+                        >
+
+                    </div>
+
+
+                    <!-- USUARIO -->
+                    <div class="form-group">
+
+                        <label>Usuario</label>
+
+                        <input
+                            type="text"
+                            [(ngModel)]="empleado.usuario"
+                            [disabled]="!editando"
+                            placeholder="Usuario"
+                        >
+
+                    </div>
+
+
+                    <!-- CORREO -->
+                    <div class="form-group">
+
+                        <label>Correo electrónico</label>
+
+                        <input
+                            type="email"
+                            [(ngModel)]="empleado.correo"
+                            [disabled]="!editando"
+                            placeholder="Correo"
+                        >
+
+                    </div>
+
+
+                    <!-- TELEFONO -->
+                    <div class="form-group">
+
+                        <label>Teléfono</label>
+
+                        <input
+                            type="text"
+                            [(ngModel)]="empleado.telefono"
+                            [disabled]="!editando"
+                            placeholder="Teléfono"
+                        >
+
+                    </div>
+
+
+                    <!-- CARGO -->
+                    <div class="form-group">
+
+                        <label>Cargo</label>
+
+                        <input
+                            type="text"
+                            [value]="empleado.cargo"
+                            disabled
+                        >
+
+                        <small>
+                            El cargo es administrado por la municipalidad.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTONES -->
+                <div
+                    class="form-actions"
+                    *ngIf="editando"
+                >
+
+                    <button
+                        class="btn-cancelar"
+                        type="button"
+                        (click)="cancelarEdicion()"
+                        [disabled]="guardando"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        class="btn-guardar"
+                        type="button"
+                        (click)="guardarCambios()"
+                        [disabled]="guardando"
+                    >
+
+                        <i
+                            class="bi"
+                            [ngClass]="guardando
+                                ? 'bi-arrow-repeat'
+                                : 'bi-check-lg'"
+                        ></i>
+
+                        {{ guardando
+                            ? 'Guardando...'
+                            : 'Guardar cambios'
+                        }}
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>

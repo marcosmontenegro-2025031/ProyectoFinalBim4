@@ -39,7 +39,10 @@ export class ReporteRepository {
             INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
             INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
             INNER JOIN Estado e ON r.id_estado = e.id_estado
-            LEFT JOIN LATERAL (SELECT ruta_fotografia FROM FotografiaProblema WHERE id_reporte = r.id_reporte ORDER BY id_fotografia DESC LIMIT 1) f ON TRUE
+            LEFT JOIN LATERAL (
+                SELECT ruta_fotografia FROM FotografiaProblema fp WHERE fp.id_reporte = r.id_reporte
+                ORDER BY fp.fecha_subida DESC LIMIT 1
+            ) f ON true
             ORDER BY r.fecha_reporte DESC;
         `;
         const { rows } = await pool.query(query);
@@ -139,7 +142,10 @@ export class ReporteRepository {
             INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
             INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
             INNER JOIN Estado e ON r.id_estado = e.id_estado
-            LEFT JOIN LATERAL (SELECT ruta_fotografia FROM FotografiaProblema WHERE id_reporte = r.id_reporte ORDER BY id_fotografia DESC LIMIT 1) f ON TRUE
+            LEFT JOIN LATERAL (
+                SELECT ruta_fotografia FROM FotografiaProblema fp WHERE fp.id_reporte = r.id_reporte
+                ORDER BY fp.fecha_subida DESC LIMIT 1
+            ) f ON true
             WHERE r.id_usuario = $1
             ORDER BY r.fecha_reporte DESC;
         `;
@@ -191,6 +197,40 @@ export class ReporteRepository {
             ORDER BY r.fecha_reporte DESC;
         `;
         const { rows } = await pool.query(query);
+        return rows;
+    }
+
+    async obtenerReportesPorEmpleado(idEmpleado: number) {
+        const query = `
+            SELECT DISTINCT
+                r.id_reporte,
+                r.titulo,
+                r.descripcion,
+                r.fecha_reporte,
+                usr.nombre AS usuario,
+                ti.nombre AS tipo_incidencia,
+                u.direccion,
+                u.zona,
+                u.latitud,
+                u.longitud,
+                e.nombre AS estado,
+                p.nombre AS prioridad,
+                f.ruta_fotografia
+            FROM Reporte r
+            INNER JOIN Asignacion a ON a.id_reporte = r.id_reporte
+            INNER JOIN Usuario usr ON r.id_usuario = usr.id_usuario
+            INNER JOIN Ubicacion u ON r.id_ubicacion = u.id_ubicacion
+            INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
+            INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
+            INNER JOIN Estado e ON r.id_estado = e.id_estado
+            LEFT JOIN LATERAL (
+                SELECT ruta_fotografia FROM FotografiaProblema fp WHERE fp.id_reporte = r.id_reporte
+                ORDER BY fp.fecha_subida DESC LIMIT 1
+            ) f ON true
+            WHERE a.id_empleado = $1
+            ORDER BY r.fecha_reporte DESC;
+        `;
+        const { rows } = await pool.query(query, [idEmpleado]);
         return rows;
     }
 }

@@ -19,6 +19,13 @@ export class AsignacionRepository {
     }
 
 
+    static async obtenerPorEmpleado(idEmpleado: number): Promise<Asignacion[]> {
+        const {rows} = await pool.query(`SELECT id_asignacion, id_reporte AS fk_id_reporte,
+           id_empleado AS fk_id_empleado, fecha_asignacion, observacion
+           FROM Asignacion WHERE id_empleado=$1 ORDER BY fecha_asignacion DESC`,[idEmpleado]);
+        return rows;
+    }
+
     static async obtenerPorId(id: number): Promise<Asignacion | null> {
         const resultado = await pool.query(
             `SELECT

@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpleadoService } from '../../services/empleado.service';
-import { Router } from '@angular/router';
-<<<<<<< HEAD
-=======
+import { Router,RouterLink } from '@angular/router';
 import { SessionService } from '../../services/session.service';
->>>>>>> fix-jaquino-2025376
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   standalone: true,
   selector: 'app-empleado-login',
   templateUrl: './empleado-login.html',
@@ -20,12 +17,8 @@ export class EmpleadoLogin {
   constructor(
     private fb: FormBuilder,
     private empleadoService: EmpleadoService,
-<<<<<<< HEAD
-    private router: Router
-=======
     private router: Router,
     private session: SessionService
->>>>>>> fix-jaquino-2025376
   ){
     this.loginForm = this.fb.group({
       usuario: ['', [Validators.required]],
@@ -43,22 +36,6 @@ export class EmpleadoLogin {
     if (this.loginForm.valid){
       this.empleadoService.login(this.loginForm.value).subscribe({
         next: (response) => {
-<<<<<<< HEAD
-          console.log('Login exitoso. El token ya se guardó.');
-          const rol = response?.usuario?.rol;
-          
-          if (rol === "Adminitrador"){
-            this.router.navigate(["/home-admin"]);
-          }else {
-            this.router.navigate(["/home-empleado"]);
-          }
-        },
-        error: (err) => {
-          console.error('STATUS:', err.status);
-          console.error('ERROR:', err.error);
-          console.error('MENSAJE:', err.message);
-
-=======
           const rol = this.session.obtenerRol();
           
           if (rol === 'administrador'){
@@ -68,7 +45,6 @@ export class EmpleadoLogin {
           }
         },
         error: (err) => {
->>>>>>> fix-jaquino-2025376
           alert(JSON.stringify(err.error));
         }
       })

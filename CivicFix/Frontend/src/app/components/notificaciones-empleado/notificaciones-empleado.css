@@ -1,0 +1,8 @@
+.pantalla{min-height:100vh;background:#f4f7fb;padding:2rem;color:#1b3048;font-family:Arial,sans-serif}
+.nav-empleado{display:flex;gap:1.25rem;flex-wrap:wrap;margin-bottom:1.8rem}.nav-empleado a{color:#1964a2;text-decoration:none}
+.barra,.tarjeta{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.barra{margin-bottom:1.5rem}.barra h1{font-size:1.7rem}.barra p{color:#536174}.lista{display:grid;gap:1rem}
+.tarjeta{background:white;border:1px solid #e3e9f0;border-radius:14px;padding:1.25rem;box-shadow:0 2px 10px #1a2b4010}
+.tarjeta h2{font-size:1.12rem}.tarjeta small{color:#6b7582}.tarjeta p{color:#34465e}
+button{border:0;border-radius:8px;padding:.65rem 1rem;background:#1763a5;color:white;cursor:pointer}
+button:disabled{opacity:.6}.aviso-error{background:#ffe9e9;color:#8b1b1b;padding:1rem;border-radius:8px}
