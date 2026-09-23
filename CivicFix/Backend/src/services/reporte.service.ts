@@ -84,7 +84,7 @@ export class ReporteService {
         return await this.reporteRepo.obtenerReportesPorUsuario(idUsuario);
     }
 
-    async actualizarEstadoReporte(idReporte: number, idEstado: number) {
-        return await this.reporteRepo.actualizarEstadoReporte(idReporte, idEstado);
+    async actualizarEstadoReporte(idReporte: number, idEstado: number, idEmpleado?: number) {
+        return await this.reporteRepo.actualizarEstadoReporte(idReporte, idEstado, idEmpleado);
     }
 }
