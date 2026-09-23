@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 interface RegistroBitacora {
   id: number;
@@ -19,7 +20,7 @@ interface RegistroBitacora {
 @Component({
   selector: 'app-bitacora-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, AdminSidebarComponent],
   templateUrl: './bitacora-admin.html',
   styleUrl: './bitacora-admin.css'
 })

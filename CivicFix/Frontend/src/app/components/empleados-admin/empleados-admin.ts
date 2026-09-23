@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 interface Empleado {
   id: number;
@@ -22,7 +23,7 @@ interface Empleado {
     CommonModule,
     FormsModule,
     RouterModule
-  ],
+  , AdminSidebarComponent],
   templateUrl: './empleados-admin.html',
   styleUrl: './empleados-admin.css'
 })

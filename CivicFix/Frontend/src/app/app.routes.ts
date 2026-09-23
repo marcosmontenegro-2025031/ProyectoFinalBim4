@@ -48,7 +48,7 @@ export const routes: Routes = [
   { path: 'detalle-reporte/:id', component: DetalleReporteComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
   { path: 'mapa', component: MapaComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
   { path: 'notificaciones', component: NotificacionesComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
-  { path: 'perfil', component: PerfilComponent, canActivate: [roleGuard(['ciudadano'])] },
+  { path: 'perfil', component: PerfilComponent, canActivate: [roleGuard(['ciudadano', 'administrador'])] },
   { path: 'empleado/home', component: HomeEmpleadoComponent, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/incidencias', redirectTo: 'empleado/reportes', pathMatch: 'full' },
   { path: 'empleado/mapa', redirectTo: 'mapa', pathMatch: 'full' },

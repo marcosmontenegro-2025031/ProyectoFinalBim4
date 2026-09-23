@@ -1,118 +1,16 @@
-<div class="admin-layout">
+<div class="civic-layout">
 
-  <aside class="sidebar">
+  <app-admin-sidebar></app-admin-sidebar>
 
-    <div class="logo-container">
-      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
-    </div>
-
-    <nav class="menu">
-
-      <a routerLink="/home-admin" class="menu-item">
-        <i class="bi bi-grid-1x2-fill"></i>
-        <span>Dashboard</span>
-      </a>
-
-      <a routerLink="/admin/usuarios" class="menu-item">
-        <i class="bi bi-people-fill"></i>
-        <span>Usuarios</span>
-      </a>
-
-      <a routerLink="/admin/empleados" class="menu-item">
-        <i class="bi bi-person-badge-fill"></i>
-        <span>Empleados</span>
-      </a>
-
-      <a routerLink="/admin/departamentos" class="menu-item">
-        <i class="bi bi-building-fill"></i>
-        <span>Departamentos</span>
-      </a>
-
-      <a routerLink="/admin/servicios" class="menu-item">
-        <i class="bi bi-tools"></i>
-        <span>Servicios</span>
-      </a>
-
-      <a routerLink="/admin/tipos-incidencia" class="menu-item active">
-        <i class="bi bi-list-check"></i>
-        <span>Incidencias</span>
-      </a>
-
-      <a routerLink="/admin/prioridades" class="menu-item">
-        <i class="bi bi-exclamation-triangle-fill"></i>
-        <span>Prioridades</span>
-      </a>
-
-      <a routerLink="/admin/estados" class="menu-item">
-        <i class="bi bi-circle-half"></i>
-        <span>Estados</span>
-      </a>
-
-      <a routerLink="/admin/reportes" class="menu-item">
-        <i class="bi bi-file-earmark-text-fill"></i>
-        <span>Reportes</span>
-      </a>
-
-      <a routerLink="/admin/asignaciones" class="menu-item">
-        <i class="bi bi-diagram-3-fill"></i>
-        <span>Asignaciones</span>
-      </a>
-
-      <a routerLink="/admin/bitacora" class="menu-item">
-        <i class="bi bi-clock-history"></i>
-        <span>Bitácora</span>
-      </a>
-
-    </nav>
-
-    <div class="sidebar-bottom">
-      <div class="city-icon">
-        <i class="bi bi-buildings-fill"></i>
-      </div>
-      <span>Gestión Municipal</span>
-    </div>
-
-  </aside>
-
-  <main class="main-content">
-
-    <header class="topbar">
-
-      <div>
-        <h1>Tipos de Incidencia</h1>
-        <p>Administración de categorías de reportes</p>
-      </div>
-
-      <div class="topbar-actions">
-
-        <button class="notification-button">
-          <i class="bi bi-bell-fill"></i>
-          <span class="notification-dot"></span>
-        </button>
-
-        <div class="admin-profile">
-
-          <div class="profile-avatar">
-            <i class="bi bi-person-fill"></i>
-          </div>
-
-          <div class="profile-info">
-            <strong>Administrador</strong>
-            <span>Administrador del sistema</span>
-          </div>
-
-        </div>
-
-      </div>
-
-    </header>
+  <main class="civic-main">
 
     <section class="content">
 
-      <div class="page-header">
+      <div class="page-header dashboard-header">
 
         <div>
-          <h2>Tipos de incidencia</h2>
+          <span class="dashboard-label">Administración</span>
+          <h1>Tipos de incidencia</h1>
           <p>
             Administra las categorías que los ciudadanos pueden reportar.
           </p>

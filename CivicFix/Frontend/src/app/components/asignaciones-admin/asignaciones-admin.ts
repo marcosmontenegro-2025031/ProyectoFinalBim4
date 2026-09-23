@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 interface Asignacion {
   id: number;
@@ -21,7 +22,7 @@ interface Asignacion {
     CommonModule,
     FormsModule,
     RouterModule
-  ],
+  , AdminSidebarComponent],
   templateUrl: './asignaciones-admin.html',
   styleUrl: './asignaciones-admin.css'
 })

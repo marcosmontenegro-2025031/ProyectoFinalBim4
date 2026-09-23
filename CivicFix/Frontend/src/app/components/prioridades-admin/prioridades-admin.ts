@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 interface Prioridad {
   id: number;
@@ -20,7 +21,8 @@ interface Prioridad {
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    AdminSidebarComponent
   ],
   templateUrl: './prioridades-admin.html',
   styleUrl: './prioridades-admin.css'

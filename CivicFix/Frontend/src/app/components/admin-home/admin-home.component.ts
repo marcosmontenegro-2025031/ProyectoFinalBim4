@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReporteService } from '../../services/reporte.service';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 interface ReporteDashboard {
   id_reporte: number;
@@ -37,7 +38,8 @@ interface GraficaTipo {
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+    AdminSidebarComponent
   ],
   templateUrl: './admin-home.html',
   styleUrl: './admin-home.css'

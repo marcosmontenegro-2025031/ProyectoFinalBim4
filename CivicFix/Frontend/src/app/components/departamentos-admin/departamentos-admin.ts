@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 interface Departamento {
   id: number;
@@ -21,7 +22,7 @@ interface Departamento {
     CommonModule,
     FormsModule,
     RouterModule
-  ],
+  , AdminSidebarComponent],
   templateUrl: './departamentos-admin.html',
   styleUrl: './departamentos-admin.css'
 })

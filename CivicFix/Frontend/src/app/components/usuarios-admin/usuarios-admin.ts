@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 interface UsuarioAdmin {
   id: number;
@@ -20,7 +21,8 @@ interface UsuarioAdmin {
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    AdminSidebarComponent
   ],
   templateUrl: './usuarios-admin.html',
   styleUrl: './usuarios-admin.css'

@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 import { ReporteService } from '../../services/reporte.service';
 import { ReporteAdmin } from '../../models/reporte.model';
 
@@ -12,7 +13,7 @@ import { ReporteAdmin } from '../../models/reporte.model';
     CommonModule,
     FormsModule,
     RouterModule
-  ],
+  , AdminSidebarComponent],
   templateUrl: './reportes-admin.html',
   styleUrl: './reportes-admin.css'
 })

@@ -1,135 +1,15 @@
-<div class="admin-layout">
+<div class="civic-layout">
 
-  <aside class="sidebar">
+  <app-admin-sidebar></app-admin-sidebar>
 
-    <div class="logo-container">
-      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
-    </div>
-
-    <div class="menu-title">
-      PRINCIPAL
-    </div>
-
-    <nav class="sidebar-menu">
-
-      <a routerLink="/home-admin" class="menu-item">
-        <i class="bi bi-grid-1x2-fill"></i>
-        <span>Dashboard</span>
-      </a>
-
-      <a routerLink="/admin/usuarios" class="menu-item">
-        <i class="bi bi-people-fill"></i>
-        <span>Usuarios</span>
-      </a>
-
-      <a routerLink="/admin/empleados" class="menu-item">
-        <i class="bi bi-person-badge-fill"></i>
-        <span>Empleados</span>
-      </a>
-
-      <a routerLink="/admin/departamentos" class="menu-item">
-        <i class="bi bi-building-fill"></i>
-        <span>Departamentos</span>
-      </a>
-
-      <a routerLink="/admin/servicios" class="menu-item">
-        <i class="bi bi-gear-fill"></i>
-        <span>Servicios</span>
-      </a>
-
-      <div class="menu-title">
-        CONFIGURACIÓN
-      </div>
-
-      <a routerLink="/admin/tipos-incidencia" class="menu-item">
-        <i class="bi bi-exclamation-triangle-fill"></i>
-        <span>Tipos de incidencia</span>
-      </a>
-
-      <a routerLink="/admin/prioridades" class="menu-item">
-        <i class="bi bi-flag-fill"></i>
-        <span>Prioridades</span>
-      </a>
-
-      <a routerLink="/admin/estados" class="menu-item">
-        <i class="bi bi-circle-half"></i>
-        <span>Estados</span>
-      </a>
-
-      <div class="menu-title">
-        GESTIÓN
-      </div>
-
-      <a routerLink="/admin/reportes" class="menu-item">
-        <i class="bi bi-file-earmark-text-fill"></i>
-        <span>Reportes</span>
-      </a>
-
-      <a routerLink="/admin/asignaciones" class="menu-item">
-        <i class="bi bi-person-check-fill"></i>
-        <span>Asignaciones</span>
-      </a>
-
-      <a routerLink="/admin/bitacora" class="menu-item active">
-        <i class="bi bi-journal-text"></i>
-        <span>Bitácora</span>
-      </a>
-
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="city-illustration">
-        <i class="bi bi-buildings-fill"></i>
-      </div>
-
-      <div class="system-status">
-        <span class="status-dot"></span>
-        Sistema operativo
-      </div>
-    </div>
-
-  </aside>
-
-  <main class="main-content">
-
-    <header class="topbar">
-
-      <div class="topbar-left">
-        <div class="page-title">
-          <span>Administración</span>
-          <strong>Bitácora del sistema</strong>
-        </div>
-      </div>
-
-      <div class="topbar-right">
-
-        <div class="notification-button">
-          <i class="bi bi-bell"></i>
-          <span>3</span>
-        </div>
-
-        <div class="admin-profile">
-          <div class="profile-avatar">
-            <i class="bi bi-person-fill"></i>
-          </div>
-
-          <div class="profile-info">
-            <strong>Administrador</strong>
-            <span>Administrador del sistema</span>
-          </div>
-
-          <i class="bi bi-chevron-down profile-arrow"></i>
-        </div>
-
-      </div>
-
-    </header>
+  <main class="civic-main">
 
     <section class="content">
 
-      <div class="page-header">
+      <div class="page-header dashboard-header">
 
         <div>
+          <span class="dashboard-label">Administración</span>
           <h1>Bitácora del sistema</h1>
           <p>
             Consulta y supervisa las actividades realizadas dentro de CivicFix.
