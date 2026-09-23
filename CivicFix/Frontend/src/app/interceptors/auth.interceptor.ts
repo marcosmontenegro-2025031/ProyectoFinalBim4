@@ -1,17 +1,9 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('token');
-
-  if (token) {
-    // Clona la petición y añade la cabecera con el Bearer token
-    const cloned = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    return next(cloned);
-  }
-
-  return next(req);
+  if (typeof localStorage === 'undefined' || req.headers.has('Authorization')) return next(req);
+  const role = localStorage.getItem('auth_role');
+  const token = role === 'ciudadano' ? localStorage.getItem('auth_token')
+    : localStorage.getItem('auth_token_empleado');
+  return next(token ? req.clone({setHeaders:{Authorization:`Bearer ${token}`}}) : req);
 };
