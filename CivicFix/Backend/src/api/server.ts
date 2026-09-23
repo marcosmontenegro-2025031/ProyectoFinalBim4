@@ -41,6 +41,10 @@ export class Server {
 
         this.app.use(express.json());
 
+        this.app.get("/", (_req, res) => {
+            res.status(200).json({ mensaje: "API CivicFix funcionando" });
+        });
+
         this.app.use('/uploads', express.static('uploads'));
     }
 
