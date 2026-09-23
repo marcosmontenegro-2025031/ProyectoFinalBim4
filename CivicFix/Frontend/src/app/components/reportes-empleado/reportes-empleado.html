@@ -1,522 +1,235 @@
 <div class="empleado-layout">
 
-  <aside class="empleado-sidebar">
+  <aside class="civic-sidebar">
 
-    <div class="sidebar-brand">
-      <div class="brand-icon">
-        <i class="fa-solid fa-location-dot"></i>
-        <i class="fa-solid fa-wrench"></i>
-      </div>
-
-      <div class="brand-text">
-        <strong>CIVICFIX</strong>
-        <span>Empleado Municipal</span>
+    <div class="civic-brand">
+      <div class="civic-logo-wrapper">
+        <img
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+          alt="CIVICFIX"
+          class="civic-logo"
+        >
       </div>
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="civic-navigation">
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/home"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <a class="civic-nav-item" routerLink="/empleado/home" routerLinkActive="active">
         <i class="bi bi-house-fill"></i>
         <span>Inicio</span>
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/reportes"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-triangle-exclamation"></i>
+      <a class="civic-nav-item" routerLink="/empleado/reportes" routerLinkActive="active">
+        <i class="bi bi-bar-chart"></i>
         <span>Reportes</span>
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/asignaciones"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-list-check"></i>
-        <span>Asignaciones</span>
+      <a class="civic-nav-item" routerLink="/empleado/evidencias" routerLinkActive="active">
+        <i class="bi bi-camera"></i>
+        <span>Evidencias</span>
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/mapa"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-map-location-dot"></i>
-        <span>Mapa</span>
+      <a class="civic-nav-item" routerLink="/empleado/bitacora" routerLinkActive="active">
+        <i class="bi bi-journal-text"></i>
+        <span>Bitácora</span>
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/notificaciones"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-bell"></i>
+      <a class="civic-nav-item" routerLink="/empleado/fotografias" routerLinkActive="active">
+        <i class="bi bi-images"></i>
+        <span>Fotografías</span>
+      </a>
+
+      <a class="civic-nav-item" routerLink="/empleado/notificaciones" routerLinkActive="active">
+        <i class="bi bi-bell"></i>
         <span>Notificaciones</span>
-        <span class="notification-count">3</span>
+        <span class="notification-number">3</span>
       </a>
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/perfil"
-        routerLinkActive="active"
-      >
-        <i class="fa-solid fa-user"></i>
+      <a class="civic-nav-item" routerLink="/empleado/perfil" routerLinkActive="active">
+        <i class="bi bi-person-circle"></i>
         <span>Perfil</span>
       </a>
 
     </nav>
 
-    <div class="sidebar-bottom">
-      <div class="municipality-icon">
-        <i class="fa-solid fa-building-columns"></i>
+    <div class="civic-city">
+
+      <div class="city-buildings">
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+        <span class="lamp"></span>
       </div>
 
-      <div>
-        <strong>Municipalidad</strong>
-        <span>Ciudad de Guatemala</span>
+      <div class="civic-city-footer">
+        <div class="municipality-icon">
+          <i class="bi bi-shield-fill-check"></i>
+        </div>
       </div>
+
     </div>
 
   </aside>
 
-  <main class="empleado-main">
+  <main class="main-content">
 
     <header class="topbar">
 
-      <div class="topbar-title">
-        <span>Panel de trabajo</span>
-        <h1>Gestión de Reportes</h1>
+      <div>
+        <h1>Reportes asignados</h1>
+        <p>Incidencias que tienes asignadas para atención</p>
       </div>
 
-      <div class="topbar-actions">
-
-        <button
-          class="topbar-button"
-          type="button"
-          routerLink="/empleado/notificaciones"
-        >
-          <i class="fa-solid fa-bell"></i>
-          <span class="notification-dot"></span>
-        </button>
-
-        <div class="employee-profile">
-
-          <div class="employee-avatar">
-            CL
-          </div>
-
-          <div class="employee-info">
-            <strong>Carlos López</strong>
-            <span>Técnico Municipal</span>
-          </div>
-
-          <i class="fa-solid fa-chevron-down"></i>
-
-        </div>
-
-      </div>
+      <button class="btn-refresh" (click)="cargarReportes()">
+        <i class="bi bi-arrow-clockwise"></i>
+        Actualizar
+      </button>
 
     </header>
 
-    <section class="reportes-content">
+    <section class="content-section">
 
-      <div class="page-header">
+      <div class="section-header">
 
         <div>
-
-          <span class="section-label">
-            Administración municipal
-          </span>
-
-          <h2>Reportes ciudadanos</h2>
-
-          <p>
-            Consulta y gestiona las incidencias reportadas por los ciudadanos.
-          </p>
-
+          <h2>Mis incidencias</h2>
+          <p>{{ reportes.length }} incidencia(s) asignada(s)</p>
         </div>
-
-        <button
-          class="refresh-button"
-          type="button"
-          (click)="recargar()"
-        >
-          <i class="fa-solid fa-rotate"></i>
-          Actualizar
-        </button>
 
       </div>
 
-      <section class="stats-grid">
+      <div *ngIf="cargando" class="loading-container">
+        <i class="bi bi-arrow-repeat loading-icon"></i>
+        <p>Cargando incidencias...</p>
+      </div>
 
-        <article class="stat-card">
+      <div *ngIf="!cargando && error" class="error-container">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <p>{{ error }}</p>
 
-          <div class="stat-icon blue">
-            <i class="fa-solid fa-clipboard-list"></i>
-          </div>
+        <button class="btn-retry" (click)="cargarReportes()">
+          Reintentar
+        </button>
+      </div>
 
-          <div class="stat-content">
-            <span>Total de reportes</span>
-            <strong>{{ reportes.length }}</strong>
-            <small>
-              Reportes registrados
-            </small>
-          </div>
+      <div
+        *ngIf="!cargando && !error && reportes.length === 0"
+        class="empty-container">
 
-        </article>
+        <i class="bi bi-clipboard-x"></i>
 
-        <article class="stat-card">
+        <h3>No tienes incidencias asignadas</h3>
 
-          <div class="stat-icon orange">
-            <i class="fa-solid fa-clock"></i>
-          </div>
+        <p>
+          Cuando se te asigne una incidencia aparecerá aquí.
+        </p>
 
-          <div class="stat-content">
-            <span>Pendientes</span>
-            <strong>{{ contarEstado('Pendiente') }}</strong>
-            <small>
-              Requieren atención
-            </small>
-          </div>
+      </div>
 
-        </article>
+      <div
+        *ngIf="!cargando && !error && reportes.length > 0"
+        class="reportes-grid">
 
-        <article class="stat-card">
+        <article
+          class="reporte-card"
+          *ngFor="let reporte of reportes">
 
-          <div class="stat-icon purple">
-            <i class="fa-solid fa-spinner"></i>
-          </div>
+          <div class="reporte-image">
 
-          <div class="stat-content">
-            <span>En proceso</span>
-            <strong>{{ contarEstado('En proceso') }}</strong>
-            <small>
-              Actualmente atendidos
-            </small>
-          </div>
+            <img
+              *ngIf="reporte.ruta_fotografia"
+              [src]="'http://localhost:3000' + reporte.ruta_fotografia"
+              alt="Fotografía del reporte"
+            >
 
-        </article>
+            <div
+              *ngIf="!reporte.ruta_fotografia"
+              class="no-image">
 
-        <article class="stat-card">
+              <i [class]="obtenerIconoTipo(reporte.tipo_incidencia)"></i>
 
-          <div class="stat-icon green">
-            <i class="fa-solid fa-circle-check"></i>
-          </div>
+            </div>
 
-          <div class="stat-content">
-            <span>Resueltos</span>
-            <strong>{{ contarEstado('Resuelto') }}</strong>
-            <small>
-              Incidencias solucionadas
-            </small>
-          </div>
+            <span
+              class="prioridad-badge"
+              [ngClass]="obtenerClasePrioridad(reporte.prioridad)">
 
-        </article>
+              {{ reporte.prioridad }}
 
-      </section>
-
-      <section class="filters-card">
-
-        <div class="filters-header">
-
-          <div>
-            <span class="card-kicker">
-              <i class="fa-solid fa-filter"></i>
-              Filtros
             </span>
 
-            <h3>Buscar reportes</h3>
           </div>
 
-          <button
-            class="clear-button"
-            type="button"
-            (click)="limpiarFiltros()"
-          >
-            <i class="fa-solid fa-xmark"></i>
-            Limpiar filtros
-          </button>
+          <div class="reporte-body">
 
-        </div>
+            <div class="reporte-title">
 
-        <div class="filters-grid">
+              <div class="tipo-icon">
+                <i [class]="obtenerIconoTipo(reporte.tipo_incidencia)"></i>
+              </div>
 
-          <div class="search-box">
+              <div>
+                <h3>{{ reporte.titulo }}</h3>
+                <span>{{ reporte.tipo_incidencia }}</span>
+              </div>
 
-            <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
 
-            <input
-              type="text"
-              placeholder="Buscar por ID, título, ciudadano, dirección..."
-              [(ngModel)]="textoBusqueda"
-              (input)="buscar()"
-            >
+            <p class="descripcion">
+              {{ reporte.descripcion }}
+            </p>
 
-          </div>
+            <div class="reporte-info">
 
-          <div class="select-box">
+              <div>
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>{{ reporte.direccion }}</span>
+              </div>
 
-            <label>Estado</label>
+              <div *ngIf="reporte.zona">
+                <i class="bi bi-map-fill"></i>
+                <span>{{ reporte.zona }}</span>
+              </div>
 
-            <select
-              [(ngModel)]="filtroEstado"
-              (change)="aplicarFiltros()"
-            >
-              <option value="Todos">Todos los estados</option>
-              <option value="Pendiente">Pendiente</option>
-              <option value="Asignado">Asignado</option>
-              <option value="En proceso">En proceso</option>
-              <option value="Resuelto">Resuelto</option>
-              <option value="Rechazado">Rechazado</option>
-            </select>
+              <div>
+                <i class="bi bi-calendar3"></i>
+                <span>
+                  {{ reporte.fecha_reporte | date:'dd/MM/yyyy HH:mm' }}
+                </span>
+              </div>
 
-          </div>
+            </div>
 
-          <div class="select-box">
+            <div class="reporte-footer">
 
-            <label>Prioridad</label>
+              <span
+                class="estado-badge"
+                [ngClass]="obtenerClaseEstado(reporte.estado)">
 
-            <select
-              [(ngModel)]="filtroPrioridad"
-              (change)="aplicarFiltros()"
-            >
-              <option value="Todas">Todas las prioridades</option>
-              <option value="Crítica">Crítica</option>
-              <option value="Alta">Alta</option>
-              <option value="Media">Media</option>
-              <option value="Baja">Baja</option>
-            </select>
+                {{ reporte.estado }}
 
-          </div>
+              </span>
 
-        </div>
+              <button
+                class="btn-detail"
+                (click)="verDetalle(reporte.id_reporte)">
 
-      </section>
+                Ver incidencia
+                <i class="bi bi-arrow-right"></i>
 
-      <section class="reports-card">
+              </button>
 
-        <div class="reports-header">
-
-          <div>
-
-            <span class="card-kicker">
-              <i class="fa-solid fa-list"></i>
-              Resultados
-            </span>
-
-            <h3>
-              Reportes encontrados
-            </h3>
+            </div>
 
           </div>
 
-          <span class="results-count">
-            {{ reportesFiltrados.length }} resultados
-          </span>
+        </article>
 
-        </div>
-
-        <div
-          class="loading-state"
-          *ngIf="cargando"
-        >
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <span>Cargando reportes...</span>
-        </div>
-
-        <div
-          class="error-state"
-          *ngIf="!cargando && error"
-        >
-          <i class="fa-solid fa-circle-exclamation"></i>
-
-          <div>
-            <strong>No se pudieron cargar los reportes</strong>
-            <p>{{ error }}</p>
-          </div>
-
-          <button
-            type="button"
-            (click)="recargar()"
-          >
-            Reintentar
-          </button>
-        </div>
-
-        <div
-          class="empty-state"
-          *ngIf="!cargando && !error && reportesFiltrados.length === 0"
-        >
-          <div class="empty-icon">
-            <i class="fa-solid fa-file-circle-xmark"></i>
-          </div>
-
-          <h4>No hay reportes</h4>
-
-          <p>
-            No existen reportes que coincidan con los filtros seleccionados.
-          </p>
-
-          <button
-            type="button"
-            (click)="limpiarFiltros()"
-          >
-            Limpiar filtros
-          </button>
-        </div>
-
-        <div
-          class="table-wrapper"
-          *ngIf="!cargando && !error && reportesFiltrados.length > 0"
-        >
-
-          <table>
-
-            <thead>
-
-              <tr>
-                <th>Reporte</th>
-                <th>Incidencia</th>
-                <th>Ciudadano</th>
-                <th>Ubicación</th>
-                <th>Prioridad</th>
-                <th>Estado</th>
-                <th>Fecha</th>
-                <th>Acción</th>
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              <tr
-                *ngFor="let reporte of reportesFiltrados"
-              >
-
-                <td>
-
-                  <div class="report-code">
-                    #{{ reporte.id_reporte }}
-                  </div>
-
-                </td>
-
-                <td>
-
-                  <div class="incident-cell">
-
-                    <div class="incident-icon">
-                      <i
-                        [class]="obtenerIconoTipo(reporte.tipo_incidencia)"
-                      ></i>
-                    </div>
-
-                    <div>
-                      <strong>
-                        {{ reporte.titulo }}
-                      </strong>
-
-                      <span>
-                        {{ reporte.tipo_incidencia }}
-                      </span>
-                    </div>
-
-                  </div>
-
-                </td>
-
-                <td>
-
-                  <div class="citizen-cell">
-
-                    <div class="citizen-avatar">
-                      {{ (reporte.usuario || 'U').charAt(0).toUpperCase() }}
-                    </div>
-
-                    <span>
-                      {{ reporte.usuario || 'Sin información' }}
-                    </span>
-
-                  </div>
-
-                </td>
-
-                <td>
-
-                  <div class="location-cell">
-
-                    <i class="fa-solid fa-location-dot"></i>
-
-                    <div>
-                      <span>{{ reporte.direccion }}</span>
-                      <small>{{ reporte.zona }}</small>
-                    </div>
-
-                  </div>
-
-                </td>
-
-                <td>
-
-                  <span
-                    class="priority-badge"
-                    [ngClass]="obtenerClasePrioridad(reporte.prioridad)"
-                  >
-                    {{ reporte.prioridad }}
-                  </span>
-
-                </td>
-
-                <td>
-
-                  <span
-                    class="status-badge"
-                    [ngClass]="obtenerClaseEstado(reporte.estado)"
-                  >
-                    <span class="status-dot"></span>
-                    {{ reporte.estado }}
-                  </span>
-
-                </td>
-
-                <td>
-
-                  <span class="date-cell">
-                    {{ reporte.fecha_reporte | date:'dd/MM/yyyy' }}
-                  </span>
-
-                </td>
-
-                <td>
-
-                  <button
-                    class="view-button"
-                    type="button"
-                    (click)="verDetalle(reporte.id_reporte)"
-                    title="Ver detalle"
-                  >
-                    <i class="fa-solid fa-eye"></i>
-                  </button>
-
-                </td>
-
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </section>
+      </div>
 
     </section>
 
