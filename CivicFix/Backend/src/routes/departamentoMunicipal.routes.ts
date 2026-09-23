@@ -1,3 +1,4 @@
+import { verificarAdministrador } from "../middleware/auth.middleware";
 import { Router } from "express";
 import cors from "cors";
 import { DepartamentoMunicipalController } from "../controllers/departamentoMunicipal.controller";
@@ -14,17 +15,17 @@ departamentoRouter.get("/api/departamentos/:id", cors(), (req,res) => {
     controller.obtenerDepartamentosPorId(req,res);
 }); 
 
-departamentoRouter.post("/api/departamentos", cors(), (req,res) => {
+departamentoRouter.post("/api/departamentos", cors(), verificarAdministrador, (req,res) => {
     const controller = new DepartamentoMunicipalController();
     controller.crearDepartamento(req,res);
 });
 
-departamentoRouter.put("/api/departamentos/:id", cors(), (req,res) => {
+departamentoRouter.put("/api/departamentos/:id", cors(), verificarAdministrador, (req,res) => {
     const controller = new DepartamentoMunicipalController();
     controller.actualizarDepartamento(req,res);
 });
 
-departamentoRouter.delete("/api/departamentos/:id", cors(), (req,res) => {
+departamentoRouter.delete("/api/departamentos/:id", cors(), verificarAdministrador, (req,res) => {
     const controller = new DepartamentoMunicipalController();
     controller.eliminarDepartamento(req,res);
 });
