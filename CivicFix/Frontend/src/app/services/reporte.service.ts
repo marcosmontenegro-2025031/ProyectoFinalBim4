@@ -54,4 +54,11 @@ export class ReporteService {
       { headers }
     );
   }
+
+  obtenerMisAsignaciones(): Observable<ReporteAdmin[]> {
+    const token = this.empleadoService.obtenerToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    return this.http.get<ReporteAdmin[]>(`${this.apiUrl}/mis-asignaciones`, { headers });
+  }
 }
