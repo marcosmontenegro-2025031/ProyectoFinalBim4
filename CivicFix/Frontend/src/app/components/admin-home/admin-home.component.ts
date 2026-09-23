@@ -39,15 +39,14 @@ interface GraficaTipo {
     CommonModule,
     RouterLink
   ],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  templateUrl: './admin-home.html',
+  styleUrl: './admin-home.css'
 })
 export class DashboardComponent implements OnInit {
 
   private reporteService = inject(ReporteService);
 
   reportes: ReporteDashboard[] = [];
-
   reportesRecientes: ReporteDashboard[] = [];
 
   cargando = false;
@@ -58,7 +57,6 @@ export class DashboardComponent implements OnInit {
   resueltos = 0;
 
   reportesPorMes: GraficaMes[] = [];
-
   reportesPorTipo: GraficaTipo[] = [];
 
   meses = [
@@ -81,19 +79,14 @@ export class DashboardComponent implements OnInit {
   }
 
   cargarDashboard(): void {
-
     this.cargando = true;
 
     this.reporteService.obtenerTodosLosReportes().subscribe({
-
       next: (reportes) => {
-
         this.reportes = reportes as ReporteDashboard[];
 
         this.calcularEstadisticas();
-
         this.generarGraficaPorMes();
-
         this.generarGraficaPorTipo();
 
         this.reportesRecientes = this.reportes.slice(0, 5);
@@ -102,34 +95,32 @@ export class DashboardComponent implements OnInit {
       },
 
       error: (error) => {
-
         console.error('Error al cargar dashboard:', error);
-
         this.cargando = false;
       }
-
     });
   }
 
   calcularEstadisticas(): void {
-
     this.totalReportes = this.reportes.length;
 
     this.pendientes = this.reportes.filter(
-      reporte => this.normalizarEstado(reporte.estado) === 'pendiente'
+      reporte =>
+        this.normalizarEstado(reporte.estado) === 'pendiente'
     ).length;
 
     this.enProceso = this.reportes.filter(
-      reporte => this.normalizarEstado(reporte.estado) === 'en proceso'
+      reporte =>
+        this.normalizarEstado(reporte.estado) === 'en proceso'
     ).length;
 
     this.resueltos = this.reportes.filter(
-      reporte => this.normalizarEstado(reporte.estado) === 'resuelto'
+      reporte =>
+        this.normalizarEstado(reporte.estado) === 'resuelto'
     ).length;
   }
 
   normalizarEstado(estado: string): string {
-
     return estado
       ?.toLowerCase()
       .normalize('NFD')
@@ -138,26 +129,20 @@ export class DashboardComponent implements OnInit {
   }
 
   generarGraficaPorMes(): void {
-
     const cantidades = new Array(12).fill(0);
 
     this.reportes.forEach(reporte => {
-
       const fecha = new Date(reporte.fecha_reporte);
 
       if (!isNaN(fecha.getTime())) {
-
         const mes = fecha.getMonth();
-
         cantidades[mes]++;
       }
-
     });
 
     const mayorCantidad = Math.max(...cantidades, 1);
 
     this.reportesPorMes = this.meses.map((nombre, index) => {
-
       const cantidad = cantidades[index];
 
       return {
@@ -165,24 +150,21 @@ export class DashboardComponent implements OnInit {
         cantidad,
         porcentaje: (cantidad / mayorCantidad) * 100
       };
-
     });
   }
 
   generarGraficaPorTipo(): void {
-
     const tipos: { [key: string]: number } = {};
 
     this.reportes.forEach(reporte => {
-
-      const tipo = reporte.tipo_incidencia || 'Sin categoría';
+      const tipo =
+        reporte.tipo_incidencia || 'Sin categoría';
 
       if (tipos[tipo]) {
         tipos[tipo]++;
       } else {
         tipos[tipo] = 1;
       }
-
     });
 
     const total = this.reportes.length;
@@ -201,23 +183,21 @@ export class DashboardComponent implements OnInit {
     this.reportesPorTipo = Object.entries(tipos)
       .sort((a, b) => b[1] - a[1])
       .map(([nombre, cantidad], index) => {
-
         return {
           nombre,
           cantidad,
-          porcentaje: total > 0
-            ? (cantidad / total) * 100
-            : 0,
-          color: colores[index % colores.length]
+          porcentaje:
+            total > 0
+              ? (cantidad / total) * 100
+              : 0,
+          color:
+            colores[index % colores.length]
         };
-
       });
   }
 
   obtenerClaseEstado(estado: string): string {
-
     switch (this.normalizarEstado(estado)) {
-
       case 'pendiente':
         return 'estado-pendiente';
 
@@ -233,9 +213,7 @@ export class DashboardComponent implements OnInit {
   }
 
   obtenerIconoEstado(estado: string): string {
-
     switch (this.normalizarEstado(estado)) {
-
       case 'pendiente':
         return 'bi-clock';
 
@@ -255,21 +233,44 @@ export class DashboardComponent implements OnInit {
   }
 
   obtenerGradienteCircular(): string {
-
     if (this.reportesPorTipo.length === 0) {
       return '#e8eef5';
+    }
+
+    if (this.reportesPorTipo.length === 1) {
+      return this.reportesPorTipo[0].color;
     }
 
     let acumulado = 0;
 
     const segmentos = this.reportesPorTipo.map(tipo => {
-
       const inicio = acumulado;
 
       acumulado += tipo.porcentaje;
 
       return `${tipo.color} ${inicio}% ${acumulado}%`;
+    });
 
+    return `conic-gradient(${segmentos.join(', ')})`;
+  }
+
+  obtenerGradienteTipo(): string {
+    if (this.reportesPorTipo.length === 0) {
+      return '#e8eef5';
+    }
+
+    if (this.reportesPorTipo.length === 1) {
+      return this.reportesPorTipo[0].color;
+    }
+
+    let acumulado = 0;
+
+    const segmentos = this.reportesPorTipo.map(tipo => {
+      const inicio = acumulado;
+
+      acumulado += tipo.porcentaje;
+
+      return `${tipo.color} ${inicio}% ${acumulado}%`;
     });
 
     return `conic-gradient(${segmentos.join(', ')})`;

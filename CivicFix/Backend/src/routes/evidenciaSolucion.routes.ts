@@ -1,50 +1,38 @@
 import { Router } from "express";
-<<<<<<< HEAD
-import { EvidenciaSolucionController } from "../controllers/evidenciaSolucion.controller.js";
+import { EvidenciaSolucionController } from "../controllers/evidenciaSolucion.controller";
 
 const router = Router();
 
-router.get("/", EvidenciaSolucionController.listar);
-router.get("/reporte/:idReporte", EvidenciaSolucionController.obtenerPorReporte);
-router.get("/:id", EvidenciaSolucionController.obtenerPorId);
-router.post("/", EvidenciaSolucionController.crear);
-router.put("/:id", EvidenciaSolucionController.actualizar);
-router.delete("/:id", EvidenciaSolucionController.eliminar);
+const controller = new EvidenciaSolucionController();
+
+router.get(
+    "/",
+    controller.listar.bind(controller)
+);
+
+router.get(
+    "/reporte/:idReporte",
+    controller.obtenerPorReporte.bind(controller)
+);
+
+router.get(
+    "/:id",
+    controller.obtenerPorId.bind(controller)
+);
+
+router.post(
+    "/",
+    controller.crear.bind(controller)
+);
+
+router.put(
+    "/:id",
+    controller.actualizar.bind(controller)
+);
+
+router.delete(
+    "/:id",
+    controller.eliminar.bind(controller)
+);
 
 export default router;
-=======
-import cors from "cors";
-import { EvidenciaSolucionController } from "../controllers/evidenciaSolucion.controller.js";
-
-export const evidenciaSolucionRouter = Router();
-
-evidenciaSolucionRouter.get("/api/evidencia", cors(), (req, res) => {
-    const controller = new EvidenciaSolucionController();
-    controller.listar(req, res);
-});
-
-evidenciaSolucionRouter.get("/api/evidencia/reporte/:idReporte", cors(), (req, res) => {
-    const controller = new EvidenciaSolucionController();
-    controller.obtenerPorReporte(req, res);
-});
-
-evidenciaSolucionRouter.get("/api/evidencia/:id", cors(), (req, res) => {
-    const controller = new EvidenciaSolucionController();
-    controller.obtenerPorId(req, res);
-});
-
-evidenciaSolucionRouter.post("/api/evidencia", cors(), (req, res) => {
-    const controller = new EvidenciaSolucionController();
-    controller.crear(req, res);
-});
-
-evidenciaSolucionRouter.put("/api/evidencia/:id", cors(), (req, res) => {
-    const controller = new EvidenciaSolucionController();
-    controller.actualizar(req, res);
-});
-
-evidenciaSolucionRouter.delete("/api/evidencia/:id", cors(), (req, res) => {
-    const controller = new EvidenciaSolucionController();
-    controller.eliminar(req, res);
-});
->>>>>>> Develop

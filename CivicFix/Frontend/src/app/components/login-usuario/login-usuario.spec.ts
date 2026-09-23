@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoginUsuario } from './login-usuario';
+import { LoginUsuario } from './login-usuario.component';
 
 describe('LoginUsuario', () => {
   let component: LoginUsuario;
@@ -9,12 +8,11 @@ describe('LoginUsuario', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginUsuario]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LoginUsuario);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

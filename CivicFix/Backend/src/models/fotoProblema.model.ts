@@ -5,4 +5,3 @@ export interface FotoProblema {
     descripcion?: string;
     fecha_subida?: Date;
 }
-

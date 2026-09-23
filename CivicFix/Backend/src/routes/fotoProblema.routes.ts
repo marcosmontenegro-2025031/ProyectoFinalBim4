@@ -1,48 +1,41 @@
-<<<<<<< HEAD
-import { Router } from 'express';
-import { registrarFotoProblema } from '../controllers/fotoProblema.controller';
-import { upload } from '../config/upload.middleware';
+import { Router } from "express";
+import { registrarFotoProblema } from "../controllers/fotoProblema.controller.js";
+import { FotoProblemaController } from "../controllers/fotoProblema.controller.js";
+import { upload } from "../config/upload.middleware.js";
 
 const router = Router();
 
-router.post('/', upload.single('imagen'), registrarFotoProblema);
+const controller = new FotoProblemaController();
+
+router.get(
+    "/",
+    controller.listar.bind(controller)
+);
+
+router.get(
+    "/reporte/:idReporte",
+    controller.obtenerPorReporte.bind(controller)
+);
+
+router.get(
+    "/:id",
+    controller.obtenerPorId.bind(controller)
+);
+
+router.post(
+    "/",
+    upload.single("imagen"),
+    registrarFotoProblema
+);
+
+router.put(
+    "/:id",
+    controller.actualizar.bind(controller)
+);
+
+router.delete(
+    "/:id",
+    controller.eliminar.bind(controller)
+);
 
 export default router;
-
-=======
-import { Router } from "express";
-import cors from "cors";
-import { FotoProblemaController } from "../controllers/fotoProblema.controller.js";
-
-export const fotoProblemaRouter = Router();
-
-fotoProblemaRouter.get("/api/fotografias", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.listar(req, res);
-});
-
-fotoProblemaRouter.get("/api/fotografias/reporte/:idReporte", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.obtenerPorReporte(req, res);
-});
-
-fotoProblemaRouter.get("/api/fotografias/:id", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.obtenerPorId(req, res);
-});
-
-fotoProblemaRouter.post("/api/fotografias", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.crear(req, res);
-});
-
-fotoProblemaRouter.put("/api/fotografias/:id", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.actualizar(req, res);
-});
-
-fotoProblemaRouter.delete("/api/fotografias/:id", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.eliminar(req, res);
-});
->>>>>>> Develop

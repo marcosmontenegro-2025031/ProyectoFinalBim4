@@ -1,16 +1,16 @@
-// services/asignacion.service.ts
 import { AsignacionRepository } from "../repository/asignacion.repository.js";
 import { Asignacion } from "../models/asignacion.model.js";
 
 export class AsignacionService {
 
-    static async listar(): Promise<Asignacion[]> {
-        return await AsignacionRepository.obtenerTodos();
+    private repository = new AsignacionRepository();
+
+    async listar(): Promise<Asignacion[]> {
+        return await this.repository.obtenerTodos();
     }
 
-
-    static async obtenerPorId(id: number): Promise<Asignacion> {
-        const asignacion = await AsignacionRepository.obtenerPorId(id);
+    async obtenerPorId(id: number): Promise<Asignacion> {
+        const asignacion = await this.repository.obtenerPorId(id);
 
         if (!asignacion) {
             throw new Error(`No se encontró la asignación con id ${id}`);
@@ -19,11 +19,14 @@ export class AsignacionService {
         return asignacion;
     }
 
-
-    static async crear(datos: Omit<Asignacion, "id_asignacion">): Promise<Asignacion> {
+    async crear(
+        datos: Omit<Asignacion, "id_asignacion">
+    ): Promise<Asignacion> {
 
         if (!datos.fk_id_reporte || !datos.fk_id_empleado) {
-            throw new Error("fk_id_reporte y fk_id_empleado son obligatorios");
+            throw new Error(
+                "fk_id_reporte y fk_id_empleado son obligatorios"
+            );
         }
 
         const nuevaAsignacion: Asignacion = {
@@ -34,19 +37,21 @@ export class AsignacionService {
             observacion: datos.observacion
         };
 
-        return await AsignacionRepository.crear(nuevaAsignacion);
+        return await this.repository.crear(nuevaAsignacion);
     }
 
-
-    static async actualizar(
+    async actualizar(
         id: number,
         datos: Partial<Omit<Asignacion, "id_asignacion">>
     ): Promise<Asignacion> {
 
-        const asignacionExistente = await AsignacionRepository.obtenerPorId(id);
+        const asignacionExistente =
+            await this.repository.obtenerPorId(id);
 
         if (!asignacionExistente) {
-            throw new Error(`No se encontró la asignación con id ${id}`);
+            throw new Error(
+                `No se encontró la asignación con id ${id}`
+            );
         }
 
         const asignacionActualizada: Asignacion = {
@@ -54,25 +59,32 @@ export class AsignacionService {
             ...datos
         };
 
-        const resultado = await AsignacionRepository.actualizar(id, asignacionActualizada);
+        const resultado =
+            await this.repository.actualizar(
+                id,
+                asignacionActualizada
+            );
 
         if (!resultado) {
-            throw new Error(`No se pudo actualizar la asignación con id ${id}`);
+            throw new Error(
+                `No se pudo actualizar la asignación con id ${id}`
+            );
         }
 
         return resultado;
     }
 
+    async eliminar(id: number): Promise<Asignacion> {
 
-    static async eliminar(id: number): Promise<Asignacion> {
-
-        const asignacionEliminada = await AsignacionRepository.eliminar(id);
+        const asignacionEliminada =
+            await this.repository.eliminar(id);
 
         if (!asignacionEliminada) {
-            throw new Error(`No se encontró la asignación con id ${id}`);
+            throw new Error(
+                `No se encontró la asignación con id ${id}`
+            );
         }
 
         return asignacionEliminada;
     }
-
 }

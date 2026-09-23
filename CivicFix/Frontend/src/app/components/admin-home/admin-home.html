@@ -1,378 +1,291 @@
-
 <div class="civic-layout">
-
-  <!-- ==========================================
-       SIDEBAR
-  =========================================== -->
 
   <aside class="civic-sidebar">
 
-    <div class="civic-brand">
 
-      <div class="civic-logo-wrapper">
+<div class="civic-brand">
+  <div class="civic-logo-wrapper">
+    <img
+      src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+      alt="CIVICFIX"
+      class="civic-logo"
+    >
+  </div>
+</div>
 
-        <img
-          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
-          alt="CIVICFIX"
-          class="civic-logo"
-        >
+<nav class="civic-navigation">
 
-      </div>
+  <a
+    class="civic-nav-item active"
+    routerLink="/dashboard"
+  >
+    <i class="bi bi-speedometer2"></i>
+    <span>Dashboard</span>
+  </a>
 
+  <a
+    class="civic-nav-item"
+    routerLink="/reportes"
+  >
+    <i class="bi bi-file-earmark-text"></i>
+    <span>Reportes</span>
+  </a>
+
+  <a
+    class="civic-nav-item"
+    routerLink="/reportes/nuevo"
+  >
+    <i class="bi bi-file-earmark-plus"></i>
+    <span>Reportar Incidencia</span>
+  </a>
+
+  <a
+    class="civic-nav-item"
+    routerLink="/mapa"
+  >
+    <i class="bi bi-geo-alt"></i>
+    <span>Mapa</span>
+  </a>
+
+  <a
+    class="civic-nav-item"
+    routerLink="/notificaciones"
+  >
+    <i class="bi bi-bell"></i>
+    <span>Notificaciones</span>
+    <span class="notification-number">3</span>
+  </a>
+
+  <a
+    class="civic-nav-item"
+    routerLink="/perfil"
+  >
+    <i class="bi bi-person-circle"></i>
+    <span>Perfil</span>
+  </a>
+
+</nav>
+
+<div class="civic-city">
+
+  <div class="city-buildings">
+
+    <span class="building b1"></span>
+    <span class="building b2"></span>
+    <span class="building b3"></span>
+    <span class="building b4"></span>
+    <span class="building b5"></span>
+
+    <span class="tree t1"></span>
+    <span class="tree t2"></span>
+
+    <span class="lamp"></span>
+
+  </div>
+
+  <div class="civic-city-footer">
+
+    <div class="municipality-icon">
+      <i class="bi bi-shield-fill-check"></i>
     </div>
 
-
-    <nav class="civic-navigation">
-
-      <a
-        class="civic-nav-item active"
-        routerLink="/dashboard"
-      >
-        <i class="bi bi-speedometer2"></i>
-        <span>Dashboard</span>
-      </a>
-
-
-      <a
-        class="civic-nav-item"
-        routerLink="/reportes"
-      >
-        <i class="bi bi-file-earmark-text"></i>
-        <span>Reportes</span>
-      </a>
-
-
-      <a
-        class="civic-nav-item"
-        routerLink="/reportes/nuevo"
-      >
-        <i class="bi bi-file-earmark-plus"></i>
-        <span>Reportar Incidencia</span>
-      </a>
-
-
-      <a
-        class="civic-nav-item"
-        routerLink="/mapa"
-      >
-        <i class="bi bi-geo-alt"></i>
-        <span>Mapa</span>
-      </a>
-
-
-      <a class="civic-nav-item">
-
-        <i class="bi bi-bell"></i>
-
-        <span>Notificaciones</span>
-
-        <span class="notification-number">
-          3
-        </span>
-
-      </a>
-
-
-      <a class="civic-nav-item">
-
-        <i class="bi bi-person-circle"></i>
-
-        <span>Perfil</span>
-
-      </a>
-
-    </nav>
-
-
-    <!-- CIUDAD -->
-
-    <div class="civic-city">
-
-      <div class="city-buildings">
-
-        <span class="building b1"></span>
-        <span class="building b2"></span>
-        <span class="building b3"></span>
-        <span class="building b4"></span>
-        <span class="building b5"></span>
-
-        <span class="tree t1"></span>
-        <span class="tree t2"></span>
-
-        <span class="lamp"></span>
-
-      </div>
-
-
-      <div class="civic-city-footer">
-
-        <div class="municipality-icon">
-
-          <i class="bi bi-shield-fill-check"></i>
-
-        </div>
-
-
-        <div>
-
-          <strong>
-            Municipalidad de Guatemala
-          </strong>
-
-          <small>
-            Juntos mejoramos la ciudad
-          </small>
-
-        </div>
-
-      </div>
-
+    <div>
+      <strong>Municipalidad de Guatemala</strong>
+      <small>Juntos mejoramos la ciudad</small>
     </div>
+
+  </div>
+
+</div>
+
 
   </aside>
 
-
-
-  <!-- ==========================================
-       CONTENIDO PRINCIPAL
-  =========================================== -->
-
   <main class="civic-main">
 
-    <!-- ENCABEZADO -->
+<section class="dashboard-header">
 
-    <section class="dashboard-header">
+  <div>
+
+    <span class="dashboard-label">
+      CIVICFIX
+    </span>
+
+    <h1>
+      Dashboard
+    </h1>
+
+    <p>
+      Resumen general de los reportes ciudadanos
+    </p>
+
+  </div>
+
+  <button
+    class="reload-button"
+    type="button"
+    (click)="cargarDashboard()"
+  >
+    <i class="bi bi-arrow-clockwise"></i>
+    Actualizar
+  </button>
+
+</section>
+
+<section class="statistics">
+
+  <div class="stat-card">
+
+    <div class="stat-header">
+
+      <div class="stat-icon blue">
+        <i class="bi bi-file-earmark-text"></i>
+      </div>
+
+      <span>
+        Total de reportes
+      </span>
+
+    </div>
+
+    <strong class="stat-number">
+      {{ totalReportes }}
+    </strong>
+
+    <small>
+      Reportes registrados en la base de datos
+    </small>
+
+  </div>
+
+  <div class="stat-card">
+
+    <div class="stat-header">
+
+      <div class="stat-icon yellow">
+        <i class="bi bi-clock"></i>
+      </div>
+
+      <span>
+        Pendientes
+      </span>
+
+    </div>
+
+    <strong class="stat-number">
+      {{ pendientes }}
+    </strong>
+
+    <small>
+      Reportes esperando atención
+    </small>
+
+  </div>
+
+  <div class="stat-card">
+
+    <div class="stat-header">
+
+      <div class="stat-icon orange">
+        <i class="bi bi-arrow-repeat"></i>
+      </div>
+
+      <span>
+        En proceso
+      </span>
+
+    </div>
+
+    <strong class="stat-number">
+      {{ enProceso }}
+    </strong>
+
+    <small>
+      Reportes actualmente atendidos
+    </small>
+
+  </div>
+
+  <div class="stat-card">
+
+    <div class="stat-header">
+
+      <div class="stat-icon green">
+        <i class="bi bi-check-circle"></i>
+      </div>
+
+      <span>
+        Resueltos
+      </span>
+
+    </div>
+
+    <strong class="stat-number">
+      {{ resueltos }}
+    </strong>
+
+    <small>
+      Reportes solucionados
+    </small>
+
+  </div>
+
+</section>
+
+<section class="charts-grid">
+
+  <div class="chart-card monthly-chart">
+
+    <div class="chart-header">
 
       <div>
 
-        <span class="dashboard-label">
-          CIVICFIX
-        </span>
-
-        <h1>
-          Dashboard
-        </h1>
+        <h2>
+          Reportes por mes
+        </h2>
 
         <p>
-          Resumen general de los reportes ciudadanos
+          Cantidad de incidencias registradas durante el año
         </p>
 
       </div>
 
-
-      <button
-        class="reload-button"
-        type="button"
-        (click)="cargarDashboard()"
-      >
-
-        <i class="bi bi-arrow-clockwise"></i>
-
-        Actualizar
-
-      </button>
-
-    </section>
-
-
-
-    <!-- ==========================================
-         TARJETAS
-    =========================================== -->
-
-    <section class="statistics">
-
-
-      <!-- TOTAL -->
-
-      <div class="stat-card">
-
-        <div class="stat-header">
-
-          <div class="stat-icon blue">
-
-            <i class="bi bi-file-earmark-text"></i>
-
-          </div>
-
-          <span>
-            Total de reportes
-          </span>
-
-        </div>
-
-        <strong class="stat-number">
-          {{ totalReportes }}
-        </strong>
-
-        <small>
-          Reportes registrados en la base de datos
-        </small>
-
+      <div class="chart-icon">
+        <i class="bi bi-bar-chart-fill"></i>
       </div>
 
+    </div>
 
+    @if (cargando) {
 
-      <!-- PENDIENTES -->
-
-      <div class="stat-card">
-
-        <div class="stat-header">
-
-          <div class="stat-icon yellow">
-
-            <i class="bi bi-clock"></i>
-
-          </div>
-
-          <span>
-            Pendientes
-          </span>
-
-        </div>
-
-        <strong class="stat-number">
-          {{ pendientes }}
-        </strong>
-
-        <small>
-          Reportes esperando atención
-        </small>
-
+      <div class="chart-loading">
+        <div class="spinner"></div>
       </div>
 
+    } @else {
 
+      <div class="bar-chart">
 
-      <!-- EN PROCESO -->
+        @for (mes of reportesPorMes; track mes.nombre) {
 
-      <div class="stat-card">
+          <div class="bar-column">
 
-        <div class="stat-header">
+            <div class="bar-value">
+              {{ mes.cantidad }}
+            </div>
 
-          <div class="stat-icon orange">
+            <div class="bar-container">
 
-            <i class="bi bi-arrow-repeat"></i>
+              <div
+                class="bar"
+                [style.height.%]="mes.porcentaje"
+              ></div>
 
-          </div>
+            </div>
 
-          <span>
-            En proceso
-          </span>
-
-        </div>
-
-        <strong class="stat-number">
-          {{ enProceso }}
-        </strong>
-
-        <small>
-          Reportes actualmente atendidos
-        </small>
-
-      </div>
-
-
-
-      <!-- RESUELTOS -->
-
-      <div class="stat-card">
-
-        <div class="stat-header">
-
-          <div class="stat-icon green">
-
-            <i class="bi bi-check-circle"></i>
-
-          </div>
-
-          <span>
-            Resueltos
-          </span>
-
-        </div>
-
-        <strong class="stat-number">
-          {{ resueltos }}
-        </strong>
-
-        <small>
-          Reportes solucionados
-        </small>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- ==========================================
-         GRÁFICAS
-    =========================================== -->
-
-    <section class="charts-grid">
-
-
-      <!-- ======================================
-           REPORTES POR MES
-      ======================================= -->
-
-      <div class="chart-card monthly-chart">
-
-        <div class="chart-header">
-
-          <div>
-
-            <h2>
-              Reportes por mes
-            </h2>
-
-            <p>
-              Cantidad de incidencias registradas durante el año
-            </p>
-
-          </div>
-
-          <div class="chart-icon">
-            <i class="bi bi-bar-chart-fill"></i>
-          </div>
-
-        </div>
-
-
-        @if (cargando) {
-
-          <div class="chart-loading">
-            <div class="spinner"></div>
-          </div>
-
-        } @else {
-
-          <div class="bar-chart">
-
-            @for (mes of reportesPorMes; track mes.nombre) {
-
-              <div class="bar-column">
-
-                <div class="bar-value">
-                  {{ mes.cantidad }}
-                </div>
-
-                <div class="bar-container">
-
-                  <div
-                    class="bar"
-                    [style.height.%]="mes.porcentaje"
-                  ></div>
-
-                </div>
-
-                <span class="month-label">
-                  {{ mes.nombre.substring(0, 3) }}
-                </span>
-
-              </div>
-
-            }
+            <span class="month-label">
+              {{ mes.nombre.substring(0, 3) }}
+            </span>
 
           </div>
 
@@ -380,313 +293,258 @@
 
       </div>
 
+    }
 
+  </div>
 
-      <!-- ======================================
-           REPORTES POR TIPO
-      ======================================= -->
+  <div class="chart-card type-chart">
 
-      <div class="chart-card type-chart">
+    <div class="chart-header">
 
-        <div class="chart-header">
+      <div>
 
-          <div>
+        <h2>
+          Reportes por tipo
+        </h2>
 
-            <h2>
-              Reportes por tipo
-            </h2>
+        <p>
+          Distribución de incidencias
+        </p>
 
-            <p>
-              Distribución de incidencias
-            </p>
+      </div>
 
-          </div>
+      <div class="chart-icon purple">
+        <i class="bi bi-pie-chart-fill"></i>
+      </div>
 
-          <div class="chart-icon purple">
-            <i class="bi bi-pie-chart-fill"></i>
+    </div>
+
+    @if (reportesPorTipo.length === 0) {
+
+      <div class="no-data">
+
+        <i class="bi bi-pie-chart"></i>
+
+        <span>
+          No hay datos disponibles
+        </span>
+
+      </div>
+
+    } @else {
+
+      <div class="pie-content">
+
+        <div
+          class="pie-chart"
+          [style.background]="obtenerGradienteTipo()"
+        >
+
+          <div class="pie-center">
+
+            <strong>
+              {{ totalReportes }}
+            </strong>
+
+            <span>
+              Reportes
+            </span>
+
           </div>
 
         </div>
 
+        <div class="pie-legend">
 
-        @if (reportesPorTipo.length === 0) {
+          @for (
+            tipo of reportesPorTipo;
+            track tipo.nombre
+          ) {
 
-          <div class="no-data">
-            <i class="bi bi-pie-chart"></i>
-            <span>No hay datos disponibles</span>
-          </div>
+            <div class="legend-item">
 
-        } @else {
+              <div class="legend-name">
 
-          <div class="pie-content">
-
-
-            <!-- CÍRCULO -->
-
-            <div
-              class="pie-chart"
-              [style.background]="
-                reportesPorTipo.length === 1
-                ? reportesPorTipo[0].color
-                : 'conic-gradient(' +
-                  reportesPorTipo.map(
-                    (tipo, i) =>
-                      tipo.color + ' ' +
-                      (
-                        reportesPorTipo
-                          .slice(0, i + 1)
-                          .reduce((total, item) => total + item.porcentaje, 0)
-                      ) + '% ' +
-                      (
-                        reportesPorTipo
-                          .slice(0, i + 1)
-                          .reduce((total, item) => total + item.porcentaje, 0)
-                      ) + '%'
-                  ).join(', ') +
-                  ')'
-              ]"
-            >
-
-              <div class="pie-center">
-
-                <strong>
-                  {{ totalReportes }}
-                </strong>
+                <span
+                  class="legend-color"
+                  [style.background]="tipo.color"
+                ></span>
 
                 <span>
-                  Reportes
+                  {{ tipo.nombre }}
                 </span>
 
               </div>
 
+              <strong>
+                {{ tipo.cantidad }}
+              </strong>
+
             </div>
 
+          }
 
+        </div>
 
-            <!-- LEYENDA -->
+      </div>
 
-            <div class="pie-legend">
+    }
 
-              @for (
-                tipo of reportesPorTipo;
-                track tipo.nombre
-              ) {
+  </div>
 
-                <div class="legend-item">
+</section>
 
-                  <div class="legend-name">
+<section class="reports-section">
 
-                    <span
-                      class="legend-color"
-                      [style.background]="tipo.color"
-                    ></span>
+  <div class="reports-header">
 
-                    <span>
-                      {{ tipo.nombre }}
-                    </span>
+    <div>
 
-                  </div>
+      <h2>
+        Últimos reportes
+      </h2>
+
+      <p>
+        Los reportes registrados más recientemente
+      </p>
+
+    </div>
+
+  </div>
+
+  @if (cargando) {
+
+    <div class="loading-container">
+
+      <div class="spinner"></div>
+
+      <span>
+        Cargando reportes...
+      </span>
+
+    </div>
+
+  } @else if (reportes.length === 0) {
+
+    <div class="empty-container">
+
+      <div class="empty-icon">
+        <i class="bi bi-file-earmark-x"></i>
+      </div>
+
+      <h3>
+        No hay reportes registrados
+      </h3>
+
+      <p>
+        Cuando los ciudadanos registren incidencias aparecerán aquí.
+      </p>
+
+    </div>
+
+  } @else {
+
+    <div class="reports-table-container">
+
+      <table class="reports-table">
+
+        <thead>
+
+          <tr>
+            <th>ID</th>
+            <th>Reporte</th>
+            <th>Usuario</th>
+            <th>Tipo</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (
+            reporte of reportesRecientes;
+            track reporte.id_reporte
+          ) {
+
+            <tr>
+
+              <td>
+                <strong>
+                  #{{ reporte.id_reporte }}
+                </strong>
+              </td>
+
+              <td>
+
+                <div class="report-title">
 
                   <strong>
-                    {{ tipo.cantidad }}
+                    {{ reporte.titulo }}
                   </strong>
+
+                  <span>
+                    {{ reporte.descripcion }}
+                  </span>
 
                 </div>
 
-              }
+              </td>
 
-            </div>
+              <td>
+                {{ reporte.usuario }}
+              </td>
 
-          </div>
+              <td>
 
-        }
+                <span class="type-badge">
+                  {{ reporte.tipo_incidencia }}
+                </span>
 
-      </div>
+              </td>
 
-    </section>
+              <td>
+                {{ reporte.prioridad }}
+              </td>
 
+              <td>
 
+                <span
+                  class="state-badge"
+                  [ngClass]="obtenerClaseEstado(reporte.estado)"
+                >
 
-    <!-- ==========================================
-         ÚLTIMOS REPORTES
-    =========================================== -->
+                  <i
+                    class="bi"
+                    [ngClass]="obtenerIconoEstado(reporte.estado)"
+                  ></i>
 
-    <section class="reports-section">
+                  {{ reporte.estado }}
 
-      <div class="reports-header">
+                </span>
 
-        <div>
+              </td>
 
-          <h2>
-            Últimos reportes
-          </h2>
+              <td>
+                {{ reporte.fecha_reporte | date:'dd/MM/yyyy' }}
+              </td>
 
-          <p>
-            Los reportes registrados más recientemente
-          </p>
+            </tr>
 
-        </div>
+          }
 
-      </div>
+        </tbody>
 
+      </table>
 
-      @if (cargando) {
+    </div>
 
-        <div class="loading-container">
+  }
 
-          <div class="spinner"></div>
+</section>
 
-          <span>
-            Cargando reportes...
-          </span>
-
-        </div>
-
-      }
-
-
-      @else if (reportes.length === 0) {
-
-        <div class="empty-container">
-
-          <div class="empty-icon">
-
-            <i class="bi bi-file-earmark-x"></i>
-
-          </div>
-
-          <h3>
-            No hay reportes registrados
-          </h3>
-
-          <p>
-            Cuando los ciudadanos registren incidencias aparecerán aquí.
-          </p>
-
-        </div>
-
-      }
-
-
-      @else {
-
-        <div class="reports-table-container">
-
-          <table class="reports-table">
-
-            <thead>
-
-              <tr>
-
-                <th>ID</th>
-
-                <th>Reporte</th>
-
-                <th>Usuario</th>
-
-                <th>Tipo</th>
-
-                <th>Prioridad</th>
-
-                <th>Estado</th>
-
-                <th>Fecha</th>
-
-              </tr>
-
-            </thead>
-
-
-            <tbody>
-
-              @for (
-                reporte of reportesRecientes;
-                track reporte.id_reporte
-              ) {
-
-                <tr>
-
-                  <td>
-                    <strong>
-                      #{{ reporte.id_reporte }}
-                    </strong>
-                  </td>
-
-
-                  <td>
-
-                    <div class="report-title">
-
-                      <strong>
-                        {{ reporte.titulo }}
-                      </strong>
-
-                      <span>
-                        {{ reporte.descripcion }}
-                      </span>
-
-                    </div>
-
-                  </td>
-
-
-                  <td>
-                    {{ reporte.usuario }}
-                  </td>
-
-
-                  <td>
-
-                    <span class="type-badge">
-                      {{ reporte.tipo_incidencia }}
-                    </span>
-
-                  </td>
-
-
-                  <td>
-                    {{ reporte.prioridad }}
-                  </td>
-
-
-                  <td>
-
-                    <span
-                      class="state-badge"
-                      [ngClass]="obtenerClaseEstado(reporte.estado)"
-                    >
-
-                      <i
-                        class="bi"
-                        [ngClass]="obtenerIconoEstado(reporte.estado)"
-                      ></i>
-
-                      {{ reporte.estado }}
-
-                    </span>
-
-                  </td>
-
-
-                  <td>
-
-                    {{ reporte.fecha_reporte | date:'dd/MM/yyyy' }}
-
-                  </td>
-
-                </tr>
-
-              }
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      }
-
-    </section>
 
   </main>
 

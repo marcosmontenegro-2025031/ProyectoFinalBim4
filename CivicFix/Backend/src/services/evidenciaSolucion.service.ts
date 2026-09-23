@@ -1,33 +1,45 @@
 import { EvidenciaSolucionRepository } from "../repository/evidenciaSolucion.repository.js";
-import { EvidenciaSolucion, CrearEvidenciaDTO, ActualizarEvidenciaDTO } from "../models/evidenciaSolucion.model.js";
+import {
+    EvidenciaSolucion,
+    CrearEvidenciaDTO,
+    ActualizarEvidenciaDTO
+} from "../models/evidenciaSolucion.model.js";
 
 export class EvidenciaSolucionService {
 
-    static async listar(): Promise<EvidenciaSolucion[]> {
-        return await EvidenciaSolucionRepository.obtenerTodos();
+    private repository = new EvidenciaSolucionRepository();
+
+    async listar(): Promise<EvidenciaSolucion[]> {
+        return await this.repository.obtenerTodos();
     }
 
-
-    static async obtenerPorId(id: number): Promise<EvidenciaSolucion> {
-        const evidencia = await EvidenciaSolucionRepository.obtenerPorId(id);
+    async obtenerPorId(id: number): Promise<EvidenciaSolucion> {
+        const evidencia = await this.repository.obtenerPorId(id);
 
         if (!evidencia) {
-            throw new Error(`No se encontró la evidencia con id ${id}`);
+            throw new Error(
+                `No se encontró la evidencia con id ${id}`
+            );
         }
 
         return evidencia;
     }
 
+    async obtenerPorReporte(
+        idReporte: number
+    ): Promise<EvidenciaSolucion[]> {
 
-    static async obtenerPorReporte(idReporte: number): Promise<EvidenciaSolucion[]> {
-        return await EvidenciaSolucionRepository.obtenerPorReporte(idReporte);
+        return await this.repository.obtenerPorReporte(idReporte);
     }
 
-
-    static async crear(datos: CrearEvidenciaDTO): Promise<EvidenciaSolucion> {
+    async crear(
+        datos: CrearEvidenciaDTO
+    ): Promise<EvidenciaSolucion> {
 
         if (!datos.fk_id_reporte || !datos.ruta_fotografia) {
-            throw new Error("fk_id_reporte y ruta_fotografia son obligatorios");
+            throw new Error(
+                "fk_id_reporte y ruta_fotografia son obligatorios"
+            );
         }
 
         const nuevaEvidencia: EvidenciaSolucion = {
@@ -38,16 +50,21 @@ export class EvidenciaSolucionService {
             fecha_subida: datos.fecha_subida ?? new Date()
         };
 
-        return await EvidenciaSolucionRepository.crear(nuevaEvidencia);
+        return await this.repository.crear(nuevaEvidencia);
     }
 
+    async actualizar(
+        id: number,
+        datos: ActualizarEvidenciaDTO
+    ): Promise<EvidenciaSolucion> {
 
-    static async actualizar(id: number, datos: ActualizarEvidenciaDTO): Promise<EvidenciaSolucion> {
-
-        const evidenciaExistente = await EvidenciaSolucionRepository.obtenerPorId(id);
+        const evidenciaExistente =
+            await this.repository.obtenerPorId(id);
 
         if (!evidenciaExistente) {
-            throw new Error(`No se encontró la evidencia con id ${id}`);
+            throw new Error(
+                `No se encontró la evidencia con id ${id}`
+            );
         }
 
         const evidenciaActualizada: EvidenciaSolucion = {
@@ -55,25 +72,34 @@ export class EvidenciaSolucionService {
             ...datos
         };
 
-        const resultado = await EvidenciaSolucionRepository.actualizar(id, evidenciaActualizada);
+        const resultado =
+            await this.repository.actualizar(
+                id,
+                evidenciaActualizada
+            );
 
         if (!resultado) {
-            throw new Error(`No se pudo actualizar la evidencia con id ${id}`);
+            throw new Error(
+                `No se pudo actualizar la evidencia con id ${id}`
+            );
         }
 
         return resultado;
     }
 
+    async eliminar(
+        id: number
+    ): Promise<EvidenciaSolucion> {
 
-    static async eliminar(id: number): Promise<EvidenciaSolucion> {
-
-        const evidenciaEliminada = await EvidenciaSolucionRepository.eliminar(id);
+        const evidenciaEliminada =
+            await this.repository.eliminar(id);
 
         if (!evidenciaEliminada) {
-            throw new Error(`No se encontró la evidencia con id ${id}`);
+            throw new Error(
+                `No se encontró la evidencia con id ${id}`
+            );
         }
 
         return evidenciaEliminada;
     }
-
 }
