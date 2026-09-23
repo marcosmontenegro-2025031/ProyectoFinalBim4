@@ -71,6 +71,25 @@ export class EmpleadoMunicipalService {
         return this.empleadoRepository.actualizarEmpleado(id,empleado);
     }
 
+    async actualizarPerfil(id: number, datos: {
+        nombre: string; apellido: string; usuario: string; correo: string; telefono: string;
+    }) {
+        if (![datos.nombre, datos.apellido, datos.usuario, datos.correo].every(x => typeof x === 'string' && x.trim())) {
+            throw new Error('Nombre, apellido, usuario y correo son obligatorios');
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(datos.correo.trim())) {
+            throw new Error('Correo electrónico inválido');
+        }
+        if (datos.telefono && !/^\d{8}$/.test(datos.telefono)) {
+            throw new Error('El teléfono debe tener 8 dígitos');
+        }
+        return this.empleadoRepository.actualizarPerfil(id, {
+            nombre: datos.nombre.trim(), apellido: datos.apellido.trim(),
+            usuario: datos.usuario.trim(), correo: datos.correo.trim(),
+            telefono: datos.telefono ?? ''
+        });
+    }
+
     async eliminarEmpleado(id: number): Promise<boolean> {
         if (id === undefined || id === null) {
             throw new Error("ID de usuario inválido");

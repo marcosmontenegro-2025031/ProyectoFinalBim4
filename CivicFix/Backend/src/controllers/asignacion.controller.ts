@@ -6,7 +6,10 @@ export class AsignacionController {
 
     static async listar(req: Request, res: Response): Promise<void> {
         try {
-            const asignaciones = await AsignacionService.listar();
+            const actor = (req as any).empleado;
+            const asignaciones = /admin/i.test(actor?.cargo ?? '')
+              ? await AsignacionService.listar()
+              : await AsignacionService.listarPorEmpleado(actor.id_empleado);
             res.status(200).json(asignaciones);
         } catch (error) {
             res.status(500).json({ mensaje: "Error al obtener las asignaciones", error: (error as Error).message });
@@ -24,6 +27,9 @@ export class AsignacionController {
             }
 
             const asignacion = await AsignacionService.obtenerPorId(id);
+            if (!/admin/i.test((req as any).empleado?.cargo ?? '') && asignacion.fk_id_empleado !== (req as any).empleado?.id_empleado) {
+              res.status(403).json({mensaje:'Asignación ajena'}); return;
+            }
             res.status(200).json(asignacion);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });

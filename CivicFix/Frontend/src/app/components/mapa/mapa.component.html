@@ -21,20 +21,20 @@
 
       <a
         class="civic-nav-item"
-        routerLink="/reportes/nuevo"
+        [routerLink]="esEmpleado ? rutaInicio : '/reportes/nuevo'"
         routerLinkActive="active"
       >
         <i class="bi bi-plus-circle-fill"></i>
 
         <span>
-          Crear reporte
+          {{ esEmpleado ? 'Inicio' : 'Crear reporte' }}
         </span>
       </a>
 
 
       <a
         class="civic-nav-item"
-        routerLink="/mis-reportes"
+        [routerLink]="rutaReportes"
         routerLinkActive="active"
       >
         <i class="bi bi-file-earmark-text-fill"></i>
@@ -47,7 +47,7 @@
 
       <a
         class="civic-nav-item"
-        routerLink="/mapa"
+        [routerLink]="rutaMapa"
         routerLinkActive="active"
       >
         <i class="bi bi-geo-alt-fill"></i>
@@ -60,7 +60,7 @@
 
       <a
         class="civic-nav-item"
-        routerLink="/notificaciones"
+        [routerLink]="rutaNotificaciones"
         routerLinkActive="active"
       >
         <i class="bi bi-bell-fill"></i>
@@ -69,15 +69,13 @@
           Notificaciones
         </span>
 
-        <span class="notification-number">
-          3
-        </span>
+        
       </a>
 
 
       <a
         class="civic-nav-item"
-        routerLink="/perfil"
+        [routerLink]="rutaPerfil"
         routerLinkActive="active"
       >
         <i class="bi bi-person-fill"></i>
@@ -174,7 +172,7 @@
         <button
           type="button"
           class="topbar-notification"
-          routerLink="/notificaciones"
+          [routerLink]="rutaNotificaciones"
           title="Notificaciones"
         >
 
@@ -192,7 +190,7 @@
 
         <div
           class="topbar-user"
-          routerLink="/perfil"
+          [routerLink]="rutaPerfil"
         >
 
           <div class="user-avatar">

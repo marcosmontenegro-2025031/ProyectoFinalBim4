@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { ReporteService } from '../../services/reporte.service';
+import { EstadoService } from '../../services/estado.service';
+import { Estado } from '../../models/estado.model';
 import { ReporteAdmin } from '../../models/reporte.model';
 
 @Component({
@@ -20,12 +22,32 @@ export class ReportesEmpleadoComponent implements OnInit {
 
   private reporteService = inject(ReporteService);
   private router = inject(Router);
+  private estadosService = inject(EstadoService);
+  estados: Estado[] = [];
+  cambiandoId: number | null = null;
+  mensajeEstado = '';
+  cargarEstados(): void {
+    this.estadosService.obtenerTodos().subscribe({next: data => this.estados = data,
+      error: err => console.error('Error al cargar estados:', err)});
+  }
+  cambiarEstado(idReporte: number, idEstado: number): void {
+    if (!Number.isInteger(idEstado) || idEstado < 1 || this.cambiandoId !== null) return;
+    this.cambiandoId = idReporte;
+    this.error = '';
+    this.mensajeEstado = '';
+    this.reporteService.actualizarEstado(idReporte, idEstado).subscribe({
+      next: () => {this.cambiandoId = null;this.mensajeEstado = 'Estado actualizado correctamente.';this.cargarReportes();},
+      error: err => {this.cambiandoId = null;this.error = err.error?.message || err.error?.mensaje || 'No se pudo actualizar el estado.';}
+    });
+  }
+
 
   reportes: ReporteAdmin[] = [];
   cargando = true;
   error = '';
 
   ngOnInit(): void {
+    this.cargarEstados();
     this.cargarReportes();
   }
 
@@ -46,8 +68,8 @@ export class ReportesEmpleadoComponent implements OnInit {
     });
   }
 
-  verDetalle(id: number): void {
-    this.router.navigate(['/empleado/reportes', id]);
+  verBitacora(idReporte: number): void {
+    this.router.navigate(['/empleado/bitacora', idReporte]);
   }
 
   obtenerClaseEstado(estado: string): string {

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpleadoService } from '../../services/empleado.service';
-import { Router } from '@angular/router';
+import { Router,RouterLink } from '@angular/router';
 import { SessionService } from '../../services/session.service';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   standalone: true,
   selector: 'app-empleado-login',
   templateUrl: './empleado-login.html',

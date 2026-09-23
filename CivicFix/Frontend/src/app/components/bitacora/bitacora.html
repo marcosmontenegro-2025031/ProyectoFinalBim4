@@ -1,103 +1,446 @@
-<section class="pantalla">
-  <header class="pantalla-header">
-    <h1>Bitácora de cambios de estado</h1>
-    <p>Historial de cada cambio de estado de un reporte, con quién lo hizo y por qué.</p>
-  </header>
+<div class="empleado-layout">
 
-  @if (error()) {
-    <div class="aviso-error">{{ error() }}</div>
-  }
+  <!-- SIDEBAR -->
+  <aside class="civic-sidebar">
 
-  <form class="formulario" [formGroup]="form" (ngSubmit)="guardar()">
-    <div class="campo">
-      <label for="fk_id_reporte">ID del reporte</label>
-      <input id="fk_id_reporte" type="number" formControlName="fk_id_reporte" placeholder="Ej. 12" />
-    </div>
-    <div class="campo">
-      <label for="fk_id_estado_anterior">Estado anterior</label>
-      <input id="fk_id_estado_anterior" type="number" formControlName="fk_id_estado_anterior" placeholder="ID estado" />
-    </div>
-    <div class="campo">
-      <label for="fk_id_estado_nuevo">Estado nuevo</label>
-      <input id="fk_id_estado_nuevo" type="number" formControlName="fk_id_estado_nuevo" placeholder="ID estado" />
-    </div>
-    <div class="campo">
-      <label for="fk_id_empleado">ID del empleado</label>
-      <input id="fk_id_empleado" type="number" formControlName="fk_id_empleado" placeholder="Ej. 4" />
-    </div>
-    <div class="campo campo-ancho">
-      <label for="comentario">Comentario</label>
-      <input id="comentario" type="text" formControlName="comentario" placeholder="Motivo del cambio" />
-    </div>
-    <button type="submit" class="boton-primario" [disabled]="form.invalid">Registrar cambio</button>
-  </form>
+    <div class="civic-brand">
 
-  <div class="barra-filtros">
-    <div class="campo campo-busqueda">
-      <label for="busqueda">Buscar</label>
-      <input
-        id="busqueda"
-        type="text"
-        placeholder="ID de reporte, empleado u observación…"
-        [value]="textoBusqueda()"
-        (input)="actualizarBusqueda($any($event.target).value)"
-      />
+      <div class="civic-logo-wrapper">
+
+        <img
+          src="../../../assets/CIVICFIX_LOGO-removebg-preview.png"
+          alt="CIVICFIX"
+          class="civic-logo"
+        >
+
+      </div>
+
     </div>
-    <div class="campo">
-      <label for="transicion">Transición de estado</label>
-      <select
-        id="transicion"
-        [value]="transicionSeleccionada()"
-        (change)="actualizarTransicion($any($event.target).value)"
+
+
+    <nav class="civic-navigation">
+
+      <a
+        class="civic-nav-item"
+        routerLink="/empleado/home"
+        routerLinkActive="active"
       >
-        <option value="todas">Todas las transiciones</option>
-        @for (t of transicionesDisponibles(); track t.etiqueta) {
-          <option [value]="(t.anterior ?? 'n') + '->' + t.nuevo">{{ t.etiqueta }}</option>
-        }
-      </select>
-    </div>
-    <button type="button" class="boton-texto" (click)="limpiarFiltros()">Limpiar filtros</button>
-    <span class="contador-resultados">
-      {{ registrosFiltrados().length }} de {{ registros().length }} registro(s)
-    </span>
-  </div>
+        <i class="bi bi-house-fill"></i>
+        <span>Inicio</span>
+      </a>
 
-  <div class="tabla-contenedor">
-    @if (cargando()) {
-      <p class="estado-vacio">Cargando bitácora…</p>
-    } @else if (registros().length === 0) {
-      <p class="estado-vacio">Todavía no hay cambios de estado registrados.</p>
-    } @else if (registrosFiltrados().length === 0) {
-      <p class="estado-vacio">Ningún registro coincide con los filtros aplicados.</p>
-    } @else {
-      <table class="tabla">
-        <thead>
-          <tr>
-            <th>ID reporte</th>
-            <th>Estado anterior</th>
-            <th>Estado nuevo</th>
-            <th>Observación</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of registrosFiltrados(); track item.id_bitacora) {
-            <tr>
-              <td>{{ item.fk_id_reporte }}</td>
-              <td>
-                @if (item.fk_id_estado_anterior != null) {
-                  <span class="insignia insignia-neutra">{{ item.fk_id_estado_anterior }}</span>
-                } @else {
-                  <span class="estado-vacio-celda">—</span>
-                }
-              </td>
-              <td><span class="insignia insignia-nuevo">{{ item.fk_id_estado_nuevo }}</span></td>
-              <td>{{ item.comentario || '—' }}</td>
-              <td>{{ item.fecha_cambio | date: 'short' }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    }
-  </div>
-</section>
+
+      <a
+        class="civic-nav-item"
+        routerLink="/empleado/reportes"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-bar-chart"></i>
+        <span>Reportes</span>
+      </a>
+
+
+      <a
+        class="civic-nav-item"
+        routerLink="/empleado/evidencias"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-camera"></i>
+        <span>Evidencias</span>
+      </a>
+
+
+      <a
+        class="civic-nav-item active"
+        routerLink="/empleado/reportes"
+      >
+        <i class="bi bi-journal-text"></i>
+        <span>Bitácora</span>
+      </a>
+
+
+      <a
+        class="civic-nav-item"
+        routerLink="/empleado/fotografias"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-images"></i>
+        <span>Fotografías</span>
+      </a>
+
+
+      <a
+        class="civic-nav-item"
+        routerLink="/empleado/notificaciones"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-bell"></i>
+        <span>Notificaciones</span>
+
+        <span class="notification-number">
+          3
+        </span>
+      </a>
+
+
+      <a
+        class="civic-nav-item"
+        routerLink="/empleado/perfil"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-person-circle"></i>
+        <span>Perfil</span>
+      </a>
+
+    </nav>
+
+
+    <div class="civic-city">
+
+      <div class="city-buildings">
+
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+
+        <span class="lamp"></span>
+
+      </div>
+
+
+      <div class="civic-city-footer">
+
+        <div class="municipality-icon">
+          <i class="bi bi-shield-fill-check"></i>
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- CONTENIDO -->
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+
+        <h1>
+          Bitácora del reporte
+        </h1>
+
+        <p>
+          Historial de cambios de estado de la incidencia
+        </p>
+
+      </div>
+
+
+      <button
+        class="btn-refresh"
+        (click)="cargarBitacora()"
+      >
+
+        <i class="bi bi-arrow-clockwise"></i>
+
+        Actualizar
+
+      </button>
+
+    </header>
+
+
+    <section class="content-section">
+
+
+      <!-- CABECERA -->
+
+      <div class="section-header">
+
+        <div>
+
+          <h2>
+            Historial de cambios
+          </h2>
+
+          <p>
+            Reporte #{{ idReporte }}
+          </p>
+
+        </div>
+
+
+        <button
+          class="btn-back"
+          (click)="volverReportes()"
+        >
+
+          <i class="bi bi-arrow-left"></i>
+
+          Volver a reportes
+
+        </button>
+
+      </div>
+
+
+      <!-- CARGANDO -->
+
+      <div
+        *ngIf="cargando"
+        class="loading-container"
+      >
+
+        <i class="bi bi-arrow-repeat loading-icon"></i>
+
+        <p>
+          Cargando historial...
+        </p>
+
+      </div>
+
+
+      <!-- ERROR -->
+
+      <div
+        *ngIf="!cargando && error"
+        class="error-container"
+      >
+
+        <i class="bi bi-exclamation-triangle-fill"></i>
+
+        <p>
+          {{ error }}
+        </p>
+
+        <button
+          class="btn-retry"
+          (click)="cargarBitacora()"
+        >
+          Reintentar
+        </button>
+
+      </div>
+
+
+      <!-- SIN REGISTROS -->
+
+      <div
+        *ngIf="!cargando && !error && bitacoras.length === 0"
+        class="empty-container"
+      >
+
+        <i class="bi bi-journal-x"></i>
+
+        <h3>
+          No hay cambios registrados
+        </h3>
+
+        <p>
+          Este reporte todavía no tiene movimientos en su bitácora.
+        </p>
+
+      </div>
+
+
+      <!-- BITÁCORA -->
+
+      <div
+        *ngIf="!cargando && !error && bitacoras.length > 0"
+        class="timeline"
+      >
+
+        <article
+          class="timeline-item"
+          *ngFor="let bitacora of bitacoras"
+        >
+
+          <div class="timeline-marker">
+
+            <i class="bi bi-arrow-repeat"></i>
+
+          </div>
+
+
+          <div class="timeline-card">
+
+            <div class="timeline-header">
+
+              <div>
+
+                <span class="change-label">
+                  Cambio de estado
+                </span>
+
+                <span class="change-date">
+
+                  <i class="bi bi-calendar3"></i>
+
+                  {{ bitacora.fecha_cambio | date:'dd/MM/yyyy HH:mm' }}
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="states">
+
+              <div class="state">
+
+                <span class="state-title">
+                  Estado anterior
+                </span>
+
+                <span
+                  class="state-badge"
+                  [ngClass]="obtenerClaseEstado(bitacora.fk_id_estado_anterior)"
+                >
+
+                  {{ obtenerNombreEstado(bitacora.fk_id_estado_anterior) }}
+
+                </span>
+
+              </div>
+
+
+              <div class="arrow">
+
+                <i class="bi bi-arrow-right"></i>
+
+              </div>
+
+
+              <div class="state">
+
+                <span class="state-title">
+                  Nuevo estado
+                </span>
+
+                <span
+                  class="state-badge"
+                  [ngClass]="obtenerClaseEstado(bitacora.fk_id_estado_nuevo)"
+                >
+
+                  {{ obtenerNombreEstado(bitacora.fk_id_estado_nuevo) }}
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="comment"
+              *ngIf="bitacora.comentario"
+            >
+
+              <i class="bi bi-chat-left-text"></i>
+
+              <div>
+
+                <strong>
+                  Comentario
+                </strong>
+
+                <p>
+                  {{ bitacora.comentario }}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="employee"
+              *ngIf="bitacora.fk_id_empleado"
+            >
+
+              <i class="bi bi-person-badge"></i>
+
+              Empleado #{{ bitacora.fk_id_empleado }}
+
+            </div>
+
+          </div>
+
+          <button
+              class="btn-editar"
+              *ngIf="puedeEditar(bitacora)"
+              (click)="editarBitacora(bitacora)"
+          >
+              <i class="bi bi-pencil"></i>
+              Editar
+          </button>
+        </article>
+
+      </div>
+
+    </section>
+
+    <div class="modal-overlay" *ngIf="editando">
+
+    <div class="modal-editar">
+
+        <div class="modal-header">
+            <h2>Editar bitácora</h2>
+
+            <button
+                class="btn-cerrar"
+                (click)="cancelarEdicion()"
+            >
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <p>El historial de estados no se modifica desde esta pantalla. Solo puedes editar el comentario.</p>
+
+        <div class="form-group">
+
+            <label>Comentario</label>
+
+            <textarea
+                [(ngModel)]="bitacoraEditando.comentario"
+                rows="4"
+                placeholder="Escribe el comentario..."
+            ></textarea>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="btn-cancelar"
+                (click)="cancelarEdicion()"
+            >
+                Cancelar
+            </button>
+
+            <button
+                class="btn-guardar"
+                (click)="guardarEdicion()"
+            >
+                <i class="bi bi-check-lg"></i>
+                Guardar cambios
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+  </main>
+
+</div>

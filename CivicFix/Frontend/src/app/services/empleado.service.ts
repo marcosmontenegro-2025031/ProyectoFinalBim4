@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable, tap } from "rxjs";
 import { EmpleadoMunicipal } from "../models/empleadoMunicipal.model";
 import { SessionService } from "./session.service";
@@ -31,26 +31,45 @@ export class EmpleadoService {
         ).pipe(
             tap(response => {
                 if (response && response.token) {
-                    this.guardarToken(response.token);
                     this.session.guardarEmpleado(response.token, response.usuario);
                 }
             })
         );
     }
 
+    obtenerMiPerfil(): Observable<EmpleadoMunicipal> {
+        return this.http.get<EmpleadoMunicipal>(`${this.apiUrl}/me`);
+    }
+
+    actualizarMiPerfil(datos: Pick<EmpleadoMunicipal, 'nombre' | 'apellido' | 'usuario' | 'correo' | 'telefono'>): Observable<EmpleadoMunicipal> {
+        return this.http.put<EmpleadoMunicipal>(`${this.apiUrl}/me`, datos);
+    }
+
     crearEmpleado(empleado: EmpleadoMunicipal) {
         return this.http.post<EmpleadoMunicipal>(this.apiUrl, empleado);
     }
 
-    private guardarToken(token: string): void {
-        if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem(this.TOKEN_KEY, token);
-        }
+    obtenerEmpleadoPorId(id: number): Observable<EmpleadoMunicipal> {
+
+        return this.http.get<EmpleadoMunicipal>(
+            `${this.apiUrl}/${id}`,
+        );
+    }
+
+    actualizarEmpleado(
+        id: number,
+        empleado: EmpleadoMunicipal
+    ): Observable<EmpleadoMunicipal> {
+
+        return this.http.put<EmpleadoMunicipal>(
+            `${this.apiUrl}/${id}`,
+            empleado,
+        );
     }
 
     obtenerToken(): string | null {
         if(isPlatformBrowser(this.platformId)){
-            return localStorage.getItem(this.TOKEN_KEY);
+            return this.session.obtenerTokenEmpleado();
         }
         return null;
     }

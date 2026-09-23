@@ -9,6 +9,10 @@ export class AsignacionService {
     }
 
 
+    static async listarPorEmpleado(idEmpleado: number): Promise<Asignacion[]> {
+        return AsignacionRepository.obtenerPorEmpleado(idEmpleado);
+    }
+
     static async obtenerPorId(id: number): Promise<Asignacion> {
         const asignacion = await AsignacionRepository.obtenerPorId(id);
 

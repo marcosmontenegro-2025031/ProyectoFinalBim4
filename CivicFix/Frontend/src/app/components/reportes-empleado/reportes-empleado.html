@@ -24,25 +24,10 @@
         <span>Reportes</span>
       </a>
 
-      <a class="civic-nav-item" routerLink="/empleado/evidencias" routerLinkActive="active">
-        <i class="bi bi-camera"></i>
-        <span>Evidencias</span>
-      </a>
-
-      <a class="civic-nav-item" routerLink="/empleado/bitacora" routerLinkActive="active">
-        <i class="bi bi-journal-text"></i>
-        <span>Bitácora</span>
-      </a>
-
-      <a class="civic-nav-item" routerLink="/empleado/fotografias" routerLinkActive="active">
-        <i class="bi bi-images"></i>
-        <span>Fotografías</span>
-      </a>
-
       <a class="civic-nav-item" routerLink="/empleado/notificaciones" routerLinkActive="active">
         <i class="bi bi-bell"></i>
         <span>Notificaciones</span>
-        <span class="notification-number">3</span>
+        
       </a>
 
       <a class="civic-nav-item" routerLink="/empleado/perfil" routerLinkActive="active">
@@ -76,6 +61,7 @@
   </aside>
 
   <main class="main-content">
+    <div *ngIf="mensajeEstado" class="aviso-exito" role="status">{{mensajeEstado}}</div>
 
     <header class="topbar">
 
@@ -142,7 +128,7 @@
 
             <img
               *ngIf="reporte.ruta_fotografia"
-              [src]="'http://localhost:3000' + reporte.ruta_fotografia"
+              [src]="reporte.ruta_fotografia.startsWith('http') ? reporte.ruta_fotografia : 'http://localhost:3000' + (reporte.ruta_fotografia.startsWith('/') ? '' : '/') + reporte.ruta_fotografia"
               alt="Fotografía del reporte"
             >
 
@@ -204,6 +190,15 @@
 
             </div>
 
+            <div class="cambiar-estado">
+              <label [for]="'estado-' + reporte.id_reporte">Cambiar estado</label>
+              <select [id]="'estado-' + reporte.id_reporte" #estadoElegido
+                [disabled]="cambiandoId !== null || !estados.length"
+                (change)="cambiarEstado(reporte.id_reporte, +estadoElegido.value); estadoElegido.value = ''">
+                <option value="">Seleccionar estado</option>
+                <option *ngFor="let e of estados" [value]="e.idEstado" [disabled]="e.nombre === reporte.estado">{{e.nombre}}</option>
+              </select>
+            </div>
             <div class="reporte-footer">
 
               <span
@@ -216,7 +211,7 @@
 
               <button
                 class="btn-detail"
-                (click)="verDetalle(reporte.id_reporte)">
+                (click)="verBitacora(reporte.id_reporte)">
 
                 Ver incidencia
                 <i class="bi bi-arrow-right"></i>

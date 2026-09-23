@@ -4,12 +4,15 @@ import { encriptarContrasena } from "../utils/bcrypt.util";
 
 export class EmpleadoMunicipalRepository{
     async obtenerEmpleado(): Promise<EmpleadoMunicipal[]> {
-        const resultado = await pool.query("SELECT * FROM EmpleadoMunicipal");
+        const resultado = await pool.query("SELECT id_empleado,nombre,apellido,usuario,dpi,telefono,direccion,correo,cargo,id_departamento,id_municipalidad FROM EmpleadoMunicipal");
         return resultado.rows;
     }
 
     async obtenerEmpleadoPorId(id: number): Promise<EmpleadoMunicipal | undefined> {
-        const resultado = await pool.query("SELECT * FROM EmpleadoMunicipal WHERE id_empleado=$1");
+        const resultado = await pool.query(
+            "SELECT id_empleado,nombre,apellido,usuario,dpi,telefono,direccion,correo,cargo,id_departamento,id_municipalidad FROM EmpleadoMunicipal WHERE id_empleado=$1",
+            [id]
+        );
         return resultado.rows[0] as EmpleadoMunicipal | undefined;
     }
 
@@ -54,11 +57,25 @@ export class EmpleadoMunicipalRepository{
             telefono=$6, direccion=$7, correo=$8, cargo=$9, id_departamento=$10, id_municipalidad=$11 WHERE id_empleado=$12`,
             [body.nombre,body.apellido,body.usuario,passworEncriptado,body.dpi,body.telefono,body.direccion,body.correo,body.cargo,body.id_departamento,body.id_municipalidad,id]
         );
-        return (resultado.rowCount ?? 0) > 0 ? empleado : undefined;
+        if (!(resultado.rowCount ?? 0)) return undefined;
+        const {password: _password, ...publico} = empleado;
+        return publico as EmpleadoRegister;
+    }
+
+    async actualizarPerfil(id: number, datos: {
+        nombre: string; apellido: string; usuario: string; correo: string; telefono: string;
+    }): Promise<EmpleadoMunicipal | undefined> {
+        const resultado = await pool.query(`
+            UPDATE EmpleadoMunicipal
+            SET nombre=$1, apellido=$2, usuario=$3, correo=$4, telefono=$5
+            WHERE id_empleado=$6
+            RETURNING id_empleado,nombre,apellido,usuario,dpi,telefono,direccion,correo,cargo,id_departamento,id_municipalidad
+        `, [datos.nombre, datos.apellido, datos.usuario, datos.correo, datos.telefono, id]);
+        return resultado.rows[0];
     }
 
     async eliminarEmpleado(id: number): Promise<boolean> {
-        const resultado = await pool.query("DELETE FROM EmpleadoMunicipal WHERE id_empleado = $1"
+        const resultado = await pool.query("DELETE FROM EmpleadoMunicipal WHERE id_empleado = $1",
             [id]
         );
         return (resultado.rowCount ?? 0) > 0;

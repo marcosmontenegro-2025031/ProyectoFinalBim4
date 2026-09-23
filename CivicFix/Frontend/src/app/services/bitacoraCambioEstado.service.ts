@@ -1,23 +1,59 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { environment } from '../../environments/environment';
-import { BitacoraCambioEstado } from '../../app/models/bitacoraCambioEstado.model';
+import { BitacoraCambioEstado } from '../models/bitacoraCambioEstado.model';
+import { EmpleadoService } from './empleado.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class BitacoraCambioEstadoService {
-    private http = inject(HttpClient);
-    private baseUrl = `${environment.apiUrl}/bitacora`;
 
-    registrar(bitacora: Omit<BitacoraCambioEstado, 'id_bitacora' | 'fecha_cambio'>): Observable<BitacoraCambioEstado> {
-        return this.http.post<BitacoraCambioEstado>(this.baseUrl, bitacora);
-    }
+  private http = inject(HttpClient);
+  private empleadoService = inject(EmpleadoService);
 
-    listar(): Observable<BitacoraCambioEstado[]> {
-        return this.http.get<BitacoraCambioEstado[]>(this.baseUrl);
-    }
+  private baseUrl = `${environment.apiUrl}/bitacora`;
 
-    listarPorReporte(idReporte: number): Observable<BitacoraCambioEstado[]> {
-        return this.http.get<BitacoraCambioEstado[]>(`${this.baseUrl}/reporte/${idReporte}`);
+  listar(): Observable<BitacoraCambioEstado[]> {
+
+    const token = this.empleadoService.obtenerToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get<BitacoraCambioEstado[]>(
+      this.baseUrl,
+      { headers }
+    );
+  }
+
+  listarPorReporte(
+    idReporte: number
+  ): Observable<BitacoraCambioEstado[]> {
+
+    const token = this.empleadoService.obtenerToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get<BitacoraCambioEstado[]>(
+      `${this.baseUrl}/reporte/${idReporte}`,
+      { headers }
+    );
+  }
+
+  actualizar(
+    idBitacora: number,
+    bitacora: BitacoraCambioEstado
+  ): Observable<BitacoraCambioEstado> {
+
+        return this.http.put<BitacoraCambioEstado>(
+            `${this.baseUrl}/${idBitacora}`,
+            { comentario: bitacora.comentario }
+        );
     }
 }

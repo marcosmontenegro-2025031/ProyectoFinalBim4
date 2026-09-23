@@ -1,0 +1,18 @@
+<main class="pantalla">
+  <nav class="nav-empleado">
+    <a routerLink="/empleado/home">Inicio</a>
+    <a routerLink="/empleado/reportes">Reportes</a>
+    <a routerLink="/empleado/mapa">Mapa</a>
+    <a routerLink="/empleado/perfil">Perfil</a>
+  </nav>
+  <header class="barra"><div><h1>Novedades de mis incidencias</h1><p>Últimos reportes asignados y su estado actual.</p></div>
+    <button type="button" (click)="cargar()" [disabled]="cargando">Actualizar</button></header>
+  @if (error) {<p class="aviso-error" role="alert">{{ error }}</p>}
+  @if (cargando) {<p>Cargando novedades…</p>}
+  @else if (!reportes.length && !error) {<p>No tienes reportes asignados por el momento.</p>}
+  @else {<div class="lista">@for (r of reportes; track r.id_reporte) {
+    <article class="tarjeta"><div><small>REP-{{r.id_reporte}} · {{r.fecha_reporte | date:'dd/MM/yyyy HH:mm'}}</small>
+      <h2>{{r.titulo}}</h2><p>{{r.tipo_incidencia}} · {{r.estado}} · Prioridad {{r.prioridad}}</p></div>
+      <button type="button" (click)="abrir(r.id_reporte)">Ver bitácora</button></article>
+  }</div>}
+</main>

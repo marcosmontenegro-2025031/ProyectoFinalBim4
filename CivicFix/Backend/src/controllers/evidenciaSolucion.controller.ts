@@ -5,7 +5,10 @@ export class EvidenciaSolucionController {
 
     static async listar(req: Request, res: Response): Promise<void> {
         try {
-            const evidencias = await EvidenciaSolucionService.listar();
+            const actor = (req as any).empleado;
+            const evidencias = /admin/i.test(actor?.cargo ?? '')
+                ? await EvidenciaSolucionService.listar()
+                : await EvidenciaSolucionService.listarPorEmpleado(actor.id_empleado);
             res.status(200).json(evidencias);
         } catch (error) {
             res.status(500).json({ mensaje: "Error al obtener las evidencias", error: (error as Error).message });

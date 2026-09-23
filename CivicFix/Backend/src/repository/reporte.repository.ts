@@ -37,7 +37,10 @@ export class ReporteRepository {
             INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
             INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
             INNER JOIN Estado e ON r.id_estado = e.id_estado
-            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
+            LEFT JOIN LATERAL (
+                SELECT ruta_fotografia FROM FotografiaProblema fp WHERE fp.id_reporte = r.id_reporte
+                ORDER BY fp.fecha_subida DESC LIMIT 1
+            ) f ON true
             ORDER BY r.fecha_reporte DESC;
         `;
         const { rows } = await pool.query(query);
@@ -135,7 +138,10 @@ export class ReporteRepository {
             INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
             INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
             INNER JOIN Estado e ON r.id_estado = e.id_estado
-            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
+            LEFT JOIN LATERAL (
+                SELECT ruta_fotografia FROM FotografiaProblema fp WHERE fp.id_reporte = r.id_reporte
+                ORDER BY fp.fecha_subida DESC LIMIT 1
+            ) f ON true
             WHERE r.id_usuario = $1
             ORDER BY r.fecha_reporte DESC;
         `;
@@ -203,7 +209,10 @@ export class ReporteRepository {
             INNER JOIN TipoIncidencia ti ON r.id_tipo_incidencia = ti.id_tipo_incidencia
             INNER JOIN Prioridad p ON r.id_prioridad = p.id_prioridad
             INNER JOIN Estado e ON r.id_estado = e.id_estado
-            LEFT JOIN fotografiaproblema f ON r.id_reporte = f.id_reporte
+            LEFT JOIN LATERAL (
+                SELECT ruta_fotografia FROM FotografiaProblema fp WHERE fp.id_reporte = r.id_reporte
+                ORDER BY fp.fecha_subida DESC LIMIT 1
+            ) f ON true
             WHERE a.id_empleado = $1
             ORDER BY r.fecha_reporte DESC;
         `;

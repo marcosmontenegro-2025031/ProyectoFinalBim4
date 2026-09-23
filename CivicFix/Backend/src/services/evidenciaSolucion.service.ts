@@ -8,6 +8,10 @@ export class EvidenciaSolucionService {
     }
 
 
+    static async listarPorEmpleado(idEmpleado: number): Promise<EvidenciaSolucion[]> {
+        return EvidenciaSolucionRepository.obtenerPorEmpleado(idEmpleado);
+    }
+
     static async obtenerPorId(id: number): Promise<EvidenciaSolucion> {
         const evidencia = await EvidenciaSolucionRepository.obtenerPorId(id);
 

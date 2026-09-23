@@ -17,9 +17,8 @@ import {
   FormsModule
 } from '@angular/forms';
 
-import {
-  RouterLink
-} from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
+import { SessionService } from '../../services/session.service';
 
 import {
   ReporteService
@@ -70,6 +69,12 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
   cargandoReportes = false;
   errorReportes = '';
 
+  get esEmpleado(): boolean { return this.session.obtenerRol() === 'empleado' || this.session.obtenerRol() === 'administrador'; }
+  get rutaInicio(): string { return this.esEmpleado ? '/empleado/home' : '/home-usuario'; }
+  get rutaReportes(): string { return this.esEmpleado ? '/empleado/reportes' : '/mis-reportes'; }
+  get rutaMapa(): string { return this.esEmpleado ? '/empleado/mapa' : '/mapa'; }
+  get rutaNotificaciones(): string { return this.esEmpleado ? '/empleado/notificaciones' : '/notificaciones'; }
+  get rutaPerfil(): string { return this.esEmpleado ? '/empleado/perfil' : '/perfil'; }
   reportes: ReporteMapa[] = [];
 
   reportesFiltrados: ReporteMapa[] = [];
@@ -78,7 +83,9 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
     @Inject(PLATFORM_ID)
     private platformId: object,
 
-    private reporteService: ReporteService
+    private reporteService: ReporteService,
+    private session: SessionService,
+    private router: Router
   ) {}
 
   async ngAfterViewInit(): Promise<void> {
@@ -213,8 +220,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
       this.cargandoReportes = true;
       this.errorReportes = '';
 
-      this.reporteService
-        .obtenerPuntosMapa()
+      (this.esEmpleado ? this.reporteService.obtenerMisAsignaciones() : this.reporteService.obtenerPuntosMapa())
         .subscribe({
 
           next: (puntos: PuntoMapa[]) => {
@@ -251,7 +257,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
                     punto.prioridad,
 
                   categoria:
-                    (punto as any).categoria ||
+                    (punto as any).categoria || (punto as any).tipo_incidencia ||
                     'Incidencia',
 
                   ubicacion:
@@ -438,12 +444,12 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
             prioridadFiltro;
 
           const textoReporte = `
-            ${reporte.titulo}
-            ${reporte.descripcion}
-            ${reporte.categoria}
-            ${reporte.ubicacion}
-            ${reporte.estado}
-            ${reporte.prioridad}
+            ${this.escaparHtml(reporte.titulo)}
+            ${this.escaparHtml(reporte.descripcion)}
+            ${this.escaparHtml(reporte.categoria)}
+            ${this.escaparHtml(reporte.ubicacion)}
+            ${this.escaparHtml(reporte.estado)}
+            ${this.escaparHtml(reporte.prioridad)}
           `.toLowerCase();
 
           const coincideBusqueda =
@@ -590,9 +596,12 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
     return marker;
   }
 
-  crearPopup(
-    reporte: ReporteMapa
-  ): string {
+  private escaparHtml(texto: unknown): string {
+    const dic: Record<string, string> = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+    return String(texto ?? '').replace(/[&<>"']/g, c => dic[c]);
+  }
+
+  crearPopup(reporte: ReporteMapa): string {
 
     const prioridadClass =
       this.obtenerClasePrioridad(
@@ -615,7 +624,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
               reporte.categoria
             )}"></i>
 
-            ${reporte.categoria}
+            ${this.escaparHtml(reporte.categoria)}
 
           </div>
 
@@ -628,11 +637,11 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
         </div>
 
         <h3 class="popup-title">
-          ${reporte.titulo}
+          ${this.escaparHtml(reporte.titulo)}
         </h3>
 
         <p class="popup-description">
-          ${reporte.descripcion}
+          ${this.escaparHtml(reporte.descripcion)}
         </p>
 
         <div class="popup-location">
@@ -640,7 +649,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
           <i class="bi bi-geo-alt-fill"></i>
 
           <span>
-            ${reporte.ubicacion}
+            ${this.escaparHtml(reporte.ubicacion)}
           </span>
 
         </div>
@@ -648,11 +657,11 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
         <div class="popup-info">
 
           <span class="popup-badge ${estadoClass}">
-            ${reporte.estado}
+            ${this.escaparHtml(reporte.estado)}
           </span>
 
           <span class="popup-badge ${prioridadClass}">
-            Prioridad ${reporte.prioridad}
+            Prioridad ${this.escaparHtml(reporte.prioridad)}
           </span>
 
         </div>
@@ -663,7 +672,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
 
             <i class="bi bi-calendar3"></i>
 
-            ${reporte.fecha}
+            ${this.escaparHtml(reporte.fecha)}
 
           </span>
 
@@ -806,22 +815,16 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
       )
     ) {
 
-      window.location.href =
-        '/reportes/nuevo';
+      if (!this.esEmpleado) this.router.navigate(['/reportes/nuevo']);
 
     }
 
   }
 
-  verDetalle(
-    reporte: ReporteMapa
-  ): void {
-
-    console.log(
-      'Reporte seleccionado:',
-      reporte
-    );
-
+  verDetalle(reporte: ReporteMapa): void {
+    this.router.navigate(this.esEmpleado
+      ? ['/empleado/bitacora', reporte.id]
+      : ['/detalle-reporte', reporte.id]);
   }
 
   obtenerColorPrioridad(

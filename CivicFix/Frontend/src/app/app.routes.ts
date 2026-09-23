@@ -14,7 +14,7 @@ import { EmpleadoRegister } from './components/empleado-register/empleado-regist
 
 import { HomeEmpleadoComponent } from './components/home-empleado/home-empleado';
 import { Asignaciones } from './components/asignaciones/asignaciones';
-import { Bitacora } from './components/bitacora/bitacora';
+import { BitacoraCambioEstadoComponent } from './components/bitacora/bitacora.component';
 import { Evidencias } from './components/evidencias/evidencias';
 import { Fotografias } from './components/fotografias/fotografias';
 
@@ -32,7 +32,8 @@ import { EstadosAdminComponent } from './components/estados-admin/estados-admin'
 import { ReportesAdminComponent } from './components/reportes-admin/reportes-admin';
 import { AsignacionesAdminComponent } from './components/asignaciones-admin/asignaciones-admin';
 import { BitacoraAdminComponent } from './components/bitacora-admin/bitacora-admin';
-import { BitacoraEmpleadoComponent } from './components/bitacora-empleado/bitacora-empleado.component';
+import { NotificacionesEmpleadoComponent } from './components/notificaciones-empleado/notificaciones-empleado';
+import { PerfilEmpleadoComponent } from './components/perfil-empleado/perfil-empleado.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'formulario', pathMatch: 'full' },
@@ -52,10 +53,10 @@ export const routes: Routes = [
   { path: 'perfil', component: PerfilComponent, canActivate: [roleGuard(['ciudadano'])] },
   { path: 'empleado/home', component: HomeEmpleadoComponent, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/incidencias', redirectTo: 'empleado/reportes', pathMatch: 'full' },
-  { path: 'empleado/mapa', redirectTo: 'mapa', pathMatch: 'full' },
-  { path: 'empleado/notificaciones', redirectTo: 'notificaciones', pathMatch: 'full' },
+  { path: 'empleado/mapa', component: MapaComponent, canActivate: [roleGuard(['empleado', 'administrador'])] },
+  { path: 'empleado/notificaciones', component: NotificacionesEmpleadoComponent, canActivate: [roleGuard(['empleado', 'administrador'])] },
   { path: 'home-empleado', redirectTo: 'empleado/home' },
-  { path: 'empleado/perfil', redirectTo: 'empleado/home', pathMatch: 'full' },
+  { path: 'empleado/perfil', component: PerfilEmpleadoComponent, canActivate: [roleGuard(['empleado', 'administrador'])] },
   { path: 'empleado/reportes/:id', redirectTo: 'detalle-reporte/:id', pathMatch: 'full' },
   {
     path: 'empleado/reportes',
@@ -65,11 +66,10 @@ export const routes: Routes = [
         .then(m => m.ReportesEmpleadoComponent)
   },
   { path: 'empleado/asignaciones', component: Asignaciones, canActivate: [roleGuard(['empleado'])] },
-  { path: 'empleado/bitacora', component: BitacoraEmpleadoComponent },
+  { path: 'empleado/bitacora/:idReporte', component: BitacoraCambioEstadoComponent, canActivate: [roleGuard(['empleado', 'administrador'])] },
   { path: 'empleado/evidencias', component: Evidencias, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/fotografias', component: Fotografias, canActivate: [roleGuard(['empleado'])] },
   { path: 'asignaciones', component: Asignaciones, canActivate: [roleGuard(['administrador'])] },
-  { path: 'bitacora', component: Bitacora, canActivate: [roleGuard(['administrador'])] },
   { path: 'evidencias', component: Evidencias, canActivate: [roleGuard(['administrador'])] },
   { path: 'fotografias', component: Fotografias, canActivate: [roleGuard(['administrador'])] },
   { path: 'formulario', component: FormularioRedireccional },
