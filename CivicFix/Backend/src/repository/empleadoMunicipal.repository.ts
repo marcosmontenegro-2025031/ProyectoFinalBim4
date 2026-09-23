@@ -5,14 +5,14 @@ import { encriptarContrasena } from "../utils/bcrypt.util.js";
 export class EmpleadoMunicipalRepository {
     async obtenerEmpleado(): Promise<EmpleadoMunicipal[]> {
         const resultado = await pool.query<EmpleadoMunicipal>(
-            "SELECT * FROM EmpleadoMunicipal ORDER BY id_empleado"
+            "SELECT id_empleado,nombre,apellido,usuario,dpi,telefono,direccion,correo,cargo,id_departamento,id_municipalidad,activo FROM EmpleadoMunicipal ORDER BY id_empleado"
         );
         return resultado.rows;
     }
 
     async obtenerEmpleadoPorId(id: number): Promise<EmpleadoMunicipal | undefined> {
         const resultado = await pool.query<EmpleadoMunicipal>(
-            "SELECT * FROM EmpleadoMunicipal WHERE id_empleado = $1",
+            "SELECT id_empleado,nombre,apellido,usuario,dpi,telefono,direccion,correo,cargo,id_departamento,id_municipalidad,activo FROM EmpleadoMunicipal WHERE id_empleado = $1",
             [id]
         );
         return resultado.rows[0];
@@ -26,7 +26,7 @@ export class EmpleadoMunicipalRepository {
                 (nombre, apellido, usuario, password, dpi, telefono, direccion, correo,
                  cargo, id_departamento, id_municipalidad)
              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-             RETURNING id_empleado`,
+             RETURNING id_empleado,nombre,apellido,usuario,dpi,telefono,direccion,correo,cargo,id_departamento,id_municipalidad,activo`,
             [
                 empleado.nombre,
                 empleado.apellido,
@@ -42,21 +42,21 @@ export class EmpleadoMunicipalRepository {
             ]
         );
 
-        return empleado;
+        return resultado.rows[0];
     }
 
     async actualizarEmpleado(
         id: number,
         empleado: EmpleadoRegister
     ): Promise<EmpleadoRegister | undefined> {
-        const passworEncriptado = await encriptarContrasena(empleado.password);
+        const passworEncriptado = empleado.password ? await encriptarContrasena(empleado.password) : null;
 
         const resultado = await pool.query(
             `UPDATE EmpleadoMunicipal
              SET nombre = $1,
                  apellido = $2,
                  usuario = $3,
-                 password = $4,
+                 password = COALESCE($4, password),
                  dpi = $5,
                  telefono = $6,
                  direccion = $7,
@@ -64,7 +64,8 @@ export class EmpleadoMunicipalRepository {
                  cargo = $9,
                  id_departamento = $10,
                  id_municipalidad = $11
-             WHERE id_empleado = $12`,
+             WHERE id_empleado = $12
+             RETURNING id_empleado,nombre,apellido,usuario,dpi,telefono,direccion,correo,cargo,id_departamento,id_municipalidad,activo`,
             [
                 empleado.nombre,
                 empleado.apellido,
@@ -81,7 +82,7 @@ export class EmpleadoMunicipalRepository {
             ]
         );
 
-        return (resultado.rowCount ?? 0) > 0 ? empleado : undefined;
+        return resultado.rows[0];
     }
 
     async eliminarEmpleado(id: number): Promise<boolean> {
