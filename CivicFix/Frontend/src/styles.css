@@ -1,13 +1,39 @@
-:host {
+@import 'leaflet/dist/leaflet.css';
+
+:root {
   --color-principal: #1565C0;
   --color-secundario: #0D47A1;
   --color-fondo: #F5F7FA;
   --color-texto: #263238;
   --color-borde: #E0E0E0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+app-root {
   display: block;
   width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
- 
+
 .container {
   width: 100%;
   max-width: 1400px;
@@ -16,7 +42,7 @@
   padding-left: 16px;
   padding-right: 16px;
 }
- 
+
 .card {
   width: 100%;
   background-color: #ffffff !important;
@@ -24,38 +50,38 @@
   border-radius: 12px;
   overflow: hidden;
 }
- 
+
 .row {
   align-items: stretch;
 }
- 
+
 .form-control {
   width: 100%;
   min-height: 44px;
   font-size: 1rem;
 }
- 
+
 textarea.form-control {
   min-height: 120px;
   resize: vertical;
 }
- 
+
 .btn-primary {
   background-color: var(--color-principal) !important;
   border-color: var(--color-principal) !important;
   min-height: 46px;
   font-size: 1rem;
 }
- 
+
 .btn-primary:hover {
   background-color: var(--color-secundario) !important;
   border-color: var(--color-secundario) !important;
 }
- 
+
 .text-primary {
   color: var(--color-principal) !important;
 }
- 
+
 .map-frame {
   width: 100%;
   min-height: 400px;
@@ -63,125 +89,125 @@ textarea.form-control {
   border-radius: 10px;
   overflow: hidden;
 }
- 
+
 .alert {
   width: 100%;
   overflow-wrap: anywhere;
 }
- 
+
 .badge {
   font-size: 0.85rem;
   padding: 0.45rem 0.65rem;
 }
- 
+
 @media (max-width: 767.98px) {
   .container {
     padding-left: 12px;
     padding-right: 12px;
   }
- 
+
   .card {
     border-radius: 10px;
   }
- 
+
   .card.p-4 {
     padding: 1.25rem !important;
   }
- 
+
   h3 {
     font-size: 1.35rem;
   }
- 
+
   h5 {
     font-size: 1.05rem;
   }
- 
+
   .form-label {
     font-size: 0.95rem;
   }
- 
+
   .form-control {
     font-size: 0.95rem;
   }
- 
+
   .map-frame {
     min-height: 350px;
     height: 350px;
   }
- 
+
   .btn-primary {
     min-height: 48px;
   }
 }
- 
+
 @media (max-width: 575.98px) {
   .container {
     padding-left: 10px;
     padding-right: 10px;
   }
- 
+
   .card.p-4 {
     padding: 1rem !important;
   }
- 
+
   h3 {
     font-size: 1.25rem;
   }
- 
+
   .map-frame {
     min-height: 300px;
     height: 300px;
   }
- 
+
   textarea.form-control {
     min-height: 110px;
   }
- 
+
   .alert {
     font-size: 0.9rem;
   }
 }
- 
+
 @media (min-width: 768px) and (max-width: 991.98px) {
   .container {
     max-width: 960px;
   }
- 
+
   .map-frame {
     min-height: 420px;
   }
 }
- 
+
 @media (min-width: 992px) {
   .container {
     max-width: 1140px;
   }
- 
+
   .map-frame {
     min-height: 500px;
   }
 }
- 
+
 @media (min-width: 1200px) {
   .container {
     max-width: 1320px;
   }
- 
+
   .map-frame {
     min-height: 540px;
   }
 }
- 
+
 @media (min-width: 1600px) {
   .container {
     max-width: 1440px;
   }
- 
+
   .map-frame {
     min-height: 560px;
   }
 }
- 
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

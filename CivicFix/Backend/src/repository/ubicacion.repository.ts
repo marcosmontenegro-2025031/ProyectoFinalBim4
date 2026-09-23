@@ -3,13 +3,6 @@ import { pool } from '../config/db';
 import { Ubicacion } from '../models/ubicacion.model';
 
 export class UbicacionRepository {
-    async obtenerTodas(): Promise<Ubicacion[]> {
-        const { rows } = await pool.query<Ubicacion>(
-            'SELECT id_ubicacion, direccion, zona, referencia, latitud, longitud FROM Ubicacion ORDER BY id_ubicacion'
-        );
-        return rows;
-    }
-
     async crear(ubicacion: Omit<Ubicacion, 'id_ubicacion'>, client?: PoolClient): Promise<number> {
         const db = client || pool;
         const query = `

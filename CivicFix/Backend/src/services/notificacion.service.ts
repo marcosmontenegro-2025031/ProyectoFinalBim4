@@ -3,15 +3,13 @@ import { Notificacion, CrearNotificacionDTO, ActualizarNotificacionDTO } from ".
 
 export class NotificacionService {
 
-    private repository = new NotificacionRepository();
-
-    async listar(): Promise<Notificacion[]> {
-        return await this.repository.obtenerTodos();
+    static async listar(): Promise<Notificacion[]> {
+        return await NotificacionRepository.obtenerTodos();
     }
 
 
-    async obtenerPorId(id: number): Promise<Notificacion> {
-        const notificacion = await this.repository.obtenerPorId(id);
+    static async obtenerPorId(id: number): Promise<Notificacion> {
+        const notificacion = await NotificacionRepository.obtenerPorId(id);
 
         if (!notificacion) {
             throw new Error(`No se encontró la notificación con id ${id}`);
@@ -21,12 +19,12 @@ export class NotificacionService {
     }
 
 
-    async obtenerPorUsuario(idUsuario: number): Promise<Notificacion[]> {
-        return await this.repository.obtenerPorUsuario(idUsuario);
+    static async obtenerPorUsuario(idUsuario: number): Promise<Notificacion[]> {
+        return await NotificacionRepository.obtenerPorUsuario(idUsuario);
     }
 
 
-    async crear(datos: CrearNotificacionDTO): Promise<Notificacion> {
+    static async crear(datos: CrearNotificacionDTO): Promise<Notificacion> {
 
         if (!datos.fk_id_usuario || !datos.fk_id_reporte || !datos.titulo) {
             throw new Error("fk_id_usuario, fk_id_reporte y titulo son obligatorios");
@@ -42,13 +40,13 @@ export class NotificacionService {
             leida: false
         };
 
-        return await this.repository.crear(nuevaNotificacion);
+        return await NotificacionRepository.crear(nuevaNotificacion);
     }
 
 
-    async actualizar(id: number, datos: ActualizarNotificacionDTO): Promise<Notificacion> {
+    static async actualizar(id: number, datos: ActualizarNotificacionDTO): Promise<Notificacion> {
 
-        const notificacionExistente = await this.repository.obtenerPorId(id);
+        const notificacionExistente = await NotificacionRepository.obtenerPorId(id);
 
         if (!notificacionExistente) {
             throw new Error(`No se encontró la notificación con id ${id}`);
@@ -59,7 +57,7 @@ export class NotificacionService {
             ...datos
         };
 
-        const resultado = await this.repository.actualizar(id, notificacionActualizada);
+        const resultado = await NotificacionRepository.actualizar(id, notificacionActualizada);
 
         if (!resultado) {
             throw new Error(`No se pudo actualizar la notificación con id ${id}`);
@@ -69,9 +67,9 @@ export class NotificacionService {
     }
 
 
-    async marcarComoLeida(id: number): Promise<Notificacion> {
+    static async marcarComoLeida(id: number): Promise<Notificacion> {
 
-        const resultado = await this.repository.marcarComoLeida(id);
+        const resultado = await NotificacionRepository.marcarComoLeida(id);
 
         if (!resultado) {
             throw new Error(`No se encontró la notificación con id ${id}`);
@@ -81,9 +79,9 @@ export class NotificacionService {
     }
 
 
-    async eliminar(id: number): Promise<Notificacion> {
+    static async eliminar(id: number): Promise<Notificacion> {
 
-        const notificacionEliminada = await this.repository.eliminar(id);
+        const notificacionEliminada = await NotificacionRepository.eliminar(id);
 
         if (!notificacionEliminada) {
             throw new Error(`No se encontró la notificación con id ${id}`);

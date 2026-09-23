@@ -436,11 +436,11 @@
 
             <div
               class="notification-type-icon"
-              [ngClass]="obtenerClaseTipo(notificacion.tipo ?? '')"
+              [ngClass]="obtenerClaseTipo(notificacion.tipo)"
             >
 
               <i
-                [class]="obtenerIconoTipo(notificacion.tipo ?? '')"
+                [class]="obtenerIconoTipo(notificacion.tipo)"
               ></i>
 
             </div>
@@ -469,7 +469,7 @@
 
                     <i class="bi bi-clock-fill"></i>
 
-                    {{ obtenerHora(notificacion.fecha_notificacion) }}
+                    {{ obtenerHora(notificacion.fecha_creacion) }}
 
                   </span>
 
@@ -495,7 +495,7 @@
 
                   <i class="bi bi-calendar3"></i>
 
-                  {{ obtenerFecha(notificacion.fecha_notificacion) }}
+                  {{ obtenerFecha(notificacion.fecha_creacion) }}
 
                 </span>
 
@@ -506,7 +506,7 @@
                   <button
                     type="button"
                     class="notification-report-button"
-                    *ngIf="notificacion.fk_id_reporte"
+                    *ngIf="notificacion.id_reporte"
                     (click)="verReporte(notificacion)"
                   >
 

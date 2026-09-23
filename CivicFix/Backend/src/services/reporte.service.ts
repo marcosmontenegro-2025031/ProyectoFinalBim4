@@ -32,9 +32,19 @@ export class ReporteService {
         return await this.reporteRepo.obtenerReportesPorUsuario(idUsuario);
     }
 
-    async registrarReporteCiudadano(dto: CrearReporteDTO): Promise<RespuestaProcesamientoReporte> {
-        if (!this.ubicacionService.validarCoordenadas(dto.latitud, dto.longitud)) {
-            throw new Error('Las coordenadas geográficas (latitud/longitud) ingresadas no son válidas.');
+    async registrarReporteCiudadano(
+        dto: CrearReporteDTO
+    ): Promise<RespuestaProcesamientoReporte> {
+
+        if (
+            !this.ubicacionService.validarCoordenadas(
+                dto.latitud,
+                dto.longitud
+            )
+        ) {
+            throw new Error(
+                'Las coordenadas geográficas (latitud/longitud) ingresadas no son válidas.'
+            );
         }
 
         const analisis = await analizarQueja(dto.textoCiudadano);
@@ -83,9 +93,5 @@ export class ReporteService {
 
     async obtenerPuntosParaMapa() {
         return await this.reporteRepo.obtenerReportesParaMapa();
-    }
-
-    async actualizarEstado(idReporte: number, idEstado: number): Promise<boolean> {
-        return await this.reporteRepo.actualizarEstado(idReporte, idEstado);
     }
 }

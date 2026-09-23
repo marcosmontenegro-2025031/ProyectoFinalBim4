@@ -1,28 +1,18 @@
-import { Router } from 'express';
-import { AsignacionController } from '../controllers/asignacion.controller.js';
+import { Router } from "express";
+import { AsignacionController } from "../controllers/asignacion.controller";
 
 const router = Router();
 
 const controller = new AsignacionController();
 
-router.get('/', (req, res) => {
-    controller.listar(req, res);
-});
+router.get("/", controller.listar.bind(controller));
 
-router.get('/:id', (req, res) => {
-    controller.obtenerPorId(req, res);
-});
+router.get("/:id", controller.obtenerPorId.bind(controller));
 
-router.post('/', (req, res) => {
-    controller.crear(req, res);
-});
+router.post("/", controller.crear.bind(controller));
 
-router.put('/:id', (req, res) => {
-    controller.actualizar(req, res);
-});
+router.put("/:id", controller.actualizar.bind(controller));
 
-router.delete('/:id', (req, res) => {
-    controller.eliminar(req, res);
-});
+router.delete("/:id", controller.eliminar.bind(controller));
 
 export default router;

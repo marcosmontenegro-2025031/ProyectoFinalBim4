@@ -1,35 +1,38 @@
 import { Router } from "express";
-import cors from "cors";
 import { BitacoraCambioEstadoController } from "../controllers/bitacoraCambioEstado.controller.js";
 
-export const bitacoraCambioEstadoRouter = Router();
+const router = Router();
 
-bitacoraCambioEstadoRouter.get("/api/bitacora", cors(), (req, res) => {
-    const controller = new BitacoraCambioEstadoController();
-    controller.listar(req, res);
-});
+const controller = new BitacoraCambioEstadoController();
 
-bitacoraCambioEstadoRouter.get("/api/bitacora/reporte/:idReporte", cors(), (req, res) => {
-    const controller = new BitacoraCambioEstadoController();
-    controller.obtenerPorReporte(req, res);
-});
+router.get(
+    "/",
+    controller.listar.bind(controller)
+);
 
-bitacoraCambioEstadoRouter.get("/api/bitacora/:id", cors(), (req, res) => {
-    const controller = new BitacoraCambioEstadoController();
-    controller.obtenerPorId(req, res);
-});
+router.get(
+    "/reporte/:idReporte",
+    controller.obtenerPorReporte.bind(controller)
+);
 
-bitacoraCambioEstadoRouter.post("/api/bitacora", cors(), (req, res) => {
-    const controller = new BitacoraCambioEstadoController();
-    controller.crear(req, res);
-});
+router.get(
+    "/:id",
+    controller.obtenerPorId.bind(controller)
+);
 
-bitacoraCambioEstadoRouter.put("/api/bitacora/:id", cors(), (req, res) => {
-    const controller = new BitacoraCambioEstadoController();
-    controller.actualizar(req, res);
-});
+router.post(
+    "/",
+    controller.crear.bind(controller)
+);
 
-bitacoraCambioEstadoRouter.delete("/api/bitacora/:id", cors(), (req, res) => {
-    const controller = new BitacoraCambioEstadoController();
-    controller.eliminar(req, res);
-});
+router.put(
+    "/:id",
+    controller.actualizar.bind(controller)
+);
+
+router.delete(
+    "/:id",
+    controller.eliminar.bind(controller)
+);
+
+export default router;

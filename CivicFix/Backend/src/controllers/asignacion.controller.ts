@@ -10,13 +10,20 @@ export class AsignacionController {
         try {
             const asignaciones = await this.service.listar();
 
+            console.log("GET /api/asignaciones");
+            console.log("Asignaciones:", asignaciones);
+
             res.status(200).json(asignaciones);
-        } catch (error) {
-            console.error('Error al obtener las asignaciones:', error);
+
+        } catch (error: any) {
+            console.error(
+                "Error al obtener las asignaciones:",
+                error.message
+            );
 
             res.status(500).json({
-                mensaje: 'Error al obtener las asignaciones',
-                error: (error as Error).message
+                mensaje: "Error al obtener las asignaciones",
+                error: error.message
             });
         }
     }
@@ -27,31 +34,54 @@ export class AsignacionController {
 
             if (isNaN(id)) {
                 res.status(400).json({
-                    mensaje: 'El id debe ser un número'
+                    mensaje: "El id debe ser un número"
                 });
                 return;
             }
 
             const asignacion = await this.service.obtenerPorId(id);
 
+            console.log("GET /api/asignaciones/:id");
+            console.log("Asignación ID:", id);
+            console.log("Asignación:", asignacion);
+
             res.status(200).json(asignacion);
-        } catch (error) {
+
+        } catch (error: any) {
+            console.error(
+                "Error al obtener la asignación:",
+                error.message
+            );
+
             res.status(404).json({
-                mensaje: (error as Error).message
+                mensaje: error.message
             });
         }
     }
 
     async crear(req: Request, res: Response): Promise<void> {
         try {
-            const asignacion = await this.service.crear(req.body);
+            const nuevaAsignacion: Asignacion = req.body;
 
-            res.status(201).json(asignacion);
-        } catch (error) {
-            console.error('Error al crear asignación:', error);
+            const asignacionCreada =
+                await this.service.crear(nuevaAsignacion);
+
+            console.log("POST /api/asignaciones");
+            console.log(
+                "Asignación creada:",
+                asignacionCreada
+            );
+
+            res.status(201).json(asignacionCreada);
+
+        } catch (error: any) {
+            console.error(
+                "Error al crear asignación:",
+                error.message
+            );
 
             res.status(400).json({
-                mensaje: (error as Error).message
+                mensaje: error.message
             });
         }
     }
@@ -62,22 +92,38 @@ export class AsignacionController {
 
             if (isNaN(id)) {
                 res.status(400).json({
-                    mensaje: 'El id debe ser un número'
+                    mensaje: "El id debe ser un número"
                 });
                 return;
             }
 
-            const asignacion = await this.service.actualizar(
-                id,
-                req.body
+            const asignacionActualizada =
+                await this.service.actualizar(
+                    id,
+                    req.body
+                );
+
+            console.log(
+                "PUT /api/asignaciones/:id"
             );
 
-            res.status(200).json(asignacion);
-        } catch (error) {
-            console.error('Error al actualizar asignación:', error);
+            console.log(
+                "Asignación actualizada:",
+                asignacionActualizada
+            );
 
-            res.status(400).json({
-                mensaje: (error as Error).message
+            res.status(200).json(
+                asignacionActualizada
+            );
+
+        } catch (error: any) {
+            console.error(
+                "Error al actualizar asignación:",
+                error.message
+            );
+
+            res.status(404).json({
+                mensaje: error.message
             });
         }
     }
@@ -88,22 +134,36 @@ export class AsignacionController {
 
             if (isNaN(id)) {
                 res.status(400).json({
-                    mensaje: 'El id debe ser un número'
+                    mensaje: "El id debe ser un número"
                 });
                 return;
             }
 
-            const asignacion = await this.service.eliminar(id);
+            const asignacionEliminada =
+                await this.service.eliminar(id);
+
+            console.log(
+                "DELETE /api/asignaciones/:id"
+            );
+
+            console.log(
+                "Asignación eliminada ID:",
+                id
+            );
 
             res.status(200).json({
-                mensaje: 'Asignación eliminada correctamente',
-                asignacion
+                mensaje: "Asignación eliminada correctamente",
+                asignacion: asignacionEliminada
             });
-        } catch (error) {
-            console.error('Error al eliminar asignación:', error);
+
+        } catch (error: any) {
+            console.error(
+                "Error al eliminar asignación:",
+                error.message
+            );
 
             res.status(404).json({
-                mensaje: (error as Error).message
+                mensaje: error.message
             });
         }
     }

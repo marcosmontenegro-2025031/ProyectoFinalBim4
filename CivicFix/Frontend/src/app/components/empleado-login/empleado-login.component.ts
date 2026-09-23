@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpleadoService } from '../../services/empleado.service';
 import { Router } from '@angular/router';
-import { SessionService } from '../../services/session.service';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -17,8 +16,7 @@ export class EmpleadoLogin {
   constructor(
     private fb: FormBuilder,
     private empleadoService: EmpleadoService,
-    private router: Router,
-    private session: SessionService
+    private router: Router
   ){
     this.loginForm = this.fb.group({
       usuario: ['', [Validators.required]],
@@ -36,15 +34,20 @@ export class EmpleadoLogin {
     if (this.loginForm.valid){
       this.empleadoService.login(this.loginForm.value).subscribe({
         next: (response) => {
-          const rol = this.session.obtenerRol();
+          console.log('Login exitoso. El token ya se guardó.');
+          const rol = response?.usuario?.rol;
           
-          if (rol === 'administrador'){
+          if (rol === "Adminitrador"){
             this.router.navigate(["/home-admin"]);
           }else {
-            this.router.navigate(["/empleado/home"]);
+            this.router.navigate(["/home-empleado"]);
           }
         },
         error: (err) => {
+          console.error('STATUS:', err.status);
+          console.error('ERROR:', err.error);
+          console.error('MENSAJE:', err.message);
+
           alert(JSON.stringify(err.error));
         }
       })

@@ -35,9 +35,15 @@ export class LoginUsuario {
     if (this.loginForm.valid) {
       this.usuariosService.login(this.loginForm.value).subscribe({
         next: (response) => {
+          console.log('Login exitoso. El token ya se guardó.');
+
           this.router.navigate(['/home-usuario']); 
         },
         error: (err) => {
+          console.error('STATUS:', err.status);
+          console.error('ERROR:', err.error);
+          console.error('MENSAJE:', err.message);
+
           alert(JSON.stringify(err.error));
         }
       });

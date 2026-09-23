@@ -3,7 +3,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Usuario } from '../models/usuarios.model';
-import { SessionService } from './session.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,8 +15,7 @@ export class UsuariosService {
 
     constructor(
         private http: HttpClient,
-        @Inject(PLATFORM_ID) private platformId: Object,
-        private session: SessionService
+        @Inject(PLATFORM_ID) private platformId: Object
     ) {}
 
     crearUsuario(usuario: Usuario) {
@@ -47,7 +45,6 @@ export class UsuariosService {
             tap(response => {
                 if (response && response.token) {
                     this.guardarToken(response.token);
-                    this.session.guardarCiudadano(response.token, response.usuario);
                 }
             })
         );
@@ -71,8 +68,6 @@ export class UsuariosService {
         if (isPlatformBrowser(this.platformId)) {
             localStorage.removeItem(this.TOKEN_KEY);
         }
-
-        this.session.cerrarSesion();
     }
 
     estaAutenticado(): boolean {

@@ -227,7 +227,7 @@ export class NotificacionesComponent implements OnInit {
   }
 
   verReporte(notificacion: Notificacion): void {
-    if (!notificacion.fk_id_reporte) {
+    if (!notificacion.id_reporte) {
       return;
     }
 

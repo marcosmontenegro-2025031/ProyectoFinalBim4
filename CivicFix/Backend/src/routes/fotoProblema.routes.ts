@@ -1,36 +1,41 @@
 import { Router } from "express";
-import cors from "cors";
+import { registrarFotoProblema } from "../controllers/fotoProblema.controller.js";
 import { FotoProblemaController } from "../controllers/fotoProblema.controller.js";
 import { upload } from "../config/upload.middleware.js";
 
-export const fotoProblemaRouter = Router();
+const router = Router();
 
-fotoProblemaRouter.get("/api/fotografias", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.listar(req, res);
-});
+const controller = new FotoProblemaController();
 
-fotoProblemaRouter.get("/api/fotografias/reporte/:idReporte", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.obtenerPorReporte(req, res);
-});
+router.get(
+    "/",
+    controller.listar.bind(controller)
+);
 
-fotoProblemaRouter.get("/api/fotografias/:id", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.obtenerPorId(req, res);
-});
+router.get(
+    "/reporte/:idReporte",
+    controller.obtenerPorReporte.bind(controller)
+);
 
-fotoProblemaRouter.post("/api/fotografias", cors(), upload.single('imagen'), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.crear(req, res);
-});
+router.get(
+    "/:id",
+    controller.obtenerPorId.bind(controller)
+);
 
-fotoProblemaRouter.put("/api/fotografias/:id", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.actualizar(req, res);
-});
+router.post(
+    "/",
+    upload.single("imagen"),
+    registrarFotoProblema
+);
 
-fotoProblemaRouter.delete("/api/fotografias/:id", cors(), (req, res) => {
-    const controller = new FotoProblemaController();
-    controller.eliminar(req, res);
-});
+router.put(
+    "/:id",
+    controller.actualizar.bind(controller)
+);
+
+router.delete(
+    "/:id",
+    controller.eliminar.bind(controller)
+);
+
+export default router;

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EmpleadoLogin } from './empleado-login.component';
+import { AdminComponent } from './admin.component';
 
-describe('EmpleadoLogin', () => {
-  let component: EmpleadoLogin;
-  let fixture: ComponentFixture<EmpleadoLogin>;
+describe('Admin', () => {
+  let component: AdminComponent;
+  let fixture: ComponentFixture<AdminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmpleadoLogin],
+      imports: [AdminComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EmpleadoLogin);
+    fixture = TestBed.createComponent(AdminComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -19,3 +19,4 @@ describe('EmpleadoLogin', () => {
     expect(component).toBeTruthy();
   });
 });
+

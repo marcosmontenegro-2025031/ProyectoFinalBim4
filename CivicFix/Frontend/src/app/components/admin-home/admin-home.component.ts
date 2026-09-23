@@ -47,7 +47,6 @@ export class DashboardComponent implements OnInit {
   private reporteService = inject(ReporteService);
 
   reportes: ReporteDashboard[] = [];
-
   reportesRecientes: ReporteDashboard[] = [];
 
   cargando = false;
@@ -58,10 +57,9 @@ export class DashboardComponent implements OnInit {
   resueltos = 0;
 
   reportesPorMes: GraficaMes[] = [];
-
   reportesPorTipo: GraficaTipo[] = [];
 
-  meses: string[] = [
+  meses = [
     'Enero',
     'Febrero',
     'Marzo',
@@ -91,28 +89,13 @@ export class DashboardComponent implements OnInit {
         this.generarGraficaPorMes();
         this.generarGraficaPorTipo();
 
-        this.reportesRecientes = [...this.reportes]
-          .sort((a, b) => {
-            const fechaA = new Date(a.fecha_reporte).getTime();
-            const fechaB = new Date(b.fecha_reporte).getTime();
-
-            return fechaB - fechaA;
-          })
-          .slice(0, 5);
+        this.reportesRecientes = this.reportes.slice(0, 5);
 
         this.cargando = false;
       },
 
       error: (error) => {
         console.error('Error al cargar dashboard:', error);
-
-        this.reportes = [];
-        this.reportesRecientes = [];
-
-        this.calcularEstadisticas();
-        this.generarGraficaPorMes();
-        this.generarGraficaPorTipo();
-
         this.cargando = false;
       }
     });
@@ -138,25 +121,22 @@ export class DashboardComponent implements OnInit {
   }
 
   normalizarEstado(estado: string): string {
-    return (estado || '')
-      .toLowerCase()
+    return estado
+      ?.toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .trim();
   }
 
   generarGraficaPorMes(): void {
-    const cantidades: number[] = new Array(12).fill(0);
+    const cantidades = new Array(12).fill(0);
 
     this.reportes.forEach(reporte => {
       const fecha = new Date(reporte.fecha_reporte);
 
       if (!isNaN(fecha.getTime())) {
         const mes = fecha.getMonth();
-
-        if (mes >= 0 && mes <= 11) {
-          cantidades[mes]++;
-        }
+        cantidades[mes]++;
       }
     });
 
@@ -177,7 +157,8 @@ export class DashboardComponent implements OnInit {
     const tipos: { [key: string]: number } = {};
 
     this.reportes.forEach(reporte => {
-      const tipo = reporte.tipo_incidencia || 'Sin categoría';
+      const tipo =
+        reporte.tipo_incidencia || 'Sin categoría';
 
       if (tipos[tipo]) {
         tipos[tipo]++;
@@ -188,7 +169,7 @@ export class DashboardComponent implements OnInit {
 
     const total = this.reportes.length;
 
-    const colores: string[] = [
+    const colores = [
       '#0874dc',
       '#16a085',
       '#f39c12',
@@ -205,10 +186,12 @@ export class DashboardComponent implements OnInit {
         return {
           nombre,
           cantidad,
-          porcentaje: total > 0
-            ? (cantidad / total) * 100
-            : 0,
-          color: colores[index % colores.length]
+          porcentaje:
+            total > 0
+              ? (cantidad / total) * 100
+              : 0,
+          color:
+            colores[index % colores.length]
         };
       });
   }
@@ -250,6 +233,28 @@ export class DashboardComponent implements OnInit {
   }
 
   obtenerGradienteCircular(): string {
+    if (this.reportesPorTipo.length === 0) {
+      return '#e8eef5';
+    }
+
+    if (this.reportesPorTipo.length === 1) {
+      return this.reportesPorTipo[0].color;
+    }
+
+    let acumulado = 0;
+
+    const segmentos = this.reportesPorTipo.map(tipo => {
+      const inicio = acumulado;
+
+      acumulado += tipo.porcentaje;
+
+      return `${tipo.color} ${inicio}% ${acumulado}%`;
+    });
+
+    return `conic-gradient(${segmentos.join(', ')})`;
+  }
+
+  obtenerGradienteTipo(): string {
     if (this.reportesPorTipo.length === 0) {
       return '#e8eef5';
     }

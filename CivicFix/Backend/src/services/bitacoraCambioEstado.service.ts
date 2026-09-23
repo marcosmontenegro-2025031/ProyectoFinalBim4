@@ -1,5 +1,9 @@
 import { BitacoraCambioEstadoRepository } from "../repository/bitacoraCambioEstado.repository.js";
-import { BitacoraCambioEstado, CrearBitacoraDTO, ActualizarBitacoraDTO } from "../models/bitacoraCambioEstado.model.js";
+import {
+    BitacoraCambioEstado,
+    CrearBitacoraDTO,
+    ActualizarBitacoraDTO
+} from "../models/bitacoraCambioEstado.model.js";
 
 export class BitacoraCambioEstadoService {
 
@@ -9,33 +13,40 @@ export class BitacoraCambioEstadoService {
         return await this.repository.obtenerTodos();
     }
 
-
     async obtenerPorId(id: number): Promise<BitacoraCambioEstado> {
         const bitacora = await this.repository.obtenerPorId(id);
 
         if (!bitacora) {
-            throw new Error(`No se encontró el registro de bitácora con id ${id}`);
+            throw new Error(
+                `No se encontró el registro de bitácora con id ${id}`
+            );
         }
 
         return bitacora;
     }
 
+    async obtenerPorReporte(
+        idReporte: number
+    ): Promise<BitacoraCambioEstado[]> {
 
-    async obtenerPorReporte(idReporte: number): Promise<BitacoraCambioEstado[]> {
         return await this.repository.obtenerPorReporte(idReporte);
     }
 
-
-    async crear(datos: CrearBitacoraDTO): Promise<BitacoraCambioEstado> {
+    async crear(
+        datos: CrearBitacoraDTO
+    ): Promise<BitacoraCambioEstado> {
 
         if (!datos.fk_id_reporte || !datos.fk_id_estado_nuevo) {
-            throw new Error("fk_id_reporte y fk_id_estado_nuevo son obligatorios");
+            throw new Error(
+                "fk_id_reporte y fk_id_estado_nuevo son obligatorios"
+            );
         }
 
         const nuevaBitacora: BitacoraCambioEstado = {
             id_bitacora: 0,
             fk_id_reporte: datos.fk_id_reporte,
-            fk_id_estado_anterior: datos.fk_id_estado_anterior ?? null,
+            fk_id_estado_anterior:
+                datos.fk_id_estado_anterior ?? null,
             fk_id_estado_nuevo: datos.fk_id_estado_nuevo,
             fk_id_empleado: datos.fk_id_empleado ?? null,
             comentario: datos.comentario,
@@ -45,13 +56,18 @@ export class BitacoraCambioEstadoService {
         return await this.repository.crear(nuevaBitacora);
     }
 
+    async actualizar(
+        id: number,
+        datos: ActualizarBitacoraDTO
+    ): Promise<BitacoraCambioEstado> {
 
-    async actualizar(id: number, datos: ActualizarBitacoraDTO): Promise<BitacoraCambioEstado> {
-
-        const bitacoraExistente = await this.repository.obtenerPorId(id);
+        const bitacoraExistente =
+            await this.repository.obtenerPorId(id);
 
         if (!bitacoraExistente) {
-            throw new Error(`No se encontró el registro de bitácora con id ${id}`);
+            throw new Error(
+                `No se encontró el registro de bitácora con id ${id}`
+            );
         }
 
         const bitacoraActualizada: BitacoraCambioEstado = {
@@ -59,25 +75,34 @@ export class BitacoraCambioEstadoService {
             ...datos
         };
 
-        const resultado = await this.repository.actualizar(id, bitacoraActualizada);
+        const resultado =
+            await this.repository.actualizar(
+                id,
+                bitacoraActualizada
+            );
 
         if (!resultado) {
-            throw new Error(`No se pudo actualizar la bitácora con id ${id}`);
+            throw new Error(
+                `No se pudo actualizar la bitácora con id ${id}`
+            );
         }
 
         return resultado;
     }
 
+    async eliminar(
+        id: number
+    ): Promise<BitacoraCambioEstado> {
 
-    async eliminar(id: number): Promise<BitacoraCambioEstado> {
-
-        const bitacoraEliminada = await this.repository.eliminar(id);
+        const bitacoraEliminada =
+            await this.repository.eliminar(id);
 
         if (!bitacoraEliminada) {
-            throw new Error(`No se encontró el registro de bitácora con id ${id}`);
+            throw new Error(
+                `No se encontró el registro de bitácora con id ${id}`
+            );
         }
 
         return bitacoraEliminada;
     }
-
 }
