@@ -1,38 +1,15 @@
 import { Router } from "express";
 import { BitacoraCambioEstadoController } from "../controllers/bitacoraCambioEstado.controller.js";
 
+import { verificarTokenEmpleado, verificarAdministrador } from "../middleware/auth.middleware";
+
 const router = Router();
 
-const controller = new BitacoraCambioEstadoController();
-
-router.get(
-    "/",
-    controller.listar.bind(controller)
-);
-
-router.get(
-    "/reporte/:idReporte",
-    controller.obtenerPorReporte.bind(controller)
-);
-
-router.get(
-    "/:id",
-    controller.obtenerPorId.bind(controller)
-);
-
-router.post(
-    "/",
-    controller.crear.bind(controller)
-);
-
-router.put(
-    "/:id",
-    controller.actualizar.bind(controller)
-);
-
-router.delete(
-    "/:id",
-    controller.eliminar.bind(controller)
-);
+router.get("/", verificarTokenEmpleado, BitacoraCambioEstadoController.listar);
+router.get("/reporte/:idReporte", verificarTokenEmpleado, BitacoraCambioEstadoController.obtenerPorReporte);
+router.get("/:id", verificarTokenEmpleado, BitacoraCambioEstadoController.obtenerPorId);
+router.post("/", verificarAdministrador, BitacoraCambioEstadoController.crear);
+router.put("/:id", verificarAdministrador, BitacoraCambioEstadoController.actualizar);
+router.delete("/:id", verificarAdministrador, BitacoraCambioEstadoController.eliminar);
 
 export default router;

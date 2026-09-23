@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Servicio {
   id: number;
@@ -21,16 +30,35 @@ interface Servicio {
     CommonModule,
     FormsModule,
     RouterModule
+<<<<<<< HEAD
   ],
+=======
+  , AdminSidebarComponent],
+>>>>>>> fix-jaquino-2025376
   templateUrl: './servicios-admin.html',
   styleUrl: './servicios-admin.css'
 })
 export class ServiciosAdminComponent {
+<<<<<<< HEAD
+=======
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Servicio>('servicios').subscribe({
+      next: datos => { this.servicios = datos; this.cd.markForCheck(); },
+      error: error => { this.servicios = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
   filtroDepartamento = 'Todos';
 
+<<<<<<< HEAD
   servicios: Servicio[] = [
     {
       id: 1,
@@ -83,6 +111,9 @@ export class ServiciosAdminComponent {
       fechaCreacion: '2023-11-20'
     }
   ];
+=======
+  servicios: Servicio[] = [];
+>>>>>>> fix-jaquino-2025376
 
   get serviciosFiltrados(): Servicio[] {
     return this.servicios.filter(servicio => {
@@ -139,6 +170,7 @@ export class ServiciosAdminComponent {
   }
 
   nuevoServicio(): void {
+<<<<<<< HEAD
     alert('Aquí se abrirá el formulario para crear un servicio.');
   }
 
@@ -166,6 +198,26 @@ export class ServiciosAdminComponent {
     this.servicios = this.servicios.filter(
       item => item.id !== servicio.id
     );
+=======
+    this.router.navigate(['/admin/servicios/nuevo']);
+  }
+
+  editarServicio(actual: Servicio): void {
+    this.router.navigate(['/admin/servicios/editar', actual.id]);
+  }
+
+  cambiarEstado(actual: Servicio): void {
+    this.adminApi.activar('servicios',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+  }
+
+  eliminarServicio(actual: Servicio): void {
+    if (!confirm('¿Eliminar servicio #' + actual.id + '?')) return;
+    this.adminApi.eliminar('servicios',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+>>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

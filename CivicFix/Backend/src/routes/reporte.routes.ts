@@ -1,34 +1,19 @@
 import { Router } from 'express';
-import {
-  crearReporteHandler,
+import { 
+  crearReporteHandler, 
+  obtenerPuntosMapaHandler, 
+  obtenerReportesHandler, // <--- 1. Importa el controlador para listar reportes
   obtenerMisReportesHandler,
-  obtenerPuntosMapaHandler,
-  obtenerReportesHandler
-} from '../controllers/reporte.controller.js';
-import {
-  verificarTokenUsuario,
-  verificarTokenEmpleado
-} from '../middleware/auth.middleware.js';
+  actualizarEstadoReporteHandler
+} from '../controllers/reporte.controller';
+import { verificarTokenUsuario, verificarTokenEmpleado } from '../middleware/auth.middleware';
 
 const router = Router();
 
 router.post('/reportes', crearReporteHandler);
-
-router.get(
-  '/reportes',
-  verificarTokenEmpleado,
-  obtenerReportesHandler
-);
-
-router.get(
-  '/reportes/mapa',
-  obtenerPuntosMapaHandler
-);
-
-router.get(
-  '/reportes/mis-reportes',
-  verificarTokenUsuario,
-  obtenerMisReportesHandler
-);
+router.get('/reportes', verificarTokenEmpleado, obtenerReportesHandler);
+router.get('/reportes/mapa', obtenerPuntosMapaHandler);
+router.get('/reportes/mis-reportes', verificarTokenUsuario, obtenerMisReportesHandler);
+router.patch('/reportes/:id/estado', verificarTokenEmpleado, actualizarEstadoReporteHandler);
 
 export default router;

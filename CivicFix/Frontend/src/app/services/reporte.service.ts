@@ -1,14 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import {
-  CrearReporteDTO,
-  RespuestaReporte,
-  PuntoMapa,
-  ReporteAdmin,
-  Reporte
-} from '../models/reporte.model';
+import { CrearReporteDTO, RespuestaReporte, PuntoMapa, ReporteAdmin } from '../models/reporte.model';
+import { UsuariosService } from './usuarios.service';
+import { EmpleadoService } from './empleado.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,57 +11,47 @@ import {
 export class ReporteService {
 
   private http = inject(HttpClient);
-
+  private usuariosService = inject(UsuariosService);
+  private empleadoService = inject(EmpleadoService);
   private apiUrl = 'http://localhost:3000/api/reportes';
 
-  registrarReporte(
-    dto: CrearReporteDTO
-  ): Observable<RespuestaReporte> {
-
+  registrarReporte(dto: CrearReporteDTO): Observable<RespuestaReporte> {
     return this.http.post<RespuestaReporte>(
       this.apiUrl,
       dto
     );
   }
 
-  obtenerMisReportes(): Observable<Reporte[]> {
+  obtenerMisReportes(): Observable<any[]> {
+    const token = this.usuariosService.obtenerToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
 
-    return this.http.get<Reporte[]>(
-      `${this.apiUrl}/mis-reportes`
-    );
-  }
-
-  obtenerReporte(
-    idReporte: number
-  ): Observable<Reporte> {
-
-    return this.http.get<Reporte>(
-      `${this.apiUrl}/${idReporte}`
-    );
+    return this.http.get<any[]>(`${this.apiUrl}/mis-reportes`, { headers });
   }
 
   obtenerPuntosMapa(): Observable<PuntoMapa[]> {
-
-    return this.http.get<PuntoMapa[]>(
-      `${this.apiUrl}/mapa`
-    );
+    return this.http.get<PuntoMapa[]>(`${this.apiUrl}/mapa`);
   }
 
   obtenerTodosLosReportes(): Observable<ReporteAdmin[]> {
+    const token = this.empleadoService.obtenerToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
 
-    return this.http.get<ReporteAdmin[]>(
-      this.apiUrl
-    );
+    return this.http.get<ReporteAdmin[]>(this.apiUrl, { headers });
   }
 
-  actualizarEstado(
-    idReporte: number,
-    idEstado: number
-  ): Observable<{ mensaje: string }> {
+  actualizarEstado(idReporte: number, idEstado: number): Observable<{ mensaje: string }> {
+    const token = this.empleadoService.obtenerToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     return this.http.patch<{ mensaje: string }>(
       `${this.apiUrl}/${idReporte}/estado`,
-      { idEstado }
+      { idEstado },
+      { headers }
     );
   }
 }

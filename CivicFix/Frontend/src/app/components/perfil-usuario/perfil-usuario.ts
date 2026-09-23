@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,10 +23,20 @@ interface UsuarioPerfil {
 
 @Component({
   selector: 'app-perfil-usuario',
+=======
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-perfil',
+>>>>>>> fix-jaquino-2025376
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
+<<<<<<< HEAD
     RouterLink,
     RouterLinkActive
   ],
@@ -59,6 +70,34 @@ export class PerfilUsuarioComponent implements OnInit {
   };
 
   editando = false;
+=======
+    RouterModule
+  ],
+  templateUrl: './perfil-usuario.html',
+  styleUrl: './perfil-usuario.css'
+})
+export class PerfilComponent {
+
+  usuario = {
+    nombre: 'Juan Pérez',
+    usuario: 'juanperez',
+    correo: 'juan.perez@gmail.com',
+    telefono: '5555-1234',
+    direccion: 'Zona 10, Ciudad de Guatemala',
+    fechaRegistro: '15 de enero de 2026',
+    rol: 'Ciudadano'
+  };
+
+  estadisticas = {
+    reportes: 8,
+    pendientes: 2,
+    proceso: 3,
+    resueltos: 3
+  };
+
+  editando = false;
+
+>>>>>>> fix-jaquino-2025376
   mostrarSeguridad = false;
 
   passwordActual = '';
@@ -69,6 +108,7 @@ export class PerfilUsuarioComponent implements OnInit {
   mostrarNuevaPassword = false;
   mostrarConfirmarPassword = false;
 
+<<<<<<< HEAD
   estadisticas = {
     reportes: 0,
     pendientes: 0,
@@ -169,20 +209,27 @@ export class PerfilUsuarioComponent implements OnInit {
   irNotificaciones(): void {
     this.router.navigate(['/notificaciones']);
   }
+=======
+  constructor(private router: Router) {}
+>>>>>>> fix-jaquino-2025376
 
   activarEdicion(): void {
     this.editando = true;
   }
 
   cancelarEdicion(): void {
+<<<<<<< HEAD
     this.usuario = {
       ...this.usuarioOriginal
     };
 
+=======
+>>>>>>> fix-jaquino-2025376
     this.editando = false;
   }
 
   guardarCambios(): void {
+<<<<<<< HEAD
     this.usuarioOriginal = {
       ...this.usuario
     };
@@ -193,6 +240,26 @@ export class PerfilUsuarioComponent implements OnInit {
   abrirConfiguracionSeguridad(): void {
     this.mostrarSeguridad = true;
     this.limpiarPassword();
+=======
+    this.editando = false;
+  }
+
+  volverReportes(): void {
+    this.router.navigate(['/mis-reportes']);
+  }
+
+  crearReporte(): void {
+    this.router.navigate(['/crear-reporte']);
+  }
+
+  irNotificaciones(): void {
+    this.router.navigate(['/notificaciones']);
+  }
+
+  abrirConfiguracionSeguridad(): void {
+    this.mostrarSeguridad = true;
+    this.editando = false;
+>>>>>>> fix-jaquino-2025376
   }
 
   cerrarConfiguracionSeguridad(): void {
@@ -224,6 +291,9 @@ export class PerfilUsuarioComponent implements OnInit {
     }
 
     this.limpiarPassword();
+<<<<<<< HEAD
     this.mostrarSeguridad = false;
+=======
+>>>>>>> fix-jaquino-2025376
   }
 }

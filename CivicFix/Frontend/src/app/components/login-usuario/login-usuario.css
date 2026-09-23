@@ -3,6 +3,7 @@
     --blue-dark: #0D47A1;
     --blue-light: #EAF3FF;
     --blue-pale: #F2F7FC;
+<<<<<<< HEAD
     --green: #33A339;
     --yellow: #F9A825;
     --orange: #EF6C00;
@@ -12,6 +13,22 @@
     --text-secondary: #607D8B;
     --text-muted: #90A4AE;
     --border: #D7E1EA;
+=======
+
+    --green: #33a339;
+    --yellow: #F9A825;
+    --orange: #EF6C00;
+    --red: #C62828;
+
+    --background: #EAF2FB;
+
+    --text: #172B3A;
+    --text-secondary: #607D8B;
+    --text-muted: #90A4AE;
+
+    --border: #D7E1EA;
+
+>>>>>>> fix-jaquino-2025376
     --white: #FFFFFF;
 }
 
@@ -27,6 +44,10 @@ html {
 
 body {
     min-height: 100vh;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     font-family:
         "Inter",
         -apple-system,
@@ -35,9 +56,18 @@ body {
         Arial,
         Helvetica,
         sans-serif;
+<<<<<<< HEAD
     color: var(--text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+=======
+
+    color: var(--text);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+>>>>>>> fix-jaquino-2025376
     background:
         radial-gradient(
             circle at 10% 15%,
@@ -55,15 +85,24 @@ body {
             #F5F9FD 45%,
             #DCEBFA 100%
         );
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     background-size: 140% 140%;
     animation: backgroundMove 12s ease-in-out infinite alternate;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
 button,
 input {
     font: inherit;
 }
 
+<<<<<<< HEAD
 .page {
     min-height: 100vh;
     display: flex;
@@ -72,29 +111,54 @@ input {
     padding: 40px 28px;
     position: relative;
 }
+=======
+/* =========================================
+   FONDO DECORATIVO
+========================================= */
+>>>>>>> fix-jaquino-2025376
 
 body::before,
 body::after {
     content: "";
     position: fixed;
+<<<<<<< HEAD
     width: 280px;
     height: 280px;
     border-radius: 50%;
     filter: blur(10px);
     pointer-events: none;
+=======
+
+    width: 280px;
+    height: 280px;
+
+    border-radius: 50%;
+
+    filter: blur(10px);
+
+    pointer-events: none;
+
+>>>>>>> fix-jaquino-2025376
     z-index: -1;
 }
 
 body::before {
     top: -100px;
     left: -80px;
+<<<<<<< HEAD
     background: rgba(33, 150, 243, .16);
+=======
+
+    background: rgba(33, 150, 243, .16);
+
+>>>>>>> fix-jaquino-2025376
     animation: floatingBlob 9s ease-in-out infinite;
 }
 
 body::after {
     right: -100px;
     bottom: -100px;
+<<<<<<< HEAD
     background: rgba(13, 71, 161, .14);
     animation: floatingBlob 11s ease-in-out infinite reverse;
 }
@@ -123,6 +187,75 @@ body::after {
         radial-gradient(
             circle at 20% 15%,
             rgba(255, 255, 255, .95),
+=======
+
+    background: rgba(13, 71, 161, .14);
+
+    animation: floatingBlob 11s ease-in-out infinite reverse;
+}
+
+/* =========================================
+   PAGE
+========================================= */
+
+.page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 28px;
+
+    position: relative;
+}
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.login-container {
+    width: min(100%, 1120px);
+
+    min-height: 680px;
+
+    display: grid;
+
+    grid-template-columns: 1.05fr .95fr;
+
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, .90);
+
+    border: 1px solid rgba(255, 255, 255, .8);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 30px 80px rgba(13, 71, 161, .18),
+        0 10px 30px rgba(13, 71, 161, .08);
+
+    backdrop-filter: blur(14px);
+
+    animation: cardAppear .8s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* =========================================
+   PANEL INFORMACIÓN
+========================================= */
+
+.information-panel {
+    position: relative;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 20% 15%,
+            rgba(255,255,255,.95),
+>>>>>>> fix-jaquino-2025376
             transparent 32%
         ),
         linear-gradient(
@@ -133,6 +266,7 @@ body::after {
         );
 }
 
+<<<<<<< HEAD
 .information-content {
     position: relative;
     z-index: 20;
@@ -144,18 +278,54 @@ body::after {
     align-items: center;
     color: #0D47A1;
     gap: 13px;
+=======
+/* =========================================
+   CONTENIDO INFORMACIÓN
+========================================= */
+
+.information-content {
+    position: relative;
+
+    z-index: 20;
+
+    padding: 50px 55px;
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.municipality-logo {
+    display: flex;
+    align-items: center;
+    color:#0D47A1;
+    gap: 13px;
+
+>>>>>>> fix-jaquino-2025376
     animation: slideFromLeft .8s ease both;
 }
 
 .logo-svg {
     width: 52px;
     height: 52px;
+<<<<<<< HEAD
     flex: 0 0 auto;
     color: var(--blue-dark);
+=======
+
+    flex: 0 0 auto;
+
+    color: var(--blue-dark);
+
+>>>>>>> fix-jaquino-2025376
     filter:
         drop-shadow(
             0 5px 8px rgba(13, 71, 161, .16)
         );
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     transition:
         transform .3s ease,
         filter .3s ease;
@@ -163,6 +333,10 @@ body::after {
 
 .municipality-logo:hover .logo-svg {
     transform: translateY(-4px) rotate(-3deg);
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     filter:
         drop-shadow(
             0 9px 15px rgba(13, 71, 161, .24)
@@ -171,18 +345,31 @@ body::after {
 
 .municipality-name {
     display: flex;
+<<<<<<< HEAD
     flex-direction: column;
+=======
+
+    flex-direction: column;
+
+>>>>>>> fix-jaquino-2025376
     line-height: 1.2;
 }
 
 .municipality-name strong {
     color: var(--blue-dark);
+<<<<<<< HEAD
     font-size: 20px;
+=======
+
+    font-size: 20px;
+
+>>>>>>> fix-jaquino-2025376
     letter-spacing: .5px;
 }
 
 .municipality-name span {
     color: var(--text-secondary);
+<<<<<<< HEAD
     font-size: 11px;
     line-height: 1.35;
 }
@@ -191,33 +378,77 @@ body::after {
     margin-top: 72px;
     max-width: 440px;
     animation: slideFromLeft .9s .12s ease both;
+=======
+
+    font-size: 11px;
+
+    line-height: 1.35;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero-copy {
+    margin-top: 72px;
+
+    max-width: 440px;
+
+    animation:
+        slideFromLeft .9s .12s ease both;
+>>>>>>> fix-jaquino-2025376
 }
 
 .hero-copy h1 {
     margin: 0 0 18px;
+<<<<<<< HEAD
     color: var(--text);
     font-size: 39px;
     font-weight: 750;
     line-height: 1.1;
+=======
+
+    color: var(--text);
+
+    font-size: 39px;
+
+    font-weight: 750;
+
+    line-height: 1.1;
+
+>>>>>>> fix-jaquino-2025376
     letter-spacing: -1px;
 }
 
 .hero-copy h1 span {
     display: block;
+<<<<<<< HEAD
     color: var(--blue-dark);
+=======
+
+    color: var(--blue-dark);
+
+>>>>>>> fix-jaquino-2025376
     background:
         linear-gradient(
             90deg,
             var(--blue-dark),
             #1976D2
         );
+<<<<<<< HEAD
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+=======
+
+    background-clip: text;
+    -webkit-background-clip: text;
+>>>>>>> fix-jaquino-2025376
 }
 
 .hero-copy p {
     max-width: 380px;
+<<<<<<< HEAD
     color: var(--text);
     font-size: 16px;
     line-height: 1.7;
@@ -229,10 +460,36 @@ body::after {
     gap: 24px;
     margin-top: 34px;
     animation: slideFromLeft .9s .25s ease both;
+=======
+
+    color: var(--text);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+/* =========================================
+   CATEGORÍAS
+========================================= */
+
+.categories {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 24px;
+
+    margin-top: 34px;
+
+    animation:
+        slideFromLeft .9s .25s ease both;
+>>>>>>> fix-jaquino-2025376
 }
 
 .category {
     width: 72px;
+<<<<<<< HEAD
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -241,6 +498,25 @@ body::after {
     font-size: 11px;
     font-weight: 600;
     white-space: nowrap;
+=======
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #607D8B;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+>>>>>>> fix-jaquino-2025376
     transition:
         transform .3s ease,
         color .3s ease;
@@ -248,26 +524,52 @@ body::after {
 
 .category:hover {
     transform: translateY(-7px);
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     color: var(--blue-dark);
 }
 
 .category-icon {
     width: 53px;
     height: 53px;
+<<<<<<< HEAD
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+=======
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+>>>>>>> fix-jaquino-2025376
     background:
         linear-gradient(
             145deg,
             #FFFFFF,
             #EDF5FC
         );
+<<<<<<< HEAD
     color: #455A64;
     border: 1px solid rgba(255, 255, 255, .8);
     box-shadow:
         0 8px 22px rgba(13, 71, 161, .12);
+=======
+
+    color: #455A64;
+
+    border: 1px solid rgba(255,255,255,.8);
+
+    box-shadow:
+        0 8px 22px rgba(13, 71, 161, .12);
+
+>>>>>>> fix-jaquino-2025376
     transition:
         transform .3s ease,
         box-shadow .3s ease,
@@ -276,8 +578,15 @@ body::after {
 
 .category:hover .category-icon {
     transform: scale(1.08);
+<<<<<<< HEAD
     box-shadow:
         0 12px 28px rgba(21, 101, 192, .22);
+=======
+
+    box-shadow:
+        0 12px 28px rgba(21, 101, 192, .22);
+
+>>>>>>> fix-jaquino-2025376
     background: #FFFFFF;
 }
 
@@ -304,6 +613,7 @@ body::after {
     fill: currentColor;
 }
 
+<<<<<<< HEAD
 .city-scene {
     position: absolute;
     z-index: 2;
@@ -314,6 +624,30 @@ body::after {
     overflow: hidden;
 }
 
+=======
+
+/* =========================================
+   ESCENA CIUDAD
+========================================= */
+
+.city-scene {
+    position: absolute;
+
+    z-index: 2;
+
+    left: 0;
+    right: 0;
+
+    bottom: 62px;
+
+    height: 250px;
+
+    overflow: hidden;
+}
+
+/* Movimiento suave del paisaje */
+
+>>>>>>> fix-jaquino-2025376
 .city-hill,
 .buildings,
 .tree,
@@ -337,22 +671,45 @@ body::after {
         cityFloat 6s ease-in-out infinite alternate;
 }
 
+<<<<<<< HEAD
 .city-hill {
     position: absolute;
     left: -10%;
     width: 120%;
+=======
+/* =========================================
+   COLINAS
+========================================= */
+
+.city-hill {
+    position: absolute;
+
+    left: -10%;
+
+    width: 120%;
+
+>>>>>>> fix-jaquino-2025376
     border-radius: 50% 50% 0 0;
 }
 
 .hill-back {
     bottom: 22px;
+<<<<<<< HEAD
     height: 135px;
     background: #CDE5F8;
+=======
+
+    height: 135px;
+
+    background: #CDE5F8;
+
+>>>>>>> fix-jaquino-2025376
     transform: rotate(-2deg);
 }
 
 .hill-front {
     bottom: -45px;
+<<<<<<< HEAD
     height: 135px;
     background: #A8D1ED;
     transform: rotate(2deg);
@@ -368,22 +725,70 @@ body::after {
     display: flex;
     align-items: flex-end;
     justify-content: center;
+=======
+
+    height: 135px;
+
+    background: #A8D1ED;
+
+    transform: rotate(2deg);
+}
+
+/* =========================================
+   EDIFICIOS
+========================================= */
+
+.buildings {
+    position: absolute;
+
+    z-index: 4;
+
+    left: 95px;
+    right: 54px;
+
+    bottom: 57px;
+
+    height: 135px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: center;
+
+>>>>>>> fix-jaquino-2025376
     gap: 8px;
 }
 
 .building {
     position: relative;
+<<<<<<< HEAD
     flex: 0 0 auto;
+=======
+
+    flex: 0 0 auto;
+
+>>>>>>> fix-jaquino-2025376
     background:
         linear-gradient(
             180deg,
             #4B91CF,
             #347AB7
         );
+<<<<<<< HEAD
     opacity: .82;
     border-radius: 4px 4px 0 0;
     box-shadow:
         inset 0 0 15px rgba(255, 255, 255, .08);
+=======
+
+    opacity: .82;
+
+    border-radius: 4px 4px 0 0;
+
+    box-shadow:
+        inset 0 0 15px rgba(255,255,255,.08);
+>>>>>>> fix-jaquino-2025376
 }
 
 .building-a {
@@ -416,6 +821,7 @@ body::after {
     height: 58px;
 }
 
+<<<<<<< HEAD
 .building span {
     position: relative;
     display: block;
@@ -426,10 +832,32 @@ body::after {
     border-radius: 2px;
     box-shadow:
         0 0 8px rgba(255, 255, 255, .25);
+=======
+/* Ventanas */
+
+.building span {
+    position: relative;
+
+    display: block;
+
+    width: 6px;
+    height: 6px;
+
+    margin: 9px auto 0;
+
+    background: rgba(255,255,255,.72);
+
+    border-radius: 2px;
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.25);
+
+>>>>>>> fix-jaquino-2025376
     animation:
         windowBlink 4s ease-in-out infinite;
 }
 
+<<<<<<< HEAD
 .tree {
     position: absolute;
     z-index: 8;
@@ -437,6 +865,25 @@ body::after {
     display: flex;
     flex-direction: column;
     align-items: center;
+=======
+/* =========================================
+   ÁRBOLES
+========================================= */
+
+.tree {
+    position: absolute;
+
+    z-index: 8;
+
+    bottom: 35px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+>>>>>>> fix-jaquino-2025376
     animation:
         treeFloat 4s ease-in-out infinite alternate;
 }
@@ -444,6 +891,7 @@ body::after {
 .tree-crown {
     width: 48px;
     height: 60px;
+<<<<<<< HEAD
     border-radius: 50%;
     background: #2174B5;
     box-shadow:
@@ -452,34 +900,69 @@ body::after {
     filter:
         drop-shadow(
             0 5px 5px rgba(13, 71, 161, .12)
+=======
+
+    border-radius: 50%;
+
+    background: #2174B5;
+
+    box-shadow:
+        -14px 10px 0 #2174B5,
+        14px 10px 0 #2174B5;
+
+    filter:
+        drop-shadow(
+            0 5px 5px rgba(13,71,161,.12)
+>>>>>>> fix-jaquino-2025376
         );
 }
 
 .tree-trunk {
     width: 9px;
     height: 29px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     background: #52788E;
 }
 
 .tree-one {
     left: 24px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     transform: scale(1.05);
 }
 
 .tree-two {
     left: 76px;
+<<<<<<< HEAD
     transform: scale(.75);
+=======
+
+    transform: scale(.75);
+
+>>>>>>> fix-jaquino-2025376
     animation-delay: -.8s;
 }
 
 .tree-three {
     right: 33px;
+<<<<<<< HEAD
     transform: scale(.95);
+=======
+
+    transform: scale(.95);
+
+>>>>>>> fix-jaquino-2025376
     animation-delay: -1.5s;
 }
 
 .tree-four {
     right: 83px;
+<<<<<<< HEAD
     transform: scale(.72);
     animation-delay: -2s;
 }
@@ -491,37 +974,98 @@ body::after {
     bottom: 48px;
     width: 22px;
     height: 150px;
+=======
+
+    transform: scale(.72);
+
+    animation-delay: -2s;
+}
+
+/* =========================================
+   LÁMPARA
+========================================= */
+
+.street-lamp {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 11px;
+
+    bottom: 48px;
+
+    width: 22px;
+
+    height: 150px;
+
+>>>>>>> fix-jaquino-2025376
     animation:
         lampFloat 5s ease-in-out infinite alternate;
 }
 
 .lamp-pole {
     position: absolute;
+<<<<<<< HEAD
     left: 9px;
     top: 18px;
     width: 3px;
     height: 123px;
     background: #506D80;
+=======
+
+    left: 9px;
+    top: 18px;
+
+    width: 3px;
+    height: 123px;
+
+    background: #506D80;
+
+>>>>>>> fix-jaquino-2025376
     border-radius: 2px;
 }
 
 .lamp-base {
     position: absolute;
+<<<<<<< HEAD
     left: 4px;
     bottom: 0;
     width: 13px;
     height: 5px;
     background: #506D80;
+=======
+
+    left: 4px;
+    bottom: 0;
+
+    width: 13px;
+    height: 5px;
+
+    background: #506D80;
+
+>>>>>>> fix-jaquino-2025376
     border-radius: 3px;
 }
 
 .lamp-head {
     position: absolute;
+<<<<<<< HEAD
     left: 2px;
     top: 3px;
     width: 16px;
     height: 16px;
     background: #506D80;
+=======
+
+    left: 2px;
+    top: 3px;
+
+    width: 16px;
+    height: 16px;
+
+    background: #506D80;
+
+>>>>>>> fix-jaquino-2025376
     clip-path:
         polygon(
             50% 0,
@@ -530,6 +1074,7 @@ body::after {
             18% 100%,
             0 35%
         );
+<<<<<<< HEAD
     box-shadow:
         0 0 20px rgba(249, 168, 37, .35);
 }
@@ -541,6 +1086,30 @@ body::after {
     bottom: 44px;
     width: 45px;
     height: 31px;
+=======
+
+    box-shadow:
+        0 0 20px rgba(249,168,37,.35);
+}
+
+/* =========================================
+   BANCA
+========================================= */
+
+.bench {
+    position: absolute;
+
+    z-index: 11;
+
+    left: 53%;
+
+    bottom: 44px;
+
+    width: 45px;
+
+    height: 31px;
+
+>>>>>>> fix-jaquino-2025376
     animation:
         benchFloat 5s ease-in-out infinite alternate;
 }
@@ -548,30 +1117,57 @@ body::after {
 .bench-seat,
 .bench-back {
     background: #506D80;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     border-radius: 3px;
 }
 
 .bench-seat {
     position: absolute;
+<<<<<<< HEAD
     left: 0;
     bottom: 11px;
+=======
+
+    left: 0;
+    bottom: 11px;
+
+>>>>>>> fix-jaquino-2025376
     width: 45px;
     height: 5px;
 }
 
 .bench-back {
     position: absolute;
+<<<<<<< HEAD
     left: 2px;
     bottom: 18px;
+=======
+
+    left: 2px;
+    bottom: 18px;
+
+>>>>>>> fix-jaquino-2025376
     width: 41px;
     height: 5px;
 }
 
 .bench-leg {
     position: absolute;
+<<<<<<< HEAD
     bottom: 0;
     width: 3px;
     height: 13px;
+=======
+
+    bottom: 0;
+
+    width: 3px;
+    height: 13px;
+
+>>>>>>> fix-jaquino-2025376
     background: #506D80;
 }
 
@@ -583,6 +1179,7 @@ body::after {
     right: 6px;
 }
 
+<<<<<<< HEAD
 .ground {
     position: absolute;
     z-index: 7;
@@ -590,12 +1187,32 @@ body::after {
     bottom: -30px;
     width: 110%;
     height: 90px;
+=======
+/* =========================================
+   TERRENO
+========================================= */
+
+.ground {
+    position: absolute;
+
+    z-index: 7;
+
+    left: -5%;
+
+    bottom: -30px;
+
+    width: 110%;
+
+    height: 90px;
+
+>>>>>>> fix-jaquino-2025376
     background:
         linear-gradient(
             180deg,
             #73AAD2,
             #609AC5
         );
+<<<<<<< HEAD
     border-radius: 50% 50% 0 0;
     transform: rotate(-2deg);
 }
@@ -612,22 +1229,70 @@ body::after {
     gap: 11px;
     padding: 0 32px;
     color: white;
+=======
+
+    border-radius: 50% 50% 0 0;
+
+    transform: rotate(-2deg);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.information-footer {
+    position: absolute;
+
+    z-index: 30;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 0 32px;
+
+    color: white;
+
+>>>>>>> fix-jaquino-2025376
     background:
         linear-gradient(
             90deg,
             #0D47A1,
             #1565C0
         );
+<<<<<<< HEAD
     box-shadow:
         0 -5px 20px rgba(13, 71, 161, .12);
+=======
+
+    box-shadow:
+        0 -5px 20px rgba(13,71,161,.12);
+>>>>>>> fix-jaquino-2025376
 }
 
 .footer-shield {
     width: 32px;
     height: 32px;
+<<<<<<< HEAD
     display: flex;
     align-items: center;
     justify-content: center;
+=======
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+>>>>>>> fix-jaquino-2025376
     flex: 0 0 auto;
 }
 
@@ -638,17 +1303,28 @@ body::after {
 
 .footer-text {
     display: flex;
+<<<<<<< HEAD
     flex-direction: column;
+=======
+
+    flex-direction: column;
+
+>>>>>>> fix-jaquino-2025376
     gap: 3px;
 }
 
 .footer-text strong {
     font-size: 11px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     font-weight: 600;
 }
 
 .footer-text span {
     font-size: 10px;
+<<<<<<< HEAD
     opacity: .82;
 }
 
@@ -662,11 +1338,35 @@ body::after {
             180deg,
             rgba(255, 255, 255, .98),
             rgba(250, 252, 255, .98)
+=======
+
+    opacity: .82;
+}
+
+/* =========================================
+   LOGIN PANEL
+========================================= */
+
+.login-panel {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px 65px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.98),
+            rgba(250,252,255,.98)
+>>>>>>> fix-jaquino-2025376
         );
 }
 
 .login-card {
     width: 100%;
+<<<<<<< HEAD
     max-width: 390px;
     animation:
         slideFromRight .8s cubic-bezier(.22, 1, .36, 1);
@@ -681,14 +1381,49 @@ body::after {
     margin: 0 auto 18px;
     border-radius: 50%;
     color: var(--blue-dark);
+=======
+
+    max-width: 390px;
+
+    animation:
+        slideFromRight .8s cubic-bezier(.22,1,.36,1);
+}
+
+/* =========================================
+   ICONO SEGURIDAD
+========================================= */
+
+.security-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    color: var(--blue-dark);
+
+>>>>>>> fix-jaquino-2025376
     background:
         linear-gradient(
             145deg,
             #EDF6FF,
             #DCEEFF
         );
+<<<<<<< HEAD
     box-shadow:
         0 10px 25px rgba(21, 101, 192, .12);
+=======
+
+    box-shadow:
+        0 10px 25px rgba(21,101,192,.12);
+
+>>>>>>> fix-jaquino-2025376
     animation:
         iconPulse 3s ease-in-out infinite;
 }
@@ -698,17 +1433,36 @@ body::after {
     height: 38px;
 }
 
+<<<<<<< HEAD
 .login-card h2 {
     color: var(--text);
     text-align: center;
     font-size: 28px;
     line-height: 1.2;
     font-weight: 750;
+=======
+/* =========================================
+   TITULO LOGIN
+========================================= */
+
+.login-card h2 {
+    color: var(--text);
+
+    text-align: center;
+
+    font-size: 28px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+>>>>>>> fix-jaquino-2025376
     letter-spacing: -.4px;
 }
 
 .login-subtitle {
     margin-top: 8px;
+<<<<<<< HEAD
     margin-bottom: 32px;
     color: #78909C;
     text-align: center;
@@ -716,6 +1470,24 @@ body::after {
     line-height: 1.5;
 }
 
+=======
+
+    margin-bottom: 32px;
+
+    color: #78909C;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+>>>>>>> fix-jaquino-2025376
 .login-form {
     width: 100%;
 }
@@ -726,14 +1498,25 @@ body::after {
 
 .form-group label {
     display: block;
+<<<<<<< HEAD
     margin-bottom: 8px;
     color: var(--text);
     font-size: 13px;
+=======
+
+    margin-bottom: 8px;
+
+    color: var(--text);
+
+    font-size: 13px;
+
+>>>>>>> fix-jaquino-2025376
     font-weight: 650;
 }
 
 .input-wrapper {
     position: relative;
+<<<<<<< HEAD
     width: 100%;
     min-height: 50px;
     display: flex;
@@ -741,6 +1524,23 @@ body::after {
     border: 1px solid var(--border);
     border-radius: 9px;
     background: #FFFFFF;
+=======
+
+    width: 100%;
+
+    min-height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: #FFFFFF;
+
+>>>>>>> fix-jaquino-2025376
     transition:
         border-color .25s ease,
         box-shadow .25s ease,
@@ -753,17 +1553,33 @@ body::after {
 
 .input-wrapper:focus-within {
     border-color: var(--blue-primary);
+<<<<<<< HEAD
     box-shadow:
         0 0 0 4px rgba(21, 101, 192, .09),
         0 8px 20px rgba(21, 101, 192, .07);
+=======
+
+    box-shadow:
+        0 0 0 4px rgba(21,101,192,.09),
+        0 8px 20px rgba(21,101,192,.07);
+
+>>>>>>> fix-jaquino-2025376
     transform: translateY(-1px);
 }
 
 .input-icon {
     width: 20px;
     height: 20px;
+<<<<<<< HEAD
     margin-left: 15px;
     flex: 0 0 auto;
+=======
+
+    margin-left: 15px;
+
+    flex: 0 0 auto;
+
+>>>>>>> fix-jaquino-2025376
     color: #90A4AE;
 }
 
@@ -774,17 +1590,33 @@ body::after {
 .input-wrapper input {
     width: 100%;
     height: 48px;
+<<<<<<< HEAD
     min-width: 0;
     padding: 0 14px;
     border: 0;
     outline: 0;
     color: var(--text);
     background: transparent;
+=======
+
+    min-width: 0;
+
+    padding: 0 14px;
+
+    border: 0;
+    outline: 0;
+
+    color: var(--text);
+
+    background: transparent;
+
+>>>>>>> fix-jaquino-2025376
     font-size: 14px;
 }
 
 .input-wrapper input::placeholder {
     color: #AAB8C2;
+<<<<<<< HEAD
     opacity: 1;
 }
 
@@ -795,10 +1627,33 @@ body::after {
     color: #C62828;
     font-size: 11px;
     font-weight: 500;
+=======
+
+    opacity: 1;
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error-text {
+    position: absolute;
+
+    left: 0;
+    top: calc(100% + 5px);
+
+    color: #C62828;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+>>>>>>> fix-jaquino-2025376
     animation:
         errorAppear .25s ease;
 }
 
+<<<<<<< HEAD
 .password-button {
     width: 44px;
     height: 100%;
@@ -810,6 +1665,31 @@ body::after {
     background: transparent;
     color: #78909C;
     cursor: pointer;
+=======
+/* =========================================
+   PASSWORD
+========================================= */
+
+.password-button {
+    width: 44px;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 auto;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #78909C;
+
+    cursor: pointer;
+
+>>>>>>> fix-jaquino-2025376
     transition:
         color .2s ease,
         transform .2s ease;
@@ -817,6 +1697,10 @@ body::after {
 
 .password-button:hover {
     color: var(--blue-primary);
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
     transform: scale(1.1);
 }
 
@@ -825,42 +1709,91 @@ body::after {
     height: 20px;
 }
 
+<<<<<<< HEAD
 .login-options {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
     margin-top: 6px;
+=======
+/* =========================================
+   OPCIONES
+========================================= */
+
+.login-options {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 6px;
+
+>>>>>>> fix-jaquino-2025376
     margin-bottom: 24px;
 }
 
 .remember {
     display: flex;
+<<<<<<< HEAD
     align-items: center;
     gap: 7px;
     color: #607D8B;
     font-size: 12px;
+=======
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #607D8B;
+
+    font-size: 12px;
+
+>>>>>>> fix-jaquino-2025376
     cursor: pointer;
 }
 
 .remember input {
     width: 15px;
     height: 15px;
+<<<<<<< HEAD
     margin: 0;
     accent-color: var(--blue-primary);
+=======
+
+    margin: 0;
+
+    accent-color: var(--blue-primary);
+
+>>>>>>> fix-jaquino-2025376
     cursor: pointer;
 }
 
 .forgot-password {
     color: var(--blue-primary);
+<<<<<<< HEAD
     font-size: 12px;
     font-weight: 650;
     text-decoration: none;
+=======
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    text-decoration: none;
+
+>>>>>>> fix-jaquino-2025376
     transition: color .2s ease;
 }
 
 .forgot-password:hover {
     color: var(--blue-dark);
+<<<<<<< HEAD
     text-decoration: underline;
 }
 
@@ -874,12 +1807,41 @@ body::after {
     border: 0;
     border-radius: 9px;
     color: white;
+=======
+
+    text-decoration: underline;
+}
+
+/* =========================================
+   BOTON LOGIN
+========================================= */
+
+.login-button {
+    width: 100%;
+
+    height: 51px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    color: white;
+
+>>>>>>> fix-jaquino-2025376
     background:
         linear-gradient(
             135deg,
             #1976D2,
             #0D47A1
         );
+<<<<<<< HEAD
     font-size: 14px;
     font-weight: 650;
     cursor: pointer;
@@ -890,6 +1852,22 @@ body::after {
         box-shadow .25s ease,
         filter .25s ease,
         opacity .25s ease;
+=======
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(21,101,192,.20);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        filter .25s ease;
+>>>>>>> fix-jaquino-2025376
 }
 
 .login-button svg {
@@ -897,6 +1875,7 @@ body::after {
     height: 20px;
 }
 
+<<<<<<< HEAD
 .login-button:hover:not(:disabled) {
     transform: translateY(-3px);
     box-shadow:
@@ -942,17 +1921,53 @@ body::after {
     display: flex;
     align-items: center;
     gap: 12px;
+=======
+.login-button:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 14px 28px rgba(21,101,192,.28);
+
+    filter: brightness(1.06);
+}
+
+.login-button:active {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 15px rgba(21,101,192,.20);
+}
+
+/* =========================================
+   DIVISOR
+========================================= */
+
+.divider {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+>>>>>>> fix-jaquino-2025376
     margin: 28px 0 20px;
 }
 
 .divider span {
     flex: 1;
+<<<<<<< HEAD
     height: 1px;
+=======
+
+    height: 1px;
+
+>>>>>>> fix-jaquino-2025376
     background: #E3EAF0;
 }
 
 .divider small {
     flex: 0 0 auto;
+<<<<<<< HEAD
     color: #90A4AE;
     font-size: 11px;
 }
@@ -971,6 +1986,44 @@ body::after {
     font-size: 13px;
     font-weight: 550;
     cursor: pointer;
+=======
+
+    color: #90A4AE;
+
+    font-size: 11px;
+}
+
+/* =========================================
+   GOOGLE
+========================================= */
+
+.google-button {
+    width: 100%;
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    color: #455A64;
+
+    background: white;
+
+    font-size: 13px;
+
+    font-weight: 550;
+
+    cursor: pointer;
+
+>>>>>>> fix-jaquino-2025376
     transition:
         background .25s ease,
         border-color .25s ease,
@@ -985,6 +2038,7 @@ body::after {
 
 .google-button:hover {
     background: #FAFCFE;
+<<<<<<< HEAD
     border-color: #BFCEDB;
     box-shadow:
         0 7px 18px rgba(13, 71, 161, .08);
@@ -1000,24 +2054,78 @@ body::after {
     margin-top: 31px;
     text-align: center;
     font-size: 12px;
+=======
+
+    border-color: #BFCEDB;
+
+    box-shadow:
+        0 7px 18px rgba(13,71,161,.08);
+
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   REGISTRO
+========================================= */
+
+.register {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    margin-top: 31px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+>>>>>>> fix-jaquino-2025376
     color: #78909C;
 }
 
 .register a {
     color: var(--blue-primary);
+<<<<<<< HEAD
     font-weight: 650;
     text-decoration: none;
+=======
+
+    font-weight: 650;
+
+    text-decoration: none;
+
+>>>>>>> fix-jaquino-2025376
     transition: color .2s ease;
 }
 
 .register a:hover {
     color: var(--blue-dark);
+<<<<<<< HEAD
     text-decoration: underline;
 }
 
 @keyframes cardAppear {
     from {
         opacity: 0;
+=======
+
+    text-decoration: underline;
+}
+
+/* =========================================
+   ANIMACIONES
+========================================= */
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+
+>>>>>>> fix-jaquino-2025376
         transform:
             translateY(25px)
             scale(.97);
@@ -1025,6 +2133,10 @@ body::after {
 
     to {
         opacity: 1;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         transform:
             translateY(0)
             scale(1);
@@ -1034,11 +2146,19 @@ body::after {
 @keyframes slideFromLeft {
     from {
         opacity: 0;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         transform: translateX(-25px);
     }
 
     to {
         opacity: 1;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         transform: translateX(0);
     }
 }
@@ -1046,11 +2166,19 @@ body::after {
 @keyframes slideFromRight {
     from {
         opacity: 0;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         transform: translateX(25px);
     }
 
     to {
         opacity: 1;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         transform: translateX(0);
     }
 }
@@ -1159,12 +2287,20 @@ body::after {
     0%,
     100% {
         box-shadow:
+<<<<<<< HEAD
             0 10px 25px rgba(21, 101, 192, .12);
+=======
+            0 10px 25px rgba(21,101,192,.12);
+>>>>>>> fix-jaquino-2025376
     }
 
     50% {
         box-shadow:
+<<<<<<< HEAD
             0 12px 32px rgba(21, 101, 192, .22);
+=======
+            0 12px 32px rgba(21,101,192,.22);
+>>>>>>> fix-jaquino-2025376
     }
 }
 
@@ -1180,13 +2316,26 @@ body::after {
     }
 }
 
+<<<<<<< HEAD
 @media (max-width: 900px) {
+=======
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+>>>>>>> fix-jaquino-2025376
     .page {
         padding: 25px;
     }
 
     .login-container {
         grid-template-columns: 1fr 1fr;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         min-height: 620px;
     }
 
@@ -1220,22 +2369,47 @@ body::after {
     }
 }
 
+<<<<<<< HEAD
 @media (max-width: 700px) {
+=======
+/* =========================================
+   MÓVIL
+========================================= */
+
+@media (max-width: 700px) {
+
+>>>>>>> fix-jaquino-2025376
     .page {
         padding: 0;
     }
 
     .login-container {
         width: 100%;
+<<<<<<< HEAD
         min-height: 100vh;
         grid-template-columns: 1fr;
         border-radius: 0;
         box-shadow: none;
+=======
+
+        min-height: 100vh;
+
+        grid-template-columns: 1fr;
+
+        border-radius: 0;
+
+        box-shadow: none;
+
+>>>>>>> fix-jaquino-2025376
         border: 0;
     }
 
     .information-panel {
         min-height: 390px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         height: 390px;
     }
 
@@ -1262,21 +2436,37 @@ body::after {
 
     .hero-copy h1 {
         font-size: 28px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         margin-bottom: 12px;
     }
 
     .hero-copy p {
         font-size: 13px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         max-width: 300px;
     }
 
     .categories {
         margin-top: 22px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         gap: 13px;
     }
 
     .category {
         width: 65px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         font-size: 10px;
     }
 
@@ -1292,13 +2482,23 @@ body::after {
 
     .city-scene {
         bottom: 49px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         height: 145px;
     }
 
     .buildings {
         left: 65px;
         right: 30px;
+<<<<<<< HEAD
         bottom: 35px;
+=======
+
+        bottom: 35px;
+
+>>>>>>> fix-jaquino-2025376
         height: 90px;
     }
 
@@ -1358,19 +2558,37 @@ body::after {
 
     .street-lamp {
         left: 7px;
+<<<<<<< HEAD
         bottom: 28px;
         transform: scale(.7);
+=======
+
+        bottom: 28px;
+
+        transform: scale(.7);
+
+>>>>>>> fix-jaquino-2025376
         transform-origin: bottom left;
     }
 
     .bench {
         bottom: 27px;
+<<<<<<< HEAD
         transform: scale(.75);
+=======
+
+        transform: scale(.75);
+
+>>>>>>> fix-jaquino-2025376
         transform-origin: bottom center;
     }
 
     .information-footer {
         height: 49px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         padding: 0 22px;
     }
 
@@ -1384,6 +2602,10 @@ body::after {
 
     .login-panel {
         min-height: 570px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         padding: 48px 28px;
     }
 
@@ -1414,16 +2636,33 @@ body::after {
 
     .login-button {
         height: 51px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         font-size: 14px;
     }
 
     .google-button {
         height: 50px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix-jaquino-2025376
         font-size: 13px;
     }
 }
 
+<<<<<<< HEAD
 @media (max-width: 400px) {
+=======
+/* =========================================
+   MÓVILES PEQUEÑOS
+========================================= */
+
+@media (max-width: 400px) {
+
+>>>>>>> fix-jaquino-2025376
     .information-panel {
         min-height: 365px;
         height: 365px;
@@ -1469,7 +2708,13 @@ body::after {
 
     .login-options {
         align-items: flex-start;
+<<<<<<< HEAD
         flex-direction: column;
+=======
+
+        flex-direction: column;
+
+>>>>>>> fix-jaquino-2025376
         gap: 10px;
     }
 
@@ -1478,7 +2723,17 @@ body::after {
     }
 }
 
+<<<<<<< HEAD
 @media (prefers-reduced-motion: reduce) {
+=======
+/* =========================================
+   REDUCIR ANIMACIONES SI EL USUARIO
+   LO PREFIERE
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+>>>>>>> fix-jaquino-2025376
     *,
     *::before,
     *::after {
@@ -1486,4 +2741,8 @@ body::after {
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> fix-jaquino-2025376

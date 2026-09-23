@@ -3,11 +3,9 @@ import { EvidenciaSolucionService } from "../services/evidenciaSolucion.service.
 
 export class EvidenciaSolucionController {
 
-    private service = new EvidenciaSolucionService();
-
-    async listar(req: Request, res: Response): Promise<void> {
+    static async listar(req: Request, res: Response): Promise<void> {
         try {
-            const evidencias = await this.service.listar();
+            const evidencias = await EvidenciaSolucionService.listar();
             res.status(200).json(evidencias);
         } catch (error) {
             res.status(500).json({ mensaje: "Error al obtener las evidencias", error: (error as Error).message });
@@ -15,7 +13,7 @@ export class EvidenciaSolucionController {
     }
 
 
-    async obtenerPorId(req: Request, res: Response): Promise<void> {
+    static async obtenerPorId(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -24,7 +22,7 @@ export class EvidenciaSolucionController {
                 return;
             }
 
-            const evidencia = await this.service.obtenerPorId(id);
+            const evidencia = await EvidenciaSolucionService.obtenerPorId(id);
             res.status(200).json(evidencia);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
@@ -32,7 +30,7 @@ export class EvidenciaSolucionController {
     }
 
 
-    async obtenerPorReporte(req: Request, res: Response): Promise<void> {
+    static async obtenerPorReporte(req: Request, res: Response): Promise<void> {
         try {
             const idReporte = Number(req.params.idReporte);
 
@@ -41,7 +39,7 @@ export class EvidenciaSolucionController {
                 return;
             }
 
-            const evidencias = await this.service.obtenerPorReporte(idReporte);
+            const evidencias = await EvidenciaSolucionService.obtenerPorReporte(idReporte);
             res.status(200).json(evidencias);
         } catch (error) {
             res.status(500).json({ mensaje: (error as Error).message });
@@ -49,9 +47,9 @@ export class EvidenciaSolucionController {
     }
 
 
-    async crear(req: Request, res: Response): Promise<void> {
+    static async crear(req: Request, res: Response): Promise<void> {
         try {
-            const nuevaEvidencia = await this.service.crear(req.body);
+            const nuevaEvidencia = await EvidenciaSolucionService.crear(req.body);
             res.status(201).json(nuevaEvidencia);
         } catch (error) {
             res.status(400).json({ mensaje: (error as Error).message });
@@ -59,7 +57,7 @@ export class EvidenciaSolucionController {
     }
 
 
-    async actualizar(req: Request, res: Response): Promise<void> {
+    static async actualizar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -68,7 +66,7 @@ export class EvidenciaSolucionController {
                 return;
             }
 
-            const evidenciaActualizada = await this.service.actualizar(id, req.body);
+            const evidenciaActualizada = await EvidenciaSolucionService.actualizar(id, req.body);
             res.status(200).json(evidenciaActualizada);
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });
@@ -76,7 +74,7 @@ export class EvidenciaSolucionController {
     }
 
 
-    async eliminar(req: Request, res: Response): Promise<void> {
+    static async eliminar(req: Request, res: Response): Promise<void> {
         try {
             const id = Number(req.params.id);
 
@@ -85,7 +83,7 @@ export class EvidenciaSolucionController {
                 return;
             }
 
-            const evidenciaEliminada = await this.service.eliminar(id);
+            const evidenciaEliminada = await EvidenciaSolucionService.eliminar(id);
             res.status(200).json({ mensaje: "Evidencia eliminada correctamente", evidencia: evidenciaEliminada });
         } catch (error) {
             res.status(404).json({ mensaje: (error as Error).message });

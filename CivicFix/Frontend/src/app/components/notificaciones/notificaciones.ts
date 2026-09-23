@@ -227,7 +227,11 @@ export class NotificacionesComponent implements OnInit {
   }
 
   verReporte(notificacion: Notificacion): void {
+<<<<<<< HEAD
     if (!notificacion.id_reporte) {
+=======
+    if (!notificacion.fk_id_reporte) {
+>>>>>>> fix-jaquino-2025376
       return;
     }
 

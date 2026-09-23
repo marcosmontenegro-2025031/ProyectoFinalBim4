@@ -1,38 +1,13 @@
 import { Router } from "express";
-import { EvidenciaSolucionController } from "../controllers/evidenciaSolucion.controller";
+import { EvidenciaSolucionController } from "../controllers/evidenciaSolucion.controller.js";
 
 const router = Router();
 
-const controller = new EvidenciaSolucionController();
-
-router.get(
-    "/",
-    controller.listar.bind(controller)
-);
-
-router.get(
-    "/reporte/:idReporte",
-    controller.obtenerPorReporte.bind(controller)
-);
-
-router.get(
-    "/:id",
-    controller.obtenerPorId.bind(controller)
-);
-
-router.post(
-    "/",
-    controller.crear.bind(controller)
-);
-
-router.put(
-    "/:id",
-    controller.actualizar.bind(controller)
-);
-
-router.delete(
-    "/:id",
-    controller.eliminar.bind(controller)
-);
+router.get("/", EvidenciaSolucionController.listar);
+router.get("/reporte/:idReporte", EvidenciaSolucionController.obtenerPorReporte);
+router.get("/:id", EvidenciaSolucionController.obtenerPorId);
+router.post("/", EvidenciaSolucionController.crear);
+router.put("/:id", EvidenciaSolucionController.actualizar);
+router.delete("/:id", EvidenciaSolucionController.eliminar);
 
 export default router;

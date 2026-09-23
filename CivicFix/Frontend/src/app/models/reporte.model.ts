@@ -1,3 +1,8 @@
+import { TipoIncidencia } from './tipo-incidencia.model';
+import { Prioridad } from './prioridad.model';
+import { Estado } from './estado.model';
+import { Ubicacion } from './ubicacion.model';
+
 export interface CrearReporteDTO {
   textoCiudadano: string;
   direccion: string;
@@ -22,10 +27,8 @@ export interface PuntoMapa {
 
 export interface RespuestaReporte {
   mensaje: string;
-
   data: {
     idReporte: number;
-
     analisis: {
       titulo_corto: string;
       codigo_tipo: string;
@@ -48,22 +51,5 @@ export interface ReporteAdmin {
   longitud: number;
   estado: string;
   prioridad: string;
-  ruta_fotografia?: string;
-}
-
-export interface Reporte {
-  id_reporte: number;
-  titulo: string;
-  descripcion: string;
-  fecha_reporte: string | Date;
-  direccion: string;
-  zona: string;
-  latitud: number;
-  longitud: number;
-  estado: string;
-  prioridad: string;
-  tipo_incidencia: string;
-  ruta_fotografia?: string;
-  referencia?: string;
-  id_usuario?: number;
+  ruta_fotografia?: string; 
 }

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+<<<<<<< HEAD
+=======
+import { ReporteService } from '../../services/reporte.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Reporte {
   id: number;
@@ -30,6 +34,7 @@ export class MisReportesComponent {
 
   filtroActual = 'Todos';
 
+<<<<<<< HEAD
   reportes: Reporte[] = [
     {
       id: 1,
@@ -82,12 +87,71 @@ export class MisReportesComponent {
   ];
 
   constructor(private router: Router) {}
+=======
+  reportes: Reporte[] = [];
+  cargando = false;
+  error = '';
+
+  constructor(private router: Router, private reporteService: ReporteService) {}
+
+  ngOnInit(): void {
+    this.cargarReportes();
+  }
+
+  cargarReportes(): void {
+    this.cargando = true;
+    this.error = '';
+    this.reporteService.obtenerMisReportes().subscribe({
+      next: (data: any[]) => {
+        this.reportes = (data || []).map((r: any) => ({
+          id: Number(r.id_reporte),
+          titulo: r.titulo || 'Incidencia urbana',
+          descripcion: r.descripcion || '',
+          tipo: r.tipo_incidencia || 'Incidencia',
+          prioridad: r.prioridad || 'Baja',
+          estado: this.normalizarEstado(r.estado),
+          fecha: this.formatearFecha(r.fecha_reporte),
+          direccion: r.direccion || '',
+          zona: r.zona || '',
+          referencia: r.referencia || ''
+        }));
+        this.cargando = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar mis reportes:', error);
+        this.reportes = [];
+        this.error = 'No se pudieron cargar tus reportes.';
+        this.cargando = false;
+      }
+    });
+  }
+
+  private normalizarEstado(estado: string | undefined): string {
+    const valor = (estado || 'Pendiente').trim().toLowerCase();
+    if (valor === 'recibido') return 'Pendiente';
+    if (valor === 'en revisión' || valor === 'en revision') return 'Pendiente';
+    if (valor === 'asignado') return 'En Proceso';
+    if (valor === 'resuelto') return 'Resuelto';
+    if (valor === 'rechazado') return 'Rechazado';
+    return estado || 'Pendiente';
+  }
+
+  private formatearFecha(fecha: string | Date): string {
+    const valor = new Date(fecha);
+    if (Number.isNaN(valor.getTime())) return String(fecha || '');
+    return valor.toLocaleDateString('es-GT', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+>>>>>>> fix-jaquino-2025376
 
   get reportesFiltrados(): Reporte[] {
     return this.reportes.filter(reporte => {
       return (
         this.filtroActual === 'Todos' ||
+<<<<<<< HEAD
         reporte.estado === this.filtroActual
+=======
+        reporte.estado.toLowerCase() === this.filtroActual.toLowerCase()
+>>>>>>> fix-jaquino-2025376
       );
     });
   }

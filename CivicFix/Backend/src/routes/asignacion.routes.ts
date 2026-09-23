@@ -1,18 +1,15 @@
+// routes/asignacion.routes.ts
 import { Router } from "express";
-import { AsignacionController } from "../controllers/asignacion.controller";
+import { AsignacionController } from "../controllers/asignacion.controller.js";
+
+import { verificarTokenEmpleado, verificarAdministrador } from "../middleware/auth.middleware";
 
 const router = Router();
 
-const controller = new AsignacionController();
-
-router.get("/", controller.listar.bind(controller));
-
-router.get("/:id", controller.obtenerPorId.bind(controller));
-
-router.post("/", controller.crear.bind(controller));
-
-router.put("/:id", controller.actualizar.bind(controller));
-
-router.delete("/:id", controller.eliminar.bind(controller));
+router.get("/", verificarTokenEmpleado, AsignacionController.listar);
+router.get("/:id", verificarTokenEmpleado, AsignacionController.obtenerPorId);
+router.post("/", verificarAdministrador, AsignacionController.crear);
+router.put("/:id", verificarAdministrador, AsignacionController.actualizar);
+router.delete("/:id", verificarAdministrador, AsignacionController.eliminar);
 
 export default router;

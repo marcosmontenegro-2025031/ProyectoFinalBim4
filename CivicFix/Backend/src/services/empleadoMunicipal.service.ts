@@ -21,7 +21,7 @@ export class EmpleadoMunicipalService {
 
     async crearEmpleado(empleado: EmpleadoRegister) : Promise<EmpleadoRegister> {
         if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.password || !empleado.telefono || 
-            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || empleado.id_municipalidad
+            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || !empleado.id_municipalidad
         ) {
             throw new Error("Todos los campos son obligatorios");
         }
@@ -38,16 +38,13 @@ export class EmpleadoMunicipalService {
             throw new Error("La contraseña debe tener al menos 8 caracteres");
         }
 
-        if(!empleado.correo.endsWith("@civicfix.com")) {
-            throw new Error("El correo electrónico no pertenece a un dominio válido, solo se permiten correos con el dominio @civicfix.com");
-        }
 
         return this.empleadoRepository.crearEmpleado(empleado);
     }
 
     async actualizarEmpleado(id: number,empleado: EmpleadoRegister) : Promise<EmpleadoRegister | undefined> {
-        if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.password || !empleado.telefono || 
-            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || empleado.id_municipalidad
+        if (!empleado.nombre || !empleado.apellido || !empleado.usuario || !empleado.correo || !empleado.telefono || 
+            !empleado.direccion ||!empleado.dpi || !empleado.cargo || !empleado.id_departamento || !empleado.id_municipalidad
         ) {
             throw new Error("Todos los campos son obligatorios");
         }
@@ -60,13 +57,10 @@ export class EmpleadoMunicipalService {
             throw new Error("El número de teléfono debe tener 8 dígitos");
         }
 
-        if (empleado.password.length < 8) {
+        if (empleado.password && empleado.password.length < 8) {
             throw new Error("La contraseña debe tener al menos 8 caracteres");
         }
 
-        if(!empleado.correo.endsWith("@civicfix.com")) {
-            throw new Error("El correo electrónico no pertenece a un dominio válido, solo se permiten correos con el dominio @civicfix.com");
-        }
 
         return this.empleadoRepository.actualizarEmpleado(id,empleado);
     }

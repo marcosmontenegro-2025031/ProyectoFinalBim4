@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Estado {
   id: number;
@@ -20,11 +29,16 @@ interface Estado {
     CommonModule,
     FormsModule,
     RouterModule
+<<<<<<< HEAD
   ],
+=======
+  , AdminSidebarComponent],
+>>>>>>> fix-jaquino-2025376
   templateUrl: './estados-admin.html',
   styleUrl: './estados-admin.css'
 })
 export class EstadosAdminComponent {
+<<<<<<< HEAD
 
   estados: Estado[] = [
     {
@@ -64,6 +78,21 @@ export class EstadosAdminComponent {
       estado: 'Activo'
     }
   ];
+=======
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Estado>('estados').subscribe({
+      next: datos => { this.estados = datos; this.cd.markForCheck(); },
+      error: error => { this.estados = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
+
+  estados: Estado[] = [];
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
@@ -107,6 +136,7 @@ export class EstadosAdminComponent {
   }
 
   nuevoEstado(): void {
+<<<<<<< HEAD
     alert('Aquí se abrirá el formulario para crear un nuevo estado.');
   }
 
@@ -131,6 +161,26 @@ export class EstadosAdminComponent {
         item => item.id !== estado.id
       );
     }
+=======
+    this.router.navigate(['/admin/estados/nuevo']);
+  }
+
+  editarEstado(actual: Estado): void {
+    this.router.navigate(['/admin/estados/editar', actual.id]);
+  }
+
+  cambiarEstado(actual: Estado): void {
+    this.adminApi.activar('estados',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+  }
+
+  eliminarEstado(actual: Estado): void {
+    if (!confirm('¿Eliminar estado #' + actual.id + '?')) return;
+    this.adminApi.eliminar('estados',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+>>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

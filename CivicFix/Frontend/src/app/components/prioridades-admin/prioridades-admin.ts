@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Prioridad {
   id: number;
@@ -20,12 +29,18 @@ interface Prioridad {
   imports: [
     CommonModule,
     FormsModule,
+<<<<<<< HEAD
     RouterModule
+=======
+    RouterModule,
+    AdminSidebarComponent
+>>>>>>> fix-jaquino-2025376
   ],
   templateUrl: './prioridades-admin.html',
   styleUrl: './prioridades-admin.css'
 })
 export class PrioridadesAdminComponent {
+<<<<<<< HEAD
 
   prioridades: Prioridad[] = [
     {
@@ -69,6 +84,21 @@ export class PrioridadesAdminComponent {
       tiempoRespuesta: 'Menos de 72 horas'
     }
   ];
+=======
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Prioridad>('prioridades').subscribe({
+      next: datos => { this.prioridades = datos; this.cd.markForCheck(); },
+      error: error => { this.prioridades = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
+
+  prioridades: Prioridad[] = [];
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
@@ -116,6 +146,7 @@ export class PrioridadesAdminComponent {
   }
 
   nuevaPrioridad(): void {
+<<<<<<< HEAD
     alert('Aquí se abrirá el formulario para crear una nueva prioridad.');
   }
 
@@ -140,6 +171,26 @@ export class PrioridadesAdminComponent {
         item => item.id !== prioridad.id
       );
     }
+=======
+    this.router.navigate(['/admin/prioridades/nuevo']);
+  }
+
+  editarPrioridad(actual: Prioridad): void {
+    this.router.navigate(['/admin/prioridades/editar', actual.id]);
+  }
+
+  cambiarEstado(actual: Prioridad): void {
+    this.adminApi.activar('prioridades',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+  }
+
+  eliminarPrioridad(actual: Prioridad): void {
+    if (!confirm('¿Eliminar prioridad #' + actual.id + '?')) return;
+    this.adminApi.eliminar('prioridades',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+>>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

@@ -3,7 +3,7 @@ import { Estado } from '../models/estado.model';
 
 export class EstadoRepository {
     async obtenerTodos(): Promise<Estado[]> {
-        const query = 'SELECT id_estado, nombre FROM Estado';
+        const query = 'SELECT id_estado, nombre FROM Estado WHERE activo = TRUE';
         const { rows } = await pool.query(query);
         return rows;
     }

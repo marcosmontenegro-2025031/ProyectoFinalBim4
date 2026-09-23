@@ -3,13 +3,9 @@ import { ReporteService } from '../services/reporte.service';
 
 const reporteService = new ReporteService();
 
-export const obtenerReportesHandler = async (
-    _req: Request,
-    res: Response
-): Promise<Response> => {
+export const obtenerReportesHandler = async (_req: Request, res: Response): Promise<Response> => {
     try {
         const reportes = await reporteService.obtenerTodosLosReportes();
-
         return res.status(200).json(reportes);
     } catch (error: any) {
         return res.status(500).json({
@@ -19,28 +15,11 @@ export const obtenerReportesHandler = async (
     }
 };
 
-export const crearReporteHandler = async (
-    req: Request,
-    res: Response
-): Promise<Response> => {
+export const crearReporteHandler = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const {
-            textoCiudadano,
-            direccion,
-            zona,
-            referencia,
-            latitud,
-            longitud,
-            idUsuario
-        } = req.body;
+        const { textoCiudadano, direccion, zona, referencia, latitud, longitud, idUsuario } = req.body;
 
-        if (
-            !textoCiudadano ||
-            !direccion ||
-            latitud === undefined ||
-            longitud === undefined ||
-            !idUsuario
-        ) {
+        if (!textoCiudadano || !direccion || latitud === undefined || longitud === undefined || !idUsuario) {
             return res.status(400).json({
                 error: 'Faltan campos obligatorios: textoCiudadano, direccion, latitud, longitud e idUsuario.'
             });
@@ -76,43 +55,55 @@ export const crearReporteHandler = async (
     }
 };
 
-export const obtenerPuntosMapaHandler = async (
-    _req: Request,
-    res: Response
-): Promise<Response> => {
+export const obtenerMisReportesHandler = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const puntos = await reporteService.obtenerPuntosParaMapa();
+        const idUsuario = (req as any).usuario?.id_usuario;
 
-        return res.status(200).json(puntos);
+        if (!idUsuario) {
+            return res.status(401).json({ error: 'No se pudo identificar al usuario autenticado.' });
+        }
+
+        const reportes = await reporteService.obtenerReportesPorUsuario(idUsuario);
+        return res.status(200).json(reportes);
     } catch (error: any) {
         return res.status(500).json({
-            error: 'Error al obtener la lista de puntos para el mapa',
+            error: 'Error al obtener los reportes del usuario',
             detalle: error.message
         });
     }
 };
 
-export const obtenerMisReportesHandler = async (
-    req: Request,
-    res: Response
-): Promise<Response> => {
+export const actualizarEstadoReporteHandler = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const idUsuario = (req as any).usuario?.id_usuario;
+        const idReporte = Number(req.params.id);
+        const { idEstado } = req.body;
 
-        if (!idUsuario) {
-            return res.status(401).json({
-                error: 'Usuario no autenticado'
-            });
+        if (!idReporte || !idEstado) {
+            return res.status(400).json({ error: 'Faltan datos: idReporte e idEstado son obligatorios.' });
         }
 
-        const reportes = await reporteService.obtenerReportesPorUsuario(
-            idUsuario
-        );
+        const actualizado = await reporteService.actualizarEstadoReporte(idReporte, Number(idEstado), (req as any).empleado?.id_empleado);
 
-        return res.status(200).json(reportes);
+        if (!actualizado) {
+            return res.status(404).json({ error: 'Reporte no encontrado.' });
+        }
+
+        return res.status(200).json({ mensaje: 'Estado del reporte actualizado con éxito' });
     } catch (error: any) {
         return res.status(500).json({
-            error: 'Error al obtener los reportes del usuario',
+            error: 'Error al actualizar el estado del reporte',
+            detalle: error.message
+        });
+    }
+};
+
+export const obtenerPuntosMapaHandler = async (_req: Request, res: Response): Promise<Response> => {
+    try {
+        const puntos = await reporteService.obtenerPuntosParaMapa();
+        return res.status(200).json(puntos);
+    } catch (error: any) {
+        return res.status(500).json({
+            error: 'Error al obtener la lista de puntos para el mapa',
             detalle: error.message
         });
     }

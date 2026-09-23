@@ -18,8 +18,12 @@ import {
 } from '@angular/forms';
 
 import {
+<<<<<<< HEAD
   RouterLink,
   RouterLinkActive
+=======
+  RouterLink
+>>>>>>> fix-jaquino-2025376
 } from '@angular/router';
 
 import {
@@ -49,8 +53,12 @@ interface ReporteMapa {
   imports: [
     CommonModule,
     FormsModule,
+<<<<<<< HEAD
     RouterLink,
     RouterLinkActive
+=======
+    RouterLink
+>>>>>>> fix-jaquino-2025376
   ],
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.css'

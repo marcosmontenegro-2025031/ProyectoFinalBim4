@@ -19,6 +19,7 @@
 
     <nav class="civic-navigation">
 
+<<<<<<< HEAD
   <a
     routerLink="/home-usuario"
     routerLinkActive="active"
@@ -92,6 +93,65 @@
   </a>
 
 </nav>
+=======
+      <a
+        routerLink="/reportes/nuevo"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>Crear reporte</span>
+      </a>
+
+
+      <a
+        routerLink="/mis-reportes"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Mis reportes</span>
+      </a>
+
+
+      <a
+        routerLink="/mapa"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-geo-alt-fill"></i>
+        <span>Mapa</span>
+      </a>
+
+
+      <a
+        routerLink="/notificaciones"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-bell-fill"></i>
+        <span>Notificaciones</span>
+
+        <span
+          class="nav-notification-count"
+          *ngIf="cantidadNoLeidas > 0"
+        >
+          {{ cantidadNoLeidas }}
+        </span>
+      </a>
+
+
+      <a
+        routerLink="/perfil"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <i class="bi bi-person-fill"></i>
+        <span>Perfil</span>
+      </a>
+
+    </nav>
+>>>>>>> fix-jaquino-2025376
 
 
     <div class="civic-city">
@@ -452,11 +512,19 @@
 
             <div
               class="notification-type-icon"
+<<<<<<< HEAD
               [ngClass]="obtenerClaseTipo(notificacion.tipo)"
             >
 
               <i
                 [class]="obtenerIconoTipo(notificacion.tipo)"
+=======
+              [ngClass]="obtenerClaseTipo(notificacion.tipo ?? '')"
+            >
+
+              <i
+                [class]="obtenerIconoTipo(notificacion.tipo ?? '')"
+>>>>>>> fix-jaquino-2025376
               ></i>
 
             </div>
@@ -485,7 +553,11 @@
 
                     <i class="bi bi-clock-fill"></i>
 
+<<<<<<< HEAD
                     {{ obtenerHora(notificacion.fecha_creacion) }}
+=======
+                    {{ obtenerHora(notificacion.fecha_notificacion) }}
+>>>>>>> fix-jaquino-2025376
 
                   </span>
 
@@ -511,7 +583,11 @@
 
                   <i class="bi bi-calendar3"></i>
 
+<<<<<<< HEAD
                   {{ obtenerFecha(notificacion.fecha_creacion) }}
+=======
+                  {{ obtenerFecha(notificacion.fecha_notificacion) }}
+>>>>>>> fix-jaquino-2025376
 
                 </span>
 
@@ -522,7 +598,11 @@
                   <button
                     type="button"
                     class="notification-report-button"
+<<<<<<< HEAD
                     *ngIf="notificacion.id_reporte"
+=======
+                    *ngIf="notificacion.fk_id_reporte"
+>>>>>>> fix-jaquino-2025376
                     (click)="verReporte(notificacion)"
                   >
 

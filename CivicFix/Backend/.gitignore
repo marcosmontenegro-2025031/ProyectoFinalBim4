@@ -3,10 +3,10 @@
 .env.local
 .env.development
 .env.production
+CivicFix/Backend/.env
 
 # Módulos y dependencias
 node_modules/
-
 
 # Archivos de compilación / build
 dist/

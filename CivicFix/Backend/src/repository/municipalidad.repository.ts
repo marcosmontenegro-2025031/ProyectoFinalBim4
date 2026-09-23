@@ -13,17 +13,17 @@ export class MunicipalidadRepository {
     }
 
     async crearMunicipalidad(municipalidad: Municipalidad): Promise<Municipalidad> {
-        const resultado = await pool.query("INSERT INTO Municipalidad (nombre, direccion,telefono,correo) VALUES ($1,$2,$3,$4)",
+        const resultado = await pool.query("INSERT INTO Municipalidad (nombre, direccion,telefono,correo) VALUES ($1,$2,$3,$4) RETURNING *",
             [municipalidad.nombre, municipalidad.direccion, municipalidad.telefono, municipalidad.correo]
         );
-        return municipalidad;
+        return resultado.rows[0];
     }
 
     async actualizarMunicipalidad(id: number, municipalidad: Municipalidad): Promise<Municipalidad | undefined> {
-        const resultado = await pool.query("UPDATE Municipalidad SET nombre=$1, direccion=$2, telefono=$3, correo=$4 WHERE id_municipalidad=$5",
+        const resultado = await pool.query("UPDATE Municipalidad SET nombre=$1, direccion=$2, telefono=$3, correo=$4 WHERE id_municipalidad=$5 RETURNING *",
             [municipalidad.nombre, municipalidad.direccion, municipalidad.telefono, municipalidad.correo, id]
         );
-        return (resultado.rowCount ?? 0) > 0 ? municipalidad : undefined;
+        return resultado.rows[0];
     }
 
     async eliminarMunicipalidad(id: number): Promise<boolean> {

@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+=======
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { AdminApiService } from '../../services/admin-api.service';
+>>>>>>> fix-jaquino-2025376
 
 interface Empleado {
   id: number;
@@ -22,15 +31,34 @@ interface Empleado {
     CommonModule,
     FormsModule,
     RouterModule
+<<<<<<< HEAD
   ],
+=======
+  , AdminSidebarComponent],
+>>>>>>> fix-jaquino-2025376
   templateUrl: './empleados-admin.html',
   styleUrl: './empleados-admin.css'
 })
 export class EmpleadosAdminComponent {
+<<<<<<< HEAD
+=======
+  private readonly router = inject(Router);
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
+  ngOnInit(): void { this.cargar(); }
+  cargar(): void {
+    this.adminApi.listar<Empleado>('empleados').subscribe({
+      next: datos => { this.empleados = datos; this.cd.markForCheck(); },
+      error: error => { this.empleados = []; this.adminApi.aviso(error); this.cd.markForCheck(); }
+    });
+  }
+
+>>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
+<<<<<<< HEAD
   empleados: Empleado[] = [
     {
       id: 1,
@@ -88,6 +116,9 @@ export class EmpleadosAdminComponent {
       fechaIngreso: '2024-02-12'
     }
   ];
+=======
+  empleados: Empleado[] = [];
+>>>>>>> fix-jaquino-2025376
 
   get empleadosFiltrados(): Empleado[] {
     return this.empleados.filter(empleado => {
@@ -132,6 +163,7 @@ export class EmpleadosAdminComponent {
   }
 
   nuevoEmpleado(): void {
+<<<<<<< HEAD
     alert('Aquí se abrirá el formulario para crear un empleado.');
   }
 
@@ -159,6 +191,26 @@ export class EmpleadosAdminComponent {
     this.empleados = this.empleados.filter(
       item => item.id !== empleado.id
     );
+=======
+    this.router.navigate(['/admin/empleados/nuevo']);
+  }
+
+  editarEmpleado(actual: Empleado): void {
+    this.router.navigate(['/admin/empleados/editar', actual.id]);
+  }
+
+  cambiarEstado(actual: Empleado): void {
+    this.adminApi.activar('empleados',actual.id,actual.estado !== 'Activo').subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+  }
+
+  eliminarEmpleado(actual: Empleado): void {
+    if (!confirm('¿Eliminar empleado #' + actual.id + '?')) return;
+    this.adminApi.eliminar('empleados',actual.id).subscribe({
+      next: () => this.cargar(), error: e => this.adminApi.aviso(e)
+    });
+>>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {
