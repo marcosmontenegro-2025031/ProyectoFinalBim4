@@ -32,6 +32,7 @@ import { EstadosAdminComponent } from './components/estados-admin/estados-admin'
 import { ReportesAdminComponent } from './components/reportes-admin/reportes-admin';
 import { AsignacionesAdminComponent } from './components/asignaciones-admin/asignaciones-admin';
 import { BitacoraAdminComponent } from './components/bitacora-admin/bitacora-admin';
+import { BitacoraEmpleadoComponent } from './components/bitacora-empleado/bitacora-empleado.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'formulario', pathMatch: 'full' },
@@ -64,7 +65,7 @@ export const routes: Routes = [
         .then(m => m.ReportesEmpleadoComponent)
   },
   { path: 'empleado/asignaciones', component: Asignaciones, canActivate: [roleGuard(['empleado'])] },
-  { path: 'empleado/bitacora', component: Bitacora, canActivate: [roleGuard(['empleado'])] },
+  { path: 'empleado/bitacora', component: BitacoraEmpleadoComponent },
   { path: 'empleado/evidencias', component: Evidencias, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/fotografias', component: Fotografias, canActivate: [roleGuard(['empleado'])] },
   { path: 'asignaciones', component: Asignaciones, canActivate: [roleGuard(['administrador'])] },
