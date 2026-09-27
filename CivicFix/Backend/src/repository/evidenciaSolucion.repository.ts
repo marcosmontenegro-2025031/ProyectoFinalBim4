@@ -19,6 +19,16 @@ export class EvidenciaSolucionRepository {
         return resultado.rows;
     }
 
+    static async obtenerPorEmpleado(idEmpleado: number): Promise<EvidenciaSolucion[]> {
+        const resultado = await pool.query<EvidenciaSolucion>(`
+            SELECT ${this.selectColumns}
+            FROM EvidenciaSolucion
+            WHERE id_empleado = $1
+            ORDER BY fecha_subida
+        `, [idEmpleado]);
+        return resultado.rows;
+    }
+
     static async obtenerPorId(id: number): Promise<EvidenciaSolucion | null> {
         const resultado = await pool.query<EvidenciaSolucion>(`
             SELECT ${this.selectColumns}
