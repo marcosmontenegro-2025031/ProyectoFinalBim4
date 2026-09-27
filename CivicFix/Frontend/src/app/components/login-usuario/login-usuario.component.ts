@@ -77,16 +77,11 @@ export class LoginUsuario {
 
     this.usuariosService.login(credentials).subscribe({
 
-      next: (response) => {
-
-        console.log('Login exitoso');
-        console.log('Usuario:', this.sessionService.obtenerUsuario());
-        console.log('Rol:', this.sessionService.obtenerRol());
-        console.log('Token:', !!this.sessionService.obtenerToken());
+      next: () => {
 
         this.cargando = false;
 
-        if (String(this.sessionService.obtenerRol()) !== 'CIUDADANO') {
+        if (this.sessionService.obtenerRol() !== 'ciudadano') {
           this.mensajeError =
             'La cuenta no corresponde al rol ciudadano.';
 
@@ -101,10 +96,6 @@ export class LoginUsuario {
       error: (err) => {
 
         this.cargando = false;
-
-        console.error('STATUS:', err.status);
-        console.error('ERROR:', err.error);
-        console.error('MENSAJE:', err.message);
 
         if (err.status === 401) {
 
