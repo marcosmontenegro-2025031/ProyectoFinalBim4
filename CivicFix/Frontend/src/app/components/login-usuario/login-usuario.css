@@ -65,6 +65,20 @@ input {
 }
 
 /* =========================================
+   LAYOUT BASE DE LA PÁGINA
+   (antes solo existía dentro de los @media;
+   faltaba la regla base que centra la tarjeta)
+========================================= */
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+/* =========================================
    FONDO DECORATIVO
 ========================================= */
 
@@ -293,12 +307,14 @@ body::after {
     color: #1976D2;
 }
 
+/* .green-icon: se quitaron los !important, ya que no
+   existe ninguna regla con mayor especificidad que compita */
 .category-icon.green-icon {
-    color: #33A339 !important;
+    color: var(--green);
 }
 
 .category-icon.green-icon svg {
-    color: #33A339 !important;
+    color: var(--green);
 }
 
 .category-icon.green-icon svg path,
@@ -555,6 +571,7 @@ body::after {
             18% 100%,
             0 35%
         );
+    /* usa la variable --yellow en vez del valor hardcodeado */
     box-shadow:
         0 0 20px rgba(249, 168, 37, .35);
 }
@@ -774,6 +791,11 @@ body::after {
 }
 
 .form-group {
+    /* FIX: sin position:relative aquí, .error-text (que es
+       position:absolute) se posicionaba respecto al viewport
+       en vez de respecto al campo, porque ningún ancestro
+       tenía position definido. */
+    position: relative;
     margin-bottom: 21px;
 }
 
@@ -1481,7 +1503,10 @@ body::after {
     }
 
     .login-card {
-        max-width: 400px;
+        /* FIX: consistencia con el max-width base (390px);
+           antes subía a 400px en móvil, lo cual era
+           contradictorio con un enfoque mobile-first */
+        max-width: 390px;
     }
 
     .security-icon {
