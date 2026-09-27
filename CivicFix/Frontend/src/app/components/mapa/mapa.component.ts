@@ -17,7 +17,7 @@ import {
   FormsModule
 } from '@angular/forms';
 
-import { RouterLink, Router } from '@angular/router';
+import { RouterLink, Router, RouterLinkActive } from '@angular/router';
 import { SessionService } from '../../services/session.service';
 
 import {
