@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { ReporteService } from '../../services/reporte.service';
-import { ReporteAdmin } from '../../models/reporte.model';
-=======
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +6,6 @@ import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.
 import { ReporteService } from '../../services/reporte.service';
 import { ReporteAdmin } from '../../models/reporte.model';
 import { AdminApiService } from '../../services/admin-api.service';
->>>>>>> fix-jaquino-2025376
 
 @Component({
   selector: 'app-reportes-admin',
@@ -23,22 +14,13 @@ import { AdminApiService } from '../../services/admin-api.service';
     CommonModule,
     FormsModule,
     RouterModule
-<<<<<<< HEAD
-  ],
-=======
   , AdminSidebarComponent],
->>>>>>> fix-jaquino-2025376
   templateUrl: './reportes-admin.html',
   styleUrl: './reportes-admin.css'
 })
 export class ReportesAdminComponent implements OnInit {
 
   private reporteService = inject(ReporteService);
-<<<<<<< HEAD
-
-  reportes: ReporteAdmin[] = [];
-  cargando = false;
-=======
   private adminApi = inject(AdminApiService);
   private cd = inject(ChangeDetectorRef);
   private router = inject(Router);
@@ -48,7 +30,6 @@ export class ReportesAdminComponent implements OnInit {
   detalle: {reporte:any; historial:any[]}|null=null;
   cargandoDetalle=false;
   errorDetalle='';
->>>>>>> fix-jaquino-2025376
   error = '';
 
   textoBusqueda = '';
@@ -67,19 +48,13 @@ export class ReportesAdminComponent implements OnInit {
       next: (reportes) => {
         this.reportes = reportes;
         this.cargando = false;
-<<<<<<< HEAD
-=======
         this.cd.markForCheck();
->>>>>>> fix-jaquino-2025376
       },
       error: (error) => {
         console.error('Error al cargar reportes:', error);
         this.error = 'No se pudieron cargar los reportes.';
         this.cargando = false;
-<<<<<<< HEAD
-=======
         this.cd.markForCheck();
->>>>>>> fix-jaquino-2025376
       }
     });
   }
@@ -99,13 +74,9 @@ export class ReportesAdminComponent implements OnInit {
 
       const coincideEstado =
         this.filtroEstado === 'Todos' ||
-<<<<<<< HEAD
-        this.normalizar(reporte.estado) === this.normalizar(this.filtroEstado);
-=======
         (this.filtroEstado === 'Pendiente'
           ? ['recibido','en revision','asignado'].includes(this.normalizar(reporte.estado))
           : this.normalizar(reporte.estado) === this.normalizar(this.filtroEstado));
->>>>>>> fix-jaquino-2025376
 
       const coincidePrioridad =
         this.filtroPrioridad === 'Todas' ||
@@ -123,11 +94,7 @@ export class ReportesAdminComponent implements OnInit {
 
   get pendientes(): number {
     return this.reportes.filter(
-<<<<<<< HEAD
-      reporte => this.normalizar(reporte.estado) === 'pendiente'
-=======
       reporte => ['recibido','en revision','asignado'].includes(this.normalizar(reporte.estado))
->>>>>>> fix-jaquino-2025376
     ).length;
   }
 
@@ -145,11 +112,7 @@ export class ReportesAdminComponent implements OnInit {
 
   get criticos(): number {
     return this.reportes.filter(
-<<<<<<< HEAD
-      reporte => this.normalizar(reporte.prioridad) === 'crítica'
-=======
       reporte => this.normalizar(reporte.prioridad) === 'critica'
->>>>>>> fix-jaquino-2025376
     ).length;
   }
 
@@ -163,12 +126,9 @@ export class ReportesAdminComponent implements OnInit {
 
   obtenerClaseEstado(estado: string): string {
     switch (this.normalizar(estado)) {
-<<<<<<< HEAD
-=======
       case 'recibido':
       case 'en revision':
       case 'asignado':
->>>>>>> fix-jaquino-2025376
       case 'pendiente':
         return 'estado-pendiente';
 
@@ -188,12 +148,9 @@ export class ReportesAdminComponent implements OnInit {
 
   obtenerIconoEstado(estado: string): string {
     switch (this.normalizar(estado)) {
-<<<<<<< HEAD
-=======
       case 'recibido':
       case 'en revision':
       case 'asignado':
->>>>>>> fix-jaquino-2025376
       case 'pendiente':
         return 'bi-clock';
 
@@ -231,15 +188,6 @@ export class ReportesAdminComponent implements OnInit {
   }
 
   verDetalle(reporte: ReporteAdmin): void {
-<<<<<<< HEAD
-    alert(`Detalle del reporte #${reporte.id_reporte}\n\n${reporte.titulo}`);
-  }
-
-  actualizarEstado(reporte: ReporteAdmin): void {
-    alert(`Actualizar estado del reporte #${reporte.id_reporte}`);
-  }
-}
-=======
     this.detalle=null;this.cargandoDetalle=true;this.errorDetalle='';
     this.adminApi.resumenReporte<{reporte:any;historial:any[]}>(reporte.id_reporte).subscribe({
       next: data=>{this.detalle=data;this.cargandoDetalle=false;this.cd.markForCheck();},
@@ -252,4 +200,3 @@ export class ReportesAdminComponent implements OnInit {
   editarReporte(reporte:ReporteAdmin):void { this.router.navigate(['/admin/reportes/editar',reporte.id_reporte]); }
   actualizarEstado(reporte:ReporteAdmin):void { this.editarReporte(reporte); }
 }
->>>>>>> fix-jaquino-2025376

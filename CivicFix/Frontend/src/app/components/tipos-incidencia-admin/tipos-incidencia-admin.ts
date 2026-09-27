@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-=======
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 import { AdminApiService } from '../../services/admin-api.service';
->>>>>>> fix-jaquino-2025376
 
 interface TipoIncidencia {
   id: number;
@@ -30,17 +23,11 @@ interface TipoIncidencia {
     CommonModule,
     FormsModule,
     RouterModule
-<<<<<<< HEAD
-  ],
-=======
   , AdminSidebarComponent],
->>>>>>> fix-jaquino-2025376
   templateUrl: './tipos-incidencia-admin.html',
   styleUrl: './tipos-incidencia-admin.css'
 })
 export class TiposIncidenciaAdminComponent {
-<<<<<<< HEAD
-=======
   private readonly router = inject(Router);
   private readonly adminApi = inject(AdminApiService);
   private readonly cd = inject(ChangeDetectorRef);
@@ -52,77 +39,11 @@ export class TiposIncidenciaAdminComponent {
     });
   }
 
->>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
-<<<<<<< HEAD
-  tipos: TipoIncidencia[] = [
-    {
-      id: 1,
-      nombre: 'Baches',
-      descripcion: 'Daños, hundimientos y deterioro de calles.',
-      icono: 'bi-sign-turn-right-fill',
-      color: '#0874dc',
-      reportes: 48,
-      estado: 'Activo',
-      fechaCreacion: '2024-01-10'
-    },
-    {
-      id: 2,
-      nombre: 'Alumbrado público',
-      descripcion: 'Luminarias apagadas, dañadas o deficientes.',
-      icono: 'bi-lightbulb-fill',
-      color: '#e58b00',
-      reportes: 35,
-      estado: 'Activo',
-      fechaCreacion: '2024-01-15'
-    },
-    {
-      id: 3,
-      nombre: 'Basura',
-      descripcion: 'Acumulación de basura y problemas de recolección.',
-      icono: 'bi-trash3-fill',
-      color: '#16a085',
-      reportes: 42,
-      estado: 'Activo',
-      fechaCreacion: '2024-01-20'
-    },
-    {
-      id: 4,
-      nombre: 'Fugas de agua',
-      descripcion: 'Fugas y problemas en tuberías o servicios de agua.',
-      icono: 'bi-droplet-fill',
-      color: '#3498db',
-      reportes: 21,
-      estado: 'Activo',
-      fechaCreacion: '2024-02-05'
-    },
-    {
-      id: 5,
-      nombre: 'Áreas verdes',
-      descripcion: 'Problemas relacionados con parques y áreas verdes.',
-      icono: 'bi-tree-fill',
-      color: '#27ae60',
-      reportes: 19,
-      estado: 'Activo',
-      fechaCreacion: '2024-02-12'
-    },
-    {
-      id: 6,
-      nombre: 'Señalización',
-      descripcion: 'Señales de tránsito dañadas o inexistentes.',
-      icono: 'bi-signpost-2-fill',
-      color: '#8e44ad',
-      reportes: 14,
-      estado: 'Inactivo',
-      fechaCreacion: '2023-12-08'
-    }
-  ];
-=======
   tipos: TipoIncidencia[] = [];
->>>>>>> fix-jaquino-2025376
 
   get tiposFiltrados(): TipoIncidencia[] {
     return this.tipos.filter(tipo => {
@@ -163,35 +84,6 @@ export class TiposIncidenciaAdminComponent {
   }
 
   nuevoTipo(): void {
-<<<<<<< HEAD
-    alert('Aquí se abrirá el formulario para crear un tipo de incidencia.');
-  }
-
-  editarTipo(tipo: TipoIncidencia): void {
-    alert(`Editar tipo de incidencia: ${tipo.nombre}`);
-  }
-
-  cambiarEstado(tipo: TipoIncidencia): void {
-    tipo.estado =
-      tipo.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
-  }
-
-  eliminarTipo(tipo: TipoIncidencia): void {
-
-    const confirmar = confirm(
-      `¿Deseas eliminar el tipo "${tipo.nombre}"?`
-    );
-
-    if (!confirmar) {
-      return;
-    }
-
-    this.tipos = this.tipos.filter(
-      item => item.id !== tipo.id
-    );
-=======
     this.router.navigate(['/admin/tipos-incidencia/nuevo']);
   }
 
@@ -210,7 +102,6 @@ export class TiposIncidenciaAdminComponent {
     this.adminApi.eliminar('tipos-incidencia',actual.id).subscribe({
       next: () => this.cargar(), error: e => this.adminApi.aviso(e)
     });
->>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

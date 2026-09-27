@@ -13,10 +13,7 @@
                         viewBox="0 0 64 64"
                         aria-hidden="true"
                     >
-<<<<<<< HEAD
-=======
                         <!-- techo -->
->>>>>>> fix-jaquino-2025376
                         <path
                             d="M8 24L32 10L56 24H8Z"
                             fill="none"
@@ -24,10 +21,7 @@
                             stroke-width="3"
                         />
 
-<<<<<<< HEAD
-=======
                         <!-- edificio -->
->>>>>>> fix-jaquino-2025376
                         <path
                             d="M13 25V48H51V25"
                             fill="none"
@@ -35,10 +29,7 @@
                             stroke-width="3"
                         />
 
-<<<<<<< HEAD
-=======
                         <!-- columnas -->
->>>>>>> fix-jaquino-2025376
                         <path
                             d="M19 28V44"
                             stroke="currentColor"
@@ -63,20 +54,14 @@
                             stroke-width="3"
                         />
 
-<<<<<<< HEAD
-=======
                         <!-- base -->
->>>>>>> fix-jaquino-2025376
                         <path
                             d="M8 49H56"
                             stroke="currentColor"
                             stroke-width="4"
                         />
 
-<<<<<<< HEAD
-=======
                         <!-- bandera -->
->>>>>>> fix-jaquino-2025376
                         <path
                             d="M32 10V5"
                             stroke="currentColor"
@@ -293,11 +278,8 @@
 
                 <div class="city-hill hill-front"></div>
 
-<<<<<<< HEAD
-=======
                 <!-- EDIFICIOS -->
 
->>>>>>> fix-jaquino-2025376
                 <div class="buildings">
 
                     <div class="building building-a">
@@ -430,11 +412,8 @@
 
             <div class="login-card">
 
-<<<<<<< HEAD
-=======
                 <!-- ICONO SEGURIDAD -->
 
->>>>>>> fix-jaquino-2025376
                 <div class="security-icon">
 
                     <svg
@@ -483,22 +462,16 @@
                     Ingresa tus credenciales para continuar
                 </p>
 
-<<<<<<< HEAD
-=======
                 <!-- FORMULARIO -->
 
->>>>>>> fix-jaquino-2025376
                 <form
                     class="login-form"
                     [formGroup]="loginForm"
                     (ngSubmit)="onSubmit()"
                 >
 
-<<<<<<< HEAD
-=======
                     <!-- USUARIO -->
 
->>>>>>> fix-jaquino-2025376
                     <div class="form-group">
 
                         <label for="usuario">
@@ -530,7 +503,6 @@
                                 type="text"
                                 placeholder="Ej. juan.perez"
                                 formControlName="usuario"
-<<<<<<< HEAD
                                 autocomplete="username"
                             />
 
@@ -547,25 +519,8 @@
 
                     </div>
 
-=======
-                            >
-
-                            @if (
-                                loginForm.get('usuario')?.touched &&
-                                loginForm.get('usuario')?.hasError('required')
-                            ) {
-                                <small class="error-text">
-                                    El usuario es requerido.
-                                </small>
-                            }
-
-                        </div>
-
-                    </div>
-
                     <!-- CONTRASEÑA -->
 
->>>>>>> fix-jaquino-2025376
                     <div class="form-group">
 
                         <label for="password">
@@ -574,10 +529,7 @@
 
                         <div class="input-wrapper">
 
-<<<<<<< HEAD
-=======
                             <!-- ICONO DE CONTRASEÑA -->
->>>>>>> fix-jaquino-2025376
                             <svg
                                 class="input-icon password-icon"
                                 viewBox="0 0 16 16"
@@ -622,30 +574,8 @@
                                 [type]="mostrarPassword ? 'text' : 'password'"
                                 placeholder="Ingresa tu contraseña"
                                 formControlName="password"
-<<<<<<< HEAD
                                 autocomplete="current-password"
                             />
-=======
-                            >
-
-                            @if (
-                                loginForm.get('password')?.touched &&
-                                loginForm.get('password')?.hasError('required')
-                            ) {
-                                <small class="error-text">
-                                    La contraseña es requerida.
-                                </small>
-                            }
-
-                            @if (
-                                loginForm.get('password')?.touched &&
-                                loginForm.get('password')?.hasError('minlength')
-                            ) {
-                                <small class="error-text">
-                                    La contraseña debe tener al menos 8 caracteres.
-                                </small>
-                            }
->>>>>>> fix-jaquino-2025376
 
                             <button
                                 type="button"
@@ -653,10 +583,7 @@
                                 (click)="togglePassword()"
                                 [attr.aria-label]="mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
                             >
-<<<<<<< HEAD
 
-=======
->>>>>>> fix-jaquino-2025376
                                 <svg
                                     viewBox="0 0 24 24"
                                     aria-hidden="true"
@@ -677,15 +604,11 @@
                                         stroke-width="1.7"
                                     />
                                 </svg>
-<<<<<<< HEAD
 
-=======
->>>>>>> fix-jaquino-2025376
                             </button>
 
                         </div>
 
-<<<<<<< HEAD
                         @if (
                             loginForm.get('password')?.touched &&
                             loginForm.get('password')?.hasError('required')
@@ -714,10 +637,6 @@
 
                     }
 
-=======
-                    </div>
-
->>>>>>> fix-jaquino-2025376
                     <div class="login-options">
 
                         <label class="remember">
@@ -726,11 +645,7 @@
                                 type="checkbox"
                                 name="remember"
                                 checked
-<<<<<<< HEAD
                             />
-=======
-                            >
->>>>>>> fix-jaquino-2025376
 
                             <span>
                                 Recordar sesión
@@ -750,7 +665,6 @@
                     <button
                         type="submit"
                         class="login-button"
-<<<<<<< HEAD
                         [disabled]="loginForm.invalid || cargando"
                     >
 
@@ -795,40 +709,6 @@
                             </span>
 
                         }
-=======
-                        [disabled]="loginForm.invalid"
-                    >
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M4 12H15"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            />
-
-                            <path
-                                d="M11 8L15 12L11 16"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            />
-
-                            <path
-                                d="M19 5V19"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            />
-                        </svg>
-
-                        <span>
-                            Iniciar sesión
-                        </span>
->>>>>>> fix-jaquino-2025376
 
                     </button>
 
@@ -900,8 +780,4 @@
 
     </div>
 
-<<<<<<< HEAD
 </main>
-=======
-</main>
->>>>>>> fix-jaquino-2025376

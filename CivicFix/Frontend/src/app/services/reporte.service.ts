@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CrearReporteDTO, RespuestaReporte, PuntoMapa, ReporteAdmin } from '../models/reporte.model';
+import { CrearReporteDTO, RespuestaReporte, PuntoMapa, ReporteAdmin, ReporteDashboard } from '../models/reporte.model';
 import { UsuariosService } from './usuarios.service';
 import { EmpleadoService } from './empleado.service';
 
@@ -22,13 +22,13 @@ export class ReporteService {
     );
   }
 
-  obtenerMisReportes(): Observable<any[]> {
+  obtenerMisReportes(): Observable<ReporteDashboard[]> {
     const token = this.usuariosService.obtenerToken();
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}`
     });
 
-    return this.http.get<any[]>(`${this.apiUrl}/mis-reportes`, { headers });
+    return this.http.get<ReporteDashboard[]>(`${this.apiUrl}/mis-reportes`, { headers });
   }
 
   obtenerPuntosMapa(): Observable<PuntoMapa[]> {

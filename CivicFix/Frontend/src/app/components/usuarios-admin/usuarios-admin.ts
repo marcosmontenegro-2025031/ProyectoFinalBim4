@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-=======
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 import { AdminApiService } from '../../services/admin-api.service';
->>>>>>> fix-jaquino-2025376
 
 interface UsuarioAdmin {
   id: number;
@@ -29,19 +22,13 @@ interface UsuarioAdmin {
   imports: [
     CommonModule,
     FormsModule,
-<<<<<<< HEAD
-    RouterLink
-=======
     RouterLink,
     AdminSidebarComponent
->>>>>>> fix-jaquino-2025376
   ],
   templateUrl: './usuarios-admin.html',
   styleUrl: './usuarios-admin.css'
 })
 export class UsuariosAdminComponent {
-<<<<<<< HEAD
-=======
   private readonly router = inject(Router);
   private readonly adminApi = inject(AdminApiService);
   private readonly cd = inject(ChangeDetectorRef);
@@ -53,67 +40,11 @@ export class UsuariosAdminComponent {
     });
   }
 
->>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
-<<<<<<< HEAD
-  usuarios: UsuarioAdmin[] = [
-    {
-      id: 1,
-      nombre: 'Carlos',
-      apellido: 'Ramírez',
-      usuario: 'carlos.ramirez',
-      correo: 'carlos@email.com',
-      telefono: '5555-1234',
-      fechaRegistro: '2026-01-15',
-      estado: 'Activo'
-    },
-    {
-      id: 2,
-      nombre: 'María',
-      apellido: 'López',
-      usuario: 'maria.lopez',
-      correo: 'maria@email.com',
-      telefono: '5555-2345',
-      fechaRegistro: '2026-02-03',
-      estado: 'Activo'
-    },
-    {
-      id: 3,
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      usuario: 'juan.perez',
-      correo: 'juan@email.com',
-      telefono: '5555-3456',
-      fechaRegistro: '2026-02-18',
-      estado: 'Inactivo'
-    },
-    {
-      id: 4,
-      nombre: 'Ana',
-      apellido: 'Gómez',
-      usuario: 'ana.gomez',
-      correo: 'ana@email.com',
-      telefono: '5555-4567',
-      fechaRegistro: '2026-03-10',
-      estado: 'Activo'
-    },
-    {
-      id: 5,
-      nombre: 'Luis',
-      apellido: 'Hernández',
-      usuario: 'luis.hernandez',
-      correo: 'luis@email.com',
-      telefono: '5555-5678',
-      fechaRegistro: '2026-03-22',
-      estado: 'Activo'
-    }
-  ];
-=======
   usuarios: UsuarioAdmin[] = [];
->>>>>>> fix-jaquino-2025376
 
   get usuariosFiltrados(): UsuarioAdmin[] {
     const texto = this.textoBusqueda.toLowerCase().trim();
@@ -156,34 +87,6 @@ export class UsuariosAdminComponent {
   }
 
   nuevoUsuario(): void {
-<<<<<<< HEAD
-    console.log('Nuevo usuario');
-  }
-
-  editarUsuario(usuario: UsuarioAdmin): void {
-    console.log('Editar usuario:', usuario);
-  }
-
-  cambiarEstado(usuario: UsuarioAdmin): void {
-    usuario.estado =
-      usuario.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
-  }
-
-  eliminarUsuario(usuario: UsuarioAdmin): void {
-    const confirmar = confirm(
-      `¿Deseas eliminar al usuario ${usuario.nombre} ${usuario.apellido}?`
-    );
-
-    if (!confirmar) {
-      return;
-    }
-
-    this.usuarios = this.usuarios.filter(
-      item => item.id !== usuario.id
-    );
-=======
     this.router.navigate(['/admin/usuarios/nuevo']);
   }
 
@@ -202,7 +105,6 @@ export class UsuariosAdminComponent {
     this.adminApi.eliminar('usuarios',actual.id).subscribe({
       next: () => this.cargar(), error: e => this.adminApi.aviso(e)
     });
->>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

@@ -1,8 +1,3 @@
-import { TipoIncidencia } from './tipo-incidencia.model';
-import { Prioridad } from './prioridad.model';
-import { Estado } from './estado.model';
-import { Ubicacion } from './ubicacion.model';
-
 export interface CrearReporteDTO {
   textoCiudadano: string;
   direccion: string;
@@ -11,6 +6,16 @@ export interface CrearReporteDTO {
   latitud: number;
   longitud: number;
   idUsuario: number;
+}
+
+export interface ReporteDashboard {
+  id_reporte: number;
+  titulo: string;
+  descripcion: string;
+  fecha_reporte: string | Date;
+  tipo_incidencia: string;
+  zona: string | null;
+  estado: string;
 }
 
 export interface PuntoMapa {

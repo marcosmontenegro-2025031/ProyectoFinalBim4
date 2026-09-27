@@ -7,6 +7,10 @@ export type RolSesion = 'ciudadano' | 'empleado' | 'administrador';
   providedIn: 'root'
 })
 export class SessionService {
+  obtenerToken: any;
+  esCiudadano() {
+    throw new Error('Method not implemented.');
+  }
   private readonly TOKEN_KEY = 'auth_token';
   private readonly EMPLEADO_TOKEN_KEY = 'auth_token_empleado';
   private readonly USER_KEY = 'auth_user';

@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-=======
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 import { AdminApiService } from '../../services/admin-api.service';
->>>>>>> fix-jaquino-2025376
 
 interface Asignacion {
   id: number;
@@ -30,70 +23,11 @@ interface Asignacion {
     CommonModule,
     FormsModule,
     RouterModule
-<<<<<<< HEAD
-  ],
-=======
   , AdminSidebarComponent],
->>>>>>> fix-jaquino-2025376
   templateUrl: './asignaciones-admin.html',
   styleUrl: './asignaciones-admin.css'
 })
 export class AsignacionesAdminComponent {
-<<<<<<< HEAD
-
-  asignaciones: Asignacion[] = [
-    {
-      id: 1,
-      reporte: 'Bache en Avenida Reforma',
-      empleado: 'Carlos López',
-      departamento: 'Obras Públicas',
-      prioridad: 'Alta',
-      estado: 'Asignado',
-      fechaAsignacion: '18/09/2026',
-      fechaLimite: '20/09/2026'
-    },
-    {
-      id: 2,
-      reporte: 'Lámpara sin funcionar',
-      empleado: 'María García',
-      departamento: 'Alumbrado Público',
-      prioridad: 'Media',
-      estado: 'En proceso',
-      fechaAsignacion: '17/09/2026',
-      fechaLimite: '19/09/2026'
-    },
-    {
-      id: 3,
-      reporte: 'Acumulación de basura',
-      empleado: 'José Martínez',
-      departamento: 'Servicios Públicos',
-      prioridad: 'Crítica',
-      estado: 'Asignado',
-      fechaAsignacion: '18/09/2026',
-      fechaLimite: '19/09/2026'
-    },
-    {
-      id: 4,
-      reporte: 'Fuga de agua',
-      empleado: 'Ana Morales',
-      departamento: 'Agua y Saneamiento',
-      prioridad: 'Alta',
-      estado: 'Resuelto',
-      fechaAsignacion: '15/09/2026',
-      fechaLimite: '17/09/2026'
-    },
-    {
-      id: 5,
-      reporte: 'Señalización dañada',
-      empleado: 'Pedro Ramírez',
-      departamento: 'Tránsito',
-      prioridad: 'Baja',
-      estado: 'Asignado',
-      fechaAsignacion: '16/09/2026',
-      fechaLimite: '22/09/2026'
-    }
-  ];
-=======
   private readonly router = inject(Router);
   private readonly adminApi = inject(AdminApiService);
   private readonly cd = inject(ChangeDetectorRef);
@@ -107,7 +41,6 @@ export class AsignacionesAdminComponent {
 
 
   asignaciones: Asignacion[] = [];
->>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
@@ -150,11 +83,7 @@ export class AsignacionesAdminComponent {
 
   get enProceso(): number {
     return this.asignaciones.filter(
-<<<<<<< HEAD
-      asignacion => asignacion.estado === 'En proceso'
-=======
       asignacion => asignacion.estado.toLowerCase() === 'en proceso'
->>>>>>> fix-jaquino-2025376
     ).length;
   }
 
@@ -165,41 +94,6 @@ export class AsignacionesAdminComponent {
   }
 
   nuevaAsignacion(): void {
-<<<<<<< HEAD
-    alert('Aquí se abrirá el formulario para crear una nueva asignación.');
-  }
-
-  editarAsignacion(asignacion: Asignacion): void {
-    alert(`Editar asignación del reporte: ${asignacion.reporte}`);
-  }
-
-  cambiarEstado(asignacion: Asignacion): void {
-
-    if (asignacion.estado === 'Asignado') {
-      asignacion.estado = 'En proceso';
-      return;
-    }
-
-    if (asignacion.estado === 'En proceso') {
-      asignacion.estado = 'Resuelto';
-      return;
-    }
-
-    asignacion.estado = 'Asignado';
-  }
-
-  eliminarAsignacion(asignacion: Asignacion): void {
-
-    const confirmar = confirm(
-      `¿Deseas eliminar la asignación del reporte "${asignacion.reporte}"?`
-    );
-
-    if (confirmar) {
-      this.asignaciones = this.asignaciones.filter(
-        item => item.id !== asignacion.id
-      );
-    }
-=======
     this.router.navigate(['/admin/asignaciones/nuevo']);
   }
 
@@ -226,7 +120,6 @@ export class AsignacionesAdminComponent {
     this.adminApi.eliminar('asignaciones',actual.id).subscribe({
       next: () => this.cargar(), error: e => this.adminApi.aviso(e)
     });
->>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {
@@ -234,10 +127,7 @@ export class AsignacionesAdminComponent {
       case 'Asignado':
         return 'estado-asignado';
 
-<<<<<<< HEAD
-=======
       case 'En Proceso':
->>>>>>> fix-jaquino-2025376
       case 'En proceso':
         return 'estado-proceso';
 

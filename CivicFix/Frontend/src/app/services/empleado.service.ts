@@ -46,36 +46,12 @@ export class EmpleadoService {
         ).pipe(
             tap(response => {
                 if (response && response.token) {
-<<<<<<< HEAD
-                    this.guardarToken(response.token);
-                    this.session.guardarEmpleado(
-                        response.token,
-                        response.usuario
-                    );
-=======
                     this.session.guardarEmpleado(response.token, response.usuario);
->>>>>>> fix-kjuarez-2025054
                 }
             })
         );
     }
 
-<<<<<<< HEAD
-    // ==========================================
-    // REGISTRO PÚBLICO
-    // ==========================================
-
-crearEmpleado(empleado: EmpleadoMunicipal) {
-    return this.http.post<EmpleadoMunicipal>(
-        this.apiUrlRegistro,
-        empleado
-    );
-}   
-
-    // ==========================================
-    // TOKEN
-    // ==========================================
-=======
     obtenerMiPerfil(): Observable<EmpleadoMunicipal> {
         return this.http.get<EmpleadoMunicipal>(`${this.apiUrl}/me`);
     }
@@ -87,7 +63,6 @@ crearEmpleado(empleado: EmpleadoMunicipal) {
     crearEmpleado(empleado: EmpleadoMunicipal) {
         return this.http.post<EmpleadoMunicipal>(this.apiUrl, empleado);
     }
->>>>>>> fix-kjuarez-2025054
 
     obtenerEmpleadoPorId(id: number): Observable<EmpleadoMunicipal> {
 
@@ -108,13 +83,8 @@ crearEmpleado(empleado: EmpleadoMunicipal) {
     }
 
     obtenerToken(): string | null {
-<<<<<<< HEAD
-        if (isPlatformBrowser(this.platformId)) {
-            return localStorage.getItem(this.TOKEN_KEY);
-=======
         if(isPlatformBrowser(this.platformId)){
             return this.session.obtenerTokenEmpleado();
->>>>>>> fix-kjuarez-2025054
         }
 
         return null;

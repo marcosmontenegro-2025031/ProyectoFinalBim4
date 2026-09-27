@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-=======
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 import { AdminApiService } from '../../services/admin-api.service';
->>>>>>> fix-jaquino-2025376
 
 interface Prioridad {
   id: number;
@@ -29,62 +22,13 @@ interface Prioridad {
   imports: [
     CommonModule,
     FormsModule,
-<<<<<<< HEAD
-    RouterModule
-=======
     RouterModule,
     AdminSidebarComponent
->>>>>>> fix-jaquino-2025376
   ],
   templateUrl: './prioridades-admin.html',
   styleUrl: './prioridades-admin.css'
 })
 export class PrioridadesAdminComponent {
-<<<<<<< HEAD
-
-  prioridades: Prioridad[] = [
-    {
-      id: 1,
-      nombre: 'Crítica',
-      descripcion: 'Situaciones que requieren atención inmediata.',
-      nivel: 4,
-      color: '#dc3545',
-      reportes: 18,
-      estado: 'Activo',
-      tiempoRespuesta: 'Menos de 2 horas'
-    },
-    {
-      id: 2,
-      nombre: 'Alta',
-      descripcion: 'Problemas que requieren atención prioritaria.',
-      nivel: 3,
-      color: '#fd7e14',
-      reportes: 42,
-      estado: 'Activo',
-      tiempoRespuesta: 'Menos de 6 horas'
-    },
-    {
-      id: 3,
-      nombre: 'Media',
-      descripcion: 'Problemas que deben ser atendidos en un plazo regular.',
-      nivel: 2,
-      color: '#ffc107',
-      reportes: 76,
-      estado: 'Activo',
-      tiempoRespuesta: 'Menos de 24 horas'
-    },
-    {
-      id: 4,
-      nombre: 'Baja',
-      descripcion: 'Problemas que pueden ser atendidos de forma programada.',
-      nivel: 1,
-      color: '#198754',
-      reportes: 31,
-      estado: 'Activo',
-      tiempoRespuesta: 'Menos de 72 horas'
-    }
-  ];
-=======
   private readonly router = inject(Router);
   private readonly adminApi = inject(AdminApiService);
   private readonly cd = inject(ChangeDetectorRef);
@@ -98,7 +42,6 @@ export class PrioridadesAdminComponent {
 
 
   prioridades: Prioridad[] = [];
->>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
@@ -146,32 +89,6 @@ export class PrioridadesAdminComponent {
   }
 
   nuevaPrioridad(): void {
-<<<<<<< HEAD
-    alert('Aquí se abrirá el formulario para crear una nueva prioridad.');
-  }
-
-  editarPrioridad(prioridad: Prioridad): void {
-    alert(`Editar prioridad: ${prioridad.nombre}`);
-  }
-
-  cambiarEstado(prioridad: Prioridad): void {
-    prioridad.estado =
-      prioridad.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
-  }
-
-  eliminarPrioridad(prioridad: Prioridad): void {
-    const confirmar = confirm(
-      `¿Deseas eliminar la prioridad "${prioridad.nombre}"?`
-    );
-
-    if (confirmar) {
-      this.prioridades = this.prioridades.filter(
-        item => item.id !== prioridad.id
-      );
-    }
-=======
     this.router.navigate(['/admin/prioridades/nuevo']);
   }
 
@@ -190,7 +107,6 @@ export class PrioridadesAdminComponent {
     this.adminApi.eliminar('prioridades',actual.id).subscribe({
       next: () => this.cargar(), error: e => this.adminApi.aviso(e)
     });
->>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {

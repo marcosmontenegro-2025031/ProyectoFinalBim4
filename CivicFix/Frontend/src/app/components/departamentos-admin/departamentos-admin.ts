@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-=======
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 import { AdminApiService } from '../../services/admin-api.service';
->>>>>>> fix-jaquino-2025376
 
 interface Departamento {
   id: number;
@@ -30,17 +23,11 @@ interface Departamento {
     CommonModule,
     FormsModule,
     RouterModule
-<<<<<<< HEAD
-  ],
-=======
   , AdminSidebarComponent],
->>>>>>> fix-jaquino-2025376
   templateUrl: './departamentos-admin.html',
   styleUrl: './departamentos-admin.css'
 })
 export class DepartamentosAdminComponent {
-<<<<<<< HEAD
-=======
   private readonly router = inject(Router);
   private readonly adminApi = inject(AdminApiService);
   private readonly cd = inject(ChangeDetectorRef);
@@ -52,67 +39,11 @@ export class DepartamentosAdminComponent {
     });
   }
 
->>>>>>> fix-jaquino-2025376
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
 
-<<<<<<< HEAD
-  departamentos: Departamento[] = [
-    {
-      id: 1,
-      nombre: 'Servicios Públicos',
-      descripcion: 'Atención y mantenimiento de los servicios públicos municipales.',
-      encargado: 'Carlos Ramírez',
-      empleados: 12,
-      servicios: 5,
-      estado: 'Activo',
-      fechaCreacion: '2024-01-15'
-    },
-    {
-      id: 2,
-      nombre: 'Infraestructura',
-      descripcion: 'Gestión de obras, calles y mantenimiento de infraestructura.',
-      encargado: 'Luis Castillo',
-      empleados: 9,
-      servicios: 4,
-      estado: 'Activo',
-      fechaCreacion: '2024-02-10'
-    },
-    {
-      id: 3,
-      nombre: 'Medio Ambiente',
-      descripcion: 'Gestión de áreas verdes, limpieza y protección ambiental.',
-      encargado: 'María López',
-      empleados: 8,
-      servicios: 3,
-      estado: 'Activo',
-      fechaCreacion: '2024-03-05'
-    },
-    {
-      id: 4,
-      nombre: 'Seguridad Municipal',
-      descripcion: 'Coordinación de seguridad y atención de incidencias.',
-      encargado: 'José Hernández',
-      empleados: 15,
-      servicios: 4,
-      estado: 'Activo',
-      fechaCreacion: '2024-04-20'
-    },
-    {
-      id: 5,
-      nombre: 'Atención Ciudadana',
-      descripcion: 'Atención directa y seguimiento de solicitudes ciudadanas.',
-      encargado: 'Ana Morales',
-      empleados: 7,
-      servicios: 3,
-      estado: 'Inactivo',
-      fechaCreacion: '2023-09-12'
-    }
-  ];
-=======
   departamentos: Departamento[] = [];
->>>>>>> fix-jaquino-2025376
 
   get departamentosFiltrados(): Departamento[] {
     return this.departamentos.filter(departamento => {
@@ -161,35 +92,6 @@ export class DepartamentosAdminComponent {
   }
 
   nuevoDepartamento(): void {
-<<<<<<< HEAD
-    alert('Aquí se abrirá el formulario para crear un departamento.');
-  }
-
-  editarDepartamento(departamento: Departamento): void {
-    alert(`Editar departamento: ${departamento.nombre}`);
-  }
-
-  cambiarEstado(departamento: Departamento): void {
-    departamento.estado =
-      departamento.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
-  }
-
-  eliminarDepartamento(departamento: Departamento): void {
-
-    const confirmar = confirm(
-      `¿Deseas eliminar el departamento "${departamento.nombre}"?`
-    );
-
-    if (!confirmar) {
-      return;
-    }
-
-    this.departamentos = this.departamentos.filter(
-      item => item.id !== departamento.id
-    );
-=======
     this.router.navigate(['/admin/departamentos/nuevo']);
   }
 
@@ -208,7 +110,6 @@ export class DepartamentosAdminComponent {
     this.adminApi.eliminar('departamentos',actual.id).subscribe({
       next: () => this.cargar(), error: e => this.adminApi.aviso(e)
     });
->>>>>>> fix-jaquino-2025376
   }
 
   obtenerClaseEstado(estado: string): string {
