@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS BitacoraCambioEstado, Notificacion, Asignacion, EvidenciaSolucion, FotografiaProblema, Reporte, EmpleadoMunicipal, ServicioMunicipal, Prioridad, Estado, Ubicacion, TipoIncidencia, Usuario, DepartamentoMunicipal, Municipalidad CASCADE;
-
+ 
 CREATE TABLE Municipalidad (
     id_municipalidad INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE Municipalidad (
     telefono VARCHAR(20),
     correo VARCHAR(150)
 );
-
+ 
 CREATE TABLE DepartamentoMunicipal (
     id_departamento INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE DepartamentoMunicipal (
     id_municipalidad INT NOT NULL,
     FOREIGN KEY (id_municipalidad) REFERENCES Municipalidad(id_municipalidad)
 );
-
+ 
 CREATE TABLE Usuario (
     id_usuario INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -26,14 +26,14 @@ CREATE TABLE Usuario (
     telefono VARCHAR(20),
     fecha_registro TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
-
+ 
 CREATE TABLE TipoIncidencia (
     id_tipo_incidencia INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     codigo_ia VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(100) NOT NULL,
     descripcion VARCHAR(255)
 );
-
+ 
 CREATE TABLE Ubicacion (
     id_ubicacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     direccion VARCHAR(255) NOT NULL,
@@ -42,20 +42,20 @@ CREATE TABLE Ubicacion (
     latitud DECIMAL(10,8),
     longitud DECIMAL(11,8)
 );
-
+ 
 CREATE TABLE Estado (
     id_estado INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE,
     descripcion VARCHAR(255)
 );
-
+ 
 CREATE TABLE Prioridad (
     id_prioridad INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     codigo_ia VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(50) NOT NULL,
     descripcion VARCHAR(255)
 );
-
+ 
 CREATE TABLE ServicioMunicipal (
     id_servicio INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE ServicioMunicipal (
     id_departamento INT NOT NULL,
     FOREIGN KEY (id_departamento) REFERENCES DepartamentoMunicipal(id_departamento)
 );
-
+ 
 CREATE TABLE EmpleadoMunicipal (
     id_empleado INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE EmpleadoMunicipal (
     FOREIGN KEY (id_departamento) REFERENCES DepartamentoMunicipal(id_departamento),
     FOREIGN KEY (id_municipalidad) REFERENCES Municipalidad(id_municipalidad)
 );
-
+ 
 CREATE TABLE Reporte (
     id_reporte INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE Reporte (
     FOREIGN KEY (id_prioridad) REFERENCES Prioridad(id_prioridad),
     FOREIGN KEY (id_servicio) REFERENCES ServicioMunicipal(id_servicio)
 );
-
+ 
 CREATE TABLE FotografiaProblema (
     id_fotografia INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_reporte INT NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE FotografiaProblema (
     fecha_subida TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_reporte) REFERENCES Reporte(id_reporte)
 );
-
+ 
 CREATE TABLE EvidenciaSolucion (
     id_evidencia INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_reporte INT NOT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE EvidenciaSolucion (
     fecha_subida TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_reporte) REFERENCES Reporte(id_reporte)
 );
-
+ 
 CREATE TABLE Asignacion (
     id_asignacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_reporte INT NOT NULL,
@@ -127,7 +127,7 @@ CREATE TABLE Asignacion (
     FOREIGN KEY (id_reporte) REFERENCES Reporte(id_reporte),
     FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
-
+ 
 CREATE TABLE Notificacion (
     id_notificacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_usuario INT NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE Notificacion (
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
     FOREIGN KEY (id_reporte) REFERENCES Reporte(id_reporte)
 );
-
+ 
 CREATE TABLE BitacoraCambioEstado (
     id_bitacora INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_reporte INT NOT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE BitacoraCambioEstado (
     FOREIGN KEY (id_estado_nuevo) REFERENCES Estado(id_estado),
     FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
-
+ 
 INSERT INTO Municipalidad (
     nombre,
     direccion,
@@ -165,7 +165,7 @@ INSERT INTO Municipalidad (
     '1551',
     'contacto@muniguate.com'
 );
-
+ 
 INSERT INTO DepartamentoMunicipal (
     nombre,
     descripcion,
@@ -186,7 +186,7 @@ INSERT INTO DepartamentoMunicipal (
     'Mantenimiento de espacios públicos y áreas verdes.',
     1
 );
-
+ 
 INSERT INTO Usuario (
     nombre,
     apellido,
@@ -219,7 +219,7 @@ INSERT INTO Usuario (
     'qwerty',
     '55550003'
 );
-
+ 
 INSERT INTO TipoIncidencia (
     codigo_ia,
     nombre,
@@ -255,7 +255,7 @@ INSERT INTO TipoIncidencia (
     'Árbol Caído',
     'Árbol caído o situación relacionada con áreas verdes.'
 );
-
+ 
 INSERT INTO Estado (
     nombre,
     descripcion
@@ -272,7 +272,7 @@ INSERT INTO Estado (
     'Resuelto',
     'La incidencia ha sido solucionada.'
 );
-
+ 
 INSERT INTO Prioridad (
     codigo_ia,
     nombre,
@@ -298,7 +298,7 @@ INSERT INTO Prioridad (
     'Crítica',
     'Emergencia que requiere atención inmediata.'
 );
-
+ 
 INSERT INTO ServicioMunicipal (
     nombre,
     descripcion,
@@ -329,7 +329,7 @@ INSERT INTO ServicioMunicipal (
     'Mantenimiento de parques, árboles y áreas verdes.',
     3
 );
-
+ 
 INSERT INTO EmpleadoMunicipal (
     nombre,
     apellido,
@@ -382,7 +382,7 @@ INSERT INTO EmpleadoMunicipal (
     3,
     1
 );
-
+ 
 INSERT INTO Ubicacion (
     direccion,
     zona,
@@ -446,7 +446,7 @@ INSERT INTO Ubicacion (
     14.62500000,
     -90.55000000
 );
-
+ 
 INSERT INTO Reporte (
     titulo,
     descripcion,
@@ -537,7 +537,7 @@ INSERT INTO Reporte (
     2,
     2
 );
-
+ 
 INSERT INTO Asignacion (
     id_reporte,
     id_empleado,
@@ -563,7 +563,7 @@ INSERT INTO Asignacion (
     2,
     'Se asigna revisión de luminaria.'
 );
-
+ 
 INSERT INTO Notificacion (
     id_usuario,
     id_reporte,
@@ -592,7 +592,7 @@ INSERT INTO Notificacion (
     'Tu reporte de basura acumulada fue recibido.',
     TRUE
 );
-
+ 
 INSERT INTO BitacoraCambioEstado (
     id_reporte,
     id_estado_anterior,
@@ -628,32 +628,32 @@ INSERT INTO BitacoraCambioEstado (
     2,
     'Reporte asignado para revisión.'
 );
-
+ 
 ALTER TABLE usuario
 ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
-
+ 
 ALTER TABLE empleadomunicipal
 ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
-
+ 
 SELECT id_usuario, activo FROM usuario;
-
+ 
 SELECT id_empleado, cargo, activo FROM empleadomunicipal;
-
+ 
 SELECT id_empleado, nombre, apellido, usuario, cargo, activo
 FROM empleadomunicipal
 ORDER BY id_empleado;
-
+ 
 ALTER TABLE DepartamentoMunicipal
 ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
-
+ 
 ALTER TABLE ServicioMunicipal
 ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
-
+ 
 ALTER TABLE TipoIncidencia
 ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
-
+ 
 ALTER TABLE Prioridad
 ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
-
+ 
 ALTER TABLE Estado
 ADD COLUMN IF NOT EXISTS activo BOOLEAN NOT NULL DEFAULT TRUE;
