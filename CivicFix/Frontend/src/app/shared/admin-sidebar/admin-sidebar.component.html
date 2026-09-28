@@ -108,3 +108,12 @@
   </div>
 
 </aside>
+
+<a class="admin-profile-corner" routerLink="/empleado/perfil" [title]="nombreCompleto + ' · ' + cargo + ' · Ver perfil'" aria-label="Ver perfil de administrador">
+  <span class="admin-profile-avatar">{{ inicial }}</span>
+  <span class="admin-profile-info">
+    <strong>{{ nombreCompleto }}</strong>
+    <small>{{ cargo }}</small>
+  </span>
+  <i class="bi bi-chevron-down" aria-hidden="true"></i>
+</a>
