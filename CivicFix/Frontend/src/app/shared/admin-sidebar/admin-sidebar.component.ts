@@ -1,5 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SessionService } from '../../services/session.service';
+
+interface AdminSessionUser {
+  nombre?: string;
+  apellido?: string;
+  usuario?: string;
+  cargo?: string;
+  rol?: string;
+}
 
 /**
  * Sidebar único para TODO el rol de administrador.
@@ -28,4 +37,22 @@ import { RouterModule } from '@angular/router';
   templateUrl: './admin-sidebar.component.html',
   styleUrl: './admin-sidebar.component.css'
 })
-export class AdminSidebarComponent {}
+export class AdminSidebarComponent {
+  private readonly session = inject(SessionService);
+  readonly usuario = this.session.obtenerUsuario<AdminSessionUser>();
+
+  get nombreCompleto(): string {
+    const nombre = [this.usuario?.nombre, this.usuario?.apellido]
+      .filter(Boolean)
+      .join(' ');
+    return nombre || this.usuario?.usuario || 'Administrador';
+  }
+
+  get cargo(): string {
+    return this.usuario?.rol || this.usuario?.cargo || 'Administrador';
+  }
+
+  get inicial(): string {
+    return this.nombreCompleto.charAt(0).toUpperCase();
+  }
+}
