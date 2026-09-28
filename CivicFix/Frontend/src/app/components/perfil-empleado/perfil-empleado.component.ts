@@ -6,11 +6,12 @@ import { timeout } from 'rxjs';
 import { EmpleadoService } from '../../services/empleado.service';
 import { SessionService } from '../../services/session.service';
 import { EmpleadoMunicipal } from '../../models/empleadoMunicipal.model';
+import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 
 @Component({
   selector: 'app-perfil-empleado',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, AdminSidebarComponent],
   templateUrl: './perfil-empleado.html',
   styleUrl: './perfil-empleado.css'
 })
@@ -21,6 +22,7 @@ export class PerfilEmpleadoComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   empleado: EmpleadoMunicipal | null = null;
+  esAdministrador = false;
   idEmpleado = 0;
   cargando = true;
   editando = false;
@@ -29,6 +31,7 @@ export class PerfilEmpleadoComponent implements OnInit {
   error = '';
 
   ngOnInit(): void {
+    this.esAdministrador = this.session.obtenerRol() === 'administrador';
     this.obtenerIdEmpleado();
   }
 
