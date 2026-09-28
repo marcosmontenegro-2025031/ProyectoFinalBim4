@@ -1,11 +1,11 @@
 import { Router, Request, Response } from 'express';
 import { pool } from '../config/db';
-import { verificarAdministrador } from '../middleware/auth.middleware';
+import { verificarTokenEmpleado, verificarAdministrador } from '../middleware/auth.middleware';
 import { encriptarContrasena } from '../utils/bcrypt.util';
 
 /** Endpoints propios del panel: todas las operaciones se consultan en PostgreSQL. */
 export const adminRouter = Router();
-adminRouter.use('/api/admin', verificarAdministrador);
+adminRouter.use('/api/admin', verificarTokenEmpleado, verificarAdministrador);
 
 type Modulo = 'usuarios'|'empleados'|'departamentos'|'servicios'|'tipos-incidencia'|'prioridades'|'estados'|'asignaciones'|'municipalidades'|'ubicaciones'|'reportes';
 type Config = { tabla: string; pk: string; campos: string[]; requeridos: string[]; password?: boolean; activo?: boolean };
