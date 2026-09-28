@@ -1,7 +1,9 @@
-<div class="empleado-layout">
+<div class="empleado-layout" [class.admin-profile-layout]="esAdministrador">
 
     <!-- SIDEBAR -->
-    <aside class="civic-sidebar">
+    <app-admin-sidebar *ngIf="esAdministrador"></app-admin-sidebar>
+
+    <aside class="civic-sidebar" *ngIf="!esAdministrador">
 
     <div class="civic-brand">
       <div class="civic-logo-wrapper">
@@ -67,14 +69,14 @@
 
 
     <!-- CONTENIDO -->
-    <main class="main-content">
+    <main class="main-content" [class.admin-profile-main]="esAdministrador">
 
         <header class="top-header">
 
             <div>
-                <h1>Mi perfil</h1>
+                <h1>{{ esAdministrador ? 'Perfil de administrador' : 'Mi perfil' }}</h1>
                 <p>
-                    Consulta y administra tu información como empleado municipal.
+                    {{ esAdministrador ? 'Consulta y administra la información de tu cuenta administrativa.' : 'Consulta y administra tu información como empleado municipal.' }}
                 </p>
             </div>
 
