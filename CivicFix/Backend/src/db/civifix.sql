@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS BitacoraCambioEstado, Notificacion, Asignacion, EvidenciaSolucion, FotografiaProblema, Reporte, EmpleadoMunicipal, ServicioMunicipal, Prioridad, Estado, Ubicacion, TipoIncidencia, Usuario, DepartamentoMunicipal, Municipalidad CASCADE;
+DROP TABLE IF EXISTS BitacoraAdministracion, BitacoraCambioEstado, Notificacion, Asignacion, EvidenciaSolucion, FotografiaProblema, Reporte, EmpleadoMunicipal, ServicioMunicipal, Prioridad, Estado, Ubicacion, TipoIncidencia, Usuario, DepartamentoMunicipal, Municipalidad CASCADE;
  
 CREATE TABLE Municipalidad (
     id_municipalidad INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -79,6 +79,18 @@ CREATE TABLE EmpleadoMunicipal (
     id_municipalidad INT NOT NULL,
     FOREIGN KEY (id_departamento) REFERENCES DepartamentoMunicipal(id_departamento),
     FOREIGN KEY (id_municipalidad) REFERENCES Municipalidad(id_municipalidad)
+);
+
+CREATE TABLE BitacoraAdministracion (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_empleado INT REFERENCES EmpleadoMunicipal(id_empleado) ON DELETE SET NULL,
+    usuario VARCHAR(50) NOT NULL,
+    accion VARCHAR(50) NOT NULL,
+    modulo VARCHAR(80) NOT NULL,
+    descripcion TEXT NOT NULL,
+    ip VARCHAR(64),
+    fecha TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    resultado VARCHAR(20) NOT NULL DEFAULT 'Exitoso'
 );
  
 CREATE TABLE Reporte (
