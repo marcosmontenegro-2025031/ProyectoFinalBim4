@@ -113,6 +113,33 @@ textarea.form-control {
     min-height: 48px;
   }
 }
+
+.civic-layout:has(> app-admin-sidebar) > .civic-main {
+  padding-top: 98px;
+}
+
+.civic-layout .dashboard-header > .admin-create-button {
+  border: 1px solid #0874dc !important;
+  background: #0874dc !important;
+  color: #ffffff !important;
+  box-shadow: 0 5px 14px rgba(8, 116, 220, .22) !important;
+}
+
+.civic-layout .dashboard-header > .admin-create-button:hover {
+  border-color: #0666c2 !important;
+  background: #0666c2 !important;
+}
+
+.admin-layout:has(> app-admin-sidebar) > .main-content {
+  padding-top: 98px;
+}
+
+@media (max-width: 650px) {
+  .civic-layout:has(> app-admin-sidebar) > .civic-main,
+  .admin-layout:has(> app-admin-sidebar) > .main-content {
+    padding-top: 72px;
+  }
+}
  
 @media (max-width: 575.98px) {
   .container {
