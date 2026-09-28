@@ -599,6 +599,14 @@
   min-height: 100vh;
 
 }
+
+.admin-profile-layout {
+  background: #f3f8fd;
+}
+
+.admin-profile-main {
+  padding: 98px 45px 35px;
+}
  
 /* ==========================================
 
@@ -1424,4 +1432,21 @@
 
   }
  
+}
+
+@media (max-width: 850px) {
+  .admin-profile-main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+}
+
+@media (max-width: 650px) {
+  .admin-profile-main {
+    margin-left: 0;
+    width: 100%;
+    padding: 70px 20px 25px;
+  }
 }
