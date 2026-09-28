@@ -1,18 +1,73 @@
-<main class="pantalla">
-  <nav class="nav-empleado">
-    <a routerLink="/empleado/home">Inicio</a>
-    <a routerLink="/empleado/reportes">Reportes</a>
-    <a routerLink="/empleado/mapa">Mapa</a>
-    <a routerLink="/empleado/perfil">Perfil</a>
-  </nav>
-  <header class="barra"><div><h1>Novedades de mis incidencias</h1><p>Últimos reportes asignados y su estado actual.</p></div>
-    <button type="button" (click)="cargar()" [disabled]="cargando">Actualizar</button></header>
-  @if (error) {<p class="aviso-error" role="alert">{{ error }}</p>}
-  @if (cargando) {<p>Cargando novedades…</p>}
-  @else if (!reportes.length && !error) {<p>No tienes reportes asignados por el momento.</p>}
-  @else {<div class="lista">@for (r of reportes; track r.id_reporte) {
-    <article class="tarjeta"><div><small>REP-{{r.id_reporte}} · {{r.fecha_reporte | date:'dd/MM/yyyy HH:mm'}}</small>
-      <h2>{{r.titulo}}</h2><p>{{r.tipo_incidencia}} · {{r.estado}} · Prioridad {{r.prioridad}}</p></div>
-      <button type="button" (click)="abrir(r.id_reporte)">Ver bitácora</button></article>
-  }</div>}
-</main>
+<div class="empleado-layout">
+  <aside class="civic-sidebar">
+    <div class="civic-brand">
+      <div class="civic-logo-wrapper">
+        <img src="/assets/CIVICFIX_LOGO-removebg-preview.png" alt="CIVICFIX" class="civic-logo">
+      </div>
+    </div>
+    <nav class="civic-navigation">
+      <a class="civic-nav-item" routerLink="/empleado/home" routerLinkActive="active"><i class="bi bi-house-fill"></i><span>Inicio</span></a>
+      <a class="civic-nav-item" routerLink="/empleado/reportes" routerLinkActive="active"><i class="bi bi-bar-chart"></i><span>Reportes</span></a>
+      <a class="civic-nav-item" routerLink="/empleado/notificaciones" routerLinkActive="active"><i class="bi bi-bell"></i><span>Notificaciones</span></a>
+      <a class="civic-nav-item" routerLink="/empleado/perfil" routerLinkActive="active"><i class="bi bi-person-circle"></i><span>Perfil</span></a>
+    </nav>
+    <div class="civic-city">
+      <div class="city-buildings">
+        <span class="building b1"></span><span class="building b2"></span><span class="building b3"></span>
+        <span class="building b4"></span><span class="building b5"></span><span class="tree t1"></span>
+        <span class="tree t2"></span><span class="lamp"></span>
+      </div>
+      <div class="civic-city-footer">
+        <div class="municipality-icon"><i class="bi bi-shield-fill-check"></i></div>
+        <div><strong>{{ empleado.cargo }}</strong><small>Municipalidad de Guatemala</small></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="empleado-main">
+    <header class="topbar">
+      <div class="topbar-title"><span>Panel de trabajo</span><h1>Notificaciones</h1></div>
+      <div class="topbar-actions">
+        <button class="topbar-button" type="button" (click)="cargar()" [disabled]="cargando" title="Actualizar notificaciones" aria-label="Actualizar notificaciones">
+          <i class="bi bi-arrow-clockwise"></i>
+        </button>
+        <a class="employee-profile" routerLink="/empleado/perfil" aria-label="Ver mi perfil">
+          <span class="employee-avatar">{{ empleado.nombre.charAt(0) }}</span>
+          <span class="employee-info"><strong>{{ empleado.nombre }}</strong><span>{{ empleado.cargo }}</span></span>
+          <i class="bi bi-chevron-down"></i>
+        </a>
+      </div>
+    </header>
+
+    <section class="dashboard-content notifications-content">
+      <div class="welcome-row notifications-heading">
+        <div>
+          <span class="section-label">Actividad reciente</span>
+          <h2>Novedades de mis incidencias</h2>
+          <p>Consulta los reportes asignados y su estado actual.</p>
+        </div>
+      </div>
+
+      @if (error) { <p class="notification-error" role="alert">{{ error }}</p> }
+      @if (cargando) { <div class="notification-state"><i class="bi bi-arrow-repeat"></i><span>Cargando novedades…</span></div> }
+      @else if (!reportes.length && !error) {
+        <div class="notification-state"><i class="bi bi-inbox"></i><strong>Sin novedades</strong><span>No tienes reportes asignados por el momento.</span></div>
+      }
+      @else {
+        <div class="notification-list">
+          @for (reporte of reportes; track reporte.id_reporte) {
+            <article class="notification-card">
+              <div class="notification-icon"><i class="bi bi-file-earmark-text"></i></div>
+              <div class="notification-details">
+                <small>REP-{{ reporte.id_reporte }} · {{ reporte.fecha_reporte | date:'dd/MM/yyyy HH:mm' }}</small>
+                <h3>{{ reporte.titulo }}</h3>
+                <p>{{ reporte.tipo_incidencia }} · {{ reporte.estado }} · Prioridad {{ reporte.prioridad }}</p>
+              </div>
+              <button class="notification-open" type="button" (click)="abrir(reporte.id_reporte)">Ver bitácora <i class="bi bi-arrow-right"></i></button>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  </main>
+</div>
