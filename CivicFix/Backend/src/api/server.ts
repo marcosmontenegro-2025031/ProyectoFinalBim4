@@ -39,7 +39,15 @@ export class Server {
     private middlewares(): void {
 
         this.app.use(cors({
-            origin: process.env.CLIENT_URL || 'http://localhost:4200',
+            origin: (origin, callback) => {
+                const origenLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin ?? '');
+                const origenConfigurado = process.env.CLIENT_URL;
+                if (!origin || origenLocal || origin === origenConfigurado) {
+                    callback(null, true);
+                    return;
+                }
+                callback(new Error('Origen no permitido por CORS'));
+            },
             credentials: true
         }));
 
