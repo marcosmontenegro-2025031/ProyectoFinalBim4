@@ -3,6 +3,7 @@ import {
   obtenerNotificaciones,
   obtenerNotificacion,
   actualizarComoLeida,
+  actualizarComoNoLeida,
   actualizarTodasComoLeidas,
   borrarNotificacion
 } from '../services/notificacion.service';
@@ -12,7 +13,8 @@ export const obtenerNotificacionesHandler = async (
   res: Response
 ): Promise<void> => {
   try {
-    const notificaciones = await obtenerNotificaciones();
+    const idUsuario = (req as any).usuario.id_usuario;
+    const notificaciones = await obtenerNotificaciones(idUsuario);
 
     res.status(200).json(notificaciones);
   } catch (error) {
@@ -29,6 +31,7 @@ export const obtenerNotificacionHandler = async (
   res: Response
 ): Promise<void> => {
   try {
+    const idUsuario = (req as any).usuario.id_usuario;
     const idNotificacion = Number(req.params.id);
 
     if (isNaN(idNotificacion)) {
@@ -38,7 +41,7 @@ export const obtenerNotificacionHandler = async (
       return;
     }
 
-    const notificacion = await obtenerNotificacion(idNotificacion);
+    const notificacion = await obtenerNotificacion(idNotificacion, idUsuario);
 
     if (!notificacion) {
       res.status(404).json({
@@ -62,6 +65,7 @@ export const marcarComoLeidaHandler = async (
   res: Response
 ): Promise<void> => {
   try {
+    const idUsuario = (req as any).usuario.id_usuario;
     const idNotificacion = Number(req.params.id);
 
     if (isNaN(idNotificacion)) {
@@ -71,7 +75,7 @@ export const marcarComoLeidaHandler = async (
       return;
     }
 
-    const notificacion = await actualizarComoLeida(idNotificacion);
+    const notificacion = await actualizarComoLeida(idNotificacion, idUsuario);
 
     if (!notificacion) {
       res.status(404).json({
@@ -93,12 +97,40 @@ export const marcarComoLeidaHandler = async (
   }
 };
 
+export const marcarComoNoLeidaHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const idUsuario = (req as any).usuario.id_usuario;
+    const idNotificacion = Number(req.params.id);
+
+    if (isNaN(idNotificacion)) {
+      res.status(400).json({ mensaje: 'El ID de la notificación no es válido' });
+      return;
+    }
+
+    const notificacion = await actualizarComoNoLeida(idNotificacion, idUsuario);
+
+    if (!notificacion) {
+      res.status(404).json({ mensaje: 'Notificación no encontrada' });
+      return;
+    }
+
+    res.status(200).json({ mensaje: 'Notificación marcada como no leída', notificacion });
+  } catch (error) {
+    console.error('Error al marcar la notificación como no leída:', error);
+    res.status(500).json({ mensaje: 'Error al marcar la notificación como no leída' });
+  }
+};
+
 export const marcarTodasComoLeidasHandler = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const cantidad = await actualizarTodasComoLeidas();
+    const idUsuario = (req as any).usuario.id_usuario;
+    const cantidad = await actualizarTodasComoLeidas(idUsuario);
 
     res.status(200).json({
       mensaje: 'Todas las notificaciones fueron marcadas como leídas',
@@ -118,6 +150,7 @@ export const eliminarNotificacionHandler = async (
   res: Response
 ): Promise<void> => {
   try {
+    const idUsuario = (req as any).usuario.id_usuario;
     const idNotificacion = Number(req.params.id);
 
     if (isNaN(idNotificacion)) {
@@ -127,7 +160,7 @@ export const eliminarNotificacionHandler = async (
       return;
     }
 
-    const eliminada = await borrarNotificacion(idNotificacion);
+    const eliminada = await borrarNotificacion(idNotificacion, idUsuario);
 
     if (!eliminada) {
       res.status(404).json({

@@ -140,35 +140,6 @@ CREATE TABLE Asignacion (
     FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
  
-CREATE TABLE Notificacion (
-    id_notificacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    id_reporte INT NOT NULL,
-    titulo VARCHAR(150) NOT NULL,
-    mensaje VARCHAR(255) NOT NULL,
-    fecha_notificacion TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    leida BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
-    FOREIGN KEY (id_reporte) REFERENCES Reporte(id_reporte)
-);
- 
-CREATE TABLE BitacoraCambioEstado (
-    id_bitacora INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_reporte INT NOT NULL,
-    id_estado_anterior INT,
-    id_estado_nuevo INT NOT NULL,
-    id_empleado INT,
-    comentario VARCHAR(255),
-    fecha_cambio TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_reporte) REFERENCES Reporte(id_reporte),
-    FOREIGN KEY (id_estado_anterior) REFERENCES Estado(id_estado),
-    FOREIGN KEY (id_estado_nuevo) REFERENCES Estado(id_estado),
-    FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
-);
- 
-INSERT INTO Municipalidad (
-    nombre,
-    direccion,
     telefono,
     correo
 ) VALUES (
@@ -212,7 +183,7 @@ INSERT INTO Usuario (
     'Pérez',
     'eperez',
     'estuardo@correo.com',
-    '123456',
+    '$2b$10$JHIYDWaMuUoWzNCt1lP9gONBeWEllMoihyv5W9ljXWXVJ4itrmc/6',
     '55550001'
 ),
 (
@@ -220,7 +191,7 @@ INSERT INTO Usuario (
     'Gómez',
     'mgomez',
     'maria.gomez@correo.com',
-    'abcdef',
+    '$2b$10$EklHUDOBCd82R2rcGaMXjuWCrlArjg3/Ah6HqU4dwgxti2TpijIBi',
     '55550002'
 ),
 (
@@ -228,7 +199,7 @@ INSERT INTO Usuario (
     'López',
     'clopez',
     'carlos.lopez@correo.com',
-    'qwerty',
+    '$2b$10$/BnxCuJdUTBuLg4z.JQkqOx6dOmwTSCBpevzEp2vGDapnG3G5oXjG',
     '55550003'
 );
  
@@ -359,7 +330,7 @@ INSERT INTO EmpleadoMunicipal (
     'Juan',
     'Ramírez',
     'jramirez',
-    '123456',
+    '$2b$10$JHIYDWaMuUoWzNCt1lP9gONBeWEllMoihyv5W9ljXWXVJ4itrmc/6',
     '1234567890101',
     '55551001',
     'Zona 1',
@@ -372,7 +343,7 @@ INSERT INTO EmpleadoMunicipal (
     'Ana',
     'Morales',
     'amorales',
-    '123456',
+    '$2b$10$JHIYDWaMuUoWzNCt1lP9gONBeWEllMoihyv5W9ljXWXVJ4itrmc/6',
     '1234567890102',
     '55551002',
     'Zona 2',
@@ -385,7 +356,7 @@ INSERT INTO EmpleadoMunicipal (
     'Luis',
     'Castillo',
     'lcastillo',
-    '123456',
+    '$2b$10$JHIYDWaMuUoWzNCt1lP9gONBeWEllMoihyv5W9ljXWXVJ4itrmc/6',
     '1234567890103',
     '55551003',
     'Zona 3',

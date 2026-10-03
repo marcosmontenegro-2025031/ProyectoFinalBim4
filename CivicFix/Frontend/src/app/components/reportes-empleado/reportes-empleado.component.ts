@@ -6,6 +6,7 @@ import { ReporteService } from '../../services/reporte.service';
 import { EstadoService } from '../../services/estado.service';
 import { Estado } from '../../models/estado.model';
 import { ReporteAdmin } from '../../models/reporte.model';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 @Component({
   selector: 'app-reportes-empleado',
@@ -13,7 +14,8 @@ import { ReporteAdmin } from '../../models/reporte.model';
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './reportes-empleado.html',
   styleUrl: './reportes-empleado.css'

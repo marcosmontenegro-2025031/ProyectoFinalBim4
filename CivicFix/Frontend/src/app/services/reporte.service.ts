@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, concat, of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { CrearReporteDTO, RespuestaReporte, PuntoMapa, ReporteAdmin, ReporteDashboard } from '../models/reporte.model';
 import { UsuariosService } from './usuarios.service';
 import { EmpleadoService } from './empleado.service';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +15,29 @@ export class ReporteService {
   private http = inject(HttpClient);
   private usuariosService = inject(UsuariosService);
   private empleadoService = inject(EmpleadoService);
+  private session = inject(SessionService);
   private apiUrl = 'http://localhost:3000/api/reportes';
 
+  private desdeCache<T>(clave: string, solicitud: Observable<T>): Observable<T> {
+    const cache = this.session.obtenerCache<T>(clave);
+    const actualizacion = solicitud.pipe(
+      tap(datos => this.session.guardarCache(clave, datos)),
+      catchError(error => cache !== null ? EMPTY : throwError(() => error))
+    );
+
+    return cache === null ? actualizacion : concat(of(cache), actualizacion);
+  }
+
   registrarReporte(dto: CrearReporteDTO): Observable<RespuestaReporte> {
+    const token = this.usuariosService.obtenerToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}`
+    });
+
     return this.http.post<RespuestaReporte>(
       this.apiUrl,
-      dto
+      dto,
+      { headers }
     );
   }
 
@@ -28,11 +47,14 @@ export class ReporteService {
       Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}`
     });
 
-    return this.http.get<ReporteDashboard[]>(`${this.apiUrl}/mis-reportes`, { headers });
+    return this.desdeCache(
+      'mis-reportes',
+      this.http.get<ReporteDashboard[]>(`${this.apiUrl}/mis-reportes`, { headers })
+    );
   }
 
   obtenerPuntosMapa(): Observable<PuntoMapa[]> {
-    return this.http.get<PuntoMapa[]>(`${this.apiUrl}/mapa`);
+    return this.desdeCache('puntos-mapa', this.http.get<PuntoMapa[]>(`${this.apiUrl}/mapa`));
   }
 
   obtenerTodosLosReportes(): Observable<ReporteAdmin[]> {
@@ -59,6 +81,9 @@ export class ReporteService {
     const token = this.empleadoService.obtenerToken();
     const headers = new HttpHeaders({ Authorization: `Bearer ${token?.replace(/^Bearer\s+/i, '').trim() ?? ''}` });
 
-    return this.http.get<ReporteAdmin[]>(`${this.apiUrl}/mis-asignaciones`, { headers });
+    return this.desdeCache(
+      'mis-asignaciones',
+      this.http.get<ReporteAdmin[]>(`${this.apiUrl}/mis-asignaciones`, { headers })
+    );
   }
 }

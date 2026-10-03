@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { SessionService } from '../../services/session.service';
+import { ReporteService } from '../../services/reporte.service';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 @Component({
   selector: 'app-perfil',
@@ -9,7 +12,8 @@ import { Router, RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './perfil-usuario.html',
   styleUrl: './perfil-usuario.css'
@@ -17,20 +21,20 @@ import { Router, RouterModule } from '@angular/router';
 export class PerfilComponent {
 
   usuario = {
-    nombre: 'Juan Pérez',
-    usuario: 'juanperez',
-    correo: 'juan.perez@gmail.com',
-    telefono: '5555-1234',
-    direccion: 'Zona 10, Ciudad de Guatemala',
-    fechaRegistro: '15 de enero de 2026',
+    nombre: '',
+    usuario: '',
+    correo: '',
+    telefono: '',
+    direccion: '—',
+    fechaRegistro: '—',
     rol: 'Ciudadano'
   };
 
   estadisticas = {
-    reportes: 8,
-    pendientes: 2,
-    proceso: 3,
-    resueltos: 3
+    reportes: 0,
+    pendientes: 0,
+    proceso: 0,
+    resueltos: 0
   };
 
   editando = false;
@@ -45,7 +49,47 @@ export class PerfilComponent {
   mostrarNuevaPassword = false;
   mostrarConfirmarPassword = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private session: SessionService,
+    private reporteService: ReporteService
+  ) {
+    const usuarioSesion = this.session.obtenerUsuario<Record<string, unknown>>();
+    if (usuarioSesion) {
+      const nombre = String(usuarioSesion['nombre'] ?? usuarioSesion['nombres'] ?? '').trim();
+      const apellido = String(usuarioSesion['apellido'] ?? usuarioSesion['apellidos'] ?? '').trim();
+      this.usuario = {
+        ...this.usuario,
+        nombre: `${nombre} ${apellido}`.trim() || this.session.obtenerNombreUsuario(),
+        usuario: String(usuarioSesion['usuario'] ?? usuarioSesion['nombre_usuario'] ?? ''),
+        correo: String(usuarioSesion['correo'] ?? ''),
+        telefono: String(usuarioSesion['telefono'] ?? ''),
+        rol: this.session.obtenerEtiquetaRol()
+      };
+    }
+
+    this.cargarResumenActividad();
+  }
+
+  private cargarResumenActividad(): void {
+    this.reporteService.obtenerMisReportes().subscribe({
+      next: reportes => {
+        const estados = (Array.isArray(reportes) ? reportes : []).map(reporte =>
+          (reporte.estado || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        );
+
+        this.estadisticas = {
+          reportes: estados.length,
+          pendientes: estados.filter(estado => ['pendiente', 'recibido', 'en revision'].includes(estado)).length,
+          proceso: estados.filter(estado => ['asignado', 'en proceso'].includes(estado)).length,
+          resueltos: estados.filter(estado => ['resuelto', 'resuelta'].includes(estado)).length
+        };
+      },
+      error: error => {
+        console.error('Error al cargar el resumen de actividad:', error);
+      }
+    });
+  }
 
   activarEdicion(): void {
     this.editando = true;

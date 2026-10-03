@@ -1007,6 +1007,13 @@
   font-weight: 750;
 }
 
+.map-help {
+  margin: 0 0 12px;
+  color: #52728f;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
 .location-content {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(200px, 0.8fr);
@@ -1016,10 +1023,19 @@
 .map-container {
   width: 100%;
   height: 270px;
+  min-height: 270px;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid #cfe2f2;
   background: #eaf3f9;
+}
+
+.map-container .leaflet-container {
+  width: 100%;
+  height: 100%;
+  min-height: 270px;
+  border-radius: 10px;
+  z-index: 1;
 }
 
 .location-info {

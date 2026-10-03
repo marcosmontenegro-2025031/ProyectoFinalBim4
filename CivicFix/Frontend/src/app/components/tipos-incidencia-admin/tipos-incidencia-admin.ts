@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 import { AdminApiService } from '../../services/admin-api.service';
 
 interface TipoIncidencia {
@@ -22,8 +23,10 @@ interface TipoIncidencia {
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
-  , AdminSidebarComponent],
+    RouterModule,
+    AdminSidebarComponent,
+    UnreadNotificationCountComponent
+  ],
   templateUrl: './tipos-incidencia-admin.html',
   styleUrl: './tipos-incidencia-admin.css'
 })

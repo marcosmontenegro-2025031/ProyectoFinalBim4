@@ -51,7 +51,7 @@ export const routes: Routes = [
   { path: 'mis-reportes', component: MisReportesComponent, canActivate: [roleGuard(['ciudadano'])] },
   { path: 'detalle-reporte/:id', component: DetalleReporteComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
   { path: 'mapa', component: MapaComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
-  { path: 'notificaciones', component: NotificacionesComponent, canActivate: [roleGuard(['ciudadano', 'empleado', 'administrador'])] },
+  { path: 'notificaciones', component: NotificacionesComponent, canActivate: [roleGuard(['ciudadano'])] },
   { path: 'perfil', component: PerfilComponent, canActivate: [roleGuard(['ciudadano', 'administrador'])] },
   { path: 'empleado/home', component: HomeEmpleadoComponent, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/incidencias', redirectTo: 'empleado/reportes', pathMatch: 'full' },

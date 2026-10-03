@@ -52,6 +52,51 @@ export class SessionService {
     try { return JSON.parse(usuario) as T; } catch { return null; }
   }
 
+  obtenerCache<T>(clave: string): T | null {
+    if (!isPlatformBrowser(this.platformId)) return null;
+
+    try {
+      const valor = sessionStorage.getItem(this.claveCache(clave));
+      return valor ? JSON.parse(valor) as T : null;
+    } catch {
+      return null;
+    }
+  }
+
+  guardarCache<T>(clave: string, valor: T): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    try {
+      sessionStorage.setItem(this.claveCache(clave), JSON.stringify(valor));
+    } catch {
+      // Cache storage is optional; keep the API request usable if it fails.
+    }
+  }
+
+  private claveCache(clave: string): string {
+    const usuario = this.obtenerUsuario<Record<string, unknown>>();
+    const identidad = usuario?.['id_usuario'] ?? usuario?.['id_empleado'] ?? usuario?.['usuario'] ?? 'anonimo';
+    const rol = this.obtenerRol() ?? 'sin-rol';
+    return `civicfix-cache:${rol}:${String(identidad)}:${clave}`;
+  }
+
+  obtenerNombreUsuario(): string {
+    const usuario = this.obtenerUsuario<Record<string, unknown>>();
+    if (!usuario) return 'Usuario';
+
+    const nombre = String(usuario['nombre'] ?? usuario['nombres'] ?? '').trim();
+    const apellido = String(usuario['apellido'] ?? usuario['apellidos'] ?? '').trim();
+    return `${nombre} ${apellido}`.trim() || String(usuario['nombre_usuario'] ?? usuario['usuario'] ?? 'Usuario');
+  }
+
+  obtenerEtiquetaRol(): string {
+    const rol = this.obtenerRol();
+    if (rol === 'ciudadano') return 'Ciudadano';
+
+    const usuario = this.obtenerUsuario<Record<string, unknown>>();
+    return String(usuario?.['rol'] ?? usuario?.['cargo'] ?? (rol === 'administrador' ? 'Administrador' : 'Empleado'));
+  }
+
   estaAutenticado(roles: RolSesion[] = ['ciudadano', 'empleado', 'administrador']): boolean {
     const rol = this.obtenerRol();
     if (!rol || !roles.includes(rol)) return false;
@@ -72,6 +117,10 @@ export class SessionService {
     localStorage.removeItem(this.EMPLEADO_TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     localStorage.removeItem(this.ROLE_KEY);
+    for (let indice = sessionStorage.length - 1; indice >= 0; indice--) {
+      const clave = sessionStorage.key(indice);
+      if (clave?.startsWith('civicfix-cache:')) sessionStorage.removeItem(clave);
+    }
   }
 
   private guardarSesion(tokenKey: string, token: string, usuario: unknown, rol: RolSesion): void {

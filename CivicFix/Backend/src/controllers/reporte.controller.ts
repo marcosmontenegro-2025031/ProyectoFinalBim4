@@ -18,11 +18,12 @@ export const obtenerReportesHandler = async (_req: Request, res: Response): Prom
 
 export const crearReporteHandler = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const { textoCiudadano, direccion, zona, referencia, latitud, longitud, idUsuario } = req.body;
+        const { textoCiudadano, direccion, zona, referencia, latitud, longitud } = req.body;
+        const idUsuario = (req as any).usuario?.id_usuario;
 
         if (!textoCiudadano || !direccion || latitud === undefined || longitud === undefined || !idUsuario) {
             return res.status(400).json({
-                error: 'Faltan campos obligatorios: textoCiudadano, direccion, latitud, longitud e idUsuario.'
+                error: 'Faltan campos obligatorios: textoCiudadano, direccion, latitud y longitud.'
             });
         }
 
@@ -84,7 +85,10 @@ export const actualizarEstadoReporteHandler = async (req: Request, res: Response
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const {rows} = await client.query('SELECT id_estado FROM Reporte WHERE id_reporte=$1 FOR UPDATE', [idReporte]);
+                const {rows} = await client.query(
+                    'SELECT id_estado, id_usuario, titulo FROM Reporte WHERE id_reporte=$1 FOR UPDATE',
+                    [idReporte]
+                );
         if (!rows.length) {await client.query('ROLLBACK');return res.status(404).json({message: 'Reporte no encontrado'});}
         const {rowCount} = await client.query('SELECT 1 FROM Asignacion WHERE id_reporte=$1 AND id_empleado=$2',
           [idReporte, empleado.id_empleado]);
@@ -93,10 +97,18 @@ export const actualizarEstadoReporteHandler = async (req: Request, res: Response
         }
         const anterior = Number(rows[0].id_estado);
         if (anterior === idEstado) {await client.query('COMMIT');return res.json({mensaje:'El reporte ya tenía ese estado'});}
+                const {rows: estados} = await client.query('SELECT nombre FROM Estado WHERE id_estado=$1', [idEstado]);
+                if (!estados.length) {await client.query('ROLLBACK');return res.status(400).json({message:'El estado seleccionado no existe'});}
         await client.query('UPDATE Reporte SET id_estado=$1 WHERE id_reporte=$2', [idEstado,idReporte]);
         await client.query(`INSERT INTO BitacoraCambioEstado
           (id_reporte,id_estado_anterior,id_estado_nuevo,id_empleado,comentario)
           VALUES ($1,$2,$3,$4,$5)`,[idReporte,anterior,idEstado,empleado.id_empleado,'Cambio de estado']);
+                await client.query(
+                    `INSERT INTO Notificacion (id_usuario, id_reporte, titulo, mensaje)
+                     VALUES ($1, $2, $3, $4)`,
+                    [rows[0].id_usuario, idReporte, 'Reporte actualizado',
+                        `Tu reporte "${rows[0].titulo}" ahora está ${estados[0].nombre.toLowerCase()}.`]
+                );
         await client.query('COMMIT');
         return res.json({mensaje:'Estado del reporte actualizado'});
     } catch(error: any) {

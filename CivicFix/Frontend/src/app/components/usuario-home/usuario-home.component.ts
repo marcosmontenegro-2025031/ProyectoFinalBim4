@@ -8,6 +8,7 @@ import {
 import { ReporteService } from '../../services/reporte.service';
 import { SessionService } from '../../services/session.service';
 import { ReporteDashboard } from '../../models/reporte.model';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 @Component({
   selector: 'app-usuario-home',
@@ -15,7 +16,8 @@ import { ReporteDashboard } from '../../models/reporte.model';
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './usuario-home.html',
   styleUrl: './usuario-home.css'

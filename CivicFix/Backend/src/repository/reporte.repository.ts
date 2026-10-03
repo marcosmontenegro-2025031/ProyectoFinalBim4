@@ -78,7 +78,7 @@ export class ReporteRepository {
         $5,
         (SELECT id_estado
          FROM Estado
-         WHERE LOWER(nombre) = LOWER('Recibido')
+         WHERE LOWER(nombre) = LOWER('Pendiente')
          LIMIT 1),
         (SELECT id_prioridad
          FROM Prioridad
@@ -98,6 +98,16 @@ export class ReporteRepository {
             ];
 
             const { rows } = await client.query(queryReporte, values);
+            await client.query(
+                `INSERT INTO Notificacion (id_usuario, id_reporte, titulo, mensaje)
+                 VALUES ($1, $2, $3, $4)`,
+                [
+                    params.idUsuario,
+                    rows[0].id_reporte,
+                    'Reporte recibido',
+                    `Tu reporte "${params.titulo}" fue recibido correctamente.`
+                ]
+            );
             await client.query('COMMIT');
 
             return {

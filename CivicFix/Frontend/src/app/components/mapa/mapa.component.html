@@ -68,8 +68,7 @@
         <span>
           Notificaciones
         </span>
-
-        
+        <app-unread-notification-count class="notification-number" />
       </a>
 
 
@@ -176,10 +175,7 @@
         >
 
           <i class="bi bi-bell-fill"></i>
-
-          <span>
-            3
-          </span>
+          <app-unread-notification-count class="notification-icon-count" />
 
         </button>
 
@@ -202,11 +198,11 @@
           <div class="user-information">
 
             <strong>
-              Usuario
+              {{ nombreUsuario }}
             </strong>
 
             <small>
-              Ciudadano
+              {{ rolUsuario }}
             </small>
 
           </div>

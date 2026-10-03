@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ReporteService } from '../../services/reporte.service';
+import { SessionService } from '../../services/session.service';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 interface Reporte {
   id: number;
@@ -22,7 +24,8 @@ interface Reporte {
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './mis-reportes.component.html',
   styleUrl: './mis-reportes.component.css'
@@ -35,7 +38,14 @@ export class MisReportesComponent {
   cargando = false;
   error = '';
 
-  constructor(private router: Router, private reporteService: ReporteService) {}
+  constructor(
+    private router: Router,
+    private reporteService: ReporteService,
+    private session: SessionService
+  ) {}
+
+  get nombreUsuario(): string { return this.session.obtenerNombreUsuario(); }
+  get rolUsuario(): string { return this.session.obtenerEtiquetaRol(); }
 
   ngOnInit(): void {
     this.cargarReportes();

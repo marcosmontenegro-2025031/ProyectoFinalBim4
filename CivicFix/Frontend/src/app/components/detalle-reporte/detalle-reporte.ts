@@ -6,6 +6,10 @@ import {
   RouterLink,
   RouterLinkActive
 } from '@angular/router';
+import { ReporteService } from '../../services/reporte.service';
+import { SessionService } from '../../services/session.service';
+import { environment } from '../../../environments/environment';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 @Component({
   selector: 'app-detalle-reporte',
@@ -13,7 +17,8 @@ import {
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './detalle-reporte.html',
   styleUrl: './detalle-reporte.css'
@@ -22,21 +27,26 @@ export class DetalleReporteComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private reporteService = inject(ReporteService);
+  private session = inject(SessionService);
+
+  get nombreUsuario(): string { return this.session.obtenerNombreUsuario(); }
+  get rolUsuario(): string { return this.session.obtenerEtiquetaRol(); }
 
   idReporte: number = 0;
 
   reporte = {
-    id: 125,
-    titulo: 'Bache en vía pública',
-    tipo: 'Bache',
-    prioridad: 'Alta',
-    estado: 'En proceso',
-    fecha: '21 Septiembre 2026',
-    hora: '10:35 AM',
-    direccion: 'Avenida Reforma, Zona 10',
-    zona: 'Zona 10',
-    descripcion: 'Se reporta un bache que dificulta el tránsito vehicular y puede representar un riesgo para los conductores.',
-    imagen: 'assets/reportes/bache.jpg'
+    id: 0,
+    titulo: '',
+    tipo: '',
+    prioridad: '',
+    estado: '',
+    fecha: '',
+    hora: '',
+    direccion: '',
+    zona: '',
+    descripcion: '',
+    imagen: null as string | null
   };
 
   historial = [
@@ -72,7 +82,42 @@ export class DetalleReporteComponent implements OnInit {
     if (id) {
       this.idReporte = Number(id);
       this.reporte.id = this.idReporte;
+      const reportes$ = this.session.obtenerRol() === 'ciudadano'
+        ? this.reporteService.obtenerMisReportes()
+        : this.reporteService.obtenerTodosLosReportes();
+
+      reportes$.subscribe({
+        next: reportes => {
+          const reporte = reportes.find(
+            (item: any) => Number(item.id_reporte) === this.idReporte
+          );
+
+          if (!reporte) return;
+
+          const fecha = new Date(reporte.fecha_reporte);
+          this.reporte = {
+            id: Number(reporte.id_reporte),
+            titulo: reporte.titulo || 'Incidencia urbana',
+            tipo: reporte.tipo_incidencia || 'Incidencia',
+            prioridad: reporte.prioridad || 'Baja',
+            estado: reporte.estado || 'Pendiente',
+            fecha: fecha.toLocaleDateString('es-GT', { day: '2-digit', month: 'long', year: 'numeric' }),
+            hora: fecha.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' }),
+            direccion: reporte.direccion || '',
+            zona: reporte.zona || '',
+            descripcion: reporte.descripcion || '',
+            imagen: reporte.ruta_fotografia
+              ? new URL(reporte.ruta_fotografia, environment.apiUrl).toString()
+              : null
+          };
+        },
+        error: error => console.error('Error al cargar el detalle del reporte:', error)
+      });
     }
+  }
+
+  ocultarImagen(): void {
+    this.reporte.imagen = null;
   }
 
   volver(): void {

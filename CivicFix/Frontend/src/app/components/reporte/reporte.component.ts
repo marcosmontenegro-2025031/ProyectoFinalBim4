@@ -25,6 +25,7 @@ import { RouterModule } from '@angular/router';
 import { ReporteService } from '../../services/reporte.service';
 import { FotoProblemaService } from '../../services/fotoProblema.service';
 import { SessionService } from '../../services/session.service';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 @Component({
   selector: 'app-reporte',
@@ -32,7 +33,8 @@ import { SessionService } from '../../services/session.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './reporte.component.html',
   styleUrl: './reporte.component.css',
@@ -48,6 +50,9 @@ export class ReporteComponent implements OnInit, OnDestroy {
   private reporteService = inject(ReporteService);
   private fotoService = inject(FotoProblemaService);
   private session = inject(SessionService);
+
+  get nombreUsuario(): string { return this.session.obtenerNombreUsuario(); }
+  get rolUsuario(): string { return this.session.obtenerEtiquetaRol(); }
 
   private map: any;
   private marker: any;
@@ -242,15 +247,30 @@ export class ReporteComponent implements OnInit, OnDestroy {
           }
         );
 
-        setTimeout(() => {
+        this.map.whenReady(() => {
 
-          if (this.map) {
+          requestAnimationFrame(() => {
 
-            this.map.invalidateSize();
+            if (this.map) {
 
-          }
+              this.map.invalidateSize();
 
-        }, 500);
+            }
+
+          });
+
+          setTimeout(() => {
+
+            if (this.map) {
+
+              this.map.invalidateSize();
+              window.dispatchEvent(new Event('resize'));
+
+            }
+
+          }, 500);
+
+        });
 
         console.log(
           '[CIVICFIX] Mapa y marker cargados correctamente.'

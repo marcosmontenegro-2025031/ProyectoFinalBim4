@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class FotoProblemaService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/fotografias`;
+  private apiUrl = `${environment.apiUrl}/fotos`;
 
   subirFoto(reporteId: number, archivo: File): Observable<any> {
     const formData = new FormData();

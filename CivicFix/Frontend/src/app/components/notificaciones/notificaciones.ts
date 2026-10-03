@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NotificacionService } from '../../services/notificacion.service';
+import { SessionService } from '../../services/session.service';
 import { Notificacion } from '../../models/notificacion.model';
 
 @Component({
@@ -20,6 +21,10 @@ export class NotificacionesComponent implements OnInit {
 
   private notificacionService = inject(NotificacionService);
   private router = inject(Router);
+  private session = inject(SessionService);
+
+  get nombreUsuario(): string { return this.session.obtenerNombreUsuario(); }
+  get rolUsuario(): string { return this.session.obtenerEtiquetaRol(); }
 
   filtroActual = 'Todas';
   textoBusqueda = '';
@@ -117,7 +122,14 @@ export class NotificacionesComponent implements OnInit {
   }
 
   marcarComoNoLeida(notificacion: Notificacion): void {
-    notificacion.leida = false;
+    this.notificacionService.marcarComoNoLeida(notificacion.id_notificacion).subscribe({
+      next: () => {
+        notificacion.leida = false;
+      },
+      error: (error) => {
+        console.error('Error al marcar la notificación como no leída:', error);
+      }
+    });
   }
 
   marcarTodasComoLeidas(): void {

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Inject,
@@ -19,6 +20,7 @@ import {
 
 import { RouterLink, Router, RouterLinkActive } from '@angular/router';
 import { SessionService } from '../../services/session.service';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 import {
   ReporteService
@@ -48,7 +50,8 @@ interface ReporteMapa {
     CommonModule,
     FormsModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './mapa.component.html',
   styleUrl: './mapa.component.css'
@@ -76,6 +79,8 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
   get rutaMapa(): string { return this.esEmpleado ? '/empleado/mapa' : '/mapa'; }
   get rutaNotificaciones(): string { return this.esEmpleado ? '/empleado/notificaciones' : '/notificaciones'; }
   get rutaPerfil(): string { return this.esEmpleado ? '/empleado/perfil' : '/perfil'; }
+  get nombreUsuario(): string { return this.session.obtenerNombreUsuario(); }
+  get rolUsuario(): string { return this.session.obtenerEtiquetaRol(); }
   reportes: ReporteMapa[] = [];
 
   reportesFiltrados: ReporteMapa[] = [];
@@ -86,7 +91,8 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
 
     private reporteService: ReporteService,
     private session: SessionService,
-    private router: Router
+    private router: Router,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   async ngAfterViewInit(): Promise<void> {
@@ -210,6 +216,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
 
       this.errorReportes =
         'No se pudo cargar el mapa.';
+      this.changeDetector.markForCheck();
 
     }
   }
@@ -295,7 +302,10 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
               ...this.reportes
             ];
 
+            this.aplicarFiltros();
+
             this.cargandoReportes = false;
+            this.changeDetector.markForCheck();
 
             console.log(
               'Reportes preparados para el mapa:',
@@ -321,6 +331,7 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
             this.reportes = [];
 
             this.reportesFiltrados = [];
+            this.changeDetector.markForCheck();
 
             resolve();
 

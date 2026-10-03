@@ -59,7 +59,7 @@
       >
         <i class="bi bi-bell-fill"></i>
         <span>Notificaciones</span>
-        <span class="notification-count">3</span>
+        <app-unread-notification-count class="notification-count" />
       </a>
 
       <a
@@ -124,7 +124,7 @@
           routerLink="/notificaciones"
         >
           <i class="bi bi-bell-fill"></i>
-          <span class="notification-dot"></span>
+          <app-unread-notification-count class="notification-icon-count" />
         </button>
 
         <div class="topbar-divider"></div>
@@ -140,11 +140,11 @@
 
           <div class="topbar-user-info">
 
-            <strong>Juan Pérez</strong>
+            <strong>{{ nombreUsuario }}</strong>
 
             <span>
               <i class="bi bi-person-check-fill"></i>
-              Ciudadano
+              {{ rolUsuario }}
             </span>
 
           </div>

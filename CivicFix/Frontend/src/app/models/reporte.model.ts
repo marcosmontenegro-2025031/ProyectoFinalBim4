@@ -16,6 +16,9 @@ export interface ReporteDashboard {
   tipo_incidencia: string;
   zona: string | null;
   estado: string;
+  prioridad?: string;
+  direccion?: string | null;
+  ruta_fotografia?: string | null;
 }
 
 export interface PuntoMapa {

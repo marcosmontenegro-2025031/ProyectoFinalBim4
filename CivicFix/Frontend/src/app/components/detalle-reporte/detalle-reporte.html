@@ -12,8 +12,8 @@
       </div>
 
       <div class="user-info">
-        <strong>Juan Pérez</strong>
-        <span>Ciudadano</span>
+        <strong>{{ nombreUsuario }}</strong>
+        <span>{{ rolUsuario }}</span>
       </div>
     </div>
 
@@ -56,7 +56,7 @@
       >
         <i class="bi bi-bell-fill"></i>
         <span>Notificaciones</span>
-        <span class="notification-count">3</span>
+        <app-unread-notification-count class="notification-count" />
       </a>
 
       <a
@@ -113,7 +113,7 @@
           title="Notificaciones"
         >
           <i class="bi bi-bell-fill"></i>
-          <span>3</span>
+          <app-unread-notification-count class="notification-icon-count" />
         </button>
 
         <div class="topbar-user">
@@ -122,8 +122,8 @@
           </div>
 
           <div class="topbar-user-info">
-            <strong>Juan Pérez</strong>
-            <span>Ciudadano</span>
+            <strong>{{ nombreUsuario }}</strong>
+            <span>{{ rolUsuario }}</span>
           </div>
 
         </div>
@@ -360,12 +360,13 @@
 
             </div>
 
-            <div class="evidence-container">
+            <div class="evidence-container" *ngIf="reporte.imagen; else evidenciaNoDisponible">
 
               <img
                 [src]="reporte.imagen"
                 [alt]="reporte.titulo"
                 class="evidence-image"
+                (error)="ocultarImagen()"
               >
 
               <div class="evidence-overlay">
@@ -376,6 +377,10 @@
               </div>
 
             </div>
+
+            <ng-template #evidenciaNoDisponible>
+              <p class="description-box">Este reporte no tiene una fotografía disponible.</p>
+            </ng-template>
 
           </section>
 

@@ -7,11 +7,12 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { SessionService } from '../../services/session.service';
 import { EmpleadoMunicipal } from '../../models/empleadoMunicipal.model';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 @Component({
   selector: 'app-perfil-empleado',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, AdminSidebarComponent],
+  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive, AdminSidebarComponent, UnreadNotificationCountComponent],
   templateUrl: './perfil-empleado.html',
   styleUrl: './perfil-empleado.css'
 })

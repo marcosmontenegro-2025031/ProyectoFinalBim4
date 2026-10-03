@@ -49,7 +49,7 @@
       >
         <i class="bi bi-bell-fill"></i>
         <span>Notificaciones</span>
-        <span class="notification-count">3</span>
+        <app-unread-notification-count class="notification-count" />
       </a>
 
       <a
@@ -98,7 +98,7 @@
         <div class="topbar-title">
 
           <span>
-            <i class="bi bi-plus-circle-fill"></i>
+          <app-unread-notification-count class="notification-icon-count" />
             CivicFix
           </span>
 
@@ -118,7 +118,7 @@
 
           <i class="bi bi-bell-fill"></i>
 
-          <span class="notification-dot"></span>
+          <app-unread-notification-count class="notification-icon-count" />
 
         </button>
 
@@ -138,11 +138,11 @@
 
           <div class="topbar-user-info">
 
-            <strong>Juan Pérez</strong>
+            <strong>{{ nombreUsuario }}</strong>
 
             <span>
               <i class="bi bi-person-check-fill"></i>
-              Ciudadano
+              {{ rolUsuario }}
             </span>
 
           </div>
@@ -711,6 +711,10 @@
 
               <h2>Ubicación del Reporte</h2>
 
+            </div>
+
+            <div class="map-help">
+              Haz clic o arrastra el marcador para seleccionar la ubicación exacta.
             </div>
 
             <div class="location-content">

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BitacoraCambioEstadoService } from '../../services/bitacoraCambioEstado.service';
 import { BitacoraCambioEstado } from '../../models/bitacoraCambioEstado.model';
 import { SessionService } from '../../services/session.service';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
 
 @Component({
   selector: 'app-bitacora',
@@ -13,7 +14,8 @@ import { SessionService } from '../../services/session.service';
     CommonModule,
     RouterLink,
     RouterLinkActive,
-    FormsModule
+    FormsModule,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './bitacora.html',
   styleUrl: './bitacora.css'

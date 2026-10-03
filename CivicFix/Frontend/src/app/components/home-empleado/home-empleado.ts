@@ -21,13 +21,15 @@ import { ReporteService } from '../../services/reporte.service';
 import { SessionService } from '../../services/session.service';
  
 import { ReporteAdmin } from '../../models/reporte.model';
+import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
  
 @Component({
   selector: 'app-home-empleado',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    UnreadNotificationCountComponent
   ],
   templateUrl: './home-empleado.html',
   styleUrl: './home-empleado.css'
