@@ -6,7 +6,9 @@ import {
   ElementRef,
   ViewChild,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
  
 import {
@@ -36,6 +38,7 @@ import { UnreadNotificationCountComponent } from '../../shared/unread-notificati
 })
  
 export class HomeEmpleadoComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly cdr = inject(ChangeDetectorRef);
  
   @ViewChild('miniMapContainer')
   miniMapContainer!: ElementRef<HTMLDivElement>;
@@ -138,9 +141,10 @@ export class HomeEmpleadoComponent implements OnInit, AfterViewInit, OnDestroy {
           : [];
  
         this.cargando = false;
- 
+
         this.actualizarMarcadores();
- 
+        this.cdr.markForCheck();
+
       },
  
       error: (err) => {
@@ -212,7 +216,8 @@ export class HomeEmpleadoComponent implements OnInit, AfterViewInit, OnDestroy {
         }
  
         this.actualizarMarcadores();
- 
+        this.cdr.markForCheck();
+
       }
  
     });
@@ -410,7 +415,7 @@ export class HomeEmpleadoComponent implements OnInit, AfterViewInit, OnDestroy {
   // ==========================================
  
   verIncidencia(id: number): void {
-    this.router.navigate(['/empleado/bitacora', id]);
+    this.router.navigate(['/detalle-reporte', id]);
   }
 
   // ==========================================
