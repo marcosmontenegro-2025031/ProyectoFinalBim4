@@ -15,6 +15,14 @@ export class BitacoraCambioEstadoRepository {
   static async obtenerPorReporte(idReporte: number): Promise<BitacoraCambioEstado[]> {
     return (await pool.query(`SELECT ${columnas} FROM BitacoraCambioEstado WHERE id_reporte=$1 ORDER BY fecha_cambio DESC`, [idReporte])).rows;
   }
+  static async obtenerPorEmpleado(idEmpleado: number): Promise<BitacoraCambioEstado[]> {
+    return (await pool.query(`SELECT ${columnas}
+      FROM BitacoraCambioEstado
+      WHERE id_reporte IN (
+        SELECT id_reporte FROM Asignacion WHERE id_empleado=$1
+      )
+      ORDER BY fecha_cambio DESC`, [idEmpleado])).rows;
+  }
   static async crear(bitacora: BitacoraCambioEstado): Promise<BitacoraCambioEstado> {
     const {rows} = await pool.query(`INSERT INTO BitacoraCambioEstado
       (id_reporte,id_estado_anterior,id_estado_nuevo,id_empleado,comentario)
