@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +26,7 @@ export class BitacoraCambioEstadoComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private sesion = inject(SessionService);
+  private cdr = inject(ChangeDetectorRef);
   puedeEditar(b: BitacoraCambioEstado): boolean {
     const usuario = this.sesion.obtenerUsuario<{id_empleado?: number}>();
     return this.sesion.obtenerRol() === 'administrador' ||
@@ -35,7 +36,7 @@ export class BitacoraCambioEstadoComponent implements OnInit {
 
   bitacoras: BitacoraCambioEstado[] = [];
 
-  idReporte!: number;
+  idReporte: number | null = null;
 
   cargando = true;
   error = '';
@@ -54,11 +55,19 @@ export class BitacoraCambioEstadoComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
 
-      const id = Number(params.get('idReporte'));
+      const parametroId = params.get('idReporte');
 
-      if (!id || isNaN(id)) {
+      if (parametroId === null) {
+        this.idReporte = null;
+        this.cargarBitacora();
+        return;
+      }
+
+      const id = Number(parametroId);
+      if (!Number.isInteger(id) || id < 1) {
         this.error = 'No se recibió un reporte válido.';
         this.cargando = false;
+        this.cdr.markForCheck();
         return;
       }
 
@@ -73,13 +82,18 @@ export class BitacoraCambioEstadoComponent implements OnInit {
     this.cargando = true;
     this.error = '';
 
-    this.bitacoraService.listarPorReporte(this.idReporte).subscribe({
+    const solicitud = this.idReporte === null
+      ? this.bitacoraService.listarMisReportes()
+      : this.bitacoraService.listarPorReporte(this.idReporte);
+
+    solicitud.subscribe({
 
       next: (data) => {
 
         this.bitacoras = data;
 
         this.cargando = false;
+        this.cdr.markForCheck();
       },
 
       error: (err) => {
@@ -89,6 +103,7 @@ export class BitacoraCambioEstadoComponent implements OnInit {
         this.error = 'No se pudo cargar la bitácora del reporte.';
 
         this.cargando = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -191,10 +206,12 @@ export class BitacoraCambioEstadoComponent implements OnInit {
                 }
 
                 this.editando = false;
+                this.cdr.markForCheck();
             },
             error: (err) => {
                 console.error('Error al actualizar la bitácora:', err);
                 this.error = 'No se pudo actualizar la bitácora.';
+                this.cdr.markForCheck();
             }
         });
     }
