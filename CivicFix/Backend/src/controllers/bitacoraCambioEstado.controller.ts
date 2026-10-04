@@ -1,7 +1,19 @@
 import { Request, Response } from "express";
 import { BitacoraCambioEstadoService } from "../services/bitacoraCambioEstado.service.js";
+import { JwtPayloadEmpleado } from "../models/empleadoMunicipal.model.js";
 
 export class BitacoraCambioEstadoController {
+
+    static async obtenerPorEmpleado(req: Request, res: Response): Promise<void> {
+        try {
+            const empleado = (req as Request & { empleado: JwtPayloadEmpleado }).empleado;
+            const bitacoras = await BitacoraCambioEstadoService.obtenerPorEmpleado(empleado.id_empleado);
+            res.status(200).json(bitacoras);
+        } catch (error) {
+            console.error('Error al obtener la bitácora del empleado:', error);
+            res.status(500).json({ mensaje: "Error al obtener la bitácora del empleado" });
+        }
+    }
 
     static async listar(req: Request, res: Response): Promise<void> {
         try {
