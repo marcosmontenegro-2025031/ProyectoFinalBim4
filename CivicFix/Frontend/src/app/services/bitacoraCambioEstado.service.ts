@@ -30,6 +30,19 @@ export class BitacoraCambioEstadoService {
     );
   }
 
+  listarMisReportes(): Observable<BitacoraCambioEstado[]> {
+    const token = this.empleadoService.obtenerToken();
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${String(token ?? '').trim()}`
+    });
+
+    return this.http.get<BitacoraCambioEstado[]>(
+      `${this.baseUrl}/mis-reportes`,
+      { headers }
+    );
+  }
+
   listarPorReporte(
     idReporte: number
   ): Observable<BitacoraCambioEstado[]> {
