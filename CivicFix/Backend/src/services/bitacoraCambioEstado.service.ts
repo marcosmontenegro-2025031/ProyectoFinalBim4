@@ -23,6 +23,10 @@ export class BitacoraCambioEstadoService {
         return await BitacoraCambioEstadoRepository.obtenerPorReporte(idReporte);
     }
 
+    static async obtenerPorEmpleado(idEmpleado: number): Promise<BitacoraCambioEstado[]> {
+        return await BitacoraCambioEstadoRepository.obtenerPorEmpleado(idEmpleado);
+    }
+
 
     static async crear(datos: CrearBitacoraDTO): Promise<BitacoraCambioEstado> {
 
