@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -25,12 +25,21 @@ export class ReportesEmpleadoComponent implements OnInit {
   private reporteService = inject(ReporteService);
   private router = inject(Router);
   private estadosService = inject(EstadoService);
+  private cdr = inject(ChangeDetectorRef);
   estados: Estado[] = [];
   cambiandoId: number | null = null;
   mensajeEstado = '';
   cargarEstados(): void {
-    this.estadosService.obtenerTodos().subscribe({next: data => this.estados = data,
-      error: err => console.error('Error al cargar estados:', err)});
+    this.estadosService.obtenerTodos().subscribe({
+      next: data => {
+        this.estados = data;
+        this.cdr.markForCheck();
+      },
+      error: err => {
+        console.error('Error al cargar estados:', err);
+        this.cdr.markForCheck();
+      }
+    });
   }
   cambiarEstado(idReporte: number, idEstado: number): void {
     if (!Number.isInteger(idEstado) || idEstado < 1 || this.cambiandoId !== null) return;
@@ -38,8 +47,17 @@ export class ReportesEmpleadoComponent implements OnInit {
     this.error = '';
     this.mensajeEstado = '';
     this.reporteService.actualizarEstado(idReporte, idEstado).subscribe({
-      next: () => {this.cambiandoId = null;this.mensajeEstado = 'Estado actualizado correctamente.';this.cargarReportes();},
-      error: err => {this.cambiandoId = null;this.error = err.error?.message || err.error?.mensaje || 'No se pudo actualizar el estado.';}
+      next: () => {
+        this.cambiandoId = null;
+        this.mensajeEstado = 'Estado actualizado correctamente.';
+        this.cdr.markForCheck();
+        this.cargarReportes();
+      },
+      error: err => {
+        this.cambiandoId = null;
+        this.error = err.error?.message || err.error?.mensaje || 'No se pudo actualizar el estado.';
+        this.cdr.markForCheck();
+      }
     });
   }
 
@@ -61,13 +79,19 @@ export class ReportesEmpleadoComponent implements OnInit {
       next: (data) => {
         this.reportes = data;
         this.cargando = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error al cargar reportes asignados:', err);
         this.error = 'No se pudieron cargar las incidencias asignadas.';
         this.cargando = false;
+        this.cdr.markForCheck();
       }
     });
+  }
+
+  verIncidencia(idReporte: number): void {
+    this.router.navigate(['/detalle-reporte', idReporte]);
   }
 
   verBitacora(idReporte: number): void {
