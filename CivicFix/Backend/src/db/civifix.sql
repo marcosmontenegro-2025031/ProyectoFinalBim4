@@ -1,3 +1,6 @@
+CREATE SCHEMA IF NOT EXISTS public;
+SET search_path TO public;
+
 DROP TABLE IF EXISTS BitacoraAdministracion, BitacoraCambioEstado, Notificacion, Asignacion, EvidenciaSolucion, FotografiaProblema, Reporte, EmpleadoMunicipal, ServicioMunicipal, Prioridad, Estado, Ubicacion, TipoIncidencia, Usuario, DepartamentoMunicipal, Municipalidad CASCADE;
  
 CREATE TABLE Municipalidad (
@@ -140,6 +143,29 @@ CREATE TABLE Asignacion (
     FOREIGN KEY (id_empleado) REFERENCES EmpleadoMunicipal(id_empleado)
 );
  
+CREATE TABLE Notificacion (
+    id_notificacion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_usuario INT NOT NULL REFERENCES Usuario(id_usuario),
+    id_reporte INT NOT NULL REFERENCES Reporte(id_reporte),
+    titulo VARCHAR(150) NOT NULL,
+    mensaje TEXT NOT NULL,
+    fecha_notificacion TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    leida BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE BitacoraCambioEstado (
+    id_bitacora INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_reporte INT NOT NULL REFERENCES Reporte(id_reporte),
+    id_estado_anterior INT REFERENCES Estado(id_estado) ON DELETE SET NULL,
+    id_estado_nuevo INT NOT NULL REFERENCES Estado(id_estado),
+    id_empleado INT REFERENCES EmpleadoMunicipal(id_empleado) ON DELETE SET NULL,
+    comentario TEXT NOT NULL,
+    fecha_cambio TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO Municipalidad (
+    nombre,
+    direccion,
     telefono,
     correo
 ) VALUES (
