@@ -40,32 +40,9 @@
       </a>
 
 
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/evidencias"
-        routerLinkActive="active"
-      >
-        <i class="bi bi-camera"></i>
-        <span>Evidencias</span>
-      </a>
-
-
-      <a
-        class="civic-nav-item active"
-        routerLink="/empleado/reportes"
-      >
+      <a class="civic-nav-item" routerLink="/empleado/bitacora" routerLinkActive="active">
         <i class="bi bi-journal-text"></i>
         <span>Bitácora</span>
-      </a>
-
-
-      <a
-        class="civic-nav-item"
-        routerLink="/empleado/fotografias"
-        routerLinkActive="active"
-      >
-        <i class="bi bi-images"></i>
-        <span>Fotografías</span>
       </a>
 
 
@@ -169,9 +146,8 @@
             Historial de cambios
           </h2>
 
-          <p>
-            Reporte #{{ idReporte }}
-          </p>
+          <p *ngIf="idReporte !== null">Reporte #{{ idReporte }}</p>
+          <p *ngIf="idReporte === null">Historial de tus incidencias asignadas</p>
 
         </div>
 
@@ -243,7 +219,9 @@
         </h3>
 
         <p>
-          Este reporte todavía no tiene movimientos en su bitácora.
+          {{ idReporte === null
+            ? 'Tus incidencias asignadas todavía no tienen movimientos en la bitácora.'
+            : 'Este reporte todavía no tiene movimientos en su bitácora.' }}
         </p>
 
       </div>
@@ -273,6 +251,14 @@
             <div class="timeline-header">
 
               <div>
+
+                <a
+                  *ngIf="idReporte === null"
+                  class="change-label"
+                  [routerLink]="['/empleado/bitacora', bitacora.fk_id_reporte]"
+                >
+                  Reporte #{{ bitacora.fk_id_reporte }}
+                </a>
 
                 <span class="change-label">
                   Cambio de estado
