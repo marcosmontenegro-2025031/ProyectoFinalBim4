@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Router,
@@ -7,6 +7,7 @@ import {
   RouterLinkActive
 } from '@angular/router';
 import { ReporteService } from '../../services/reporte.service';
+import { ReporteAdmin, ReporteDashboard } from '../../models/reporte.model';
 import { SessionService } from '../../services/session.service';
 import { environment } from '../../../environments/environment';
 import { UnreadNotificationCountComponent } from '../../shared/unread-notification-count/unread-notification-count.component';
@@ -29,11 +30,15 @@ export class DetalleReporteComponent implements OnInit {
   private router = inject(Router);
   private reporteService = inject(ReporteService);
   private session = inject(SessionService);
+  private cdr = inject(ChangeDetectorRef);
 
   get nombreUsuario(): string { return this.session.obtenerNombreUsuario(); }
   get rolUsuario(): string { return this.session.obtenerEtiquetaRol(); }
+  get esEmpleado(): boolean { return this.session.obtenerRol() === 'empleado'; }
 
   idReporte: number = 0;
+  cargando = true;
+  error = '';
 
   reporte = {
     id: 0,
@@ -79,41 +84,66 @@ export class DetalleReporteComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
-    if (id) {
-      this.idReporte = Number(id);
-      this.reporte.id = this.idReporte;
-      const reportes$ = this.session.obtenerRol() === 'ciudadano'
-        ? this.reporteService.obtenerMisReportes()
+    this.idReporte = Number(id);
+    if (!id || !Number.isInteger(this.idReporte) || this.idReporte < 1) {
+      this.error = 'No se recibió una incidencia válida.';
+      this.cargando = false;
+      this.cdr.markForCheck();
+      return;
+    }
+
+    this.reporte.id = this.idReporte;
+    const rol = this.session.obtenerRol();
+    const reportes$ = rol === 'ciudadano'
+      ? this.reporteService.obtenerMisReportes()
+      : rol === 'empleado'
+        ? this.reporteService.obtenerMisAsignaciones()
         : this.reporteService.obtenerTodosLosReportes();
 
-      reportes$.subscribe({
-        next: reportes => {
-          const reporte = reportes.find(
-            (item: any) => Number(item.id_reporte) === this.idReporte
-          );
+    reportes$.subscribe({
+      next: reportes => {
+        const reporte = reportes.find(item => Number(item.id_reporte) === this.idReporte);
 
-          if (!reporte) return;
+        if (!reporte) {
+          this.error = `No se encontró la incidencia #${this.idReporte} en los reportes disponibles para tu usuario.`;
+          this.cargando = false;
+          this.cdr.markForCheck();
+          return;
+        }
 
-          const fecha = new Date(reporte.fecha_reporte);
-          this.reporte = {
-            id: Number(reporte.id_reporte),
-            titulo: reporte.titulo || 'Incidencia urbana',
-            tipo: reporte.tipo_incidencia || 'Incidencia',
-            prioridad: reporte.prioridad || 'Baja',
-            estado: reporte.estado || 'Pendiente',
-            fecha: fecha.toLocaleDateString('es-GT', { day: '2-digit', month: 'long', year: 'numeric' }),
-            hora: fecha.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' }),
-            direccion: reporte.direccion || '',
-            zona: reporte.zona || '',
-            descripcion: reporte.descripcion || '',
-            imagen: reporte.ruta_fotografia
-              ? new URL(reporte.ruta_fotografia, environment.apiUrl).toString()
-              : null
-          };
-        },
-        error: error => console.error('Error al cargar el detalle del reporte:', error)
-      });
-    }
+        this.mostrarReporte(reporte);
+      },
+      error: error => this.mostrarErrorCarga(error)
+    });
+  }
+
+  private mostrarReporte(reporte: ReporteAdmin | ReporteDashboard): void {
+    const fecha = new Date(reporte.fecha_reporte);
+    this.reporte = {
+      id: Number(reporte.id_reporte),
+      titulo: reporte.titulo || 'Incidencia urbana',
+      tipo: reporte.tipo_incidencia || 'Incidencia',
+      prioridad: reporte.prioridad || 'Baja',
+      estado: reporte.estado || 'Pendiente',
+      fecha: fecha.toLocaleDateString('es-GT', { day: '2-digit', month: 'long', year: 'numeric' }),
+      hora: fecha.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' }),
+      direccion: reporte.direccion || '',
+      zona: reporte.zona || '',
+      descripcion: reporte.descripcion || '',
+      imagen: reporte.ruta_fotografia
+        ? new URL(reporte.ruta_fotografia, environment.apiUrl).toString()
+        : null
+    };
+    this.cargando = false;
+    this.cdr.markForCheck();
+  }
+
+  private mostrarErrorCarga(error: { error?: { message?: string; mensaje?: string } }): void {
+    console.error('Error al cargar el detalle del reporte:', error);
+    this.error = error.error?.message || error.error?.mensaje ||
+      'No se pudo cargar la incidencia. Intenta nuevamente desde tus reportes asignados.';
+    this.cargando = false;
+    this.cdr.markForCheck();
   }
 
   ocultarImagen(): void {
@@ -121,11 +151,11 @@ export class DetalleReporteComponent implements OnInit {
   }
 
   volver(): void {
-    this.router.navigate(['/mis-reportes']);
+    this.router.navigate([this.session.obtenerRol() === 'empleado' ? '/empleado/reportes' : '/mis-reportes']);
   }
 
   irMapa(): void {
-    this.router.navigate(['/mapa']);
+    this.router.navigate([this.esEmpleado ? '/empleado/home' : '/mapa']);
   }
 
   esMisReportesActivo(): boolean {

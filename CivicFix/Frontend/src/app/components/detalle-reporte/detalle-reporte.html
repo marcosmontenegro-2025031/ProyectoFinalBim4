@@ -1,12 +1,15 @@
-<div class="app-layout">
+<div class="app-layout" [class.employee-detail-layout]="esEmpleado">
 
-  <aside class="sidebar">
+  <aside class="sidebar" [class.civic-sidebar]="esEmpleado">
 
-    <div class="sidebar-logo">
-      <img src="assets/CIVICFIX LOGO.png" alt="CivicFix">
+    <div class="sidebar-logo" [class.civic-brand]="esEmpleado">
+      <img
+        [src]="esEmpleado ? '../../../assets/CIVICFIX_LOGO-removebg-preview.png' : 'assets/CIVICFIX LOGO.png'"
+        alt="CivicFix"
+      >
     </div>
 
-    <div class="sidebar-user">
+    <div class="sidebar-user" *ngIf="!esEmpleado">
       <div class="user-avatar">
         <i class="bi bi-person-fill"></i>
       </div>
@@ -17,74 +20,102 @@
       </div>
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="sidebar-nav" [class.civic-navigation]="esEmpleado">
+      <ng-container *ngIf="esEmpleado; else ciudadanoNav">
+        <a routerLink="/empleado/home" routerLinkActive="active" class="sidebar-nav-item civic-nav-item">
+          <i class="bi bi-house-fill"></i>
+          <span>Inicio</span>
+        </a>
+        <a routerLink="/empleado/reportes" routerLinkActive="active" class="sidebar-nav-item civic-nav-item">
+          <i class="bi bi-bar-chart"></i>
+          <span>Reportes</span>
+        </a>
+        <a routerLink="/empleado/bitacora" routerLinkActive="active" class="sidebar-nav-item civic-nav-item">
+          <i class="bi bi-journal-text"></i>
+          <span>Bitácora</span>
+        </a>
+        <a routerLink="/empleado/notificaciones" routerLinkActive="active" class="sidebar-nav-item civic-nav-item">
+          <i class="bi bi-bell-fill"></i>
+          <span>Notificaciones</span>
+          <app-unread-notification-count class="notification-count" />
+        </a>
+        <a routerLink="/empleado/perfil" routerLinkActive="active" class="sidebar-nav-item civic-nav-item">
+          <i class="bi bi-person-fill"></i>
+          <span>Mi Perfil</span>
+        </a>
+      </ng-container>
 
-      <a
-        routerLink="/reportes/nuevo"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="sidebar-nav-item"
-      >
-        <i class="bi bi-file-earmark-plus-fill"></i>
-        <span>Crear Reporte</span>
-      </a>
+      <ng-template #ciudadanoNav>
+        <a
+          routerLink="/reportes/nuevo"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="sidebar-nav-item"
+        >
+          <i class="bi bi-file-earmark-plus-fill"></i>
+          <span>Crear Reporte</span>
+        </a>
 
-      <a
-        routerLink="/mis-reportes"
-        class="sidebar-nav-item"
-        [class.active]="esMisReportesActivo()"
-      >
-        <i class="bi bi-file-earmark-text-fill"></i>
-        <span>Mis Reportes</span>
-      </a>
+        <a
+          routerLink="/mis-reportes"
+          class="sidebar-nav-item"
+          [class.active]="esMisReportesActivo()"
+        >
+          <i class="bi bi-file-earmark-text-fill"></i>
+          <span>Mis Reportes</span>
+        </a>
 
-      <a
-        routerLink="/mapa"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="sidebar-nav-item"
-      >
-        <i class="bi bi-geo-alt-fill"></i>
-        <span>Mapa</span>
-      </a>
+        <a routerLink="/mapa" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-nav-item">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>Mapa</span>
+        </a>
 
-      <a
-        routerLink="/notificaciones"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="sidebar-nav-item"
-      >
-        <i class="bi bi-bell-fill"></i>
-        <span>Notificaciones</span>
-        <app-unread-notification-count class="notification-count" />
-      </a>
+        <a routerLink="/notificaciones" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-nav-item">
+          <i class="bi bi-bell-fill"></i>
+          <span>Notificaciones</span>
+          <app-unread-notification-count class="notification-count" />
+        </a>
 
-      <a
-        routerLink="/perfil"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="sidebar-nav-item"
-      >
-        <i class="bi bi-person-fill"></i>
-        <span>Mi Perfil</span>
-      </a>
-
+        <a routerLink="/perfil" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-nav-item">
+          <i class="bi bi-person-fill"></i>
+          <span>Mi Perfil</span>
+        </a>
+      </ng-template>
     </nav>
 
-    <div class="sidebar-bottom">
+    <div class="sidebar-bottom" *ngIf="!esEmpleado">
       <div class="city-illustration">
         <i class="bi bi-buildings-fill"></i>
         <i class="bi bi-building-fill"></i>
         <i class="bi bi-buildings-fill"></i>
       </div>
     </div>
+    <div class="civic-city" *ngIf="esEmpleado">
+      <div class="city-buildings">
+        <span class="building b1"></span>
+        <span class="building b2"></span>
+        <span class="building b3"></span>
+        <span class="building b4"></span>
+        <span class="building b5"></span>
+        <span class="tree t1"></span>
+        <span class="tree t2"></span>
+        <span class="lamp"></span>
+      </div>
+      <div class="civic-city-footer">
+        <div class="municipality-icon"><i class="bi bi-shield-fill-check"></i></div>
+        <div>
+          <strong>{{ rolUsuario }}</strong>
+          <small>Municipalidad de Guatemala</small>
+        </div>
+      </div>
+    </div>
 
   </aside>
 
 
-  <main class="main-content">
+  <main class="main-content" [class.empleado-main]="esEmpleado">
 
-    <header class="topbar">
+    <header class="topbar" [class.employee-topbar]="esEmpleado">
 
       <div class="topbar-left">
 
@@ -97,34 +128,35 @@
           <i class="bi bi-arrow-left"></i>
         </button>
 
-        <div class="topbar-title">
-          <span>CivicFix</span>
-          <strong>Detalle del reporte</strong>
+        <div class="topbar-title" [class.employee-topbar-title]="esEmpleado">
+          <span>{{ esEmpleado ? 'Panel de trabajo' : 'CivicFix' }}</span>
+          <strong>{{ esEmpleado ? 'Detalle de incidencia' : 'Detalle del reporte' }}</strong>
         </div>
 
       </div>
 
-      <div class="topbar-right">
+      <div class="topbar-right" [class.employee-topbar-right]="esEmpleado">
 
         <button
           type="button"
           class="topbar-notification"
-          routerLink="/notificaciones"
+          [routerLink]="esEmpleado ? '/empleado/notificaciones' : '/notificaciones'"
           title="Notificaciones"
         >
           <i class="bi bi-bell-fill"></i>
           <app-unread-notification-count class="notification-icon-count" />
         </button>
 
-        <div class="topbar-user">
-          <div class="topbar-avatar">
+        <div class="topbar-user" [class.employee-profile]="esEmpleado">
+          <div class="topbar-avatar" [class.employee-avatar]="esEmpleado">
             <i class="bi bi-person-fill"></i>
           </div>
 
-          <div class="topbar-user-info">
+          <div class="topbar-user-info" [class.employee-info]="esEmpleado">
             <strong>{{ nombreUsuario }}</strong>
             <span>{{ rolUsuario }}</span>
           </div>
+          <i *ngIf="esEmpleado" class="bi bi-chevron-down"></i>
 
         </div>
 
@@ -133,14 +165,23 @@
     </header>
 
 
-    <section class="page-content">
+    <div *ngIf="cargando" class="page-content" [class.employee-page-content]="esEmpleado" role="status">
+      Cargando incidencia...
+    </div>
+
+    <div *ngIf="!cargando && error" class="page-content" [class.employee-page-content]="esEmpleado" role="alert">
+      <p>{{ error }}</p>
+      <button type="button" class="location-button" (click)="volver()">Volver</button>
+    </div>
+
+    <section class="page-content" [class.employee-page-content]="esEmpleado" *ngIf="!cargando && !error">
 
       <div class="page-header">
 
         <div class="page-header-left">
 
           <div class="breadcrumb">
-            <span>Mis Reportes</span>
+            <span>{{ esEmpleado ? 'Incidencias asignadas' : 'Mis Reportes' }}</span>
             <i class="bi bi-chevron-right"></i>
             <span>Detalle</span>
           </div>
