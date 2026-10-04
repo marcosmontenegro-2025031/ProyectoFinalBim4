@@ -68,6 +68,7 @@ export const routes: Routes = [
         .then(m => m.ReportesEmpleadoComponent)
   },
   { path: 'empleado/asignaciones', component: Asignaciones, canActivate: [roleGuard(['empleado'])] },
+  { path: 'empleado/bitacora', component: BitacoraCambioEstadoComponent, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/bitacora/:idReporte', component: BitacoraCambioEstadoComponent, canActivate: [roleGuard(['empleado', 'administrador'])] },
   { path: 'empleado/evidencias', component: Evidencias, canActivate: [roleGuard(['empleado'])] },
   { path: 'empleado/fotografias', component: Fotografias, canActivate: [roleGuard(['empleado'])] },
