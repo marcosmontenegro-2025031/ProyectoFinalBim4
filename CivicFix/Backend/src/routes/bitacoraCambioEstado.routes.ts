@@ -18,6 +18,7 @@ const autorizado = async (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) { console.error(error); res.status(500).json({message:'No fue posible verificar la asignación'}); }
 };
+router.get('/mis-reportes', BitacoraCambioEstadoController.obtenerPorEmpleado);
 router.get('/', verificarAdministrador, BitacoraCambioEstadoController.listar);
 router.get('/reporte/:idReporte', autorizado, BitacoraCambioEstadoController.obtenerPorReporte);
 router.get('/:id', autorizado, BitacoraCambioEstadoController.obtenerPorId);
