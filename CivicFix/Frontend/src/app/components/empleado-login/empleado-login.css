@@ -69,6 +69,35 @@ body {
     animation: backgroundMove 12s ease-in-out infinite alternate;
 }
 
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+.background-overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
 
 button,
 input {
@@ -158,6 +187,9 @@ body::after {
     backdrop-filter: blur(14px);
 
     animation: cardAppear .8s cubic-bezier(.22, 1, .36, 1);
+
+    position: relative;
+    z-index: 10;
 }
 
 /* =========================================
