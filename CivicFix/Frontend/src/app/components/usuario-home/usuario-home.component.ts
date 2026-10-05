@@ -56,6 +56,7 @@ export class UsuarioHome implements OnInit {
       return;
     }
 
+    
     this.nombreUsuario =
       usuario.nombre_usuario ||
       usuario.usuario ||
