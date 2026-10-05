@@ -1,3 +1,18 @@
+<video
+    #backgroundVideo
+    class="background-video"
+    muted
+    loop
+    autoplay
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+>
+    <source src="assets/343478.mp4" type="video/mp4">
+</video>
+
+<div class="background-overlay" aria-hidden="true"></div>
+
 <div class="container">
 
     <div class="city-scene">
@@ -5,8 +20,8 @@
         <div class="city-hill hill-back"></div>
         <div class="city-hill hill-front"></div>
 
-        <!-- EDIFICIOS -->
         <div class="buildings">
+
             <div class="building building-a">
                 <span></span>
                 <span></span>
@@ -43,14 +58,16 @@
                 <span></span>
                 <span></span>
             </div>
+
         </div>
 
-        <!-- LOGO SOBRE LA CIUDAD (aquí va tu logo) -->
         <div class="logo-city">
-            <img src="../../../assets/CIVICFIX_LOGO-removebg-preview.png" alt="Logo">
+            <img
+                src="assets/CIVICFIX_LOGO-removebg-preview.png"
+                alt="CivicFix"
+            >
         </div>
 
-        <!-- ÁRBOLES -->
         <div class="tree tree-one">
             <div class="tree-crown"></div>
             <div class="tree-trunk"></div>
@@ -71,14 +88,12 @@
             <div class="tree-trunk"></div>
         </div>
 
-        <!-- FAROLA -->
         <div class="street-lamp">
             <div class="lamp-head"></div>
             <div class="lamp-pole"></div>
             <div class="lamp-base"></div>
         </div>
 
-        <!-- BANCA -->
         <div class="bench">
             <div class="bench-seat"></div>
             <div class="bench-back"></div>
@@ -90,16 +105,16 @@
 
     </div>
 
-
-    <!-- FORMULARIO -->
     <div class="formulario-reactivo">
 
         <div class="icono-formulario">
-            <svg xmlns="http://www.w3.org/2000/svg"
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
                 height="34"
                 viewBox="0 -960 960 960"
                 width="34"
-                fill="currentColor">
+                fill="currentColor"
+            >
                 <path d="M80-120v-80h800v80H80Zm160-200v-440h240v440H240Zm320 0v-240h240v240H560Zm-240-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm400 160h80v-80h-80v80ZM320-640h80v-80h-80v80Z"/>
             </svg>
         </div>
@@ -115,15 +130,19 @@
         <div class="botones-wrapper">
 
             <button
+                type="button"
                 class="boton-formulario btn-si"
-                (click)="redireccionarEmpleado()">
-                si
+                (click)="redireccionarEmpleado()"
+            >
+                Sí
             </button>
 
             <button
+                type="button"
                 class="boton-formulario btn-no"
-                (click)="redireccionarCiudadano()">
-                no
+                (click)="redireccionarCiudadano()"
+            >
+                No
             </button>
 
         </div>
