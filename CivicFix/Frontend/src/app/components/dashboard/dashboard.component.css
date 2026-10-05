@@ -1,14 +1,58 @@
 :host {
-  --color-principal: #1565C0;
-  --color-fondo: #F5F7FA;
+  --color-principal: #1565c0;
+  --color-principal-hover: #0d47a1;
+  --color-principal-claro: #e3f2fd;
+  --color-fondo: #f5f7fa;
   --color-texto: #263238;
+  --color-texto-secundario: #607d8b;
+  --color-borde: #e0e6ed;
+  --color-blanco: #ffffff;
+  --sombra-suave: 0 8px 24px rgba(21, 101, 192, 0.08);
+  --sombra-hover: 0 14px 32px rgba(21, 101, 192, 0.14);
 }
 
 .card {
-  background-color: #ffffff;
-  border-color: #e0e0e0;
+  background: linear-gradient(145deg, #ffffff 0%, #fafdff 100%);
+  border: 1px solid var(--color-borde);
+  border-radius: 16px;
+  box-shadow: var(--sombra-suave);
+  color: var(--color-texto);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(21, 101, 192, 0.22);
+  box-shadow: var(--sombra-hover);
 }
 
 .text-primary {
   color: var(--color-principal) !important;
+  font-weight: 600;
+}
+
+.text-primary:hover {
+  color: var(--color-principal-hover) !important;
+}
+
+.card .text-primary {
+  position: relative;
+}
+
+.card .text-primary::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 3px;
+  margin-top: 6px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    var(--color-principal),
+    #42a5f5
+  );
 }
