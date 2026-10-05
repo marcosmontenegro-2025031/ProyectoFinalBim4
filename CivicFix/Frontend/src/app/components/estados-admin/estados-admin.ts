@@ -1,7 +1,7 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AdminSidebarComponent } from '../../shared/admin-sidebar/admin-sidebar.component';
 import { AdminApiService } from '../../services/admin-api.service';
 
@@ -10,7 +10,6 @@ interface Estado {
   nombre: string;
   descripcion: string;
   color: string;
-  icono: string;
   reportes: number;
   estado: string;
 }
@@ -26,46 +25,29 @@ interface Estado {
   templateUrl: './estados-admin.html',
   styleUrl: './estados-admin.css'
 })
-export class EstadosAdminComponent {
+export class EstadosAdminComponent implements OnInit {
+  private readonly adminApi = inject(AdminApiService);
+  private readonly cd = inject(ChangeDetectorRef);
 
-  estados: Estado[] = [
-    {
-      id: 1,
-      nombre: 'Pendiente',
-      descripcion: 'El reporte fue recibido y está esperando atención.',
-      color: '#f39c12',
-      icono: 'bi-clock',
-      reportes: 35,
-      estado: 'Activo'
-    },
-    {
-      id: 2,
-      nombre: 'En proceso',
-      descripcion: 'El reporte está siendo atendido por el departamento correspondiente.',
-      color: '#0874dc',
-      icono: 'bi-arrow-repeat',
-      reportes: 48,
-      estado: 'Activo'
-    },
-    {
-      id: 3,
-      nombre: 'Resuelto',
-      descripcion: 'El problema reportado fue solucionado.',
-      color: '#198754',
-      icono: 'bi-check-circle',
-      reportes: 84,
-      estado: 'Activo'
-    },
-    {
-      id: 4,
-      nombre: 'Cancelado',
-      descripcion: 'El reporte fue cancelado y no continuará en proceso.',
-      color: '#dc3545',
-      icono: 'bi-x-circle',
-      reportes: 9,
-      estado: 'Activo'
-    }
-  ];
+  estados: Estado[] = [];
+
+  ngOnInit(): void {
+    this.cargar();
+  }
+
+  cargar(): void {
+    this.adminApi.listar<Estado>('estados').subscribe({
+      next: datos => {
+        this.estados = datos;
+        this.cd.markForCheck();
+      },
+      error: error => {
+        this.estados = [];
+        this.adminApi.aviso(error);
+        this.cd.markForCheck();
+      }
+    });
+  }
 
   textoBusqueda = '';
   filtroEstado = 'Todos';
@@ -117,10 +99,10 @@ export class EstadosAdminComponent {
   }
 
   cambiarEstado(estado: Estado): void {
-    estado.estado =
-      estado.estado === 'Activo'
-        ? 'Inactivo'
-        : 'Activo';
+    this.adminApi.activar('estados', estado.id, estado.estado !== 'Activo').subscribe({
+      next: () => this.cargar(),
+      error: error => this.adminApi.aviso(error)
+    });
   }
 
   eliminarEstado(estado: Estado): void {
@@ -129,9 +111,31 @@ export class EstadosAdminComponent {
     );
 
     if (confirmar) {
-      this.estados = this.estados.filter(
-        item => item.id !== estado.id
-      );
+      this.adminApi.eliminar('estados', estado.id).subscribe({
+        next: () => this.cargar(),
+        error: error => this.adminApi.aviso(error)
+      });
+    }
+  }
+
+  obtenerIcono(nombre: string): string {
+    switch (nombre.trim().toLowerCase()) {
+      case 'pendiente':
+        return 'bi-clock-fill';
+      case 'recibido':
+        return 'bi-inbox-fill';
+      case 'en proceso':
+        return 'bi-arrow-repeat';
+      case 'asignado':
+        return 'bi-person-check-fill';
+      case 'resuelto':
+        return 'bi-check-circle-fill';
+      case 'cancelado':
+        return 'bi-x-circle-fill';
+      case 'rechazado':
+        return 'bi-x-octagon-fill';
+      default:
+        return 'bi-circle-fill';
     }
   }
 
