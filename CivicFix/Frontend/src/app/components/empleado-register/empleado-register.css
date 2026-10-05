@@ -160,6 +160,9 @@ body::after {
 
     animation:
         cardAppear .8s cubic-bezier(.22, 1, .36, 1);
+
+    position: relative;
+    z-index: 10;
 }
 
 /* =========================================
@@ -185,6 +188,35 @@ body::after {
             #F5FAFF 42%,
             #DCEFFF 100%
         );
+}
+
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+.background-overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1;
+
+    pointer-events: none;
 }
 
 /* =========================================
