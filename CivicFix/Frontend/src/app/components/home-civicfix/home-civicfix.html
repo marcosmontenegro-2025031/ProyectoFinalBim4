@@ -1,0 +1,825 @@
+<div class="landing-page">
+
+    <header class="navbar">
+
+        <div class="navbar-brand">
+            <img
+                src="assets/CIVICFIX_LOGO-removebg-preview.png"
+                alt="CivicFix"
+            >
+        </div>
+
+        <nav class="navbar-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#como-funciona">Cómo funciona</a>
+            <a href="#acerca">Acerca de</a>
+        </nav>
+
+        <div class="navbar-actions">
+
+            <button
+                class="btn-login"
+                type="button"
+                (click)="irLogin()"
+            >
+                Iniciar sesión
+            </button>
+
+            <button
+                class="btn-register"
+                type="button"
+                (click)="irRegistro()"
+            >
+                Registrarse
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section
+            class="hero"
+            id="inicio"
+        >
+
+            <video
+                #heroVideo
+                class="hero-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto"
+                aria-hidden="true"
+            >
+                <source
+                    src="assets/343478.mp4"
+                    type="video/mp4"
+                >
+            </video>
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    <i class="bi bi-buildings"></i>
+                    Plataforma de gestión ciudadana
+                </div>
+
+                <h1>
+                    Reporta.
+                    <span>Conecta.</span>
+                    Soluciona.
+                </h1>
+
+                <p>
+                    CivicFix conecta a los ciudadanos con su municipalidad
+                    para reportar incidencias, dar seguimiento a los casos
+                    y contribuir a construir una ciudad mejor.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <button
+                        class="hero-btn primary"
+                        type="button"
+                        (click)="irRegistro()"
+                    >
+                        <i class="bi bi-plus-circle"></i>
+                        Reportar una incidencia
+                    </button>
+
+                    <a
+                        class="hero-btn secondary"
+                        href="#acerca"
+                    >
+                        <i class="bi bi-info-circle"></i>
+                        Conocer CivicFix
+                    </a>
+
+                </div>
+
+                <div class="hero-stats">
+
+                    <div class="hero-stat">
+                        <strong>24/7</strong>
+                        <span>Disponible</span>
+                    </div>
+
+                    <div class="hero-stat">
+                        <strong>100%</strong>
+                        <span>Ciudadano</span>
+                    </div>
+
+                    <div class="hero-stat">
+                        <strong>1</strong>
+                        <span>Ciudad conectada</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hero-scroll">
+                <i class="bi bi-chevron-down"></i>
+                <span>Descubre más</span>
+            </div>
+
+        </section>
+
+
+        <section class="intro-section">
+
+            <div class="section-container">
+
+                <div class="section-heading">
+
+                    <span class="section-label">
+                        CIVICFIX
+                    </span>
+
+                    <h2>
+                        Una ciudad mejor comienza
+                        <span>con tu participación</span>
+                    </h2>
+
+                    <p>
+                        CivicFix es una plataforma digital diseñada para
+                        facilitar la comunicación entre los ciudadanos y
+                        la municipalidad.
+                    </p>
+
+                </div>
+
+                <div class="intro-grid">
+
+                    <div class="intro-card">
+
+                        <div class="intro-icon blue">
+                            <i class="bi bi-megaphone"></i>
+                        </div>
+
+                        <h3>
+                            Tu voz importa
+                        </h3>
+
+                        <p>
+                            Informa sobre problemas de tu comunidad y
+                            ayuda a que las autoridades conozcan las
+                            necesidades de la ciudad.
+                        </p>
+
+                    </div>
+
+
+                    <div class="intro-card">
+
+                        <div class="intro-icon green">
+                            <i class="bi bi-people"></i>
+                        </div>
+
+                        <h3>
+                            Conectamos personas
+                        </h3>
+
+                        <p>
+                            Facilitamos la comunicación entre ciudadanos
+                            y equipos municipales para atender cada
+                            incidencia.
+                        </p>
+
+                    </div>
+
+
+                    <div class="intro-card">
+
+                        <div class="intro-icon orange">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+
+                        <h3>
+                            Buscamos soluciones
+                        </h3>
+
+                        <p>
+                            Da seguimiento a tus reportes y conoce el
+                            avance de las incidencias hasta su resolución.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section
+            class="services-section"
+            id="servicios"
+        >
+
+            <div class="section-container">
+
+                <div class="section-heading center">
+
+                    <span class="section-label">
+                        NUESTROS SERVICIOS
+                    </span>
+
+                    <h2>
+                        Todo lo que necesitas para
+                        <span>reportar y dar seguimiento</span>
+                    </h2>
+
+                    <p>
+                        Herramientas diseñadas para hacer más sencilla,
+                        transparente y eficiente la gestión de incidencias.
+                    </p>
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    <article class="service-card">
+
+                        <div class="service-number">
+                            01
+                        </div>
+
+                        <div class="service-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+
+                        <h3>
+                            Reporte de incidencias
+                        </h3>
+
+                        <p>
+                            Reporta baches, fugas de agua, problemas de
+                            iluminación, áreas verdes y otras incidencias
+                            de tu comunidad.
+                        </p>
+
+                        <a href="#como-funciona">
+                            Conoce más
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-number">
+                            02
+                        </div>
+
+                        <div class="service-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+
+                        <h3>
+                            Ubicación en el mapa
+                        </h3>
+
+                        <p>
+                            Registra la ubicación de la incidencia para
+                            facilitar que los equipos municipales puedan
+                            encontrarla.
+                        </p>
+
+                        <a href="#como-funciona">
+                            Conoce más
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-number">
+                            03
+                        </div>
+
+                        <div class="service-icon">
+                            <i class="bi bi-activity"></i>
+                        </div>
+
+                        <h3>
+                            Seguimiento
+                        </h3>
+
+                        <p>
+                            Consulta el estado de tus reportes y conoce
+                            cuándo una incidencia está pendiente,
+                            en proceso o resuelta.
+                        </p>
+
+                        <a href="#como-funciona">
+                            Conoce más
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-number">
+                            04
+                        </div>
+
+                        <div class="service-icon">
+                            <i class="bi bi-bell"></i>
+                        </div>
+
+                        <h3>
+                            Notificaciones
+                        </h3>
+
+                        <p>
+                            Recibe información sobre los cambios y avances
+                            relacionados con tus reportes ciudadanos.
+                        </p>
+
+                        <a href="#como-funciona">
+                            Conoce más
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-number">
+                            05
+                        </div>
+
+                        <div class="service-icon">
+                            <i class="bi bi-camera"></i>
+                        </div>
+
+                        <h3>
+                            Evidencia fotográfica
+                        </h3>
+
+                        <p>
+                            Adjunta fotografías que permitan describir
+                            mejor el problema y facilitar su evaluación.
+                        </p>
+
+                        <a href="#como-funciona">
+                            Conoce más
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+
+                    <article class="service-card">
+
+                        <div class="service-number">
+                            06
+                        </div>
+
+                        <div class="service-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                        <h3>
+                            Gestión municipal
+                        </h3>
+
+                        <p>
+                            Las áreas municipales pueden recibir,
+                            organizar, asignar y gestionar las incidencias
+                            reportadas por los ciudadanos.
+                        </p>
+
+                        <a href="#como-funciona">
+                            Conoce más
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section
+            class="process-section"
+            id="como-funciona"
+        >
+
+            <div class="section-container">
+
+                <div class="section-heading center">
+
+                    <span class="section-label">
+                        CÓMO FUNCIONA
+                    </span>
+
+                    <h2>
+                        Reportar es
+                        <span>más sencillo</span>
+                    </h2>
+
+                    <p>
+                        En pocos pasos puedes informar sobre una incidencia
+                        y conocer el avance de su atención.
+                    </p>
+
+                </div>
+
+
+                <div class="process-grid">
+
+                    <div class="process-item">
+
+                        <div class="process-icon">
+                            <span>1</span>
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+
+                        <h3>
+                            Reporta
+                        </h3>
+
+                        <p>
+                            Describe la incidencia y agrega su ubicación
+                            y evidencia fotográfica.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-line"></div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-icon">
+                            <span>2</span>
+                            <i class="bi bi-cpu"></i>
+                        </div>
+
+                        <h3>
+                            Analizamos
+                        </h3>
+
+                        <p>
+                            La información del reporte es analizada para
+                            facilitar su clasificación y atención.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-line"></div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-icon">
+                            <span>3</span>
+                            <i class="bi bi-person-check"></i>
+                        </div>
+
+                        <h3>
+                            Asignamos
+                        </h3>
+
+                        <p>
+                            El reporte puede ser dirigido al área municipal
+                            correspondiente.
+                        </p>
+
+                    </div>
+
+
+                    <div class="process-line"></div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-icon">
+                            <span>4</span>
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
+                        <h3>
+                            Solucionamos
+                        </h3>
+
+                        <p>
+                            Consulta el progreso hasta que la incidencia
+                            sea atendida.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section
+            class="about-section"
+            id="acerca"
+        >
+
+            <div class="section-container about-container">
+
+                <div class="about-visual">
+
+                    <div class="about-card-main">
+
+                        <div class="about-logo">
+
+                            <img
+                                src="assets/CIVICFIX_LOGO-removebg-preview.png"
+                                alt="CivicFix"
+                            >
+
+                        </div>
+
+                        <span>
+                            Reporta. Conecta. Soluciona.
+                        </span>
+
+                    </div>
+
+                    <div class="about-decoration decoration-one"></div>
+                    <div class="about-decoration decoration-two"></div>
+
+                </div>
+
+
+                <div class="about-content">
+
+                    <span class="section-label">
+                        ACERCA DE CIVICFIX
+                    </span>
+
+                    <h2>
+                        Tecnología al servicio
+                        <span>de la comunidad</span>
+                    </h2>
+
+                    <p>
+                        CivicFix nace como una solución digital para
+                        fortalecer la comunicación entre los ciudadanos
+                        y la municipalidad.
+                    </p>
+
+                    <p>
+                        Nuestra plataforma permite registrar incidencias,
+                        compartir información relevante, consultar su
+                        ubicación y dar seguimiento al proceso de atención.
+                    </p>
+
+                    <p>
+                        Nuestro objetivo es contribuir a una gestión
+                        municipal más organizada, transparente y cercana
+                        a las necesidades de los ciudadanos.
+                    </p>
+
+
+                    <div class="about-values">
+
+                        <div class="value-item">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            <div>
+
+                                <strong>
+                                    Transparencia
+                                </strong>
+
+                                <span>
+                                    Información clara sobre tus reportes.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="value-item">
+
+                            <i class="bi bi-people-fill"></i>
+
+                            <div>
+
+                                <strong>
+                                    Participación
+                                </strong>
+
+                                <span>
+                                    Ciudadanos activos en su comunidad.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="value-item">
+
+                            <i class="bi bi-lightning-charge"></i>
+
+                            <div>
+
+                                <strong>
+                                    Eficiencia
+                                </strong>
+
+                                <span>
+                                    Mejor organización para atender incidencias.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="cta-section">
+
+            <div class="cta-content">
+
+                <div class="cta-icon">
+                    <i class="bi bi-buildings"></i>
+                </div>
+
+                <h2>
+                    Sé parte del cambio
+                    <span>en tu ciudad</span>
+                </h2>
+
+                <p>
+                    Crea tu cuenta en CivicFix y empieza a participar
+                    en la mejora de tu comunidad.
+                </p>
+
+                <div class="cta-buttons">
+
+                    <button
+                        class="cta-primary"
+                        type="button"
+                        (click)="irRegistro()"
+                    >
+                        Crear una cuenta
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+
+                    <button
+                        class="cta-secondary"
+                        type="button"
+                        (click)="irLogin()"
+                    >
+                        Ya tengo una cuenta
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <img
+                    src="assets/CIVICFIX_LOGO-removebg-preview.png"
+                    alt="CivicFix"
+                >
+
+                <p>
+                    Reporta. Conecta. Soluciona.
+                </p>
+
+                <span>
+                    Una ciudad mejor comienza con la participación
+                    de todos.
+                </span>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Plataforma
+                </h3>
+
+                <a href="#inicio">
+                    Inicio
+                </a>
+
+                <a href="#servicios">
+                    Servicios
+                </a>
+
+                <a href="#como-funciona">
+                    Cómo funciona
+                </a>
+
+                <a href="#acerca">
+                    Acerca de
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Acceso
+                </h3>
+
+                <button
+                    type="button"
+                    (click)="irLogin()"
+                >
+                    Iniciar sesión
+                </button>
+
+                <button
+                    type="button"
+                    (click)="irRegistro()"
+                >
+                    Registrarse
+                </button>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Municipalidad
+                </h3>
+
+                <span>
+                    Ciudad de Guatemala
+                </span>
+
+                <span>
+                    Gestión y participación ciudadana
+                </span>
+
+                <span>
+                    CivicFix
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 CivicFix. Todos los derechos reservados.
+            </span>
+
+            <span>
+                Reporta. Conecta. Soluciona.
+            </span>
+
+        </div>
+
+    </footer>
+
+</div>
