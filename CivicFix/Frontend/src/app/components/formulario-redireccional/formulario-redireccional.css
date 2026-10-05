@@ -1,7 +1,7 @@
 :host {
     width: 100%;
     min-height: 100vh;
-
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,6 +27,8 @@
         );
 
     box-sizing: border-box;
+
+    z-index: 2;
 }
 
 :host,
@@ -63,9 +65,31 @@ body {
     min-height: 100%;
 }
 
-/* =========================================
-   CONTENEDOR PRINCIPAL
-========================================= */
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+.background-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background: rgba(0, 0, 0, 0.45);
+}
 
 .container {
     position: relative;
@@ -95,10 +119,6 @@ body {
     z-index: 10;
 }
 
-/* =========================================
-   ESCENA DE LA CIUDAD Y EFECTOS HOVER
-========================================= */
-
 .city-scene {
     position: relative;
 
@@ -106,6 +126,8 @@ body {
 
     width: 100%;
     height: 100%;
+
+    padding-top: 24px;
 
     background: linear-gradient(
         to bottom,
@@ -172,10 +194,6 @@ body {
     transform: translateY(-3px);
 }
 
-/* =========================================
-   COLINAS
-========================================= */
-
 .city-hill {
     position: absolute;
 
@@ -205,10 +223,6 @@ body {
 
     transform: rotate(2deg);
 }
-
-/* =========================================
-   EDIFICIOS
-========================================= */
 
 .buildings {
     position: absolute;
@@ -291,27 +305,18 @@ body {
     animation: windowBlink 4s ease-in-out infinite;
 }
 
-/* =========================================
-   LOGO DE CIVIFIX
-========================================= */
-
 .logo-city {
     position: absolute;
 
     z-index: 15;
 
     left: 50%;
+    top: 24px;
 
-    /*
-       POSICIÓN DEL LOGO
+    width: 180px;
+    height: 180px;
 
-       Aumenta este valor para subirlo.
-       Disminúyelo para bajarlo.
-    */
-    bottom: 485px;
-
-    width: 300px;
-    height: 300px;
+    padding: 14px;
 
     transform: translateX(-50%);
 
@@ -322,7 +327,7 @@ body {
 
     background: rgba(255, 255, 255, .94);
 
-    border-radius: 45px;
+    border-radius: 32px;
 
     color: var(--blue-primary);
 
@@ -333,19 +338,15 @@ body {
 }
 
 .logo-city img {
-    width: 200%;
-    height: 200%;
+    width: 100%;
+    height: 100%;
 
     object-fit: contain;
 
     border-radius: inherit;
 
-    padding: 25px;
+    padding: 10px;
 }
-
-/* =========================================
-   ÁRBOLES
-========================================= */
 
 .tree {
     position: absolute;
@@ -405,10 +406,6 @@ body {
     transform: scale(.72);
 }
 
-/* =========================================
-   FAROLA
-========================================= */
-
 .street-lamp {
     position: absolute;
 
@@ -419,6 +416,10 @@ body {
 
     width: 22px;
     height: 150px;
+
+    max-width: calc(100% - 30px);
+
+    overflow: hidden;
 }
 
 .lamp-pole {
@@ -464,10 +465,6 @@ body {
         0 35%
     );
 }
-
-/* =========================================
-   BANCA
-========================================= */
 
 .bench {
     position: absolute;
@@ -527,10 +524,6 @@ body {
     right: 6px;
 }
 
-/* =========================================
-   SUELO
-========================================= */
-
 .ground {
     position: absolute;
 
@@ -553,10 +546,6 @@ body {
     transform: rotate(-2deg);
 }
 
-/* =========================================
-   FORMULARIO
-========================================= */
-
 .formulario-reactivo {
     grid-column: 2;
 
@@ -576,10 +565,6 @@ body {
 
     text-align: center;
 }
-
-/* =========================================
-   ÍCONO SOBRE EL TÍTULO
-========================================= */
 
 .icono-formulario {
     width: 64px;
@@ -607,10 +592,6 @@ body {
     height: 34px;
 }
 
-/* =========================================
-   TÍTULO
-========================================= */
-
 .titulo-formulario {
     display: block;
 
@@ -630,16 +611,12 @@ body {
 
     font-size: 16px;
 
-    color: var(--text-secondary);
+    color: #374151;
 
     margin-bottom: 35px;
 
     font-weight: 500;
 }
-
-/* =========================================
-   BOTONES
-========================================= */
 
 .botones-wrapper {
     width: 100%;
@@ -658,15 +635,15 @@ body {
 
     min-height: 58px;
 
-    padding: 15px 24px;
+    padding: 16px 24px;
 
-    border: none;
+    border: 1px solid #d1d5db;
 
     border-radius: 14px;
 
-    font-size: 16px;
+    font-size: 1rem;
 
-    font-weight: 700;
+    font-weight: 600;
 
     cursor: pointer;
 
@@ -677,14 +654,13 @@ body {
 
     gap: 10px;
 
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        background-color .25s ease;
+    transition: all .2s ease;
 
     text-transform: uppercase;
 
     letter-spacing: .4px;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,.05);
 }
 
 .boton-formulario::before {
@@ -700,17 +676,14 @@ body {
     display: inline-block;
 }
 
-/* =========================================
-   BOTÓN SÍ
-========================================= */
-
 .boton-formulario.btn-si {
     background: var(--green);
 
     color: var(--white);
 
-    box-shadow:
-        0 8px 20px rgba(46, 125, 50, .20);
+    border: 1px solid #d1d5db;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,.05);
 }
 
 .boton-formulario.btn-si::before {
@@ -720,23 +693,21 @@ body {
 .boton-formulario.btn-si:hover {
     background: #1B5E20;
 
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 
-    box-shadow:
-        0 12px 25px rgba(46, 125, 50, .30);
+    border-color: #d1d5db;
+
+    box-shadow: 0 4px 8px rgba(0,0,0,.08);
 }
-
-/* =========================================
-   BOTÓN NO
-========================================= */
 
 .boton-formulario.btn-no {
     background: var(--red);
 
     color: var(--white);
 
-    box-shadow:
-        0 8px 20px rgba(198, 40, 40, .20);
+    border: 1px solid #d1d5db;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,.05);
 }
 
 .boton-formulario.btn-no::before {
@@ -746,19 +717,16 @@ body {
 .boton-formulario.btn-no:hover {
     background: #B71C1C;
 
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 
-    box-shadow:
-        0 12px 25px rgba(198, 40, 40, .30);
+    border-color: #d1d5db;
+
+    box-shadow: 0 4px 8px rgba(0,0,0,.08);
 }
 
 .boton-formulario:active {
     transform: translateY(0);
 }
-
-/* =========================================
-   ANIMACIONES
-========================================= */
 
 @keyframes windowBlink {
     0%,
@@ -771,12 +739,7 @@ body {
     }
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
-
 @media (max-width: 850px) {
-
     :host {
         padding: 20px;
     }
@@ -803,12 +766,7 @@ body {
     }
 }
 
-/* =========================================
-   PANTALLAS CON POCA ALTURA
-========================================= */
-
 @media (max-height: 650px) and (min-width: 851px) {
-
     :host {
         padding: 15px;
     }
@@ -836,9 +794,11 @@ body {
     }
 
     .logo-city {
-        bottom: 270px;
+        top: 18px;
 
-        width: 84px;
-        height: 84px;
+        width: 145px;
+        height: 145px;
+
+        padding: 10px;
     }
 }
