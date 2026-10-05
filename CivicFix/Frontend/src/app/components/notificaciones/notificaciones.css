@@ -29,13 +29,10 @@
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
-  background: linear-gradient(
-    180deg,
-    #08477f 0%,
-    #06437c 52%,
-    #063b70 100%
-  );
-  box-shadow: 4px 0 18px rgba(5, 48, 91, 0.12);
+  background:
+    radial-gradient(circle at 30% 8%, rgba(255, 255, 255, 0.08), transparent 28%),
+    linear-gradient(180deg, #08477f 0%, #06437c 52%, #063b70 100%);
+  box-shadow: 4px 0 22px rgba(5, 48, 91, 0.16);
 }
 
 .civic-brand {
@@ -59,6 +56,7 @@
   max-width: 100%;
   height: auto;
   object-fit: contain;
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.08));
 }
 
 .civic-navigation {
@@ -77,12 +75,13 @@
   height: 51px;
   min-height: 51px;
   padding: 0 17px;
+  border: 1px solid transparent;
   border-radius: 12px;
   color: #ffffff;
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .nav-item i {
@@ -92,6 +91,7 @@
   font-size: 19px;
   text-align: center;
   flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
 .nav-item span:not(.nav-notification-count) {
@@ -101,23 +101,36 @@
 
 .nav-item:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.08);
   transform: translateX(2px);
 }
 
-.nav-item:hover i,
+.nav-item:hover i {
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
 .nav-item:hover span:not(.nav-notification-count) {
   color: #ffffff;
 }
 
 .nav-item.active {
   color: #ffffff;
-  background: linear-gradient(
-    90deg,
-    #0874dc 0%,
-    #126bd0 100%
-  );
-  box-shadow: 0 5px 14px rgba(0, 66, 130, 0.25);
+  background: linear-gradient(90deg, #0874dc 0%, #126bd0 100%);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 66, 130, 0.28);
+}
+
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  bottom: 9px;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: #ffffff;
 }
 
 .nav-item.active i,
@@ -139,6 +152,7 @@
   color: #ffffff;
   font-size: 10px;
   font-weight: 700;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.12);
 }
 
 .civic-city {
@@ -273,7 +287,8 @@
   gap: 12px;
   padding: 10px 22px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(7, 28, 50, 0.20);
+  background: rgba(7, 28, 50, 0.22);
+  backdrop-filter: blur(5px);
 }
 
 .civic-city-footer > i {
@@ -283,8 +298,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 11px;
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   font-size: 20px;
 }
@@ -322,15 +338,16 @@
   justify-content: space-between;
   gap: 25px;
   padding: 0 28px 0 23px;
-  background: linear-gradient(
-    90deg,
-    #08477f 0%,
-    #0864ad 55%,
-    #0874dc 100%
-  );
+  background:
+    linear-gradient(
+      90deg,
+      #08477f 0%,
+      #0864ad 55%,
+      #0874dc 100%
+    );
   color: #ffffff;
   border: 0;
-  box-shadow: 0 3px 12px rgba(8, 71, 127, 0.16);
+  box-shadow: 0 4px 16px rgba(8, 71, 127, 0.18);
   z-index: 900;
 }
 
@@ -341,15 +358,16 @@
   height: 42px;
   padding: 0 15px;
   gap: 11px;
-  border: 1px solid rgba(255, 255, 255, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 11px;
   background: rgba(255, 255, 255, 0.13);
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .civic-search:focus-within {
   background: rgba(255, 255, 255, 0.18);
   border-color: rgba(255, 255, 255, 0.42);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .civic-search i {
@@ -389,11 +407,12 @@
   background: transparent;
   color: #ffffff;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .topbar-notification:hover {
   background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
 }
 
 .topbar-notification i {
@@ -444,6 +463,7 @@
   border: 1px solid rgba(255, 255, 255, 0.24);
   color: #ffffff;
   font-size: 18px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
 .topbar-user-info {
@@ -460,7 +480,7 @@
 }
 
 .topbar-user-info span {
-  color: rgba(255, 255, 255, 0.70);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 10px;
 }
 
@@ -489,6 +509,7 @@
   gap: 7px;
   margin-bottom: 8px;
   padding: 6px 10px;
+  border: 1px solid #dce8f3;
   border-radius: 7px;
   background: #e8f0fa;
   color: #315d87;
@@ -524,13 +545,14 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .mark-all-button:hover:not(:disabled) {
   border-color: #19365c;
   background: #f3f7fb;
   color: #19365c;
+  transform: translateY(-1px);
 }
 
 .mark-all-button:disabled {
@@ -555,6 +577,12 @@
   border-radius: 10px;
   background: #ffffff;
   box-shadow: 0 3px 12px rgba(15, 42, 74, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notification-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(15, 42, 74, 0.08);
 }
 
 .notification-stat-icon {
@@ -665,7 +693,7 @@
   font-size: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .notification-filters button:hover {
@@ -691,7 +719,7 @@
   padding: 15px 19px;
   border-bottom: 1px solid #edf1f5;
   background: #ffffff;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, padding 0.2s ease;
 }
 
 .notification-item:last-child {
@@ -788,6 +816,7 @@
   flex-shrink: 0;
   border-radius: 50%;
   background: #2d6fa8;
+  box-shadow: 0 0 0 3px rgba(45, 111, 168, 0.1);
 }
 
 .notification-time {
@@ -853,7 +882,7 @@
   font-size: 9px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .notification-report-button {
@@ -865,6 +894,7 @@
 .notification-report-button:hover {
   border-color: #b9cee1;
   background: #edf4fa;
+  transform: translateY(-1px);
 }
 
 .notification-read-button {
@@ -877,6 +907,7 @@
   border-color: #c7d1dc;
   background: #f7f9fb;
   color: #405266;
+  transform: translateY(-1px);
 }
 
 .delete-notification {
@@ -891,6 +922,7 @@
   border-color: #e1c3c5;
   background: #fff6f6;
   color: #a7474d;
+  transform: translateY(-1px);
 }
 
 .notification-loading,
@@ -969,6 +1001,12 @@
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.notification-error button:hover {
+  background: #244a76;
+  transform: translateY(-1px);
 }
 
 .notification-empty {
@@ -1014,12 +1052,13 @@
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .empty-button:hover {
   background: #244a76;
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(25, 54, 92, 0.16);
 }
 
 .notification-info-box {
@@ -1062,6 +1101,13 @@
 
 .notification-item {
   animation: notificationFadeIn 0.2s ease both;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #1684e8;
+  outline-offset: 2px;
 }
 
 @keyframes notificationFadeIn {
@@ -1181,6 +1227,10 @@
     width: auto;
   }
 
+  .nav-item.active::before {
+    display: none;
+  }
+
   .nav-notification-count {
     position: absolute;
     top: 5px;
@@ -1265,6 +1315,11 @@
   .notification-filters {
     width: 100%;
     overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .notification-filters::-webkit-scrollbar {
+    display: none;
   }
 
   .notification-filters button {
