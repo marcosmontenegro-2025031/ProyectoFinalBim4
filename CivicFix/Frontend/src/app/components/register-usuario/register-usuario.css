@@ -9,36 +9,22 @@
     width: 100%;
 }
 
-
-/* =========================================
-   VARIABLES
-========================================= */
-
 :root {
     --blue-primary: #1565C0;
     --blue-dark: #0D47A1;
     --blue-light: #EAF3FF;
     --blue-pale: #F2F7FC;
-
     --green: #33a339;
     --yellow: #F9A825;
     --orange: #EF6C00;
     --red: #C62828;
-
     --background: #EAF2FB;
-
     --text: #172B3A;
     --text-secondary: #607D8B;
     --text-muted: #90A4AE;
-
     --border: #D7E1EA;
     --white: #FFFFFF;
 }
-
-
-/* =========================================
-   RESET
-========================================= */
 
 * {
     margin: 0;
@@ -67,31 +53,14 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    background:
-        radial-gradient(
-            circle at 10% 15%,
-            rgba(33, 150, 243, .22),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 90% 80%,
-            rgba(21, 101, 192, .20),
-            transparent 32%
-        ),
-        linear-gradient(
-            135deg,
-            #EAF3FF 0%,
-            #F5F9FD 45%,
-            #DCEBFA 100%
-        );
+    background: transparent;
 
-    background-size: 140% 140%;
+    animation: none;
+}
 
-    /*
-     * Más lento para evitar exceso de movimiento.
-     */
-    animation:
-        backgroundMove 25s ease-in-out infinite alternate;
+body::before,
+body::after {
+    display: none;
 }
 
 button,
@@ -101,70 +70,51 @@ textarea {
     font: inherit;
 }
 
-
-/* =========================================
-   FONDO DECORATIVO
-========================================= */
-
-body::before,
-body::after {
-    content: "";
-
+.background-video {
     position: fixed;
 
-    width: 280px;
-    height: 280px;
+    top: 0;
+    left: 0;
 
-    border-radius: 50%;
+    width: 100vw;
+    height: 100vh;
 
-    filter: blur(10px);
+    object-fit: cover;
+
+    z-index: -2;
+
+    pointer-events: none;
+}
+
+.background-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: -1;
 
     pointer-events: none;
 
-    z-index: -1;
+    background: rgba(0, 0, 0, 0.45);
 }
-
-body::before {
-    top: -100px;
-    left: -80px;
-
-    background: rgba(33, 150, 243, .16);
-
-    animation:
-        floatingBlob 18s ease-in-out infinite;
-}
-
-body::after {
-    right: -100px;
-    bottom: -100px;
-
-    background: rgba(13, 71, 161, .14);
-
-    animation:
-        floatingBlob 22s ease-in-out infinite reverse;
-}
-
-
-/* =========================================
-   PAGE
-========================================= */
 
 .page {
     min-height: 100vh;
 
+    position: relative;
+
+    z-index: 1;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     padding: 40px 28px;
-
-    position: relative;
 }
-
-
-/* =========================================
-   CONTENEDOR
-========================================= */
 
 .register-container {
     width: min(100%, 1120px);
@@ -177,26 +127,21 @@ body::after {
 
     overflow: hidden;
 
-    background: rgba(255, 255, 255, .90);
+    background: rgba(255, 255, 255, .96);
 
-    border: 1px solid rgba(255, 255, 255, .8);
+    border: 1px solid rgba(255, 255, 255, .9);
 
     border-radius: 24px;
 
     box-shadow:
-        0 30px 80px rgba(13, 71, 161, .18),
-        0 10px 30px rgba(13, 71, 161, .08);
+        0 30px 80px rgba(0, 0, 0, .24),
+        0 10px 30px rgba(0, 0, 0, .12);
 
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(12px);
 
     animation:
         cardAppear .8s cubic-bezier(.22, 1, .36, 1);
 }
-
-
-/* =========================================
-   PANEL INFORMACIÓN
-========================================= */
 
 .information-panel {
     position: relative;
@@ -208,7 +153,7 @@ body::after {
     background:
         radial-gradient(
             circle at 20% 15%,
-            rgba(255,255,255,.95),
+            rgba(255,255,255,.98),
             transparent 32%
         ),
         linear-gradient(
@@ -219,11 +164,6 @@ body::after {
         );
 }
 
-
-/* =========================================
-   CONTENIDO INFORMACIÓN
-========================================= */
-
 .information-content {
     position: relative;
 
@@ -232,18 +172,14 @@ body::after {
     padding: 50px 55px;
 }
 
-
-/* =========================================
-   LOGO
-========================================= */
-
 .municipality-logo {
     display: flex;
+
     align-items: center;
 
-    color: #0D47A1;
-
     gap: 13px;
+
+    color: #0D47A1;
 
     animation:
         slideFromLeft .8s ease both;
@@ -302,11 +238,6 @@ body::after {
     line-height: 1.35;
 }
 
-
-/* =========================================
-   HERO
-========================================= */
-
 .hero-copy {
     margin-top: 72px;
 
@@ -359,11 +290,6 @@ body::after {
     line-height: 1.7;
 }
 
-
-/* =========================================
-   BENEFICIOS
-========================================= */
-
 .register-benefits {
     display: flex;
 
@@ -372,6 +298,8 @@ body::after {
     gap: 16px;
 
     margin-top: 34px;
+
+    margin-bottom: 52px;
 
     animation:
         slideFromLeft .9s .25s ease both;
@@ -466,11 +394,6 @@ body::after {
     font-size: 11px;
 }
 
-
-/* =========================================
-   ESCENA CIUDAD
-========================================= */
-
 .city-scene {
     position: absolute;
 
@@ -484,36 +407,6 @@ body::after {
     height: 250px;
 
     overflow: hidden;
-}
-
-
-/*
- * No usamos will-change: transform constantemente.
- * Evita que el navegador esté renderizando
- * continuamente elementos que casi no se mueven.
- */
-
-.city-hill,
-.buildings,
-.tree,
-.street-lamp,
-.bench {
-    will-change: auto;
-}
-
-
-/* =========================================
-   COLINAS
-========================================= */
-
-.hill-back {
-    animation:
-        hillBackMove 14s ease-in-out infinite alternate;
-}
-
-.hill-front {
-    animation:
-        hillFrontMove 18s ease-in-out infinite alternate;
 }
 
 .city-hill {
@@ -534,6 +427,9 @@ body::after {
     background: #CDE5F8;
 
     transform: rotate(-2deg);
+
+    animation:
+        hillBackMove 14s ease-in-out infinite alternate;
 }
 
 .hill-front {
@@ -544,6 +440,9 @@ body::after {
     background: #A8D1ED;
 
     transform: rotate(2deg);
+
+    animation:
+        hillFrontMove 18s ease-in-out infinite alternate;
 }
 
 @keyframes hillBackMove {
@@ -574,16 +473,6 @@ body::after {
     }
 }
 
-
-/* =========================================
-   EDIFICIOS
-========================================= */
-
-/*
- * Los edificios quedan completamente quietos.
- * Esto elimina el movimiento extraño de la ciudad.
- */
-
 .buildings {
     position: absolute;
 
@@ -602,8 +491,6 @@ body::after {
     justify-content: center;
 
     gap: 8px;
-
-    animation: none;
 
     transform:
         translate3d(0, 0, 0);
@@ -659,11 +546,6 @@ body::after {
     height: 58px;
 }
 
-
-/* =========================================
-   VENTANAS
-========================================= */
-
 .building span {
     position: relative;
 
@@ -717,11 +599,6 @@ body::after {
     }
 }
 
-
-/* =========================================
-   ÁRBOLES
-========================================= */
-
 .tree {
     position: absolute;
 
@@ -735,12 +612,6 @@ body::after {
 
     align-items: center;
 
-    /*
-     * Movimiento muy pequeño.
-     *
-     * NO usamos transform aquí porque los
-     * media queries utilizan transform: scale().
-     */
     animation:
         treeSway 7s ease-in-out infinite alternate;
 }
@@ -812,27 +683,19 @@ body::after {
     }
 }
 
-
-/* =========================================
-   LÁMPARA
-========================================= */
-
 .street-lamp {
     position: absolute;
 
     z-index: 10;
 
-    left: 11px;
+    left: 18px;
 
     bottom: 48px;
 
     width: 22px;
     height: 150px;
 
-    /*
-     * La lámpara queda quieta.
-     */
-    animation: none;
+    overflow: visible;
 }
 
 .lamp-pole {
@@ -907,11 +770,6 @@ body::after {
     }
 }
 
-
-/* =========================================
-   BANCA
-========================================= */
-
 .bench {
     position: absolute;
 
@@ -923,11 +781,6 @@ body::after {
 
     width: 45px;
     height: 31px;
-
-    /*
-     * Banca completamente estable.
-     */
-    animation: none;
 }
 
 .bench-seat,
@@ -976,11 +829,6 @@ body::after {
     right: 6px;
 }
 
-
-/* =========================================
-   TERRENO
-========================================= */
-
 .ground {
     position: absolute;
 
@@ -1003,11 +851,6 @@ body::after {
 
     transform: rotate(-2deg);
 }
-
-
-/* =========================================
-   FOOTER
-========================================= */
 
 .information-footer {
     position: absolute;
@@ -1078,25 +921,16 @@ body::after {
     opacity: .82;
 }
 
-
-/* =========================================
-   REGISTER PANEL
-========================================= */
-
 .register-panel {
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    padding: 45px 55px;
+    padding: 48px 55px;
 
     background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.98),
-            rgba(250,252,255,.98)
-        );
+        rgba(255,255,255,.98);
 }
 
 .register-card {
@@ -1107,11 +941,6 @@ body::after {
     animation:
         slideFromRight .8s cubic-bezier(.22,1,.36,1);
 }
-
-
-/* =========================================
-   ICONO REGISTRO
-========================================= */
 
 .register-icon {
     width: 65px;
@@ -1147,11 +976,6 @@ body::after {
     height: 36px;
 }
 
-
-/* =========================================
-   TITULO
-========================================= */
-
 .register-card h2 {
     color: var(--text);
 
@@ -1169,7 +993,7 @@ body::after {
 .register-subtitle {
     margin-top: 8px;
 
-    margin-bottom: 25px;
+    margin-bottom: 27px;
 
     color: #78909C;
 
@@ -1180,11 +1004,6 @@ body::after {
     line-height: 1.5;
 }
 
-
-/* =========================================
-   FORMULARIO
-========================================= */
-
 .register-form {
     width: 100%;
 }
@@ -1194,11 +1013,15 @@ body::after {
 
     grid-template-columns: 1fr 1fr;
 
-    gap: 15px;
+    column-gap: 15px;
+
+    row-gap: 20px;
 }
 
 .form-group {
-    margin-bottom: 17px;
+    margin-bottom: 20px;
+
+    position: relative;
 }
 
 .form-group label {
@@ -1224,7 +1047,7 @@ body::after {
 
     align-items: center;
 
-    border: 1px solid var(--border);
+    border: 1px solid #d1d5db;
 
     border-radius: 9px;
 
@@ -1241,11 +1064,11 @@ body::after {
 }
 
 .input-wrapper:focus-within {
-    border-color: var(--blue-primary);
+    border-color: #2563eb;
 
     box-shadow:
-        0 0 0 4px rgba(21,101,192,.09),
-        0 8px 20px rgba(21,101,192,.07);
+        0 0 0 3px rgba(37,99,235,.10),
+        0 5px 14px rgba(37,99,235,.08);
 
     transform: translateY(-1px);
 }
@@ -1283,21 +1106,25 @@ body::after {
 
     color: var(--text);
 
-    background: transparent;
+    background: #FFFFFF;
 
     font-size: 13px;
 }
 
 .input-wrapper input::placeholder {
-    color: #AAB8C2;
+    color: #6b7280;
 
     opacity: 1;
 }
 
+.input-wrapper input:focus {
+    outline: none;
+}
 
-/* =========================================
-   SELECT
-========================================= */
+.input-wrapper input[type="password"],
+.input-wrapper input#password {
+    padding-right: 48px;
+}
 
 .input-wrapper select {
     width: 100%;
@@ -1314,7 +1141,7 @@ body::after {
 
     color: var(--text);
 
-    background: transparent;
+    background: #FFFFFF;
 
     font-size: 13px;
 
@@ -1355,11 +1182,6 @@ body::after {
     border-color: var(--blue-primary);
 }
 
-
-/* =========================================
-   ERROR
-========================================= */
-
 .error-text {
     position: absolute;
 
@@ -1367,20 +1189,19 @@ body::after {
 
     top: calc(100% + 4px);
 
+    padding-right: 48px;
+
     color: #C62828;
 
     font-size: 10px;
 
     font-weight: 500;
 
+    line-height: 1.4;
+
     animation:
         errorAppear .25s ease;
 }
-
-
-/* =========================================
-   PASSWORD
-========================================= */
 
 .password-button {
     width: 42px;
@@ -1391,7 +1212,11 @@ body::after {
     align-items: center;
     justify-content: center;
 
-    flex: 0 0 auto;
+    flex: 0 0 42px;
+
+    position: relative;
+
+    z-index: 2;
 
     border: 0;
 
@@ -1417,11 +1242,6 @@ body::after {
     height: 19px;
 }
 
-
-/* =========================================
-   TERMINOS
-========================================= */
-
 .terms {
     display: flex;
 
@@ -1429,10 +1249,10 @@ body::after {
 
     gap: 8px;
 
-    margin-top: 3px;
-    margin-bottom: 19px;
+    margin-top: 7px;
+    margin-bottom: 22px;
 
-    color: #607D8B;
+    color: #4b5563;
 
     font-size: 11px;
 
@@ -1453,13 +1273,10 @@ body::after {
 }
 
 .terms span {
+    color: #4b5563;
+
     line-height: 1.4;
 }
-
-
-/* =========================================
-   BOTÓN REGISTRO
-========================================= */
 
 .register-button {
     width: 100%;
@@ -1532,11 +1349,6 @@ body::after {
         0 5px 12px rgba(21,101,192,.10);
 }
 
-
-/* =========================================
-   LOGIN
-========================================= */
-
 .login-link {
     display: flex;
 
@@ -1547,17 +1359,17 @@ body::after {
 
     gap: 5px;
 
-    margin-top: 22px;
+    margin-top: 24px;
 
     text-align: center;
 
     font-size: 12px;
 
-    color: #78909C;
+    color: #4b5563;
 }
 
 .login-link a {
-    color: var(--blue-primary);
+    color: #4b5563;
 
     font-weight: 650;
 
@@ -1568,15 +1380,10 @@ body::after {
 }
 
 .login-link a:hover {
-    color: var(--blue-dark);
+    color: var(--blue-primary);
 
     text-decoration: underline;
 }
-
-
-/* =========================================
-   ANIMACIONES GENERALES
-========================================= */
 
 @keyframes cardAppear {
     from {
@@ -1628,36 +1435,6 @@ body::after {
     }
 }
 
-@keyframes backgroundMove {
-    0% {
-        background-position: 0% 0%;
-    }
-
-    100% {
-        background-position: 100% 100%;
-    }
-}
-
-@keyframes floatingBlob {
-    0% {
-        transform:
-            translate(0, 0)
-            scale(1);
-    }
-
-    50% {
-        transform:
-            translate(25px, 20px)
-            scale(1.08);
-    }
-
-    100% {
-        transform:
-            translate(-15px, 35px)
-            scale(.95);
-    }
-}
-
 @keyframes iconPulse {
     0%,
     100% {
@@ -1686,11 +1463,6 @@ body::after {
             translateY(0);
     }
 }
-
-
-/* =========================================
-   TABLET
-========================================= */
 
 @media (max-width: 900px) {
 
@@ -1722,10 +1494,12 @@ body::after {
 
     .register-benefits {
         gap: 13px;
+
+        margin-bottom: 45px;
     }
 
     .register-panel {
-        padding: 40px 30px;
+        padding: 42px 30px;
     }
 
     .register-card {
@@ -1733,14 +1507,17 @@ body::after {
     }
 
     .form-row {
-        gap: 10px;
+        column-gap: 10px;
+
+        row-gap: 18px;
+    }
+
+    .street-lamp {
+        left: 12px;
+
+        max-width: calc(100% - 36px);
     }
 }
-
-
-/* =========================================
-   MÓVIL
-========================================= */
 
 @media (max-width: 700px) {
 
@@ -1804,6 +1581,8 @@ body::after {
     .register-benefits {
         margin-top: 20px;
 
+        margin-bottom: 32px;
+
         gap: 10px;
     }
 
@@ -1825,15 +1604,15 @@ body::after {
         font-size: 9px;
     }
 
-
-    /* -----------------------------
-       CIUDAD EN MÓVIL
-    ----------------------------- */
-
     .city-scene {
         bottom: 49px;
 
         height: 145px;
+
+        left: 0;
+        right: 0;
+
+        overflow: hidden;
     }
 
     .buildings {
@@ -1875,11 +1654,6 @@ body::after {
         height: 37px;
     }
 
-
-    /* -----------------------------
-       ÁRBOLES
-    ----------------------------- */
-
     .tree {
         bottom: 22px;
     }
@@ -1908,29 +1682,18 @@ body::after {
         transform: scale(.52);
     }
 
-
-    /* -----------------------------
-       LÁMPARA
-    ----------------------------- */
-
     .street-lamp {
-        left: 7px;
+        left: 8px;
 
         bottom: 28px;
 
-        /*
-         * Solo escala.
-         * No hay animación que interfiera.
-         */
-        transform: scale(.7);
+        transform:
+            scale(.7);
 
         transform-origin: bottom left;
+
+        max-width: calc(100% - 16px);
     }
-
-
-    /* -----------------------------
-       BANCA
-    ----------------------------- */
 
     .bench {
         bottom: 27px;
@@ -1939,11 +1702,6 @@ body::after {
 
         transform-origin: bottom center;
     }
-
-
-    /* -----------------------------
-       FOOTER
-    ----------------------------- */
 
     .information-footer {
         height: 49px;
@@ -1958,11 +1716,6 @@ body::after {
     .footer-text span {
         font-size: 8px;
     }
-
-
-    /* -----------------------------
-       FORMULARIO
-    ----------------------------- */
 
     .register-panel {
         min-height: 650px;
@@ -2000,6 +1753,10 @@ body::after {
         gap: 0;
     }
 
+    .form-group {
+        margin-bottom: 19px;
+    }
+
     .form-group label {
         font-size: 12px;
     }
@@ -2010,6 +1767,10 @@ body::after {
 
     .terms {
         font-size: 10px;
+
+        margin-top: 5px;
+
+        margin-bottom: 20px;
     }
 
     .register-button {
@@ -2017,12 +1778,11 @@ body::after {
 
         font-size: 14px;
     }
+
+    .login-link {
+        margin-top: 22px;
+    }
 }
-
-
-/* =========================================
-   MÓVILES PEQUEÑOS
-========================================= */
 
 @media (max-width: 400px) {
 
@@ -2050,6 +1810,8 @@ body::after {
 
     .register-benefits {
         gap: 7px;
+
+        margin-bottom: 27px;
     }
 
     .benefit-icon {
@@ -2079,18 +1841,21 @@ body::after {
     }
 
     .form-group {
-        margin-bottom: 16px;
+        margin-bottom: 18px;
+    }
+
+    .terms {
+        margin-bottom: 19px;
     }
 
     .login-link {
         margin-top: 19px;
     }
+
+    .street-lamp {
+        left: 6px;
+    }
 }
-
-
-/* =========================================
-   REDUCIR MOVIMIENTO
-========================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
