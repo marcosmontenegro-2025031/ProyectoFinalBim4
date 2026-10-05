@@ -1,1 +1,325 @@
- :host{display:block;min-height:100vh;background:#f5f7fb;font-family:inherit;color:#17304c}.civic-layout{display:flex;min-height:100vh}.civic-main{flex:1;min-width:0;overflow:auto}.admin-form-container{max-width:1050px;padding:40px 32px 64px;margin:0 auto}.volver{display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:#33698e;font-size:14px;font-weight:650;margin-bottom:30px}.volver:hover{text-decoration:underline}.admin-form-header{margin-bottom:24px}.admin-form-header h1{font-size:32px;margin:8px 0;color:#142e47;font-weight:750}.admin-form-header p{margin:0;color:#718396}.eyebrow{text-transform:uppercase;letter-spacing:.12em;color:#1577c8;font-size:12px;font-weight:800}.admin-form-card{background:#fff;border:1px solid #e1e8ef;box-shadow:0 8px 30px rgba(15,38,62,.05);padding:28px;border-radius:16px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.form-group{display:flex;flex-direction:column;gap:8px;min-width:0}.form-group.ancho{grid-column:1/-1}.form-group label{font-size:14px;font-weight:700;color:#284864}.required{color:#b72d42}.form-group input,.form-group textarea,.form-group select{border:1px solid #cddbe7;border-radius:9px;padding:12px 13px;width:100%;box-sizing:border-box;background:#fff;color:#16354d;font:inherit;font-size:14px}.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:2px solid #add8ff;border-color:#2888da}.form-group small{color:#708397;font-size:12px}.form-group .field-error{color:#ad263e}.form-actions{display:flex;justify-content:flex-end;gap:13px;align-items:center;border-top:1px solid #e9eef3;margin-top:28px;padding-top:23px}.btn-cancel,.btn-save{padding:12px 19px;border-radius:9px;font-weight:700;text-decoration:none;font-size:14px;cursor:pointer}.btn-cancel{color:#38546c;background:#eef3f7}.btn-save{border:0;color:#fff;background:#0874dc;display:flex;gap:8px;align-items:center}.btn-save:hover{background:#085caf}.btn-save:disabled{opacity:.6;cursor:wait}.notice{padding:13px 16px;margin-bottom:16px;border-radius:9px}.notice.error{background:#fff1f2;border:1px solid #fdcdd2;color:#a51f37}@media(max-width:760px){.civic-layout{display:block}.admin-form-container{padding:24px 16px}.form-grid{grid-template-columns:1fr}.form-group.ancho{grid-column:auto}.admin-form-card{padding:18px}.admin-form-header h1{font-size:25px}}
+:host {
+    display: block;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top right, rgba(8, 116, 220, .06), transparent 32%),
+        #f3f7fc;
+    font-family: inherit;
+    color: #17304c;
+}
+
+.civic-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.civic-main {
+    flex: 1;
+    min-width: 0;
+    overflow: auto;
+}
+
+.admin-form-container {
+    max-width: 1050px;
+    padding: 42px 32px 70px;
+    margin: 0 auto;
+}
+
+.volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+    color: #33698e;
+    font-size: 14px;
+    font-weight: 650;
+    margin-bottom: 30px;
+    padding: 8px 11px;
+    border-radius: 8px;
+    transition: all .2s ease;
+}
+
+.volver:hover {
+    color: #0874dc;
+    background: #eaf4fd;
+    text-decoration: none;
+    transform: translateX(-2px);
+}
+
+.admin-form-header {
+    margin-bottom: 26px;
+}
+
+.admin-form-header h1 {
+    font-size: 32px;
+    line-height: 1.2;
+    margin: 8px 0;
+    color: #142e47;
+    font-weight: 800;
+    letter-spacing: -.025em;
+}
+
+.admin-form-header p {
+    margin: 0;
+    color: #718396;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+    color: #0874dc;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.admin-form-card {
+    background: rgba(255, 255, 255, .98);
+    border: 1px solid #e0e8f0;
+    box-shadow:
+        0 14px 38px rgba(15, 38, 62, .07),
+        0 2px 7px rgba(15, 38, 62, .03);
+    padding: 30px;
+    border-radius: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 23px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.form-group.ancho {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 750;
+    color: #284864;
+}
+
+.required {
+    color: #b72d42;
+    margin-left: 2px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    border: 1px solid #cfdae5;
+    border-radius: 10px;
+    padding: 12px 14px;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fbfdff;
+    color: #16354d;
+    font: inherit;
+    font-size: 14px;
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.form-group input:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+    border-color: #b8cad9;
+    background: #fff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2888da;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(40, 136, 218, .12);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.55;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #96a7b6;
+}
+
+.form-group small {
+    color: #708397;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.form-group .field-error {
+    color: #ad263e;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 13px;
+    align-items: center;
+    border-top: 1px solid #e7edf2;
+    margin-top: 30px;
+    padding-top: 24px;
+}
+
+.btn-cancel,
+.btn-save {
+    min-height: 44px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.btn-cancel {
+    color: #38546c;
+    background: #eef3f7;
+    border: 1px solid #dce5ec;
+}
+
+.btn-cancel:hover {
+    color: #173f61;
+    background: #e3ebf1;
+    border-color: #cedbe5;
+    transform: translateY(-1px);
+}
+
+.btn-save {
+    border: 0;
+    color: #fff;
+    background: linear-gradient(135deg, #0874dc, #075eb5);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 7px 17px rgba(8, 116, 220, .20);
+}
+
+.btn-save:hover {
+    background: linear-gradient(135deg, #096fce, #0555a5);
+    transform: translateY(-2px);
+    box-shadow: 0 11px 22px rgba(8, 116, 220, .25);
+}
+
+.btn-save:active {
+    transform: translateY(0);
+}
+
+.btn-save:disabled {
+    opacity: .6;
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
+}
+
+.notice {
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.notice.error {
+    background: #fff1f2;
+    border: 1px solid #fdcdd2;
+    color: #a51f37;
+}
+
+@media (max-width: 900px) {
+    .admin-form-container {
+        padding: 34px 24px 60px;
+    }
+
+    .admin-form-card {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 760px) {
+    .civic-layout {
+        display: block;
+    }
+
+    .admin-form-container {
+        padding: 24px 16px 45px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.ancho {
+        grid-column: auto;
+    }
+
+    .admin-form-card {
+        padding: 20px;
+        border-radius: 14px;
+    }
+
+    .admin-form-header h1 {
+        font-size: 26px;
+    }
+
+    .admin-form-header p {
+        font-size: 13px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .btn-cancel,
+    .btn-save {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-form-container {
+        padding: 20px 12px 35px;
+    }
+
+    .admin-form-card {
+        padding: 16px;
+    }
+
+    .admin-form-header h1 {
+        font-size: 23px;
+    }
+
+    .volver {
+        margin-bottom: 22px;
+    }
+}
